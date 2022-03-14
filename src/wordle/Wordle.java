@@ -4,11 +4,30 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class Wordle {
+    private final int NUM_GUESSES;
+    private final int NUM_LETTERS;
+
     TreeSet<String> dictionary = null;
     String target = null;
 
 
+    /**
+     *
+     *
+     *
+     *
+     * ************** SHOULD WE LOAD AND MAKE TARGET IN CONSTRUCTOR? *************
+     * @param numGuesses
+     * @param numLetters
+     * @param dictionary
+     */
+    public Wordle(int numGuesses, int numLetters, TreeSet<String> dictionary){
+        this.NUM_GUESSES = numGuesses;
+        this.NUM_LETTERS = numLetters;
+        //this.dictionary = null;
+        //this.target = makeTarget();
 
+    }
 
     /**
      * Loads the dictionary file into the program

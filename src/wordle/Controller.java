@@ -3,18 +3,18 @@ package wordle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 
+import javax.xml.soap.Text;
 import java.util.*;
 
 public class Controller {
     double BUTTON_PADDING = 10;
-    ArrayList gridOfInputs = new ArrayList();
+    ArrayList<List> gridOfTextFieldInputs = new ArrayList();
+    ArrayList<String> textFieldValues = new ArrayList<>();
 
     /**
      * Main Grid of the application
@@ -50,11 +50,11 @@ public class Controller {
      * Create grid of inputFields for words
      * @param numGuesses (Number of guesses)
      * @param numLetters (NUmber of letters being used for words)
-     * @return Gridpane of inputs + filled out arrayList called gridOfInputs
+     * @return Gridpane of inputs + filled out arrayList called gridOfTextFieldInputs
      */
     private GridPane createGridOfInputs(int numGuesses, int numLetters){
-        if (gridOfInputs.size() != 0){
-            gridOfInputs = new ArrayList();
+        if (gridOfTextFieldInputs.size() != 0){
+            gridOfTextFieldInputs = new ArrayList();
         }
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(BUTTON_PADDING));
@@ -62,8 +62,8 @@ public class Controller {
         grid.setVgap(BUTTON_PADDING);
 
         for (int r = 0; r < numGuesses; r++) {
-            ArrayList row = new ArrayList();
-            gridOfInputs.add(row);
+            ArrayList<TextField> row = new ArrayList();
+            gridOfTextFieldInputs.add(row);
             for (int c = 0; c < numLetters; c++) {
                 TextField tf = new TextField();
                 tf.setMaxSize(50, 50);
@@ -77,6 +77,10 @@ public class Controller {
 
     private void submitButtonAction(ActionEvent actionEvent) {
         // do verification stuff
+    }
+
+    private ArrayList getTextFieldValues(){
+        return null;
     }
 
 }
