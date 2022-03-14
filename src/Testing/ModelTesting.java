@@ -10,7 +10,7 @@ public class ModelTesting {
     //a word to the dictionary
     @Test
     public void dictCompare() {
-        Wordle wordle = new Wordle();
+        Wordle wordle = new Wordle(10, 10, null);
         Assertions.assertFalse(wordle.hasDictionary());
         //TODO: Put in the path to the working dictionary OR test dictionary
         wordle.loadDictionary(Paths.get(""));
