@@ -1,10 +1,14 @@
 package wordle;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 import java.util.*;
 
@@ -18,13 +22,28 @@ public class Controller {
     @FXML
     Pane MAIN_PANE;
 
+    Button submitButton;
+
     @FXML
     public void initialize(){
 
+
         //Creating grid of inputs
         GridPane grid = createGridOfInputs(5, 5);
-        MAIN_PANE.getChildren().add(grid);
+
+
+        //Creating Submit Button
+        submitButton = new Button("Submit");
+        submitButton.setOnAction(this:: submitButtonAction);
+        submitButton.setLayoutX(250);
+        submitButton.setLayoutY(300);
+
+        // Adding all to grid pane
+        MAIN_PANE.getChildren().addAll(grid, submitButton);
+
     }
+
+
 
     /**
      *
@@ -54,6 +73,10 @@ public class Controller {
             }
         }
         return grid;
+    }
+
+    private void submitButtonAction(ActionEvent actionEvent) {
+        // do verification stuff
     }
 
 }
