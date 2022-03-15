@@ -24,8 +24,9 @@ public class App extends Application {
 
 
         Parent root = FXMLLoader.load(getClass().getResource("UI.fxml"));
-
-        primaryStage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("Styling//stylesheet.css");
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 

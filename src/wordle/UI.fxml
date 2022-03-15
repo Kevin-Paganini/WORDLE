@@ -6,10 +6,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane xmlns="http://javafx.com/javafx"
+<AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="wordle.Controller"
             prefHeight="400.0" prefWidth="600.0"
             fx:id="MAIN_PANE">
 
-</Pane>
+</AnchorPane>

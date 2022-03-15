@@ -3,8 +3,11 @@ package wordle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -14,35 +17,78 @@ import java.util.*;
 public class Controller {
     double BUTTON_PADDING = 10;
     ArrayList<List> gridOfTextFieldInputs = new ArrayList();
-    ArrayList<String> textFieldValues = new ArrayList<>();
+    List<String> textFieldValues = Arrays.asList("Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
+            "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M");
 
     /**
      * Main Grid of the application
      */
     @FXML
-    Pane MAIN_PANE;
+    AnchorPane MAIN_PANE;
 
     Button submitButton;
 
+
+    /**
+     * Initialization function for window
+     * Adding style sheets to specific elements
+     * Creating various layouts
+     * @author: Kevin Paganini
+     */
     @FXML
     public void initialize(){
-
+        MAIN_PANE.getStyleClass().add("pane");
 
         //Creating grid of inputs
-        GridPane grid = createGridOfInputs(5, 5);
+        GridPane grid_input = createGridOfInputs(5, 5);
+        GridPane letters_used = createKeyBoardInputs();
 
 
         //Creating Submit Button
         submitButton = new Button("Submit");
         submitButton.setOnAction(this:: submitButtonAction);
-        submitButton.setLayoutX(250);
-        submitButton.setLayoutY(300);
+        submitButton.setLayoutX(122);
+        submitButton.setLayoutY(320);
+
+        letters_used.setLayoutX(400);
+        letters_used.setLayoutY(50);
+        letters_used.getStyleClass().add("keyBoardGrid");
 
         // Adding all to grid pane
-        MAIN_PANE.getChildren().addAll(grid, submitButton);
+        MAIN_PANE.getChildren().addAll(grid_input, submitButton, letters_used);
 
     }
 
+    /**
+     * Creating keyboard replica to display to user what has been chosen
+     * and what is right
+     * @return grid of keyboard
+     * @author Kevin Paganini
+     */
+    private GridPane createKeyBoardInputs() {
+
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(BUTTON_PADDING));
+        grid.setHgap(BUTTON_PADDING);
+        grid.setVgap(BUTTON_PADDING);
+        for(int i = 0; i < 26; i++){
+            Label label = new Label(textFieldValues.get(i));
+            if (i < 10){
+                grid.add(label, i%10, 0);
+            }
+            else if (i < 19){
+                grid.add(label, (i-10)%9, 1);
+            }
+            else {
+                grid.add(label, (i-19) %7, 2);
+            }
+
+
+        }
+
+
+        return grid;
+    }
 
 
     /**
@@ -51,6 +97,7 @@ public class Controller {
      * @param numGuesses (Number of guesses)
      * @param numLetters (NUmber of letters being used for words)
      * @return Gridpane of inputs + filled out arrayList called gridOfTextFieldInputs
+     * @author Kevin Paganini
      */
     private GridPane createGridOfInputs(int numGuesses, int numLetters){
         if (gridOfTextFieldInputs.size() != 0){
