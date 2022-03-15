@@ -16,7 +16,7 @@ public class Wordle {
      *
      *
      *
-     * ************** SHOULD WE LOAD AND MAKE TARGET IN CONSTRUCTOR? *************
+     * ************** SHOULD WE LOAD AND MAKE
      * @param numGuesses
      * @param numLetters
      * @param dictionary
