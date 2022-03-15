@@ -24,21 +24,26 @@ public class Wordle {
      * @param numLetters
      *
      */
-    public Wordle(int numGuesses, int numLetters, File dictionary) throws IOException {
+    public Wordle(int numGuesses, int numLetters, Path dictionaryPath){
         this.NUM_GUESSES = numGuesses;
         this.NUM_LETTERS = numLetters;
-        loadDictionary(dictionary);
+        try {
+            loadDictionary(dictionaryPath);
+        } catch (IOException e) {
+
+        }
         this.target = randomTarget();
 
     }
 
     /**
      * Loads the dictionary file into the program
-     * @param File to read dictionary from
+     * @param path path to read dictionary from
      * @throws IOException file contains invalid entries (wrong length or non-letter characters)
      * @Author Kevin Paganini, Atreyu Schilling
      */
-    public void loadDictionary(File file) throws IOException, FileNotFoundException {
+    public void loadDictionary(Path path) throws IOException {
+        File file = path.toFile();
         Scanner sc = new Scanner(file);
         //Line tracker for debug purposes
         int line = 1;
