@@ -145,6 +145,7 @@ public class Controller {
     }
 
     private void getTextFieldValues(KeyEvent keyEvent){
+
         submitButton.setDisable(false);
         for(int i = 0; i < numLetters; i++){
             TextField tf = (TextField) gridOfTextFieldInputs.get(guess).get(i);
