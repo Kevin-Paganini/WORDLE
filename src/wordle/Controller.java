@@ -109,6 +109,7 @@ public class Controller {
             gridOfTextFieldInputs.add(row);
             for (int c = 0; c < numLetters; c++) {
                 TextField tf = new TextField();
+                tf.setOnAction(this:: getTextFieldValues);
                 tf.setMaxSize(50, 50);
                 grid.add(tf, c, r);
                 row.add(tf);
@@ -127,7 +128,7 @@ public class Controller {
         // do verification stuff
     }
 
-    private ArrayList getTextFieldValues(){
+    private ArrayList getTextFieldValues(ActionEvent actionevent){
         return null;
     }
 

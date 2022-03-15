@@ -18,11 +18,6 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-
-
-
-
         Parent root = FXMLLoader.load(getClass().getResource("UI.fxml"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add("Styling//stylesheet.css");
