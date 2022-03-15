@@ -2,6 +2,7 @@ package wordle;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -23,22 +24,21 @@ public class Wordle {
      * @param numLetters
      *
      */
-    public Wordle(int numGuesses, int numLetters, Path dictionaryPath){
+    public Wordle(int numGuesses, int numLetters, File dictionary) throws IOException {
         this.NUM_GUESSES = numGuesses;
         this.NUM_LETTERS = numLetters;
-        loadDictionary(dictionaryPath);
+        loadDictionary(dictionary);
         this.target = randomTarget();
 
     }
 
     /**
      * Loads the dictionary file into the program
-     * @param path path to read dictionary from
+     * @param File to read dictionary from
      * @throws IOException file contains invalid entries (wrong length or non-letter characters)
      * @Author Kevin Paganini, Atreyu Schilling
      */
-    public void loadDictionary(Path path) throws IOException {
-        File file = path.toFile();
+    public void loadDictionary(File file) throws IOException, FileNotFoundException {
         Scanner sc = new Scanner(file);
         //Line tracker for debug purposes
         int line = 1;
