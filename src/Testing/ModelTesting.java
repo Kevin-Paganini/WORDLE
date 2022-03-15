@@ -41,7 +41,7 @@ public class ModelTesting {
         Assertions.assertDoesNotThrow(() -> wordle.loadDictionary(Paths.get("")));
         Assertions.assertFalse(wordle.isValidWord("crane"));
         Assertions.assertTrue(wordle.isValidWord("shard"));
-        
+
         //TODO: This should contain path to a file that has string(s) of invalid length
         Assertions.assertThrows(IOException.class, () -> wordle.loadDictionary(Paths.get("")));
         //TODO: This one should contain a path to a file that has non-characters in it

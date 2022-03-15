@@ -1,7 +1,6 @@
 package wordle;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
@@ -60,6 +59,17 @@ public class Wordle {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Random Target Method from start
+     * //TO-DO Could add difficulty rankings
+     * @author paganinik
+     */
+    public String randomTarget(){
+        int randomChoice = (int ) (Math.random() * dictionary.size());
+        String[] numberArray = dictionary.toArray(new String[dictionary.size()]);
+        return numberArray[randomChoice];
     }
 
     /**
