@@ -44,18 +44,14 @@ public class Controller {
         GridPane letters_used = createKeyBoardInputs();
 
 
-        //Creating Submit Button
-        submitButton = new Button("Submit");
-        submitButton.setOnAction(this:: submitButtonAction);
-        submitButton.setLayoutX(122);
-        submitButton.setLayoutY(320);
+
 
         letters_used.setLayoutX(400);
         letters_used.setLayoutY(50);
         letters_used.getStyleClass().add("keyBoardGrid");
 
         // Adding all to grid pane
-        MAIN_PANE.getChildren().addAll(grid_input, submitButton, letters_used);
+        MAIN_PANE.getChildren().addAll(grid_input, letters_used);
 
     }
 
@@ -122,6 +118,11 @@ public class Controller {
 
             }
         }
+
+        //Creating Submit Button
+        submitButton = new Button("Submit");
+        submitButton.setOnAction(this:: submitButtonAction);
+        grid.add(submitButton, numGuesses, numLetters / 2);
         return grid;
     }
 
