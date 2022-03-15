@@ -39,7 +39,7 @@ public class Controller {
     public void initialize(){
         MAIN_PANE.getStyleClass().add("pane");
         //Creating grid of inputs
-        GridPane grid_input = createGridOfInputs(5, 5);
+        GridPane grid_input = createGridOfInputs(6, 5);
 
         // Create keyboard of used letters
         GridPane letters_used = createKeyBoardInputs();
