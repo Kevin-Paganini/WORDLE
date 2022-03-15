@@ -7,6 +7,15 @@ construct wordle
         num letters init, num guesses init, dictionary loaded, target made
 
 
+
 everytime 5 letters in field check if that is in the dictionary
     If 5 letters are in dictionary turn on submit button
     else submit button is off
+
+
+When Submit button is hit, return POsitions is called to tell GUI what letters etc. to highlight
+
+
+check each letter in guess
+First letter: check if first letter is in target
+              check if first letter is in correct position

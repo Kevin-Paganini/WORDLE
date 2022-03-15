@@ -14,11 +14,6 @@ public class Wordle {
 
 
     /**
-     *
-     *
-     *
-     *
-     *
      * @param numGuesses
      * @param numLetters
      *
@@ -75,13 +70,15 @@ public class Wordle {
 
     /**
      * Random Target Method from start
+     * THIS IS THE METHOD USED TO MAKE A TARGET
      * //TO-DO Could add difficulty rankings
      * @author paganinik
      */
     public String randomTarget(){
         int randomChoice = (int ) (Math.random() * dictionary.size());
-        String[] numberArray = dictionary.toArray(new String[dictionary.size()]);
-        return numberArray[randomChoice];
+
+        String[] dictionaryArray = dictionary.toArray(new String[dictionary.size()]);
+        return dictionaryArray[randomChoice];
     }
 
     /**
@@ -102,6 +99,12 @@ public class Wordle {
     }
 
     //I feel like a comment is a little unnecessary here, it does what it says on the tin
+
+    /**
+     * THIS IS THE METHOD THAT CHECKS IF THE WORD IN THE FIELD IS IN DICTIONARY
+     * @param word
+     * @return true if word is in dictionary
+     */
     public boolean isValidWord(String word) {
         return dictionary.contains(word);
     }
@@ -136,8 +139,23 @@ public class Wordle {
         if (target == null) {
             throw new NullPointerException("Target word cannot be null");
         }
-        //TODO
-        return null;
+        char[] targetArray = target.toUpperCase(Locale.ROOT).toCharArray();
+        char[] guessArray = guess.toUpperCase(Locale.ROOT).toCharArray();
+        int[] correctPositionArray = new int[this.NUM_LETTERS];
+        for(int i = 0; i < targetArray.length; i++){
+            //check if first letter is in target
+            //check if first letter is in correct position
+            if(!target.contains("" + guess.charAt(i))){
+                correctPositionArray[i] = 0;
+            }
+            if(target.contains("" + guess.charAt(i))){
+                correctPositionArray[i] = 1;
+            }
+            if(target.charAt(i) == guess.charAt(i)){
+                correctPositionArray[i] = 2;
+            }
+        }
+        return correctPositionArray;
     }
 
 }
