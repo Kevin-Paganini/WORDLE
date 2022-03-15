@@ -38,19 +38,16 @@ public class Controller {
     @FXML
     public void initialize(){
         MAIN_PANE.getStyleClass().add("pane");
-
         //Creating grid of inputs
         GridPane grid_input = createGridOfInputs(5, 5);
+
+        // Create keyboard of used letters
         GridPane letters_used = createKeyBoardInputs();
-
-
-
-
         letters_used.setLayoutX(400);
         letters_used.setLayoutY(50);
         letters_used.getStyleClass().add("keyBoardGrid");
 
-        // Adding all to grid pane
+        // Adding all to main pane
         MAIN_PANE.getChildren().addAll(grid_input, letters_used);
 
     }

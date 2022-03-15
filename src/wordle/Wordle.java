@@ -1,5 +1,7 @@
 package wordle;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -16,15 +18,15 @@ public class Wordle {
      *
      *
      *
-     * ************** SHOULD WE LOAD AND MAKE
+     *
      * @param numGuesses
      * @param numLetters
-     * @param dictionary
+     *
      */
-    public Wordle(int numGuesses, int numLetters, TreeSet<String> dictionary){
+    public Wordle(int numGuesses, int numLetters, Path dictionaryPath){
         this.NUM_GUESSES = numGuesses;
         this.NUM_LETTERS = numLetters;
-        //this.dictionary = null;
+        loadDictionary(dictionaryPath);
         //this.target = makeTarget();
 
     }
@@ -33,9 +35,27 @@ public class Wordle {
      * Loads the dictionary file into the program
      * @param path path to read dictionary from
      * @throws IllegalFormatException File cannot be parsed as a dictionary
+     * @Author Kevin Paganini
      */
-    public void loadDictionary(Path path) {
-        //TODO
+    public void loadDictionary(Path path){
+        try{
+            File file = path.toFile();
+            Scanner sc = new Scanner(file);
+            while(sc.hasNextLine()){
+                String cookie = sc.nextLine().trim().toUpperCase(Locale.ROOT);
+                if(cookie.length() == this.NUM_LETTERS){
+                    dictionary.add(cookie);
+                }
+
+            }
+
+
+        } catch (FileNotFoundException e){
+            System.out.println("Bad file");
+        }
+
+
+
     }
 
     /**
@@ -43,9 +63,13 @@ public class Wordle {
      * If the target word is not in the provided dictionary, the target does not change
      * @param forcedTarget string to force the target to be
      * @return False if the target is not in the dictionary, true otherwise
+     * @author Kevin Paganini
      */
     public boolean makeTarget(String forcedTarget) {
-        //TODO
+        if(dictionary.contains(forcedTarget)){
+            this.target = forcedTarget;
+            return true;
+        }
         return false;
     }
 
@@ -53,6 +77,7 @@ public class Wordle {
      * Selects a target at random from the provided dictionary
      * This should be the only one that a controller interacts with
      * @throws NullPointerException dictionary has not been loaded
+     *
      */
     public void makeTarget() {
         if (!hasDictionary()) {
