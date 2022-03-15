@@ -1,0 +1,12 @@
+
+
+
+WORDLE GAME FLOW
+
+construct wordle
+        num letters init, num guesses init, dictionary loaded, target made
+
+
+everytime 5 letters in field check if that is in the dictionary
+    If 5 letters are in dictionary turn on submit button
+    else submit button is off
