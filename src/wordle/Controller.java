@@ -73,6 +73,9 @@ public class Controller {
         grid.setVgap(BUTTON_PADDING);
         for(int i = 0; i < 26; i++){
             Label label = new Label(textFieldValues.get(i));
+            label.setMaxSize(50, 50);
+            label.setMinSize(50, 50);
+            label.setPrefSize(50, 50);
             if (i < 10){
                 grid.add(label, i%10, 0);
             }
@@ -80,7 +83,7 @@ public class Controller {
                 grid.add(label, (i-10)%9, 1);
             }
             else {
-                grid.add(label, (i-19) %7, 2);
+                grid.add(label, ((i-19) %7) + 1, 2);
             }
 
 
