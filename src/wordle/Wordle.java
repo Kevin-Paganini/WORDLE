@@ -2,6 +2,7 @@ package wordle;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -13,49 +14,34 @@ public class Wordle {
     String target = null;
 
 
-    /**
-     *
-     *
-     *
-     *
-     *
-     * @param numGuesses
-     * @param numLetters
-     *
-     */
-    public Wordle(int numGuesses, int numLetters, Path dictionaryPath){
+    public Wordle(int numGuesses, int numLetters){
         this.NUM_GUESSES = numGuesses;
         this.NUM_LETTERS = numLetters;
-        loadDictionary(dictionaryPath);
-        //this.target = makeTarget();
-
     }
 
     /**
      * Loads the dictionary file into the program
      * @param path path to read dictionary from
-     * @throws IllegalFormatException File cannot be parsed as a dictionary
-     * @Author Kevin Paganini
+     * @throws IOException file contains invalid entries (wrong length or non-letter characters)
+     * @Author Kevin Paganini, Atreyu Schilling
      */
-    public void loadDictionary(Path path){
-        try{
-            File file = path.toFile();
-            Scanner sc = new Scanner(file);
-            while(sc.hasNextLine()){
-                String cookie = sc.nextLine().trim().toUpperCase(Locale.ROOT);
-                if(cookie.length() == this.NUM_LETTERS){
-                    dictionary.add(cookie);
-                }
+    public void loadDictionary(Path path) throws IOException {
+        File file = path.toFile();
+        Scanner sc = new Scanner(file);
+        //Line tracker for debug purposes
+        int line = 1;
+        while(sc.hasNextLine()) {
+            String cookie = sc.nextLine().trim().toUpperCase(Locale.ROOT);
+            //TODO
+            if (cookie.length() != NUM_LETTERS)
+                throw new IOException("Line " + line + " contains a string of invalid length");
 
-            }
+            if (!cookie.matches("^[A-Za-z]$"))
+                throw new IOException("Line " + line + " contains a string with invalid characters");
 
-
-        } catch (FileNotFoundException e){
-            System.out.println("Bad file");
+            line++;
+            dictionary.add(cookie);
         }
-
-
-
     }
 
     /**
@@ -63,11 +49,14 @@ public class Wordle {
      * If the target word is not in the provided dictionary, the target does not change
      * @param forcedTarget string to force the target to be
      * @return False if the target is not in the dictionary, true otherwise
-     * @author Kevin Paganini
+     * @author Kevin Paganini, Atreyu Schilling
      */
     public boolean makeTarget(String forcedTarget) {
+        if (!hasDictionary()) {
+            throw new NullPointerException("Dictionary does not exist");
+        }
         if(dictionary.contains(forcedTarget)){
-            this.target = forcedTarget;
+            target = forcedTarget;
             return true;
         }
         return false;
@@ -77,15 +66,20 @@ public class Wordle {
      * Selects a target at random from the provided dictionary
      * This should be the only one that a controller interacts with
      * @throws NullPointerException dictionary has not been loaded
-     *
      */
     public void makeTarget() {
         if (!hasDictionary()) {
             throw new NullPointerException("Dictionary does not exist");
         }
-        //TODO
+
     }
 
+    /**
+     * VOLATILE SETTER - DO NOT LET THE USER INTERACT WITH THIS METHOD DIRECTLY
+     * Sets the target WITHOUT checking if it is a valid word
+     * Use makeTarget if you're not testing anything
+     * @param target string to set the target to
+     */
     private void setTarget(String target) {
         this.target = target;
     }
