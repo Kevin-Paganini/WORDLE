@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -16,6 +17,8 @@ import java.util.*;
 
 public class Controller {
     double BUTTON_PADDING = 10;
+    private int guess = 0;
+    private int numLetters;
     ArrayList<List> gridOfTextFieldInputs = new ArrayList();
     List<String> textFieldValues = Arrays.asList("Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
             "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M");
@@ -92,6 +95,7 @@ public class Controller {
      * @author Kevin Paganini
      */
     private GridPane createGridOfInputs(int numGuesses, int numLetters){
+        this.numLetters = numLetters;
         if (gridOfTextFieldInputs.size() != 0){
             gridOfTextFieldInputs = new ArrayList();
         }
@@ -103,13 +107,15 @@ public class Controller {
         for (int r = 0; r < numGuesses; r++) {
             ArrayList<TextField> row = new ArrayList();
             gridOfTextFieldInputs.add(row);
-            for (int c = 0; c < numLetters; c++) {
+            for (int c = 0; c < this.numLetters; c++) {
                 TextField tf = new TextField();
-                tf.setOnAction(this:: getTextFieldValues);
+                tf.setOnKeyReleased(this:: getTextFieldValues);
                 tf.setMaxSize(50, 50);
                 grid.add(tf, c, r);
                 row.add(tf);
-
+                if (r != 0){
+                    tf.setDisable(true);
+                }
             }
         }
 
@@ -117,15 +123,35 @@ public class Controller {
         submitButton = new Button("Submit");
         submitButton.setOnAction(this:: submitButtonAction);
         grid.add(submitButton, numGuesses, numLetters / 2);
+        submitButton.setDisable(true);
         return grid;
     }
 
     private void submitButtonAction(ActionEvent actionEvent) {
         // do verification stuff
+        String input = "";
+        for(int i = 0; i < numLetters; i++){
+            TextField tf = (TextField) gridOfTextFieldInputs.get(guess).get(i);
+            tf.setDisable(true);
+            input += tf.getText();
+        }
+        System.out.println(input);
+        guess++;
+        for(int i = 0; i < numLetters; i++){
+            TextField tf = (TextField) gridOfTextFieldInputs.get(guess).get(i);
+            tf.setDisable(false);
+        }
+        submitButton.setDisable(true);
     }
 
-    private ArrayList getTextFieldValues(ActionEvent actionevent){
-        return null;
+    private void getTextFieldValues(KeyEvent keyEvent){
+        submitButton.setDisable(false);
+        for(int i = 0; i < numLetters; i++){
+            TextField tf = (TextField) gridOfTextFieldInputs.get(guess).get(i);
+            if(tf.getText().equals("") || tf.getText().equals(" ") || tf.getText() == null){
+              submitButton.setDisable(true);
+            }
+        }
     }
 
 }
