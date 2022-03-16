@@ -14,7 +14,7 @@ public class ModelTesting {
     @Test
     public void dictCompare() throws IOException {
 
-        Wordle wordle = new Wordle(10, 10, new File("Resources/wordle-official.txt") );
+        Wordle wordle = new Wordle(5, 5, new File("Resources/wordle-official.txt"));
 
         Assertions.assertTrue(wordle.isValidWord("crane"));
         Assertions.assertTrue(wordle.isValidWord("shard"));
@@ -30,7 +30,7 @@ public class ModelTesting {
         Assertions.assertFalse(wordle.isValidWord("a"));
 
         //Null or empty string
-        Wordle finalWordle = wordle; //IntelliJ doesn't like me, I don't know why, but this is here now
+        Wordle finalWordle = wordle; //IntelliJ doesn't like me. I don't know why, but this is here now
         Assertions.assertThrows(NullPointerException.class, () -> finalWordle.isValidWord(null));
         Assertions.assertFalse(wordle.isValidWord(""));
 
@@ -46,4 +46,18 @@ public class ModelTesting {
 
     }
 
+    @Test
+    public void guessCompare() throws IOException {
+        Wordle wordle = new Wordle(5, 5, new File("Resources/wordle-official.txt"));
+
+        //Most basic test
+        wordle.forceTarget("crane");
+        Assertions.assertArrayEquals(wordle.returnPositions("drake"), new int[]{0, 2, 2, 0, 2});
+        //If index 2 is 1, e was checked too early or we double-dipped
+        Assertions.assertArrayEquals(wordle.returnPositions("creme"), new int[]{0, 2, 0, 0, 2});
+        Assertions.assertArrayEquals(wordle.returnPositions("epoch"), new int[]{1, 0, 0, 1, 0});
+        //Invalid entry
+        Assertions.assertArrayEquals(wordle.returnPositions("bingus"), null);
+        //TODO: This probably isn't all the test cases necessary
+    }
 }

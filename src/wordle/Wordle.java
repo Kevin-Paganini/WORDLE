@@ -99,14 +99,19 @@ public class Wordle {
      * the number in the position of that character will be a 2
      *
      * Throws a NullPointerException if the target hasn't been loaded
+     * returns a null array if the guess is not a valid word
      *
      * @param guess word to be checked against the target
-     * @return array of ints with the same length as the string
+     * @return array of ints with the same length as the string, or null
+     * if the guess is invalid
      * @author Atreyu Schilling, TODO
      */
     public int[] returnPositions(String guess) {
         if (!hasTarget()) {
             throw new NullPointerException("Target is null or empty");
+        }
+        if (!isValidWord(guess)) {
+            return null;
         }
         char[] targetChars = target.toLowerCase(Locale.ROOT).toCharArray();
         char[] guessChars = guess.toLowerCase(Locale.ROOT).toCharArray();
