@@ -14,7 +14,6 @@ public class ModelTesting {
     @Test
     public void dictCompare() throws IOException {
 
-
         Wordle wordle = new Wordle(10, 10, new File("Resources/wordle-official.txt") );
 
         Assertions.assertTrue(wordle.isValidWord("crane"));
@@ -44,6 +43,7 @@ public class ModelTesting {
         Assertions.assertThrows(IOException.class ,() -> new Wordle(5, 5, new File("Resources/invalidLengths.txt")));
         // file that has non-characters in it
         Assertions.assertThrows(IOException.class, () -> new Wordle(5, 5, new File("Resources/invalidCharacters.txt")));
+
     }
 
 }

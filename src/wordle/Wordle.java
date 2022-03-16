@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Wordle {
+    //The naming scheme for private final is the same as private non-final. Only public final has SCREAMING_CAMEL_CASE
     private final int numLetters;
     // The wordle might not even need to know how many guesses it's had.
     // I'm leaving this here, but it may not be necessary. Weird
@@ -12,7 +13,6 @@ public class Wordle {
     private String target;
     TreeSet<String> dictionary = null;
 
-    //No comment necessary for constructor
     public Wordle(int numGuesses, int numLetters, File dictionary) throws IOException {
         this.numGuesses = numGuesses;
         this.numLetters = numLetters;
@@ -28,19 +28,19 @@ public class Wordle {
      */
     private void loadDictionary(File file) throws IOException{
         dictionary = new TreeSet<>();
-            Scanner sc = new Scanner(file);
-            //Line tracker for debug purposes
-            int line = 1;
-            while(sc.hasNextLine()) {
-                String cookie = sc.nextLine().trim().toLowerCase(Locale.ROOT);
-                if (cookie.length() != numLetters)
-                    throw new IOException("Line " + line + " contains a string of invalid length");
-                // Minor fix to regex here
-                if (!cookie.matches("^[A-Za-z]+$"))
-                    throw new IOException("Line " + line + " contains a string with invalid characters");
-                line++;
-                dictionary.add(cookie);
-            }
+        Scanner sc = new Scanner(file);
+        //Line tracker for debug purposes
+        int line = 1;
+        while(sc.hasNextLine()) {
+            String cookie = sc.nextLine().trim().toLowerCase(Locale.ROOT);
+            if (cookie.length() != numLetters)
+                throw new IOException("Line " + line + " contains a string of invalid length");
+            // Minor fix to regex here
+            if (!cookie.matches("^[A-Za-z]+$"))
+                throw new IOException("Line " + line + " contains a string with invalid characters");
+            line++;
+            dictionary.add(cookie);
+        }
     }
 
     /**
@@ -67,7 +67,7 @@ public class Wordle {
      * //TODO: Could add difficulty rankings
      * @author paganinik, Atreyu Schilling
      */
-    public String randomTarget(){
+    public String randomTarget() {
         return (String) dictionary.toArray()[(int) (Math.random() * dictionary.size())];
     }
 
@@ -77,6 +77,7 @@ public class Wordle {
      * @return true if word is in dictionary, false otherwise
      */
     public boolean isValidWord(String word) {
+
         return dictionary.contains(word);
     }
 
@@ -127,13 +128,12 @@ public class Wordle {
 
 
     /**
-     * Returns whether a provided guess matches the target.
+     * Returns true if a provided guess matches the target and false if not.
      * @param guess guess to be checked against the target
      * @return true if target matches guess ignoring case, false otherwise
      */
 
     public boolean isWinner(String guess) {
-        //I mean right?
         return guess.equalsIgnoreCase(target);
         /*
         int[] correctPositions = returnPositions(guess);
@@ -142,8 +142,8 @@ public class Wordle {
                 return false;
             }
         }
-        return true;
-        */
+        return true
+         */
     }
 
 }

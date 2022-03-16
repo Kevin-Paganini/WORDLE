@@ -9,13 +9,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import javax.xml.soap.Text;
+import java.io.File;
+import java.util.*;
 
 public class Controller {
     double BUTTON_PADDING = 10;
@@ -25,6 +23,9 @@ public class Controller {
     List<String> textFieldValues = Arrays.asList("Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
             "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M");
     Wordle game = null;
+    GridPane letters_used;
+    GridPane grid_input;
+    int position;
 
     /**
      * Main Grid of the application
@@ -54,10 +55,10 @@ public class Controller {
 
         MAIN_PANE.getStyleClass().add("pane");
         //Creating grid of inputs
-        GridPane grid_input = createGridOfInputs(6, 5);
+        grid_input = createGridOfInputs(6, 5);
 
         // Create keyboard of used letters
-        GridPane letters_used = createKeyBoardInputs();
+        letters_used = createKeyBoardInputs();
         letters_used.setLayoutX(400);
         letters_used.setLayoutY(50);
         letters_used.getStyleClass().add("keyBoardGrid");
@@ -172,6 +173,12 @@ public class Controller {
         // Checking positions of guess against target
         int[] position = game.returnPositions(input.toLowerCase(Locale.ROOT));
 
+
+        char letter;
+        for(int i = 0; i < input.length(); ++i) {
+            letter = input.charAt(i);
+            checkLetter(letter);
+        }
         //Checking if the user guessed correct word
         System.out.println("You are  " + game.isWinner(input.toLowerCase(Locale.ROOT)));
         for(int i : position){
@@ -201,6 +208,10 @@ public class Controller {
             input += tf.getText();
             // I know this does something but I don't really know what, can someone explain please :) - Kevin
 
+
+            /*
+<<<<<<< HEAD
+
             // Check if each box only has valid characters
             // Bad Way of doing it but good enough for now
             if(tf.getText().length() > 1){
@@ -211,12 +222,156 @@ public class Controller {
             //
             if(tf.getText().equals("") || tf.getText().equals(" ") || tf.getText() == null){
               submitButton.setDisable(true);
+=======
+
+        For anyone looking at this, git ruined this section and it's really hard to make out what's actually
+        correct for this. I've commented out everything that git called the header. If this can be safely deleted by
+        whoever wrote this code, please do so. I just want to make sure my repository doesn't break.
+             */
+        }
+        //Gets the value of the character being input
+        TextField textField = (TextField) grid_input.getChildren().get(position);
+        String letter = textField.getText().toUpperCase();
+        List<String> numbers = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
+        //if letter is a number, removes it
+        if (numbers.contains(letter)){
+            textField.setText("");
+            //If input is letter moves to next box
+        } else if (textFieldValues.contains(letter)) {
+            textField = (TextField) grid_input.getChildren().get(position);
+            textField.setText(letter);
+            position += 1;
+            TextField textField2 = (TextField) grid_input.getChildren().get(position);
+            textField2.requestFocus();
+        }
+        //If backspace is typed, does it
+        if(letter.isEmpty()) {
+            if(position - 1 >= 0) {
+                position -= 1;
+                textField = (TextField) grid_input.getChildren().get(position);
+                textField.setText("");
+                textField.requestFocus();
             }
 
         }
         //Disabling submit button if guess text fields are not a word in dictionary
         if(!game.isValidWord(input.toLowerCase(Locale.ROOT))){
             submitButton.setDisable(true);
+        }
+        //Disabling submit button if guess text fields are not a word in dictionary
+        if(!game.isValidWord(input.toLowerCase(Locale.ROOT))){
+            submitButton.setDisable(true);
+        }
+    }
+
+    //monkaS
+    private void checkLetter(char letter) {
+        Label box;
+        switch (letter){
+            case 'Q':
+                box = (Label) letters_used.getChildren().get(0);
+                box.setDisable(true);
+                break;
+            case 'W':
+                box = (Label) letters_used.getChildren().get(1);
+                box.setDisable(true);
+                break;
+            case 'E':
+                box = (Label) letters_used.getChildren().get(2);
+                box.setDisable(true);
+                break;
+            case 'R':
+                box = (Label) letters_used.getChildren().get(3);
+                box.setDisable(true);
+                break;
+            case 'T':
+                box = (Label) letters_used.getChildren().get(4);
+                box.setDisable(true);
+                break;
+            case 'Y':
+                box = (Label) letters_used.getChildren().get(5);
+                box.setDisable(true);
+                break;
+            case 'U':
+                box = (Label) letters_used.getChildren().get(6);
+                box.setDisable(true);
+                break;
+            case 'I':
+                box = (Label) letters_used.getChildren().get(7);
+                box.setDisable(true);
+                break;
+            case 'O':
+                box = (Label) letters_used.getChildren().get(8);
+                box.setDisable(true);
+                break;
+            case 'P':
+                box = (Label) letters_used.getChildren().get(9);
+                box.setDisable(true);
+                break;
+            case 'A':
+                box = (Label) letters_used.getChildren().get(10);
+                box.setDisable(true);
+                break;
+            case 'S':
+                box = (Label) letters_used.getChildren().get(11);
+                box.setDisable(true);
+                break;
+            case 'D':
+                box = (Label) letters_used.getChildren().get(12);
+                box.setDisable(true);
+                break;
+            case 'F':
+                box = (Label) letters_used.getChildren().get(13);
+                box.setDisable(true);
+                break;
+            case 'G':
+                box = (Label) letters_used.getChildren().get(14);
+                box.setDisable(true);
+                break;
+            case 'H':
+                box = (Label) letters_used.getChildren().get(15);
+                box.setDisable(true);
+                break;
+            case 'J':
+                box = (Label) letters_used.getChildren().get(16);
+                box.setDisable(true);
+                break;
+            case 'K':
+                box = (Label) letters_used.getChildren().get(17);
+                box.setDisable(true);
+                break;
+            case 'L':
+                box = (Label) letters_used.getChildren().get(18);
+                box.setDisable(true);
+                break;
+            case 'Z':
+                box = (Label) letters_used.getChildren().get(19);
+                box.setDisable(true);
+                break;
+            case 'X':
+                box = (Label) letters_used.getChildren().get(20);
+                box.setDisable(true);
+                break;
+            case 'C':
+                box = (Label) letters_used.getChildren().get(21);
+                box.setDisable(true);
+                break;
+            case 'V':
+                box = (Label) letters_used.getChildren().get(22);
+                box.setDisable(true);
+                break;
+            case 'B':
+                box = (Label) letters_used.getChildren().get(23);
+                box.setDisable(true);
+                break;
+            case 'N':
+                box = (Label) letters_used.getChildren().get(24);
+                box.setDisable(true);
+                break;
+            case 'M':
+                box = (Label) letters_used.getChildren().get(25);
+                box.setDisable(true);
+                break;
         }
     }
 
