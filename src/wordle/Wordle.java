@@ -21,25 +21,36 @@ public class Wordle {
     }
 
     /**
-     * Loads the dictionary file into the program
+     * Reads dictionary file and interprets all words in file. If it can be properly parsed,
+     * the dictionary will be loaded into dictionary interally. Throws IOException if it can't
+     * interpret the file properly.
+     *
+     * Also clears out the dictionary before it loads, in case something breaks
+     * Does mean that invalid files unload dictionary, unfortunately
+     *
      * @param file to read dictionary from
      * @throws IOException file contains invalid entries (wrong length or non-letter characters)
      * @author Kevin Paganini, Atreyu Schilling
      */
     private void loadDictionary(File file) throws IOException{
-        dictionary = new TreeSet<>();
-        Scanner sc = new Scanner(file);
-        //Line tracker for debug purposes
-        int line = 1;
-        while(sc.hasNextLine()) {
-            String cookie = sc.nextLine().trim().toLowerCase(Locale.ROOT);
-            if (cookie.length() != numLetters)
-                throw new IOException("Line " + line + " contains a string of invalid length");
-            // Minor fix to regex here
-            if (!cookie.matches("^[A-Za-z]+$"))
-                throw new IOException("Line " + line + " contains a string with invalid characters");
-            line++;
-            dictionary.add(cookie);
+        try {
+            dictionary = new TreeSet<>();
+            Scanner sc = new Scanner(file);
+            //Line tracker for debug purposes
+            int line = 1;
+            while (sc.hasNextLine()) {
+                String cookie = sc.nextLine().trim().toLowerCase(Locale.ROOT);
+                if (cookie.length() != numLetters)
+                    throw new IOException("Line " + line + " contains a string of invalid length");
+                // Minor fix to regex here
+                if (!cookie.matches("^[A-Za-z]+$"))
+                    throw new IOException("Line " + line + " contains a string with invalid characters");
+                line++;
+                dictionary.add(cookie);
+            }
+        } catch (IOException e) {
+            dictionary.clear();
+            throw e;
         }
     }
 
@@ -64,7 +75,7 @@ public class Wordle {
     /**
      * Random Target Method from start
      * THIS IS THE METHOD USED TO MAKE A TARGET
-     * //TODO: Could add difficulty rankings
+     * TODO: Could add difficulty rankings
      * @author paganinik, Atreyu Schilling
      */
     public String randomTarget() {
@@ -77,8 +88,7 @@ public class Wordle {
      * @return true if word is in dictionary, false otherwise
      */
     public boolean isValidWord(String word) {
-
-        return dictionary.contains(word);
+        return dictionary.contains(word.toLowerCase());
     }
 
     public boolean hasTarget() {
@@ -99,31 +109,49 @@ public class Wordle {
      * the number in the position of that character will be a 2
      *
      * Throws a NullPointerException if the target hasn't been loaded
+     * returns a null array if the guess is not a valid word
      *
      * @param guess word to be checked against the target
-     * @return array of ints with the same length as the string
+     * @return array of ints with the same length as the string, or null
+     * if the guess is invalid
+     * @author Atreyu Schilling, TODO
      */
     public int[] returnPositions(String guess) {
         if (!hasTarget()) {
             throw new NullPointerException("Target is null or empty");
         }
-        char[] targetArray = target.toUpperCase(Locale.ROOT).toCharArray();
-        char[] guessArray = guess.toUpperCase(Locale.ROOT).toCharArray();
-        int[] correctPositionArray = new int[this.numLetters];
-        for(int i = 0; i < targetArray.length; i++){
-            //check if first letter is in target
-            //check if first letter is in correct position
-            if(!target.contains("" + guess.charAt(i))){
-                correctPositionArray[i] = 0;
-            }
-            if(target.contains("" + guess.charAt(i))){
-                correctPositionArray[i] = 1;
-            }
-            if(target.charAt(i) == guess.charAt(i)){
-                correctPositionArray[i] = 2;
+        if (!isValidWord(guess)) {
+            return null;
+        }
+        char[] targetChars = target.toLowerCase(Locale.ROOT).toCharArray();
+        char[] guessChars = guess.toLowerCase(Locale.ROOT).toCharArray();
+        int[] resultantArray = new int[numLetters];
+        //Because array's initialize to all 0s, no need to fill it.
+
+        //All this logic is just to protect against double-dipping in the target array, but it's important.
+        //First, run through for all perfect matches
+        for (int i = 0; i < numLetters; i++) {
+            if (guessChars[i] == targetChars[i]) {
+                //If it's correct, shouldn't double-dip on the target array.
+                guessChars[i] = 0;
+                targetChars[i] = 0;
+                resultantArray[i] = 2;
             }
         }
-        return correctPositionArray;
+        //Now that perfect matches are removed, deal with imperfect matches
+        for (int i = 0; i < numLetters; i++) {
+            if (guessChars[i] == 0) break;
+            for (int j = 0; j < numLetters; j++) {
+                // If character is found, it's always a 1, since perfect matches were already dealt with
+                // Again kick out the target to not double-dip
+                if (targetChars[j] == guessChars[i]) {
+                    resultantArray[i] = 1;
+                    break;
+                }
+            }
+        }
+        //Since anything not dealt with is still 0s from initializing the array, just return
+        return resultantArray;
     }
 
 

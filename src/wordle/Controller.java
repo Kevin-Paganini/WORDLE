@@ -40,7 +40,7 @@ public class Controller {
      * Initialization function for window
      * Adding style sheets to specific elements
      * Creating various layouts
-     * @author: Kevin Paganini
+     * @author Kevin Paganini
      */
     @FXML
     public void initialize(){
