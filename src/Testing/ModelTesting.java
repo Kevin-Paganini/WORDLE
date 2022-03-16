@@ -4,8 +4,8 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import wordle.Wordle;
 
-import java.io.*;
-import java.nio.file.Paths;
+import java.io.File;
+import java.io.IOException;
 
 
 public class ModelTesting {
@@ -13,13 +13,10 @@ public class ModelTesting {
     //a word to the dictionary
     @Test
     public void dictCompare() throws IOException {
-        Wordle wordle = new Wordle(10, 10, new File("Resources/wordle-official.txt") );
-        Assertions.assertFalse(wordle.hasDictionary());
-        Assertions.assertThrows(NullPointerException.class, () -> wordle.isValidWord("shard"));
 
-        //TODO: Put in the path to the working dictionary OR test dictionary
-        Assertions.assertDoesNotThrow(() -> wordle.loadDictionary(new File("hi")));
-        Assertions.assertTrue(wordle.hasDictionary());
+
+        Wordle wordle = new Wordle(10, 10, new File("Resources/wordle-official.txt") );
+
         Assertions.assertTrue(wordle.isValidWord("crane"));
         Assertions.assertTrue(wordle.isValidWord("shard"));
 
@@ -34,17 +31,19 @@ public class ModelTesting {
         Assertions.assertFalse(wordle.isValidWord("a"));
 
         //Null or empty string
-        Assertions.assertThrows(NullPointerException.class, () -> wordle.isValidWord(null));
+        Wordle finalWordle = wordle; //IntelliJ doesn't like me, I don't know why, but this is here now
+        Assertions.assertThrows(NullPointerException.class, () -> finalWordle.isValidWord(null));
         Assertions.assertFalse(wordle.isValidWord(""));
 
-        //TODO: Put in the path to a DIFFERENT test directory - one that doesn't contain "crane" but does contain "shard"
-        Assertions.assertDoesNotThrow(() -> wordle.loadDictionary(new File("hi")));
+        //Dictionary contains shard but not crane - make sure we don't get false positives
+        wordle = new Wordle(5, 5, new File("Resources/shardnocrane.txt"));
         Assertions.assertFalse(wordle.isValidWord("crane"));
         Assertions.assertTrue(wordle.isValidWord("shard"));
 
-        //TODO: This should contain path to a file that has string(s) of invalid length
-        Assertions.assertThrows(IOException.class, () -> wordle.loadDictionary(new File("hi")));
-        //TODO: This one should contain a path to a file that has non-characters in it
-        Assertions.assertThrows(IOException.class, () -> wordle.loadDictionary(new File("hi")));
+        // file that has strings of invalid length
+        Assertions.assertThrows(IOException.class ,() -> new Wordle(5, 5, new File("Resources/invalidLengths.txt")));
+        // file that has non-characters in it
+        Assertions.assertThrows(IOException.class, () -> new Wordle(5, 5, new File("Resources/invalidCharacters.txt")));
     }
+
 }

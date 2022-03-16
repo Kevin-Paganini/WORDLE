@@ -3,18 +3,19 @@ package wordle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 
-import javax.xml.soap.Text;
 import java.io.File;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 public class Controller {
     double BUTTON_PADDING = 10;
@@ -43,9 +44,12 @@ public class Controller {
     @FXML
     public void initialize(){
 
-        // Creeating Wordle Game
-        game = new Wordle(6, 5, new File("src/Resources/wordle-official.txt"));
-
+        // Creating Wordle Game
+        try {
+            game = new Wordle(6, 5, new File("src/Resources/wordle-official.txt"));
+        } catch (IOException e) {
+            //TODO: Catch if the wordle-official file does not exist
+        }
 
 
         MAIN_PANE.getStyleClass().add("pane");
