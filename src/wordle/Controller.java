@@ -13,15 +13,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 import javax.xml.soap.Text;
+import java.io.File;
 import java.util.*;
 
 public class Controller {
     double BUTTON_PADDING = 10;
     private int guess = 0;
     private int numLetters;
-    ArrayList<List> gridOfTextFieldInputs = new ArrayList();
+    ArrayList<List<TextField>> gridOfTextFieldInputs = new ArrayList();
     List<String> textFieldValues = Arrays.asList("Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
             "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M");
+    Wordle game = null;
 
     /**
      * Main Grid of the application
@@ -40,6 +42,11 @@ public class Controller {
      */
     @FXML
     public void initialize(){
+        // Creeating Wordle Game
+        game = new Wordle(6, 5, new File("src/Resources/wordle-official.txt"));
+
+
+
         MAIN_PANE.getStyleClass().add("pane");
         //Creating grid of inputs
         GridPane grid_input = createGridOfInputs(6, 5);
@@ -142,10 +149,15 @@ public class Controller {
             tf.setDisable(false);
         }
         submitButton.setDisable(true);
+
+
+        //Checking if the word inputted is in the dictionary
+        System.out.println(game.isValidWord(input.toLowerCase(Locale.ROOT)));
     }
 
     private void getTextFieldValues(KeyEvent keyEvent){
 
+        //TODO Make sure illegal character like numbers or punctuation don't get inputted
         submitButton.setDisable(false);
         for(int i = 0; i < numLetters; i++){
             TextField tf = (TextField) gridOfTextFieldInputs.get(guess).get(i);

@@ -24,7 +24,7 @@ public class Wordle {
      * @param numLetters
      *
      */
-    public Wordle(int numGuesses, int numLetters, File dictionary) throws IOException {
+    public Wordle(int numGuesses, int numLetters, File dictionary) {
         this.NUM_GUESSES = numGuesses;
         this.NUM_LETTERS = numLetters;
         loadDictionary(dictionary);
@@ -38,21 +38,28 @@ public class Wordle {
      * @throws IOException file contains invalid entries (wrong length or non-letter characters)
      * @Author Kevin Paganini, Atreyu Schilling
      */
-    public void loadDictionary(File file) throws IOException, FileNotFoundException {
-        Scanner sc = new Scanner(file);
-        //Line tracker for debug purposes
-        int line = 1;
-        while(sc.hasNextLine()) {
-            String cookie = sc.nextLine().trim().toUpperCase(Locale.ROOT);
-            //TODO
-            if (cookie.length() != NUM_LETTERS)
-                throw new IOException("Line " + line + " contains a string of invalid length");
+    public void loadDictionary(File file) {
+        dictionary = new TreeSet<>();
 
-            if (!cookie.matches("^[A-Za-z]$"))
-                throw new IOException("Line " + line + " contains a string with invalid characters");
+        try {
+            Scanner sc = new Scanner(file);
+            //Line tracker for debug purposes
+            int line = 1;
+            while(sc.hasNextLine()) {
+                String cookie = sc.nextLine().trim().toLowerCase(Locale.ROOT);
+                //TODO
+                if (cookie.length() != NUM_LETTERS)
+                    throw new IOException("Line " + line + " contains a string of invalid length");
 
-            line++;
-            dictionary.add(cookie);
+                if (!cookie.matches("^[A-Za-z]+$"))
+                    throw new IOException("Line " + line + " contains a string with invalid characters");
+
+                line++;
+                dictionary.add(cookie);
+            }
+
+        } catch (IOException e){
+            System.out.println("Bad File");
         }
 
 
@@ -84,7 +91,8 @@ public class Wordle {
      * @author paganinik
      */
     public String randomTarget(){
-        int randomChoice = (int ) (Math.random() * dictionary.size());
+        double random = Math.random();
+        int randomChoice = (int) (random * dictionary.size());
 
         String[] dictionaryArray = dictionary.toArray(new String[dictionary.size()]);
         return dictionaryArray[randomChoice];
@@ -120,6 +128,7 @@ public class Wordle {
      * @return true if word is in dictionary
      */
     public boolean isValidWord(String word) {
+        System.out.println("Hello I made it");
         return dictionary.contains(word);
     }
 
