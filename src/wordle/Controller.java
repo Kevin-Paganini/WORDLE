@@ -178,7 +178,8 @@ public class Controller {
     }
 
     /**
-     * Getting text field values and maing sure submit stays off
+     * Every time key is pressed
+     * Getting text field values and making sure submit stays off
      * unless there is a valid word in the guess boxes
      * @param keyEvent
      * @author //TODO
@@ -195,9 +196,19 @@ public class Controller {
             TextField tf = (TextField) gridOfTextFieldInputs.get(guess).get(i);
             input += tf.getText();
             // I know this does something but I don't really know what, can someone explain please :) - Kevin
+
+            // Check if each box only has valid characters
+            // Bad Way of doing it but good enough for now
+            if(tf.getText().length() > 1){
+                tf.setText(tf.getText(0,1));
+            }
+            // Check if each box is only one letter
+
+            //
             if(tf.getText().equals("") || tf.getText().equals(" ") || tf.getText() == null){
               submitButton.setDisable(true);
             }
+
         }
         //Disabling submit button if guess text fields are not a word in dictionary
         if(!game.isValidWord(input.toLowerCase(Locale.ROOT))){
