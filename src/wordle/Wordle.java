@@ -1,9 +1,7 @@
 package wordle;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.*;
 
 public class Wordle {
@@ -24,40 +22,42 @@ public class Wordle {
      * @param numLetters
      *
      */
-    public Wordle(int numGuesses, int numLetters, Path dictionaryPath){
+    public Wordle(int numGuesses, int numLetters, File dictionary) {
         this.NUM_GUESSES = numGuesses;
         this.NUM_LETTERS = numLetters;
-        try {
-            loadDictionary(dictionaryPath);
-        } catch (IOException e) {
-
-        }
+        loadDictionary(dictionary);
         this.target = randomTarget();
 
     }
 
     /**
      * Loads the dictionary file into the program
-     * @param path path to read dictionary from
+     * @param File to read dictionary from
      * @throws IOException file contains invalid entries (wrong length or non-letter characters)
      * @Author Kevin Paganini, Atreyu Schilling
      */
-    public void loadDictionary(Path path) throws IOException {
-        File file = path.toFile();
-        Scanner sc = new Scanner(file);
-        //Line tracker for debug purposes
-        int line = 1;
-        while(sc.hasNextLine()) {
-            String cookie = sc.nextLine().trim().toUpperCase(Locale.ROOT);
-            //TODO
-            if (cookie.length() != NUM_LETTERS)
-                throw new IOException("Line " + line + " contains a string of invalid length");
+    public void loadDictionary(File file) {
+        dictionary = new TreeSet<>();
 
-            if (!cookie.matches("^[A-Za-z]$"))
-                throw new IOException("Line " + line + " contains a string with invalid characters");
+        try {
+            Scanner sc = new Scanner(file);
+            //Line tracker for debug purposes
+            int line = 1;
+            while(sc.hasNextLine()) {
+                String cookie = sc.nextLine().trim().toLowerCase(Locale.ROOT);
+                //TODO
+                if (cookie.length() != NUM_LETTERS)
+                    throw new IOException("Line " + line + " contains a string of invalid length");
+                // Minor fix to regex here
+                if (!cookie.matches("^[A-Za-z]+$"))
+                    throw new IOException("Line " + line + " contains a string with invalid characters");
 
-            line++;
-            dictionary.add(cookie);
+                line++;
+                dictionary.add(cookie);
+            }
+
+        } catch (IOException e){
+            System.out.println("Bad File");
         }
 
 
@@ -89,7 +89,8 @@ public class Wordle {
      * @author paganinik
      */
     public String randomTarget(){
-        int randomChoice = (int ) (Math.random() * dictionary.size());
+        double random = Math.random();
+        int randomChoice = (int) (random * dictionary.size());
 
         String[] dictionaryArray = dictionary.toArray(new String[dictionary.size()]);
         return dictionaryArray[randomChoice];
@@ -125,6 +126,7 @@ public class Wordle {
      * @return true if word is in dictionary
      */
     public boolean isValidWord(String word) {
+
         return dictionary.contains(word);
     }
 
@@ -175,6 +177,21 @@ public class Wordle {
             }
         }
         return correctPositionArray;
+    }
+
+    /**
+     * Figures out if user entered correct guess that matches target
+     * @param guess
+     * @return whether guess is correct
+     */
+    public boolean isWinner(String guess){
+        int[] correctPositions = returnPositions(guess);
+        for (int x : correctPositions){
+            if (x != 2){
+                return false;
+            }
+        }
+        return true;
     }
 
 }
