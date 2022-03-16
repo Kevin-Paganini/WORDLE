@@ -150,7 +150,8 @@ public class Controller {
         }
         submitButton.setDisable(true);
 
-
+        //TODO THis doesnt really belong here it belongs in getTextFieldValues
+        //Here we should check whether the word is close to the guess (returnPositions)
         //Checking if the word inputted is in the dictionary
         System.out.println(game.isValidWord(input.toLowerCase(Locale.ROOT)));
     }
@@ -158,6 +159,7 @@ public class Controller {
     private void getTextFieldValues(KeyEvent keyEvent){
 
         //TODO Make sure illegal character like numbers or punctuation don't get inputted
+        //TODO I think we should check here whether the word is valid or not
         submitButton.setDisable(false);
         for(int i = 0; i < numLetters; i++){
             TextField tf = (TextField) gridOfTextFieldInputs.get(guess).get(i);
