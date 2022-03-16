@@ -128,7 +128,7 @@ public class Wordle {
      * @return true if word is in dictionary
      */
     public boolean isValidWord(String word) {
-        System.out.println("Hello I made it");
+
         return dictionary.contains(word);
     }
 
