@@ -206,28 +206,8 @@ public class Controller {
 
             TextField tf = (TextField) gridOfTextFieldInputs.get(guess).get(i);
             input += tf.getText();
-            // I know this does something but I don't really know what, can someone explain please :) - Kevin
 
 
-            /*
-<<<<<<< HEAD
-
-            // Check if each box only has valid characters
-            // Bad Way of doing it but good enough for now
-            if(tf.getText().length() > 1){
-                tf.setText(tf.getText(0,1));
-            }
-            // Check if each box is only one letter
-
-            //
-            if(tf.getText().equals("") || tf.getText().equals(" ") || tf.getText() == null){
-              submitButton.setDisable(true);
-=======
-
-        For anyone looking at this, git ruined this section and it's really hard to make out what's actually
-        correct for this. I've commented out everything that git called the header. If this can be safely deleted by
-        whoever wrote this code, please do so. I just want to make sure my repository doesn't break.
-             */
         }
         //Gets the value of the character being input
         TextField textField = (TextField) grid_input.getChildren().get(position);
