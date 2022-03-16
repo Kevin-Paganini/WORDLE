@@ -102,11 +102,42 @@ public class Wordle {
      *
      * @param guess word to be checked against the target
      * @return array of ints with the same length as the string
+     * @author Atreyu Schilling, TODO
      */
     public int[] returnPositions(String guess) {
         if (!hasTarget()) {
             throw new NullPointerException("Target is null or empty");
         }
+        char[] targetChars = target.toLowerCase(Locale.ROOT).toCharArray();
+        char[] guessChars = guess.toLowerCase(Locale.ROOT).toCharArray();
+        int[] resultantArray = new int[numLetters];
+        //Because array's initialize to all 0s, we don't need to fill it.
+
+        //All this logic is just to protect against double-dipping in the target array, but it's important.
+        for (int i = 0; i < numLetters; i++) {
+            if (guessChars[i] == targetChars[i]) {
+                //If it's correct, we shouldn't double-dip on the target array.
+                guessChars[i] = 0;
+                targetChars[i] = 0;
+                resultantArray[i] = 2;
+            }
+        }
+        //Now that we removed perfect matches, let's deal with imperfect matches
+        for (int i = 0; i < numLetters; i++) {
+            if (guessChars[i] == 0) break;
+            for (int j = 0; j < numLetters; j++) {
+                // If we find the character we need, because we checked for same position, it's always a 1
+                // Again kick out the target to not double-dip
+                if (targetChars[j] == guessChars[i]) {
+                    resultantArray[i] = 1;
+                    break;
+                }
+            }
+        }
+        //Since anything we didn't deal with is still 0s from initializing the array, we're done here
+        return resultantArray;
+
+        /*
         char[] targetArray = target.toUpperCase(Locale.ROOT).toCharArray();
         char[] guessArray = guess.toUpperCase(Locale.ROOT).toCharArray();
         int[] correctPositionArray = new int[this.numLetters];
@@ -124,6 +155,7 @@ public class Wordle {
             }
         }
         return correctPositionArray;
+         */
     }
 
 
