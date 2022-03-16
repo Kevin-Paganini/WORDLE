@@ -42,6 +42,7 @@ public class Controller {
      */
     @FXML
     public void initialize(){
+
         // Creeating Wordle Game
         game = new Wordle(6, 5, new File("src/Resources/wordle-official.txt"));
 
@@ -134,8 +135,20 @@ public class Controller {
         return grid;
     }
 
+    /**
+     * Action to be performed when submit is clicked
+     * Functionality:
+     * Getting input from guess fields
+     * Disabling text fields that were enabled
+     * Checking positions of guess aainst target
+     *
+     * @param actionEvent
+     * @author //TODO
+     */
     private void submitButtonAction(ActionEvent actionEvent) {
         // do verification stuff
+
+        //Getting input from guess text fields
         String input = "";
         for(int i = 0; i < numLetters; i++){
             TextField tf = (TextField) gridOfTextFieldInputs.get(guess).get(i);
@@ -144,14 +157,18 @@ public class Controller {
         }
         System.out.println(input);
         guess++;
+
+        // Disable text fields that were just enabled
         for(int i = 0; i < numLetters; i++){
             TextField tf = (TextField) gridOfTextFieldInputs.get(guess).get(i);
             tf.setDisable(false);
         }
         submitButton.setDisable(true);
 
-
+        // Checking positions of guess against target
         int[] position = game.returnPositions(input.toLowerCase(Locale.ROOT));
+
+        //Checking if the user guessed correct word
         System.out.println("You are  " + game.isWinner(input.toLowerCase(Locale.ROOT)));
         for(int i : position){
             System.out.println(i);
@@ -160,6 +177,12 @@ public class Controller {
 
     }
 
+    /**
+     * Getting text field values and maing sure submit stays off
+     * unless there is a valid word in the guess boxes
+     * @param keyEvent
+     * @author //TODO
+     */
     private void getTextFieldValues(KeyEvent keyEvent){
 
         //TODO Make sure illegal character like numbers or punctuation don't get inputted
@@ -171,11 +194,12 @@ public class Controller {
 
             TextField tf = (TextField) gridOfTextFieldInputs.get(guess).get(i);
             input += tf.getText();
-
+            // I know this does something but I don't really know what, can someone explain please :) - Kevin
             if(tf.getText().equals("") || tf.getText().equals(" ") || tf.getText() == null){
               submitButton.setDisable(true);
             }
         }
+        //Disabling submit button if guess text fields are not a word in dictionary
         if(!game.isValidWord(input.toLowerCase(Locale.ROOT))){
             submitButton.setDisable(true);
         }

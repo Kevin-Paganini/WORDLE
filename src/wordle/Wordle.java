@@ -1,9 +1,7 @@
 package wordle;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.*;
 
 public class Wordle {
@@ -50,7 +48,7 @@ public class Wordle {
                 //TODO
                 if (cookie.length() != NUM_LETTERS)
                     throw new IOException("Line " + line + " contains a string of invalid length");
-
+                // Minor fix to regex here
                 if (!cookie.matches("^[A-Za-z]+$"))
                     throw new IOException("Line " + line + " contains a string with invalid characters");
 
@@ -181,6 +179,11 @@ public class Wordle {
         return correctPositionArray;
     }
 
+    /**
+     * Figures out if user entered correct guess that matches target
+     * @param guess
+     * @return whether guess is correct
+     */
     public boolean isWinner(String guess){
         int[] correctPositions = returnPositions(guess);
         for (int x : correctPositions){
