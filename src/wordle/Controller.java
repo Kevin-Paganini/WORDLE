@@ -150,7 +150,9 @@ public class Controller {
         }
         submitButton.setDisable(true);
 
+
         int[] position = game.returnPositions(input.toLowerCase(Locale.ROOT));
+        System.out.println("You are  " + game.isWinner(input.toLowerCase(Locale.ROOT)));
         for(int i : position){
             System.out.println(i);
             //We can play wordle now!!!!!!!!!!!!!!!!!!!

@@ -181,4 +181,14 @@ public class Wordle {
         return correctPositionArray;
     }
 
+    public boolean isWinner(String guess){
+        int[] correctPositions = returnPositions(guess);
+        for (int x : correctPositions){
+            if (x != 2){
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
