@@ -83,6 +83,48 @@
     -fx-alignment : center;
 
 }
+.correct-position-letter-label {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 0px;
+    -fx-background-color: #008000;
+    -fx-text-fill: white;
+    -fx-border-radius: 2;
+    -fx-text-alignment : center;
+    -fx-alignment : center;
+
+}
+.correct-letter-label {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 0px;
+    -fx-background-color: #ffc40c;
+    -fx-text-fill: white;
+    -fx-border-radius: 2;
+    -fx-text-alignment : center;
+    -fx-alignment : center;
+
+}
+.wrong-letter-label {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 0px;
+    -fx-background-color: #cd5c5c;
+    -fx-text-fill: white;
+    -fx-border-radius: 2;
+    -fx-text-alignment : center;
+    -fx-alignment : center;
+
+}
 
 .pane {
 
