@@ -24,7 +24,7 @@ public class Controller {
             "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M");
     Wordle game = null;
     GridPane letters_used;
-    GridPane grid_input;
+    GridPane grid_input; // This has the submit button + grid of textfields FYI
     int position;
 
     /**
