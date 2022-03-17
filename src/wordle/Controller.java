@@ -161,14 +161,9 @@ public class Controller {
             input += tf.getText();
         }
         System.out.println(input);
-        guess++;
 
-        // Disable text fields that were just enabled
-        for(int i = 0; i < numLetters; i++){
-            TextField tf = (TextField) gridOfTextFieldInputs.get(guess).get(i);
-            tf.setDisable(false);
-        }
-        submitButton.setDisable(true);
+
+
 
         // Checking positions of guess against target
         int[] position = game.returnPositions(input.toLowerCase(Locale.ROOT));
@@ -184,6 +179,36 @@ public class Controller {
         for(int i : position){
             System.out.println(i);
             //We can play wordle now!!!!!!!!!!!!!!!!!!!
+
+        }
+        recolorTextFields(position);
+
+
+        guess++;
+        // Disable text fields that were just enabled
+        for(int i = 0; i < numLetters; i++){
+            TextField tf = (TextField) gridOfTextFieldInputs.get(guess).get(i);
+            tf.setDisable(false);
+        }
+        submitButton.setDisable(true);
+
+    }
+
+    private void recolorTextFields(int[] position) {
+        for(int i = 0; i < numLetters; i++){
+            TextField tf = gridOfTextFieldInputs.get(guess).get(i);
+            if (position[i] == 2){
+                tf.getStyleClass().clear();
+                tf.getStyleClass().add("correct-position-letter-tf");
+            }
+            if (position[i] == 1){
+                tf.getStyleClass().clear();
+                tf.getStyleClass().add("correct-letter-tf");
+            }
+            if (position[i] == 0){
+                tf.getStyleClass().clear();
+                tf.getStyleClass().add("wrong-letter-tf");
+            }
         }
 
     }
