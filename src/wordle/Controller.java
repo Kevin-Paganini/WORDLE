@@ -275,21 +275,21 @@ public class Controller {
         //Gets the value of the character being input
         TextField textField = (TextField) grid_input.getChildren().get(position);
         String letter = textField.getText().toUpperCase();
-        List<String> numbers = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
-        //if letter is a number, removes it
-        if (numbers.contains(letter)){
+        List<String> badJuju = Arrays.asList("0","1","2","3","4","5","6","7","8","9",",",".","?",";",":","'","/","\\","<",">","!");
+        //if letter is a number/punctuation, removes it
+        if (badJuju.contains(letter)){
             textField.setText("");
             //If input is letter moves to next box
         } else if (textFieldValues.contains(letter)) {
             textField = (TextField) grid_input.getChildren().get(position);
             textField.setText(letter);
-            position += 1;
-            TextField textField2 = (TextField) grid_input.getChildren().get(position);
+            TextField textField2 = (TextField) grid_input.getChildren().get(position + 1);
             textField2.requestFocus();
+            position += 1;
         }
         //If backspace is typed, does it
         if(letter.isEmpty()) {
-            if(position - 1 >= 0) {
+            if(position - 1 >= 0 && (double)(position+5)/(guess+1)!=5) {
                 position -= 1;
                 textField = (TextField) grid_input.getChildren().get(position);
                 textField.setText("");
