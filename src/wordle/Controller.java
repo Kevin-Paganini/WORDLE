@@ -258,8 +258,8 @@ public class Controller {
         guess++;
         if(game.isWinner(input.toLowerCase(Locale.ROOT))){
             if (DEBUG) System.out.println("You Won!");
-            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-            a.showAndWait();
+            showWinAlert();
+
         }
         else {
             if (DEBUG) System.out.println("Try Again!");
@@ -273,6 +273,18 @@ public class Controller {
         submitButton.setDisable(true);
 
 
+    }
+
+    private void showWinAlert() {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.showAndWait();
+        if(true){
+            // If player wants to play again and clicks ok
+            // Record stats
+            // initialize()
+        } else {
+            //Quit
+        }
     }
 
     /**
