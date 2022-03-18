@@ -185,4 +185,7 @@ public class Wordle {
         //TODO
     }
 
+    public String getTarget() {
+        return target;
+    }
 }

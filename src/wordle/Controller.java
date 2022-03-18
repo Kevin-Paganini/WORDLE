@@ -4,6 +4,7 @@ import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -14,11 +15,10 @@ import javafx.scene.layout.GridPane;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-
 import static javafx.scene.input.KeyCode.*;
 
 public class Controller {
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     double BUTTON_PADDING = 10;
     private int guess = 0;
     private int numLetters;
@@ -225,9 +225,11 @@ public class Controller {
         guess++;
         if(game.isWinner(input.toLowerCase(Locale.ROOT))){
             if (DEBUG) System.out.println("You Won!");
+
         }
         else {
             if (DEBUG) System.out.println("Try Again!");
+            if (DEBUG) System.out.println(game.getTarget());
             //enables text fields that are next
             for (int i = 0; i < numLetters; i++) {
                 TextField tf = gridOfTextFieldInputs.get(guess).get(i);
@@ -235,6 +237,13 @@ public class Controller {
             }
         }
         submitButton.setDisable(true);
+
+        // Displaying You Are a winner alert
+        if(game.isWinner(input.toLowerCase(Locale.ROOT))){
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+
+            a.showAndWait();
+        }
 
     }
 
