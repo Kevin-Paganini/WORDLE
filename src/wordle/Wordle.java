@@ -13,11 +13,14 @@ public class Wordle {
     private String target;
     TreeSet<String> dictionary = null;
 
+    List<String> previousGuessesBuffer;
+
     public Wordle(int numGuesses, int numLetters, File dictionary) throws IOException {
         this.numGuesses = numGuesses;
         this.numLetters = numLetters;
         loadDictionary(dictionary);
         this.target = randomTarget();
+        previousGuessesBuffer = new ArrayList<>();
     }
 
     /**
@@ -80,7 +83,6 @@ public class Wordle {
      */
     public String randomTarget() {
         return (String) dictionary.toArray()[(int) (Math.random() * dictionary.size())];
-        //return "debug";
     }
 
     /**
@@ -124,10 +126,12 @@ public class Wordle {
         if (!isValidWord(guess)) {
             return null;
         }
+        // '\n' used for file formatting
+        previousGuessesBuffer.add(guess + '\n');
+
         char[] targetChars = target.toLowerCase(Locale.ROOT).toCharArray();
         char[] guessChars = guess.toLowerCase(Locale.ROOT).toCharArray();
         int[] resultantArray = new int[numLetters];
-        //Because array's initialize to all 0s, no need to fill it.
 
         //All this logic is just to protect against double-dipping in the target array, but it's important.
         //First, run through for all perfect matches
@@ -144,7 +148,7 @@ public class Wordle {
             if (guessChars[i] == 0) continue;
             for (int j = 0; j < numLetters; j++) {
                 // If character is found, it's always a 1, since perfect matches were already dealt with
-                // Again kick out the target to not double-dip
+                // Again zero out the target to not double-dip
                 if (targetChars[j] == guessChars[i]) {
                     resultantArray[i] = 1;
                     targetChars[j] = 0;
@@ -161,11 +165,20 @@ public class Wordle {
      * Returns true if a provided guess matches the target and false if not.
      * @param guess guess to be checked against the target
      * @return true if target matches guess ignoring case, false otherwise
-     * @author Kevin Paganini / Someone else
+     * @author Kevin Paganini, Atreyu Schilling
      */
 
     public boolean isWinner(String guess) {
         return guess.equalsIgnoreCase(target);
+    }
+
+    /**
+     * Stores the internal list of previous guesses into a text file and flushes
+     * the buffer. Possibly call it after every puzzle
+     * @author Atreyu Schilling
+     */
+    public void storeGuesses() {
+        //TODO
     }
 
 }

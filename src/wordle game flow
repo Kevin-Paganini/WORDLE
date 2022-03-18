@@ -13,7 +13,7 @@ everytime 5 letters in field check if that is in the dictionary
     else submit button is off
 
 
-When Submit button is hit, return POsitions is called to tell GUI what letters etc. to highlight
+When Submit button is hit, return Positions is called to tell GUI what letters to highlight
 
 
 check each letter in guess

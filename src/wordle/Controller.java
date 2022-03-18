@@ -17,7 +17,7 @@ public class Controller {
     double BUTTON_PADDING = 10;
     private int guess = 0;
     private int numLetters;
-    ArrayList<List<TextField>> gridOfTextFieldInputs = new ArrayList();
+    ArrayList<List<TextField>> gridOfTextFieldInputs = new ArrayList<>();
     List<String> textFieldValues = Arrays.asList("Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
             "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M");
     Wordle game = null;
@@ -139,7 +139,7 @@ public class Controller {
                 tf.setMaxSize(50, 50);
                 grid.add(tf, c, r);
                 row.add(tf);
-                if (r != 0){
+                if (r != 0) {
                     tf.setDisable(true);
                 }
             }
