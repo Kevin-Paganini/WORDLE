@@ -1,10 +1,12 @@
 package wordle;
 
+import javax.xml.bind.SchemaOutputResolver;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 public class Wordle {
+    public static final boolean DEBUG = false;
     //The naming scheme for private final is the same as private non-final. Only public final has SCREAMING_CAMEL_CASE
     private final int numLetters;
     // The wordle might not even need to know how many guesses it's had.
@@ -120,12 +122,14 @@ public class Wordle {
      * @author Atreyu Schilling, TODO
      */
     public int[] returnPositions(String guess) {
+        if (DEBUG) System.out.println(target);
         if (!hasTarget()) {
             throw new NullPointerException("Target is null or empty");
         }
         if (!isValidWord(guess)) {
             return null;
         }
+        if (DEBUG) System.out.println(guess);
         // '\n' used for file formatting
         previousGuessesBuffer.add(guess + '\n');
 

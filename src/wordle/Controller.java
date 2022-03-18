@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Controller {
+    public static final boolean DEBUG = false;
     double BUTTON_PADDING = 10;
     private int guess = 0;
     private int numLetters;
@@ -177,11 +178,12 @@ public class Controller {
         //Getting input from guess text fields
         String input = "";
         for(int i = 0; i < numLetters; i++){
-            TextField tf = (TextField) gridOfTextFieldInputs.get(guess).get(i);
+            TextField tf = gridOfTextFieldInputs.get(guess).get(i);
             tf.setDisable(true);
             input += tf.getText();
         }
-        System.out.println(input);
+
+        if (DEBUG) System.out.println(input);
 
         // Checking positions of guess against target
         int[] position = game.returnPositions(input.toLowerCase(Locale.ROOT));
@@ -199,20 +201,21 @@ public class Controller {
         }
         //Checking if the user guessed correct word
 
-        for(int i : position){
-            System.out.println(i);
-            //We can play wordle now!!!!!!!!!!!!!!!!!!!
-
+        if (DEBUG) {
+            for(int i : position) {
+                System.out.println(i);
+                //We can play wordle now!!!!!!!!!!!!!!!!!!!
+            }
         }
         recolorTextFields(position);
 
 
         guess++;
         if(game.isWinner(input.toLowerCase(Locale.ROOT))){
-            System.out.println("You Won!");
+            if (DEBUG) System.out.println("You Won!");
         }
         else {
-            System.out.println("Try Again!");
+            if (DEBUG) System.out.println("Try Again!");
             //enables text fields that are next
             for (int i = 0; i < numLetters; i++) {
                 TextField tf = gridOfTextFieldInputs.get(guess).get(i);
