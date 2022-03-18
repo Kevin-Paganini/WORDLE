@@ -27,7 +27,7 @@ public class Controller {
             "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M");
     Wordle game = null;
     GridPane letters_used;
-    GridPane grid_input; // This has the submit button + grid of textfields FYI Has to do with one of the bugs were facing I believe
+    GridPane grid_input; // This has the submit button + grid of textfields FYI
     int position;
 
     private HashMap<String, Integer> letters_used_grid_colors = new HashMap<>();
@@ -182,7 +182,7 @@ public class Controller {
      * Disabling text fields that were enabled
      * Checking positions of guess aainst target
      *
-     * @author //TODO
+     * @author David Kane & Carson Meredith & Kevin Paganini
      */
     private void submitButtonAction() {
         // do verification stuff
@@ -331,7 +331,7 @@ public class Controller {
 
     /**
      * Recolors and styles the keyboard
-     *
+     * @author Carson Meredith & Kevin Paganini
      * @param letter which letter in keyboard to style
      */
     private void colorAndStyleKeyboard(String letter) {
@@ -496,9 +496,10 @@ public class Controller {
         }
     }
     /**
-     * David Kane
+     * @author David Kane
      * Allows User to Navigate Boxes (and use Enter Key)
-     *
+     * @param e
+     * @return void
      */
     private void keyPressed(KeyEvent e){
         TextField textField = (TextField) e.getSource();
@@ -561,6 +562,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Which CSS class should the label have
+     * @param isCorrectLetter
+     * @return String (Correct CSS class name)
+     * @author Kevin Paganini
+     */
     private String recolorLabel(int isCorrectLetter){
         if (isCorrectLetter < 0 || isCorrectLetter > 3){
             throw new IndexOutOfBoundsException();
@@ -583,9 +590,13 @@ public class Controller {
     }
 
     /**
-     * David Kane
+     * @author: David Kane
      * Ensure only letters can be entered, and moves the boxes accordingly
-     *
+     * @param: Observable e
+     * @param: String oldValue
+     * @param: String newValue
+     * @param: int index
+     * @return: void
      */
     private void listener(Observable e, String oldValue, String newValue, int index) {
         TextField tf = gridOfTextFieldInputs.get(guess).get(index);
