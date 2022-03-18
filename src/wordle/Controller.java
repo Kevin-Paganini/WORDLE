@@ -8,6 +8,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -72,9 +74,40 @@ public class Controller {
         letters_used.setLayoutY(50);
         letters_used.getStyleClass().add("keyBoardGrid");
 
-        // Adding all to main pane
-        MAIN_PANE.getChildren().addAll(grid_input, letters_used);
+        // Create Statistics button
+        Button statButton = createStatisticsButton();
 
+
+        // Adding all to main pane
+        MAIN_PANE.getChildren().addAll(grid_input, letters_used, statButton);
+
+    }
+
+    /**
+     * Statistics Button for later
+     * @return Button for statistics
+     * @author Kevin Paganini
+     * //TODO Maybe pick a better icon
+     */
+    private Button createStatisticsButton() {
+
+        Image image = new Image("file:src/Resources/stat.jpg", 30, 30, false, false);
+        ImageView view = new ImageView(image);
+
+        Button button = new Button();
+        button.setPrefSize(30, 30);
+        button.setGraphic(view);
+        button.setOnAction(this::showStatistics);
+        button.setLayoutX(410);
+        button.setLayoutY(310);
+        return button;
+    }
+
+    /**
+     * Show statistics of user
+     * @param actionEvent
+     */
+    private void showStatistics(ActionEvent actionEvent) {
     }
 
     /**
