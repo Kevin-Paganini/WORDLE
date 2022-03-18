@@ -528,6 +528,9 @@ public class Controller {
             if (pos > 0){
                 gridOfTextFieldInputs.get(guess).get(pos-1).requestFocus();
             }
+            else{
+                gridOfTextFieldInputs.get(guess).get(gridOfTextFieldInputs.get(guess).size() -1).requestFocus();
+            }
         }
         else if (keyCode == RIGHT) {
             int pos = 0;
@@ -539,6 +542,9 @@ public class Controller {
             }
             if (pos + 1 < gridOfTextFieldInputs.get(guess).size()) {
                 gridOfTextFieldInputs.get(guess).get(pos + 1).requestFocus();
+            }
+            else{
+                gridOfTextFieldInputs.get(guess).get(0).requestFocus();
             }
         }
         else if (keyCode == BACK_SPACE){
