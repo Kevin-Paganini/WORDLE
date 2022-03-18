@@ -118,7 +118,6 @@ public class Wordle {
      * @author Atreyu Schilling, TODO
      */
     public int[] returnPositions(String guess) {
-        System.out.println(target);
         if (!hasTarget()) {
             throw new NullPointerException("Target is null or empty");
         }
@@ -142,12 +141,13 @@ public class Wordle {
         }
         //Now that perfect matches are removed, deal with imperfect matches
         for (int i = 0; i < numLetters; i++) {
-            if (guessChars[i] == 0) break;
+            if (guessChars[i] == 0) continue;
             for (int j = 0; j < numLetters; j++) {
                 // If character is found, it's always a 1, since perfect matches were already dealt with
                 // Again kick out the target to not double-dip
                 if (targetChars[j] == guessChars[i]) {
                     resultantArray[i] = 1;
+                    targetChars[j] = 0;
                     break;
                 }
             }
