@@ -79,7 +79,8 @@ public class Wordle {
      * @author paganinik, Atreyu Schilling
      */
     public String randomTarget() {
-        return (String) dictionary.toArray()[(int) (Math.random() * dictionary.size())];
+        //return (String) dictionary.toArray()[(int) (Math.random() * dictionary.size())];
+        return "debug";
     }
 
     /**
@@ -117,6 +118,7 @@ public class Wordle {
      * @author Atreyu Schilling, TODO
      */
     public int[] returnPositions(String guess) {
+        System.out.println(target);
         if (!hasTarget()) {
             throw new NullPointerException("Target is null or empty");
         }
@@ -159,19 +161,11 @@ public class Wordle {
      * Returns true if a provided guess matches the target and false if not.
      * @param guess guess to be checked against the target
      * @return true if target matches guess ignoring case, false otherwise
+     * @author Kevin Paganini / Someone else
      */
 
     public boolean isWinner(String guess) {
         return guess.equalsIgnoreCase(target);
-        /*
-        int[] correctPositions = returnPositions(guess);
-        for (int x : correctPositions){
-            if (x != 2){
-                return false;
-            }
-        }
-        return true
-         */
     }
 
 }

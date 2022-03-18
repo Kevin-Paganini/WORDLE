@@ -11,8 +11,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import java.io.File;
 import java.io.IOException;
-import javax.xml.soap.Text;
-import java.io.File;
 import java.util.*;
 
 public class Controller {
@@ -27,13 +25,19 @@ public class Controller {
     GridPane grid_input; // This has the submit button + grid of textfields FYI Has to do with one of the bugs were facing I believe
     int position;
 
+    private HashMap<String, Integer> letters_used_grid_colors = new HashMap<>();
+
+
     /**
      * Main Grid of the application
      */
     @FXML
     AnchorPane MAIN_PANE;
 
-    Button submitButton;
+    /**
+     * Makes submit button to enter word
+     */
+    private Button submitButton;
 
 
     /**
@@ -51,7 +55,7 @@ public class Controller {
         } catch (IOException e) {
             //TODO: Catch if the wordle-official file does not exist
         }
-
+        makeInitialHashMapForKeyBoardColors();
 
         MAIN_PANE.getStyleClass().add("pane");
         //Creating grid of inputs
@@ -66,6 +70,17 @@ public class Controller {
         // Adding all to main pane
         MAIN_PANE.getChildren().addAll(grid_input, letters_used);
 
+    }
+
+    /**
+     * Too Lazy to type it all so this is nice and succinct
+     * @author Kevin Paganini
+     */
+    private void makeInitialHashMapForKeyBoardColors() {
+
+        for (String letter : textFieldValues){
+            letters_used_grid_colors.put(letter, -1);
+        }
     }
 
     /**
@@ -86,14 +101,12 @@ public class Controller {
             label.setMinSize(50, 50);
             label.setPrefSize(50, 50);
             if (i < 10) {
-                grid.add(label, i % 10, 0);
+                grid.add(label, i % 10, 0); // First row of keyboard
             } else if (i < 19) {
-                grid.add(label, (i - 10) % 9, 1);
+                grid.add(label, (i - 10) % 9, 1); // Second Row of keyboard
             } else {
-                grid.add(label, ((i - 19) % 7) + 1, 2);
+                grid.add(label, ((i - 19) % 7) + 1, 2); // Third Row of Keyboard
             }
-
-
         }
         return grid;
     }
@@ -133,11 +146,19 @@ public class Controller {
         }
 
         //Creating Submit Button
+        makeSubmitButton();
+        grid.add(submitButton, numGuesses, numLetters / 2);
+        return grid;
+    }
+
+    /**
+     * Makes submit button for grid
+     * @author Kevin Paganini
+     */
+    private void makeSubmitButton(){
         submitButton = new Button("Submit");
         submitButton.setOnAction(this:: submitButtonAction);
-        grid.add(submitButton, numGuesses, numLetters / 2);
         submitButton.setDisable(true);
-        return grid;
     }
 
     /**
@@ -162,21 +183,19 @@ public class Controller {
         }
         System.out.println(input);
 
-
-
-
         // Checking positions of guess against target
         int[] position = game.returnPositions(input.toLowerCase(Locale.ROOT));
 
 
-        char letter;
+        String letter;
         for(int i = 0; i < input.length(); ++i) {
-            letter = input.charAt(i);
+            letter = String.valueOf(input.charAt(i));
             int isCorrectValue = position[i];
-            //TODO
-            // If letter is used twice in word what color should it be on keyboard?
-            // TODO
-            checkLetter(letter,isCorrectValue);
+
+            if (letters_used_grid_colors.get(letter) < isCorrectValue){ // Checks if value stored is smaller than value achieved
+                letters_used_grid_colors.replace(letter, isCorrectValue); // If guess has higher value replaces old value
+            }
+            colorAndStyleKeyboard(letter);
         }
         //Checking if the user guessed correct word
         System.out.println("You are  " + game.isWinner(input.toLowerCase(Locale.ROOT)));
@@ -191,13 +210,18 @@ public class Controller {
         guess++;
         // Disable text fields that were just enabled
         for(int i = 0; i < numLetters; i++){
-            TextField tf = (TextField) gridOfTextFieldInputs.get(guess).get(i);
+            TextField tf =gridOfTextFieldInputs.get(guess).get(i);
             tf.setDisable(false);
         }
         submitButton.setDisable(true);
 
     }
 
+    /**
+     * Which style class should a key in keyboard get put in to
+     * Key from keyboard gets new CSS class
+     * @param position
+     */
     private void recolorTextFields(int[] position) {
         for(int i = 0; i < numLetters; i++){
             TextField tf = gridOfTextFieldInputs.get(guess).get(i);
@@ -233,7 +257,7 @@ public class Controller {
         String input = "";
         for(int i = 0; i < numLetters; i++){
 
-            TextField tf = (TextField) gridOfTextFieldInputs.get(guess).get(i);
+            TextField tf = gridOfTextFieldInputs.get(guess).get(i);
             input += tf.getText();
 
 
@@ -278,164 +302,170 @@ public class Controller {
     }
 
     //monkaS
-    private void checkLetter(char letter, int isCorrectValue) {
+
+    /**
+     * Recolors and styles the keyboard
+     *
+     * @param letter which letter in keyboard to style
+     */
+    private void colorAndStyleKeyboard(String letter) {
         Label box;
         switch (letter){
-            case 'Q':
+            case "Q":
                 box = (Label) letters_used.getChildren().get(0);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'W':
+            case "W":
                 box = (Label) letters_used.getChildren().get(1);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'E':
+            case "E":
                 box = (Label) letters_used.getChildren().get(2);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'R':
+            case "R":
                 box = (Label) letters_used.getChildren().get(3);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'T':
+            case "T":
                 box = (Label) letters_used.getChildren().get(4);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'Y':
+            case "Y":
                 box = (Label) letters_used.getChildren().get(5);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'U':
+            case "U":
                 box = (Label) letters_used.getChildren().get(6);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'I':
+            case "I":
                 box = (Label) letters_used.getChildren().get(7);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'O':
+            case "O":
                 box = (Label) letters_used.getChildren().get(8);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'P':
+            case "P":
                 box = (Label) letters_used.getChildren().get(9);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'A':
+            case "A":
                 box = (Label) letters_used.getChildren().get(10);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'S':
+            case "S":
                 box = (Label) letters_used.getChildren().get(11);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'D':
+            case "D":
                 box = (Label) letters_used.getChildren().get(12);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'F':
+            case "F":
                 box = (Label) letters_used.getChildren().get(13);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'G':
+            case "G":
                 box = (Label) letters_used.getChildren().get(14);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'H':
+            case "H":
                 box = (Label) letters_used.getChildren().get(15);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'J':
+            case "J":
                 box = (Label) letters_used.getChildren().get(16);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'K':
+            case "K":
                 box = (Label) letters_used.getChildren().get(17);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'L':
+            case "L":
                 box = (Label) letters_used.getChildren().get(18);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'Z':
+            case "Z":
                 box = (Label) letters_used.getChildren().get(19);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'X':
+            case "X":
                 box = (Label) letters_used.getChildren().get(20);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'C':
+            case "C":
                 box = (Label) letters_used.getChildren().get(21);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'V':
+            case "V":
                 box = (Label) letters_used.getChildren().get(22);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'B':
+            case "B":
                 box = (Label) letters_used.getChildren().get(23);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'N':
+            case "N":
                 box = (Label) letters_used.getChildren().get(24);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
-            case 'M':
+            case "M":
                 box = (Label) letters_used.getChildren().get(25);
                 box.setDisable(true);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(isCorrectValue));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
         }
     }
@@ -443,6 +473,9 @@ public class Controller {
     private String recolorLabel(int isCorrectLetter){
         if (isCorrectLetter < 0 || isCorrectLetter > 3){
             throw new IndexOutOfBoundsException();
+        }
+        if (isCorrectLetter == -1){
+            return "label";
         }
         if (isCorrectLetter == 0){
             return "wrong-letter-label";
