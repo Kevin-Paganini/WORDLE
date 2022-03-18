@@ -198,7 +198,7 @@ public class Controller {
             colorAndStyleKeyboard(letter);
         }
         //Checking if the user guessed correct word
-        System.out.println("You are  " + game.isWinner(input.toLowerCase(Locale.ROOT)));
+
         for(int i : position){
             System.out.println(i);
             //We can play wordle now!!!!!!!!!!!!!!!!!!!
@@ -208,10 +208,16 @@ public class Controller {
 
 
         guess++;
-        // Disable text fields that were just enabled
-        for(int i = 0; i < numLetters; i++){
-            TextField tf =gridOfTextFieldInputs.get(guess).get(i);
-            tf.setDisable(false);
+        if(game.isWinner(input.toLowerCase(Locale.ROOT))){
+            System.out.println("You Won!");
+        }
+        else {
+            System.out.println("Try Again!");
+            //enables text fields that are next
+            for (int i = 0; i < numLetters; i++) {
+                TextField tf = gridOfTextFieldInputs.get(guess).get(i);
+                tf.setDisable(false);
+            }
         }
         submitButton.setDisable(true);
 
