@@ -495,7 +495,6 @@ public class Controller {
                 break;
         }
     }
-
     /**
      * David Kane
      * Allows User to Navigate Boxes (and use Enter Key)
