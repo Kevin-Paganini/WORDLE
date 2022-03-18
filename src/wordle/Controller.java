@@ -4,10 +4,7 @@ import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -277,7 +274,11 @@ public class Controller {
 
     private void showWinAlert() {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        DialogPane d = a.getDialogPane();
+        d.getStyleClass().clear();
+        d.getStyleClass().add("winner-dialog");
         a.showAndWait();
+
         if(true){
             // If player wants to play again and clicks ok
             // Record stats

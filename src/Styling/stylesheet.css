@@ -40,6 +40,11 @@
     -fx-text-align : center;
 
 }
+winner-dialog {
+
+
+
+}
 
 .wrong-letter-tf {
     -fx-font : 20px "serief";
