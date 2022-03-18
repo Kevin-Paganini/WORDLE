@@ -274,9 +274,11 @@ public class Controller {
 
     private void showWinAlert() {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-        DialogPane d = a.getDialogPane();
+        DialogPane d = new DialogPane();
         d.getStyleClass().clear();
         d.getStyleClass().add("winner-dialog");
+        d.setContentText("PLEASE PLEASE FIX ME");
+        a.setDialogPane(d);
         a.showAndWait();
 
         if(true){

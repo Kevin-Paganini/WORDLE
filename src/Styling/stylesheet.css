@@ -40,9 +40,9 @@
     -fx-text-align : center;
 
 }
-winner-dialog {
+.winner-dialog {
 
-
+    -fx-background-color : #008000;
 
 }
 
