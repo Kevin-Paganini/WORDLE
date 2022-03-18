@@ -79,8 +79,8 @@ public class Wordle {
      * @author paganinik, Atreyu Schilling
      */
     public String randomTarget() {
-        //return (String) dictionary.toArray()[(int) (Math.random() * dictionary.size())];
-        return "debug";
+        return (String) dictionary.toArray()[(int) (Math.random() * dictionary.size())];
+        //return "debug";
     }
 
     /**
