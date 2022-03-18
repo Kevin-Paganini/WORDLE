@@ -11,13 +11,15 @@
 .button:hover {
     -fx-background-color: rgb(156, 60, 61);
 }
+
+
 .correct-position-letter-tf {
     -fx-font : 20px "serief";
     -fx-border : black;
     -fx-padding : 10;
     -fx-width : 100px;
     -fx-height : 100px;
-    -fx-background-radius: 0px;
+    -fx-background-radius: 10px;
     -fx-background-color: #008000;
     -fx-text-fill: white;
     -fx-border-radius: 2;
@@ -31,7 +33,7 @@
     -fx-padding : 10;
     -fx-width : 100px;
     -fx-height : 100px;
-    -fx-background-radius: 0px;
+    -fx-background-radius: 10px;
     -fx-background-color: #ffc40c;
     -fx-text-fill: white;
     -fx-border-radius: 2;
@@ -45,7 +47,7 @@
     -fx-padding : 10;
     -fx-width : 100px;
     -fx-height : 100px;
-    -fx-background-radius: 0px;
+    -fx-background-radius: 10px;
     -fx-background-color: #cd5c5c;
     -fx-text-fill: white;
     -fx-border-radius: 2;
@@ -59,7 +61,7 @@
     -fx-padding : 10;
     -fx-width : 100px;
     -fx-height : 100px;
-    -fx-background-radius: 0px;
+    -fx-background-radius: 10px;
     -fx-background-color: #1e3d59;
     -fx-text-fill: white;
     -fx-border-radius: 2;
@@ -75,7 +77,7 @@
     -fx-padding : 10;
     -fx-width : 100px;
     -fx-height : 100px;
-    -fx-background-radius: 0px;
+    -fx-background-radius: 10px;
     -fx-background-color: #1e3d59;
     -fx-text-fill: white;
     -fx-border-radius: 2;
@@ -89,7 +91,7 @@
     -fx-padding : 10;
     -fx-width : 100px;
     -fx-height : 100px;
-    -fx-background-radius: 0px;
+    -fx-background-radius: 10px;
     -fx-background-color: #008000;
     -fx-text-fill: white;
     -fx-border-radius: 2;
@@ -103,7 +105,7 @@
     -fx-padding : 10;
     -fx-width : 100px;
     -fx-height : 100px;
-    -fx-background-radius: 0px;
+    -fx-background-radius: 10px;
     -fx-background-color: #ffc40c;
     -fx-text-fill: white;
     -fx-border-radius: 2;
@@ -117,7 +119,7 @@
     -fx-padding : 10;
     -fx-width : 100px;
     -fx-height : 100px;
-    -fx-background-radius: 0px;
+    -fx-background-radius: 10px;
     -fx-background-color: #cd5c5c;
     -fx-text-fill: white;
     -fx-border-radius: 2;
