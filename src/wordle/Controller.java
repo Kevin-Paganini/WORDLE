@@ -1,17 +1,21 @@
 package wordle;
 
+import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+
+import static javafx.scene.input.KeyCode.*;
 
 public class Controller {
     public static final boolean DEBUG = false;
@@ -136,11 +140,14 @@ public class Controller {
             gridOfTextFieldInputs.add(row);
             for (int c = 0; c < this.numLetters; c++) {
                 TextField tf = new TextField();
+                int finalC = c;
+                tf.textProperty().addListener((observable, oldValue, newValue) -> listener(observable, oldValue, newValue, finalC));
+                tf.setOnKeyPressed(this:: keyPressed);
                 tf.setOnKeyReleased(this:: getTextFieldValues);
                 tf.setMaxSize(50, 50);
                 grid.add(tf, c, r);
                 row.add(tf);
-                if (r != 0) {
+                if (r != 0){
                     tf.setDisable(true);
                 }
             }
@@ -158,8 +165,14 @@ public class Controller {
      */
     private void makeSubmitButton(){
         submitButton = new Button("Submit");
-        submitButton.setOnAction(this:: submitButtonAction);
+        submitButton.setOnAction(this:: submitButton);
         submitButton.setDisable(true);
+    }
+
+
+    private void submitButton(ActionEvent actionEvent){
+        submitButtonAction();
+
     }
 
     /**
@@ -169,10 +182,9 @@ public class Controller {
      * Disabling text fields that were enabled
      * Checking positions of guess aainst target
      *
-     * @param actionEvent
      * @author //TODO
      */
-    private void submitButtonAction(ActionEvent actionEvent) {
+    private void submitButtonAction() {
         // do verification stuff
 
         //Getting input from guess text fields
@@ -278,28 +290,33 @@ public class Controller {
         //Gets the value of the character being input
         TextField textField = (TextField) grid_input.getChildren().get(position);
         String letter = textField.getText().toUpperCase();
-        List<String> badJuju = Arrays.asList("0","1","2","3","4","5","6","7","8","9",",",".","?",";",":","'","/","\\","<",">","!");
-        //if letter is a number/punctuation, removes it
-        if (badJuju.contains(letter)){
+        List<String> numbers = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
+        /**
+         * OLD CODE HERE
+         * SAFE TO REMOVE
+         */
+        /*
+        //if letter is a number, removes it
+        if (numbers.contains(letter)){
             textField.setText("");
             //If input is letter moves to next box
         } else if (textFieldValues.contains(letter)) {
             textField = (TextField) grid_input.getChildren().get(position);
             textField.setText(letter);
-            TextField textField2 = (TextField) grid_input.getChildren().get(position + 1);
-            textField2.requestFocus();
             position += 1;
+            TextField textField2 = (TextField) grid_input.getChildren().get(position);
+            textField2.requestFocus();
         }
         //If backspace is typed, does it
         if(letter.isEmpty()) {
-            if(position - 1 >= 0 && (double)(position+5)/(guess+1)!=5) {
+            if(position - 1 >= 0) {
                 position -= 1;
                 textField = (TextField) grid_input.getChildren().get(position);
                 textField.setText("");
                 textField.requestFocus();
             }
-
-        }
+            }
+         */
         //Disabling submit button if guess text fields are not a word in dictionary
         if(!game.isValidWord(input.toLowerCase(Locale.ROOT))){
             submitButton.setDisable(true);
@@ -479,6 +496,66 @@ public class Controller {
         }
     }
 
+    /**
+     * David Kane
+     * Allows User to Navigate Boxes (and use Enter Key)
+     *
+     */
+    private void keyPressed(KeyEvent e){
+        TextField textField = (TextField) e.getSource();
+        KeyCode keyCode = e.getCode();
+        if(keyCode == ENTER){
+            int pos = 0;
+            for(int i = 0; i < gridOfTextFieldInputs.get(guess).size(); i++){
+                TextField validator = gridOfTextFieldInputs.get(guess).get(i);
+                if(validator == textField){
+                    pos = i;
+                }
+            }
+            if(pos+1 == gridOfTextFieldInputs.get(guess).size()){
+                if(!submitButton.isDisabled())
+                submitButtonAction();
+            }
+        }
+        else if(keyCode == LEFT){
+            int pos = 0;
+            for(int i = 0; i < gridOfTextFieldInputs.get(guess).size(); i++){
+                TextField validator = gridOfTextFieldInputs.get(guess).get(i);
+                if(validator == textField){
+                    pos = i;
+                }
+            }
+            if (pos > 0){
+                gridOfTextFieldInputs.get(guess).get(pos-1).requestFocus();
+            }
+        }
+        else if (keyCode == RIGHT) {
+            int pos = 0;
+            for(int i = 0; i < gridOfTextFieldInputs.get(guess).size(); i++){
+                TextField validator = gridOfTextFieldInputs.get(guess).get(i);
+                if(validator == textField){
+                    pos = i;
+                }
+            }
+            if (pos + 1 < gridOfTextFieldInputs.get(guess).size()) {
+                gridOfTextFieldInputs.get(guess).get(pos + 1).requestFocus();
+            }
+        }
+        else if (keyCode == BACK_SPACE){
+            int pos = 0;
+            for(int i = 0; i < gridOfTextFieldInputs.get(guess).size(); i++){
+                TextField validator = gridOfTextFieldInputs.get(guess).get(i);
+                if(validator == textField){
+                    pos = i;
+                }
+            }
+            if (textField.getText().equals("") && pos > 0){
+                gridOfTextFieldInputs.get(guess).get(pos-1).setText("");
+                gridOfTextFieldInputs.get(guess).get(pos-1).requestFocus();
+            }
+        }
+    }
+
     private String recolorLabel(int isCorrectLetter){
         if (isCorrectLetter < 0 || isCorrectLetter > 3){
             throw new IndexOutOfBoundsException();
@@ -500,4 +577,29 @@ public class Controller {
         }
     }
 
-}
+    /**
+     * David Kane
+     * Ensure only letters can be entered, and moves the boxes accordingly
+     *
+     */
+    private void listener(Observable e, String oldValue, String newValue, int index) {
+        TextField tf = gridOfTextFieldInputs.get(guess).get(index);
+        if(tf.getText().equals("")){
+            if (index > 0 && Character.isLetter(oldValue.charAt(0))){
+                gridOfTextFieldInputs.get(guess).get(index-1).requestFocus();
+            }
+        }
+        else {
+            tf.setText(String.valueOf(tf.getText().charAt(0)));
+            if (!Character.isLetter(tf.getText().charAt(0))) {
+                tf.setText("");
+            } else {
+                tf.setText(tf.getText().toUpperCase());
+                if (index + 1 < gridOfTextFieldInputs.get(guess).size()) {
+                    gridOfTextFieldInputs.get(guess).get(index + 1).requestFocus();
+                }
+            }
+        }
+        }
+    }
+
