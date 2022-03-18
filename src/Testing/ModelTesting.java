@@ -72,6 +72,10 @@ public class ModelTesting {
         Assertions.assertArrayEquals(wordle.returnPositions("bingus"), null);
         //Exactly correct
         Assertions.assertArrayEquals(wordle.returnPositions("crane"), new int[]{2, 2, 2, 2, 2});
+
+        //Problem from before, fixed
+        Assertions.assertTrue(wordle.forceTarget("meant"));
+        Assertions.assertArrayEquals(wordle.returnPositions("state"), new int[]{0, 1, 2, 0, 1});
         //TODO: This probably isn't all the test cases necessary
     }
     /* lol. lmao.
