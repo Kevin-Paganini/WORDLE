@@ -206,6 +206,7 @@ public class Wordle {
      *      totalGuesses/numWins
      *      Returns -1 if the storage file does not exist
      *      Returns -2 if the storage file exists but does not contain any guess data
+     *      Returns 0 if the user has no wins but does have guesses
      * @throws IOException IO error occurs
      */
     public double averageGuessesPerWin() throws IOException {
@@ -222,7 +223,8 @@ public class Wordle {
             }
         }
         br.close();
-        if (numGuesses == 0 ) return -2;
+        if (totalGuesses == 0 ) return -2;
+        if (numWins == 0) return 0;
 
         return totalGuesses / numWins;
     }

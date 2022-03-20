@@ -135,6 +135,7 @@ public class ModelTesting {
      * NOTE: DO NOT RUN THIS TEST WHILE USEFUL THINGS ARE BEING STORED. IT WILL OVERWRITE THE previousGuesses.txt FILE
      * @author Atreyu Schilling
      */
+    //Tests passed on 3/19
     @Test
     public void testAverageWinReader() throws IOException {
         File file = new File("src/Resources/previousGuesses.txt");
@@ -146,16 +147,16 @@ public class ModelTesting {
         wordle.returnPositions("march");
         wordle.returnPositions("bench");
         wordle.storeGuesses();
-        Assertions.assertEquals(wordle.averageGuessesPerWin(), 3.0);
+        Assertions.assertEquals(3.0, wordle.averageGuessesPerWin());
         wordle.returnPositions("stiff");
         wordle.storeGuesses();
-        Assertions.assertEquals(wordle.averageGuessesPerWin(), 4.0);
+        Assertions.assertEquals(4.0, wordle.averageGuessesPerWin());
         wordle.returnPositions("bench");
         wordle.storeGuesses();
-        Assertions.assertEquals(wordle.averageGuessesPerWin(), 2.5);
+        Assertions.assertEquals(2.5, wordle.averageGuessesPerWin());
         file.delete();
-        Assertions.assertEquals(wordle.averageGuessesPerWin(), -1);
+        Assertions.assertEquals(-1.0, wordle.averageGuessesPerWin());
         wordle.storeGuesses();
-        Assertions.assertEquals(wordle.averageGuessesPerWin(), -2);
+        Assertions.assertEquals(-2.0, wordle.averageGuessesPerWin());
     }
 }
