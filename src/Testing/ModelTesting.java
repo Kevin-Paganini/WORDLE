@@ -83,7 +83,7 @@ public class ModelTesting {
 
     /**
      * Tests that the guess writing portion of the program functions
-     * Does not create garbage files on success
+     * Any files created are destroyed on success
      *
      * NOTE: DO NOT RUN THIS TEST WHILE USEFUL THINGS ARE BEING STORED. IT WILL OVERWRITE THE previousGuesses.txt FILE
      * @author Atreyu Schilling
@@ -94,6 +94,8 @@ public class ModelTesting {
         File file = new File("src/Resources/previousGuesses.txt");
         file.delete();
         Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"));
+        //arbitrary target for testing purposes
+        wordle.forceTarget("meant");
 
         wordle.returnPositions("crane");
         wordle.returnPositions("creme");
@@ -116,12 +118,44 @@ public class ModelTesting {
         file.delete();
 
         wordle.returnPositions("march");
+        wordle.returnPositions("meant");
         wordle.storeGuesses();
 
         br = new BufferedReader(new FileReader(file));
         Assertions.assertEquals("march", br.readLine());
+        Assertions.assertEquals("meant0", br.readLine());
         br.close();
         file.delete();
+    }
 
+    /**
+     * Tests that the averageGuessesPerWin method functions as intended
+     * Any files created are destroyed on success
+     *
+     * NOTE: DO NOT RUN THIS TEST WHILE USEFUL THINGS ARE BEING STORED. IT WILL OVERWRITE THE previousGuesses.txt FILE
+     * @author Atreyu Schilling
+     */
+    @Test
+    public void testAverageWinReader() throws IOException {
+        File file = new File("src/Resources/previousGuesses.txt");
+        file.delete();
+        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"));
+        
+        wordle.forceTarget("bench");
+        wordle.returnPositions("sting");
+        wordle.returnPositions("march");
+        wordle.returnPositions("bench");
+        wordle.storeGuesses();
+        Assertions.assertEquals(wordle.averageGuessesPerWin(), 3.0);
+        wordle.returnPositions("stiff");
+        wordle.storeGuesses();
+        Assertions.assertEquals(wordle.averageGuessesPerWin(), 4.0);
+        wordle.returnPositions("bench");
+        wordle.storeGuesses();
+        Assertions.assertEquals(wordle.averageGuessesPerWin(), 2.5);
+        file.delete();
+        Assertions.assertEquals(wordle.averageGuessesPerWin(), -1);
+        wordle.storeGuesses();
+        Assertions.assertEquals(wordle.averageGuessesPerWin(), -2);
     }
 }

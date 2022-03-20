@@ -1,13 +1,15 @@
 package wordle;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class Wordle {
+    //Enables DEBUG mode
     public static final boolean DEBUG = false;
+    //File that guesses are written to - if it doesn't exist, create it
+    public static final File storageFile = new File("src/Resources/previousGuesses.txt");
+
+
     //The naming scheme for private final is the same as private non-final. Only public final has SCREAMING_CAMEL_CASE
     private final int numLetters;
     // The wordle might not even need to know how many guesses it's had.
@@ -116,7 +118,7 @@ public class Wordle {
      * @param guess word to be checked against the target
      * @return array of ints with the same length as the string, or null
      * if the guess is invalid
-     * @author Atreyu Schilling, TODO
+     * @author Atreyu Schilling
      */
     public int[] returnPositions(String guess) {
         if (DEBUG) System.out.println(target);
@@ -125,7 +127,12 @@ public class Wordle {
         }
         if (DEBUG) System.out.println(guess);
         // '\n' used for file formatting
-        previousGuessesBuffer.add(guess + '\n');
+        if (isWinner(guess)) {
+            //NOTE: Winning guesses terminate with a 0
+            previousGuessesBuffer.add(guess + "0\n");
+        } else {
+            previousGuessesBuffer.add(guess + "\n");
+        }
 
         char[] targetChars = target.toLowerCase(Locale.ROOT).toCharArray();
         char[] guessChars = guess.toLowerCase(Locale.ROOT).toCharArray();
@@ -154,6 +161,7 @@ public class Wordle {
                 }
             }
         }
+
         //Since anything not dealt with is still 0s from initializing the array, just return
         return resultantArray;
     }
@@ -179,9 +187,9 @@ public class Wordle {
      */
     public void storeGuesses() throws IOException {
         //Guesses will be stored in a specified file.
-        File storageFile = new File("src/Resources/previousGuesses.txt");
         if (storageFile.createNewFile() && DEBUG) System.out.println("new previousGuesses file created");
         BufferedWriter bw = new BufferedWriter(new FileWriter(storageFile, true));
+        //String.join without a delimiter might be dumb, but I'm not sure how to do it otherwise
         bw.append(String.join("", previousGuessesBuffer));
         bw.close();
         previousGuessesBuffer.clear();
@@ -189,5 +197,33 @@ public class Wordle {
 
     public String getTarget() {
         return target;
+    }
+
+    /**
+     * Returns the average number of guesses per winning guess for all guesses in the storage file
+     * Does not count nor store guesses in the current buffer - this must be done elsewhere
+     * @return double representing the average number of user guesses per winning guess.
+     *      totalGuesses/numWins
+     *      Returns -1 if the storage file does not exist
+     *      Returns -2 if the storage file exists but does not contain any guess data
+     * @throws IOException IO error occurs
+     */
+    public double averageGuessesPerWin() throws IOException {
+        if (!storageFile.exists()) return -1;
+
+        String line;
+        double totalGuesses = 0;
+        double numWins = 0;
+        BufferedReader br = new BufferedReader(new FileReader(storageFile));
+        while ((line = br.readLine()) != null) {
+            totalGuesses++;
+            if (line.charAt(line.length() - 1) == '0') {
+                numWins++;
+            }
+        }
+        br.close();
+        if (numGuesses == 0 ) return -2;
+
+        return totalGuesses / numWins;
     }
 }
