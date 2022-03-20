@@ -293,11 +293,17 @@ public class Controller {
 
     }
 
+    /**
+     * Creates alert when user either wins or loses their game of wordle
+     * Shows information on win streak, guesses made, and win percentage
+     * @author Carson Merediith
+     */
     private void showWinAlert() {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Play Again");
         DialogPane d;
         d = a.getDialogPane();
         d.getStylesheets().add("Styling//stylesheet.css");
+        //Did player win or lose
         if(win_streak == 0) {
             d.getStyleClass().add("loser-dialog");
         } else {
@@ -309,6 +315,7 @@ public class Controller {
         Optional<ButtonType> result = a.showAndWait();
         if (!result.isPresent()) {
             // alert is exited, no button has been pressed.
+            Platform.exit();
         } else if (result.get() == ButtonType.OK) {
             //oke button is pressed
             initialize();
