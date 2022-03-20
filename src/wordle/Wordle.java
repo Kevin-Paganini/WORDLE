@@ -1,7 +1,8 @@
 package wordle;
 
-import javax.xml.bind.SchemaOutputResolver;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -30,8 +31,7 @@ public class Wordle {
      * the dictionary will be loaded into dictionary interally. Throws IOException if it can't
      * interpret the file properly.
      *
-     * Also clears out the dictionary before it loads, in case something breaks
-     * Does mean that invalid files unload dictionary, unfortunately
+     * Does not clear the existing dictionary until the file is interpreted completely
      *
      * @param file to read dictionary from
      * @throws IOException file contains invalid entries (wrong length or non-letter characters)
@@ -39,7 +39,7 @@ public class Wordle {
      */
     private void loadDictionary(File file) throws IOException{
         try {
-            dictionary = new TreeSet<>();
+            TreeSet<String> tempDict = new TreeSet<>();
             Scanner sc = new Scanner(file);
             //Line tracker for debug purposes
             int line = 1;
@@ -51,8 +51,9 @@ public class Wordle {
                 if (!cookie.matches("^[A-Za-z]+$"))
                     throw new IOException("Line " + line + " contains a string with invalid characters");
                 line++;
-                dictionary.add(cookie);
+                tempDict.add(cookie);
             }
+            dictionary = tempDict;
         } catch (IOException e) {
             dictionary.clear();
             throw e;
@@ -96,10 +97,6 @@ public class Wordle {
         return dictionary.contains(word.toLowerCase());
     }
 
-    public boolean hasTarget() {
-        return target != null && !target.equals("");
-    }
-
     /**
      * Returns an array of integers corresponding to the correctness of the
      * guess in relation to the target. The main logic of Wordle.
@@ -123,9 +120,6 @@ public class Wordle {
      */
     public int[] returnPositions(String guess) {
         if (DEBUG) System.out.println(target);
-        if (!hasTarget()) {
-            throw new NullPointerException("Target is null or empty");
-        }
         if (!isValidWord(guess)) {
             return null;
         }
@@ -178,11 +172,19 @@ public class Wordle {
 
     /**
      * Stores the internal list of previous guesses into a text file and flushes
-     * the buffer. Possibly call it after every puzzle
+     * the buffer. Possibly call it after every puzzle.
+     *
+     * @throws IOException IO error occurs when creating or writing to file
      * @author Atreyu Schilling
      */
-    public void storeGuesses() {
-        //TODO
+    public void storeGuesses() throws IOException {
+        //Guesses will be stored in a specified file.
+        File storageFile = new File("src/Resources/previousGuesses.txt");
+        if (storageFile.createNewFile() && DEBUG) System.out.println("new previousGuesses file created");
+        BufferedWriter bw = new BufferedWriter(new FileWriter(storageFile));
+        bw.write(String.join("\n", previousGuessesBuffer) + "\n");
+        bw.close();
+        previousGuessesBuffer.clear();
     }
 
     public String getTarget() {

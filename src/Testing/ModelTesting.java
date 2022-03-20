@@ -4,7 +4,9 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import wordle.Wordle;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 
@@ -76,13 +78,40 @@ public class ModelTesting {
         //Problem from before, fixed
         Assertions.assertTrue(wordle.forceTarget("meant"));
         Assertions.assertArrayEquals(wordle.returnPositions("state"), new int[]{0, 1, 2, 0, 1});
-        //TODO: This probably isn't all the test cases necessary
+
     }
-    /* lol. lmao.
-    @Test
-    public void NotARealTest() {
-        File file = new File("src/Resources/wordle-official.txt");
-        System.out.println(file.getAbsolutePath());
-    }
+
+    /**
+     * Tests that the guess writing portion of the program functions
+     *
+     * NOTE: DO NOT RUN THIS TEST WHILE USEFUL THINGS ARE BEING STORED. IT WILL OVERWRITE THE previousGuesses.txt FILE
      */
+    @Test
+    public void testGuessWriter() throws IOException {
+        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"));
+
+        wordle.returnPositions("crane");
+        wordle.returnPositions("creme");
+        wordle.returnPositions("death");
+        wordle.returnPositions("snake");
+
+        wordle.storeGuesses();
+
+        BufferedReader br = new BufferedReader(new FileReader("src/Resources/previousGuesses.txt"));
+        Assertions.assertEquals("crane", br.readLine());
+        Assertions.assertEquals("creme", br.readLine());
+        Assertions.assertEquals("death", br.readLine());
+        Assertions.assertEquals("snake", br.readLine());
+        Assertions.assertNull(br.readLine());
+        br.close();
+        new File("src/Resources/previousGuesses.txt").delete();
+
+
+        wordle.returnPositions("march");
+        wordle.storeGuesses();
+
+        br = new BufferedReader(new FileReader("src/Resources/previousGuesses.txt"));
+        Assertions.assertEquals("march", br.readLine());
+        br.close();
+    }
 }
