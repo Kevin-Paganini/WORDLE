@@ -54,6 +54,23 @@
 
 }
 
+.loser-dialog {
+
+    -fx-background-color: #cd5c5c;
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-width : 200px;
+    -fx-height : 400px;
+    -fx-text-align : center;
+
+}
+
+.loser-dialog:header *.header-panel {
+    -fx-background-color: #cd5c5c;
+    -fx-font : 20px "serief";
+
+}
+
 
 
 .wrong-letter-tf {

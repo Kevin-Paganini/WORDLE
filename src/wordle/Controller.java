@@ -18,7 +18,7 @@ import java.util.*;
 import static javafx.scene.input.KeyCode.*;
 
 public class Controller {
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     double BUTTON_PADDING = 10;
     private int guess = 0;
     private int numLetters;
@@ -30,6 +30,9 @@ public class Controller {
     GridPane grid_input; // This has the submit button + grid of textfields FYI
     int position;
     int win_streak;
+    int wins;
+    int losses;
+    double win_percentage;
 
     private HashMap<String, Integer> letters_used_grid_colors = new HashMap<>();
 
@@ -260,9 +263,14 @@ public class Controller {
         if(game.isWinner(input.toLowerCase(Locale.ROOT))){
             if (DEBUG) System.out.println("You Won!");
             win_streak++;
+            wins++;
+            win_percentage = ((double)wins/(losses+wins)) * 100;
+            if(win_percentage > 100) {
+                win_percentage = 100;
+            }
             showWinAlert();
         }
-        else {
+        else if (guess != 6){
             if (DEBUG) System.out.println("Try Again!");
             if (DEBUG) System.out.println(game.getTarget());
             //enables text fields that are next
@@ -271,6 +279,14 @@ public class Controller {
                 tf.setDisable(false);
             }
             gridOfTextFieldInputs.get(guess).get(0).requestFocus();
+        } else {
+            win_streak = 0;
+            losses++;
+            win_percentage = ((double)wins/(losses+wins)) * 100;
+            if(win_percentage > 100) {
+                win_percentage = 100;
+            }
+            showWinAlert();
         }
         submitButton.setDisable(true);
 
@@ -282,8 +298,12 @@ public class Controller {
         DialogPane d;
         d = a.getDialogPane();
         d.getStylesheets().add("Styling//stylesheet.css");
-        d.getStyleClass().add("winner-dialog");
-        d.setHeaderText("WINSTREAK = " + win_streak);
+        if(win_streak == 0) {
+            d.getStyleClass().add("loser-dialog");
+        } else {
+            d.getStyleClass().add("winner-dialog");
+        }
+        d.setHeaderText("Played = " + (wins + losses) + "\nWIN% = " + win_percentage + "%" + "\nGUESSES THIS GAME = " + guess + "\nWINSTREAK = " + win_streak);
         d.setContentText("PLAY AGAIN?");
 
         Optional<ButtonType> result = a.showAndWait();
@@ -295,13 +315,6 @@ public class Controller {
         } else if (result.get() == ButtonType.CANCEL){
             // cancel button is pressed
             Platform.exit();
-        }
-        if(true){
-            // If player wants to play again and clicks ok
-            // Record stats
-            // initialize()
-        } else {
-            //Quit
         }
     }
 
