@@ -181,8 +181,8 @@ public class Wordle {
         //Guesses will be stored in a specified file.
         File storageFile = new File("src/Resources/previousGuesses.txt");
         if (storageFile.createNewFile() && DEBUG) System.out.println("new previousGuesses file created");
-        BufferedWriter bw = new BufferedWriter(new FileWriter(storageFile));
-        bw.write(String.join("\n", previousGuessesBuffer) + "\n");
+        BufferedWriter bw = new BufferedWriter(new FileWriter(storageFile, true));
+        bw.append(String.join("", previousGuessesBuffer));
         bw.close();
         previousGuessesBuffer.clear();
     }

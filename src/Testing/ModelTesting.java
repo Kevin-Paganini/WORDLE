@@ -83,11 +83,16 @@ public class ModelTesting {
 
     /**
      * Tests that the guess writing portion of the program functions
+     * Does not create garbage files on success
      *
      * NOTE: DO NOT RUN THIS TEST WHILE USEFUL THINGS ARE BEING STORED. IT WILL OVERWRITE THE previousGuesses.txt FILE
+     * @author Atreyu Schilling
      */
+    //Passed on 3/19
     @Test
     public void testGuessWriter() throws IOException {
+        File file = new File("src/Resources/previousGuesses.txt");
+        file.delete();
         Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"));
 
         wordle.returnPositions("crane");
@@ -97,21 +102,26 @@ public class ModelTesting {
 
         wordle.storeGuesses();
 
-        BufferedReader br = new BufferedReader(new FileReader("src/Resources/previousGuesses.txt"));
+        BufferedReader br = new BufferedReader(new FileReader(file));
         Assertions.assertEquals("crane", br.readLine());
         Assertions.assertEquals("creme", br.readLine());
         Assertions.assertEquals("death", br.readLine());
         Assertions.assertEquals("snake", br.readLine());
+        wordle.returnPositions("doubt");
         Assertions.assertNull(br.readLine());
-        br.close();
-        new File("src/Resources/previousGuesses.txt").delete();
+        wordle.storeGuesses();
 
+        Assertions.assertEquals("doubt", br.readLine());
+        br.close();
+        file.delete();
 
         wordle.returnPositions("march");
         wordle.storeGuesses();
 
-        br = new BufferedReader(new FileReader("src/Resources/previousGuesses.txt"));
+        br = new BufferedReader(new FileReader(file));
         Assertions.assertEquals("march", br.readLine());
         br.close();
+        file.delete();
+
     }
 }
