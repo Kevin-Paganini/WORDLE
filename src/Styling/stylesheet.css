@@ -1,6 +1,3 @@
-
-
-
 .button {
     -fx-font : 14px "serief";  
     -fx-padding : 10;  
@@ -42,9 +39,22 @@
 }
 .winner-dialog {
 
-    -fx-background-color : #008000;
+    -fx-background-color: #8fbc8f;
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-width : 200px;
+    -fx-height : 400px;
+    -fx-text-align : center;
 
 }
+
+.winner-dialog:header *.header-panel {
+    -fx-background-color: #8fbc8f;
+    -fx-font : 20px "serief";
+
+}
+
+
 
 .wrong-letter-tf {
     -fx-font : 20px "serief";
