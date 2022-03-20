@@ -158,5 +158,6 @@ public class ModelTesting {
         Assertions.assertEquals(-1.0, wordle.averageGuessesPerWin());
         wordle.storeGuesses();
         Assertions.assertEquals(-2.0, wordle.averageGuessesPerWin());
+        file.delete();
     }
 }

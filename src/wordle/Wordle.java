@@ -40,26 +40,21 @@ public class Wordle {
      * @author Kevin Paganini, Atreyu Schilling
      */
     private void loadDictionary(File file) throws IOException{
-        try {
-            TreeSet<String> tempDict = new TreeSet<>();
-            Scanner sc = new Scanner(file);
-            //Line tracker for debug purposes
-            int line = 1;
-            while (sc.hasNextLine()) {
-                String cookie = sc.nextLine().trim().toLowerCase(Locale.ROOT);
-                if (cookie.length() != numLetters)
-                    throw new IOException("Line " + line + " contains a string of invalid length");
-                // Minor fix to regex here
-                if (!cookie.matches("^[A-Za-z]+$"))
-                    throw new IOException("Line " + line + " contains a string with invalid characters");
-                line++;
-                tempDict.add(cookie);
-            }
-            dictionary = tempDict;
-        } catch (IOException e) {
-            dictionary.clear();
-            throw e;
+        TreeSet<String> tempDict = new TreeSet<>();
+        Scanner sc = new Scanner(file);
+        //Line tracker for debug purposes
+        int line = 1;
+        while (sc.hasNextLine()) {
+            String cookie = sc.nextLine().trim().toLowerCase(Locale.ROOT);
+            if (cookie.length() != numLetters)
+                throw new IOException("Line " + line + " contains a string of invalid length");
+            // Minor fix to regex here
+            if (!cookie.matches("^[A-Za-z]+$"))
+                throw new IOException("Line " + line + " contains a string with invalid characters");
+            line++;
+            tempDict.add(cookie);
         }
+        dictionary = tempDict;
     }
 
     /**
