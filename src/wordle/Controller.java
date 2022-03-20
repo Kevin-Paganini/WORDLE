@@ -1,5 +1,6 @@
 package wordle;
 
+import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,6 +29,7 @@ public class Controller {
     GridPane letters_used;
     GridPane grid_input; // This has the submit button + grid of textfields FYI
     int position;
+    int win_streak;
 
     private HashMap<String, Integer> letters_used_grid_colors = new HashMap<>();
 
@@ -52,7 +54,9 @@ public class Controller {
      */
     @FXML
     public void initialize(){
-
+        guess = 0;
+        MAIN_PANE.getChildren().clear();
+        gridOfTextFieldInputs.clear();
         // Creating Wordle Game
         try {
             game = new Wordle(6, 5, new File("src/Resources/wordle-official.txt"));
@@ -255,8 +259,8 @@ public class Controller {
         guess++;
         if(game.isWinner(input.toLowerCase(Locale.ROOT))){
             if (DEBUG) System.out.println("You Won!");
+            win_streak++;
             showWinAlert();
-
         }
         else {
             if (DEBUG) System.out.println("Try Again!");
@@ -266,6 +270,7 @@ public class Controller {
                 TextField tf = gridOfTextFieldInputs.get(guess).get(i);
                 tf.setDisable(false);
             }
+            gridOfTextFieldInputs.get(guess).get(0).requestFocus();
         }
         submitButton.setDisable(true);
 
@@ -273,14 +278,24 @@ public class Controller {
     }
 
     private void showWinAlert() {
-        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-        DialogPane d = new DialogPane();
-        d.getStyleClass().clear();
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Play Again");
+        DialogPane d;
+        d = a.getDialogPane();
+        d.getStylesheets().add("Styling//stylesheet.css");
         d.getStyleClass().add("winner-dialog");
-        d.setContentText("PLEASE PLEASE FIX ME");
-        a.setDialogPane(d);
-        a.showAndWait();
+        d.setHeaderText("WINSTREAK = " + win_streak);
+        d.setContentText("PLAY AGAIN?");
 
+        Optional<ButtonType> result = a.showAndWait();
+        if (!result.isPresent()) {
+            // alert is exited, no button has been pressed.
+        } else if (result.get() == ButtonType.OK) {
+            //oke button is pressed
+            initialize();
+        } else if (result.get() == ButtonType.CANCEL){
+            // cancel button is pressed
+            Platform.exit();
+        }
         if(true){
             // If player wants to play again and clicks ok
             // Record stats
