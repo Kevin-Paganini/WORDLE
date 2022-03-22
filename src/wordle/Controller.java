@@ -19,7 +19,7 @@ import java.util.*;
 import static javafx.scene.input.KeyCode.*;
 
 public class Controller {
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     double BUTTON_PADDING = 10;
     private int guess = 0;
     private int numLetters;
@@ -35,7 +35,7 @@ public class Controller {
     int losses;
     double win_percentage;
 
-    private HashMap<String, Integer> letters_used_grid_colors = new HashMap<>();
+    private final HashMap<String, Integer> letters_used_grid_colors = new HashMap<>();
 
 
     /**
@@ -216,13 +216,13 @@ public class Controller {
      */
     private void makeSubmitButton(){
         submitButton = new Button("Submit");
-        submitButton.setOnAction(this:: submitButton);
+        submitButton.setOnAction(this::submitButton);
         submitButton.setDisable(true);
     }
 
 
     private void submitButton(ActionEvent actionEvent){
-        submitButtonAction();
+        submit();
     }
 
     /**
@@ -234,7 +234,7 @@ public class Controller {
      *
      * @author David Kane & Carson Meredith & Kevin Paganini
      */
-    private void submitButtonAction() {
+    private void submit() {
         // do verification stuff
 
         //Getting input from guess text fields
@@ -278,10 +278,7 @@ public class Controller {
             if (DEBUG) System.out.println("You Won!");
             win_streak++;
             wins++;
-            win_percentage = ((double)wins/(losses+wins)) * 100;
-            if(win_percentage > 100) {
-                win_percentage = 100;
-            }
+            win_percentage = Math.min(100, ((double)wins/(losses+wins)) * 100);
             showWinAlert();
         }
         else if (guess != 6){
@@ -347,18 +344,10 @@ public class Controller {
     private void recolorTextFields(int[] position) {
         for(int i = 0; i < numLetters; i++){
             TextField tf = gridOfTextFieldInputs.get(guess).get(i);
-            if (position[i] == 2){
-                tf.getStyleClass().clear();
-                tf.getStyleClass().add("correct-position-letter-tf");
-            }
-            if (position[i] == 1){
-                tf.getStyleClass().clear();
-                tf.getStyleClass().add("correct-letter-tf");
-            }
-            if (position[i] == 0){
-                tf.getStyleClass().clear();
-                tf.getStyleClass().add("wrong-letter-tf");
-            }
+            tf.getStyleClass().clear();
+            if (position[i] == 2) tf.getStyleClass().add("correct-position-letter-tf");
+            if (position[i] == 1) tf.getStyleClass().add("correct-letter-tf");
+            if (position[i] == 0) tf.getStyleClass().add("wrong-letter-tf");
         }
 
     }
@@ -371,8 +360,6 @@ public class Controller {
      * @author //TODO
      */
     private void getTextFieldValues(KeyEvent keyEvent){
-
-        //TODO Make sure illegal character like numbers or punctuation don't get inputted
 
 
         submitButton.setDisable(false);
@@ -400,7 +387,7 @@ public class Controller {
             submitButton.setDisable(true);
         }
     }
-    
+
     /**
      * Recolors and styles the keyboard
      * @author Carson Meredith & Kevin Paganini
@@ -586,7 +573,7 @@ public class Controller {
             }
             if(pos+1 == gridOfTextFieldInputs.get(guess).size()){
                 if(!submitButton.isDisabled())
-                submitButtonAction();
+                submit();
             }
         }
         else if(keyCode == LEFT){
