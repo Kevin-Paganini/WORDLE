@@ -62,6 +62,9 @@ public class Controller {
         MAIN_PANE.getChildren().clear();
         gridOfTextFieldInputs.clear();
         // Creating Wordle Game
+
+
+
         try {
             game = new Wordle(6, 5, new File("src/Resources/wordle-official.txt"));
         } catch (IOException e) {
@@ -85,6 +88,8 @@ public class Controller {
 
         // Adding all to main pane
         MAIN_PANE.getChildren().addAll(grid_input, letters_used, statButton);
+
+
 
     }
 
