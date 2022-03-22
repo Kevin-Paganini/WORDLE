@@ -5,10 +5,17 @@
 
 }
 
+.button-dark {
+    -fx-font : 14px "serief";
+    -fx-padding : 10;
+    -fx-background-color : #3d3c3a;
+    -fx-text-fill : white;
+
+}
+
 .button:hover {
     -fx-background-color: rgb(156, 60, 61);
 }
-
 
 .correct-position-letter-tf {
     -fx-font : 20px "serief";
@@ -98,9 +105,19 @@
     -fx-text-fill: white;
     -fx-border-radius: 2;
     -fx-text-align : center;
+}
 
-
-
+.text-field-dark {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #3d3c3a;
+    -fx-text-fill: white;
+    -fx-border-radius: 2;
+    -fx-text-align : center;
 }
 
 .label {
@@ -117,6 +134,22 @@
     -fx-alignment : center;
 
 }
+
+.label-dark {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #3d3c3a;
+    -fx-text-fill: white;
+    -fx-border-radius: 2;
+    -fx-text-alignment : center;
+    -fx-alignment : center;
+
+}
+
 .correct-position-letter-label {
     -fx-font : 20px "serief";
     -fx-border : black;
@@ -163,6 +196,11 @@
 .pane {
 
     -fx-background-color: #8fbc8f;
+}
+
+.pane-dark {
+
+    -fx-background-color: #000000;
 }
 
 .keyBoardGrid {

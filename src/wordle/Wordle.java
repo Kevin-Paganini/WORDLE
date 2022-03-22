@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Wordle {
     //Enables DEBUG mode
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     //File that guesses are written to - if it doesn't exist, create it
     public static final File storageFile = new File("src/Resources/previousGuesses.txt");
 

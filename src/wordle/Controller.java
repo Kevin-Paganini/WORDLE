@@ -39,6 +39,8 @@ public class Controller {
     double win_percentage;
     int NUM_GUESSES = 6;
     int NUM_LETTERS = 5;
+    boolean DARK = true;
+    boolean CONTRAST = true;
 
     private final HashMap<String, Integer> letters_used_grid_colors = new HashMap<>();
 
@@ -81,7 +83,12 @@ public class Controller {
         }
         makeInitialHashMapForKeyBoardColors();
 
-        MAIN_PANE.getStyleClass().add("pane");
+        if(DARK){
+            MAIN_PANE.getStyleClass().add("pane-dark");
+        } else {
+            MAIN_PANE.getStyleClass().add("pane");
+        }
+
         //Creating grid of inputs
         grid_input = createGridOfInputs(NUM_GUESSES, NUM_LETTERS);
 
@@ -113,6 +120,9 @@ public class Controller {
         ImageView view = new ImageView(image);
 
         Button button = new Button();
+        if(DARK){
+            button.getStyleClass().add("button-dark");
+        }
         button.setPrefSize(30, 30);
         button.setGraphic(view);
         button.setOnAction(this::showStatistics);
@@ -153,6 +163,9 @@ public class Controller {
         grid.setVgap(BUTTON_PADDING);
         for(int i = 0; i < 26; i++) {
             Label label = new Label(textFieldValues.get(i));
+            if(DARK){
+                label.getStyleClass().add("label-dark");
+            }
             label.setMaxSize(50, 50);
             label.setMinSize(50, 50);
             label.setPrefSize(50, 50);
@@ -170,6 +183,9 @@ public class Controller {
         }
 
         Label del = new Label(textFieldValues.get(26));
+        if(DARK){
+            del.getStyleClass().add("label-dark");
+        }
         del.setMaxSize(100, 50);
         del.setMinSize(100, 50);
         del.setPrefSize(100, 50);
@@ -250,6 +266,9 @@ public class Controller {
      */
     private Button makeSubmitButton(){
         submitButton = new Button("Submit");
+        if(DARK){
+            submitButton.getStyleClass().add("button-dark");
+        }
         submitButton.setOnAction(this:: submitButton);
         submitButton.setLayoutX((NUM_LETTERS * 60) + 75);
         submitButton.setLayoutY(200);
@@ -459,7 +478,7 @@ public class Controller {
             case "I":
                 box = (Label) letters_used.getChildren().get(7);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter)));
+                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "O":
                 box = (Label) letters_used.getChildren().get(8);
