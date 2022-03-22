@@ -64,11 +64,14 @@ public class Controller {
         MAIN_PANE.getChildren().clear();
         gridOfTextFieldInputs.clear();
         // Creating Wordle Game
+
         try {
             game = new Wordle(NUM_GUESSES, NUM_LETTERS, new File("src/Resources/wordle-official.txt"));
         } catch (IOException e) {
             //TODO: Catch if the wordle-official file does not exist
         }
+
+
 
         if(DEBUG){
             System.out.println(game.getTarget());
@@ -81,16 +84,17 @@ public class Controller {
 
         // Create keyboard of used letters
         letters_used = createKeyBoardInputs();
-        letters_used.setLayoutX(400);
+        letters_used.setLayoutX((NUM_LETTERS * 60) + 100);
         letters_used.setLayoutY(50);
         letters_used.getStyleClass().add("keyBoardGrid");
 
         // Create Statistics button
         Button statButton = createStatisticsButton();
+        Button submitButton = makeSubmitButton();
 
 
         // Adding all to main pane
-        MAIN_PANE.getChildren().addAll(grid_input, letters_used, statButton);
+        MAIN_PANE.getChildren().addAll(grid_input, letters_used, statButton, submitButton);
 
     }
 
@@ -109,7 +113,7 @@ public class Controller {
         button.setPrefSize(30, 30);
         button.setGraphic(view);
         button.setOnAction(this::showStatistics);
-        button.setLayoutX(410);
+        button.setLayoutX((NUM_LETTERS * 60) + 75);
         button.setLayoutY(310);
         return button;
     }
@@ -223,10 +227,6 @@ public class Controller {
                 }
             }
         }
-
-        //Creating Submit Button
-        makeSubmitButton();
-        grid.add(submitButton, numGuesses, numLetters / 2);
         return grid;
     }
 
@@ -234,10 +234,13 @@ public class Controller {
      * Makes submit button for grid
      * @author Kevin Paganini
      */
-    private void makeSubmitButton(){
+    private Button makeSubmitButton(){
         submitButton = new Button("Submit");
         submitButton.setOnAction(this:: submitButton);
+        submitButton.setLayoutX((NUM_LETTERS * 60) + 75);
+        submitButton.setLayoutY(200);
         submitButton.setDisable(true);
+        return submitButton;
     }
 
 
