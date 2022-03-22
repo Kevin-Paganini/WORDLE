@@ -3,21 +3,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<TabPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wordle.Controller">
+<TabPane fx:id="TAB_PANE" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wordle.Controller">
    <tabs>
-      <Tab>
+      <Tab closable="false" text="Wordle">
          <content>
             <AnchorPane fx:id="MAIN_PANE" prefHeight="400.0" prefWidth="600.0">
 
 </AnchorPane>
          </content>
       </Tab>
-       <Tab>
+       <Tab closable="false" text="Settings">
            <content>
                <Pane fx:id="SETTINGS_PANE">
-
-               </Pane>
+               <children>
+                  <Button fx:id="importDictionaryButton" layoutX="29.0" layoutY="27.0" mnemonicParsing="false" onAction="#importDictionary" text="Import Dictionary File" />
+               </children></Pane>
            </content>
        </Tab>
    </tabs>
