@@ -16,9 +16,9 @@ public class Wordle {
     // I'm leaving this here, but it may not be necessary. Weird
     private final int numGuesses;
     private String target;
-    TreeSet<String> dictionary = null;
+    private TreeSet<String> dictionary = null;
 
-    List<String> previousGuessesBuffer;
+    private final List<String> previousGuessesBuffer;
 
     public Wordle(int numGuesses, int numLetters, File dictionary) throws IOException {
         this.numGuesses = numGuesses;
