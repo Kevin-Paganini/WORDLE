@@ -25,7 +25,7 @@ public class Controller {
     private int numLetters;
     ArrayList<List<TextField>> gridOfTextFieldInputs = new ArrayList<>();
     List<String> textFieldValues = Arrays.asList("Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
-            "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M");
+            "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M", "DEL");
     Wordle game = null;
     GridPane letters_used;
     GridPane grid_input; // This has the submit button + grid of textfields FYI
@@ -156,8 +156,18 @@ public class Controller {
                 grid.add(label, (i - 10) % 9, 1); // Second Row of keyboard
             } else {
                 grid.add(label, ((i - 19) % 7) + 1, 2); // Third Row of Keyboard
+
             }
+
+
         }
+
+        Label del = new Label(textFieldValues.get(26));
+        del.setMaxSize(100, 50);
+        del.setMinSize(100, 50);
+        del.setPrefSize(100, 50);
+        del.setOnMouseClicked(this:: mouseClick);
+        grid.add(del, 9, 2);
         return grid;
     }
 
