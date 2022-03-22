@@ -438,157 +438,131 @@ public class Controller {
         switch (letter){
             case "Q":
                 box = (Label) letters_used.getChildren().get(0);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "W":
                 box = (Label) letters_used.getChildren().get(1);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "E":
                 box = (Label) letters_used.getChildren().get(2);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "R":
                 box = (Label) letters_used.getChildren().get(3);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "T":
                 box = (Label) letters_used.getChildren().get(4);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "Y":
                 box = (Label) letters_used.getChildren().get(5);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "U":
                 box = (Label) letters_used.getChildren().get(6);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "I":
                 box = (Label) letters_used.getChildren().get(7);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "O":
                 box = (Label) letters_used.getChildren().get(8);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "P":
                 box = (Label) letters_used.getChildren().get(9);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "A":
                 box = (Label) letters_used.getChildren().get(10);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "S":
                 box = (Label) letters_used.getChildren().get(11);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "D":
                 box = (Label) letters_used.getChildren().get(12);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "F":
                 box = (Label) letters_used.getChildren().get(13);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "G":
                 box = (Label) letters_used.getChildren().get(14);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "H":
                 box = (Label) letters_used.getChildren().get(15);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "J":
                 box = (Label) letters_used.getChildren().get(16);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "K":
                 box = (Label) letters_used.getChildren().get(17);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "L":
                 box = (Label) letters_used.getChildren().get(18);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "Z":
                 box = (Label) letters_used.getChildren().get(19);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "X":
                 box = (Label) letters_used.getChildren().get(20);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "C":
                 box = (Label) letters_used.getChildren().get(21);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "V":
                 box = (Label) letters_used.getChildren().get(22);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "B":
                 box = (Label) letters_used.getChildren().get(23);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "N":
                 box = (Label) letters_used.getChildren().get(24);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "M":
                 box = (Label) letters_used.getChildren().get(25);
-                box.setDisable(true);
                 box.getStyleClass().clear();
                 box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
