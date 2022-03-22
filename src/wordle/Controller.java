@@ -687,12 +687,7 @@ public class Controller {
      */
     private void listener(Observable e, String oldValue, String newValue, int index) {
         TextField tf = gridOfTextFieldInputs.get(guess).get(index);
-        if(tf.getText().equals("")){
-            if (index > 0 && Character.isLetter(oldValue.charAt(0))){
-                gridOfTextFieldInputs.get(guess).get(index-1).requestFocus();
-            }
-        }
-        else {
+        if(!tf.getText().equals("")){
             tf.setText(String.valueOf(tf.getText().charAt(0)));
             if (!Character.isLetter(tf.getText().charAt(0))) {
                 tf.setText("");
