@@ -34,6 +34,8 @@ public class Controller {
     int wins;
     int losses;
     double win_percentage;
+    int NUM_GUESSES = 6;
+    int NUM_LETTERS = 5;
 
     private HashMap<String, Integer> letters_used_grid_colors = new HashMap<>();
 
@@ -63,15 +65,19 @@ public class Controller {
         gridOfTextFieldInputs.clear();
         // Creating Wordle Game
         try {
-            game = new Wordle(6, 5, new File("src/Resources/wordle-official.txt"));
+            game = new Wordle(NUM_GUESSES, NUM_LETTERS, new File("src/Resources/wordle-official.txt"));
         } catch (IOException e) {
             //TODO: Catch if the wordle-official file does not exist
+        }
+
+        if(DEBUG){
+            System.out.println(game.getTarget());
         }
         makeInitialHashMapForKeyBoardColors();
 
         MAIN_PANE.getStyleClass().add("pane");
         //Creating grid of inputs
-        grid_input = createGridOfInputs(6, 5);
+        grid_input = createGridOfInputs(NUM_GUESSES, NUM_LETTERS);
 
         // Create keyboard of used letters
         letters_used = createKeyBoardInputs();
@@ -155,6 +161,10 @@ public class Controller {
         return grid;
     }
 
+    /**
+     * Functionality for software Keyboard
+     * @param mouseEvent When letter is clicked
+     */
     private void mouseClick(MouseEvent mouseEvent) {
         String letter = ((Label) mouseEvent.getSource()).getText().toUpperCase();
         for(int i = 0; i < numLetters; i++){
@@ -221,6 +231,11 @@ public class Controller {
     }
 
 
+    /**
+     * Called when submitButton is clicked
+     * Calls submitButtonAction because enter key performs the same action
+     * @param actionEvent submit button being pressed
+     */
     private void submitButton(ActionEvent actionEvent){
         submitButtonAction();
 
@@ -274,6 +289,7 @@ public class Controller {
 
 
         guess++;
+        //If there is a guess, and it is right
         if(game.isWinner(input.toLowerCase(Locale.ROOT))){
             if (DEBUG) System.out.println("You Won!");
             win_streak++;
@@ -284,7 +300,8 @@ public class Controller {
             }
             showWinAlert();
         }
-        else if (guess != 6){
+        //If there is a guess and it is wrong
+        else if (guess != NUM_GUESSES){
             if (DEBUG) System.out.println("Try Again!");
             if (DEBUG) System.out.println(game.getTarget());
             //enables text fields that are next
@@ -293,6 +310,7 @@ public class Controller {
                 tf.setDisable(false);
             }
             gridOfTextFieldInputs.get(guess).get(0).requestFocus();
+        //If there is a guess and user is out of guesses
         } else {
             win_streak = 0;
             losses++;
@@ -392,36 +410,6 @@ public class Controller {
         TextField textField = (TextField) grid_input.getChildren().get(position);
         String letter = textField.getText().toUpperCase();
         List<String> numbers = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
-        /**
-         * OLD CODE HERE
-         * SAFE TO REMOVE
-         */
-        /*
-        //if letter is a number, removes it
-        if (numbers.contains(letter)){
-            textField.setText("");
-            //If input is letter moves to next box
-        } else if (textFieldValues.contains(letter)) {
-            textField = (TextField) grid_input.getChildren().get(position);
-            textField.setText(letter);
-            position += 1;
-            TextField textField2 = (TextField) grid_input.getChildren().get(position);
-            textField2.requestFocus();
-        }
-        //If backspace is typed, does it
-        if(letter.isEmpty()) {
-            if(position - 1 >= 0) {
-                position -= 1;
-                textField = (TextField) grid_input.getChildren().get(position);
-                textField.setText("");
-                textField.requestFocus();
-            }
-            }
-         */
-        //Disabling submit button if guess text fields are not a word in dictionary
-        if(!game.isValidWord(input.toLowerCase(Locale.ROOT))){
-            submitButton.setDisable(true);
-        }
         //Disabling submit button if guess text fields are not a word in dictionary
         if(!game.isValidWord(input.toLowerCase(Locale.ROOT))){
             submitButton.setDisable(true);
