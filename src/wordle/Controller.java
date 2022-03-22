@@ -478,7 +478,7 @@ public class Controller {
             case "I":
                 box = (Label) letters_used.getChildren().get(7);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(recolorLabel(letters_used_grid_colors.get(letter)));
+                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter)));
                 break;
             case "O":
                 box = (Label) letters_used.getChildren().get(8);
