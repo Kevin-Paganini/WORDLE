@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import java.io.File;
@@ -142,6 +143,7 @@ public class Controller {
             label.setMaxSize(50, 50);
             label.setMinSize(50, 50);
             label.setPrefSize(50, 50);
+            label.setOnMouseClicked(this:: mouseClick);
             if (i < 10) {
                 grid.add(label, i % 10, 0); // First row of keyboard
             } else if (i < 19) {
@@ -151,6 +153,18 @@ public class Controller {
             }
         }
         return grid;
+    }
+
+    private void mouseClick(MouseEvent mouseEvent) {
+        String letter = ((Label) mouseEvent.getSource()).getText().toUpperCase();
+        for(int i = 0; i < numLetters; i++){
+            TextField tf = gridOfTextFieldInputs.get(guess).get(i);
+            if(tf.isFocused()){
+                tf.setText(letter);
+                i = numLetters;
+            }
+        }
+
     }
 
 
