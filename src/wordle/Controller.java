@@ -181,25 +181,26 @@ public class Controller {
      */
     private void mouseClick(MouseEvent mouseEvent) {
         String letter = ((Label) mouseEvent.getSource()).getText().toUpperCase();
+        if (letter == "DEL"){
+          for (int i = numLetters-1; i >= 0; i--){
+              TextField tf = gridOfTextFieldInputs.get(guess).get(i);
+              if (!tf.getText().equals("")) {
+                  tf.setText("");
+                  tf.requestFocus();
+                  i = 0;
+              }
+          }
+        }
+
+        else {
             for (int i = 0; i < numLetters; i++) {
                 TextField tf = gridOfTextFieldInputs.get(guess).get(i);
-                if (tf.isFocused()) {
-                    if (letter == "DEL"){
-                        if (tf.getText().equals("") && i > 0) {
-                                gridOfTextFieldInputs.get(guess).get(i-1).requestFocus();
-                                gridOfTextFieldInputs.get(guess).get(i-1).setText("");
-                        }
-                        else {
-                            tf.setText("");
-                        }
-                    }
-                    else {
+                if (tf.getText().equals("")) {
+                    i = numLetters;
                         tf.setText(letter);
-                        i = numLetters;
                     }
                 }
         }
-
     }
 
 
