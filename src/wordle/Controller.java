@@ -209,7 +209,6 @@ public class Controller {
 
     private void submitButton(ActionEvent actionEvent){
         submitButtonAction();
-
     }
 
     /**
@@ -225,12 +224,14 @@ public class Controller {
         // do verification stuff
 
         //Getting input from guess text fields
-        String input = "";
+        //Cute little refactor to prevent repeat string concatenation
+        char[] inputArr = new char[numLetters];
         for(int i = 0; i < numLetters; i++){
             TextField tf = gridOfTextFieldInputs.get(guess).get(i);
             tf.setDisable(true);
-            input += tf.getText();
+            inputArr[i] = tf.getText().charAt(0);
         }
+        String input = new String(inputArr);
 
         if (DEBUG) System.out.println(input);
 
@@ -253,7 +254,6 @@ public class Controller {
         if (DEBUG) {
             for(int i : position) {
                 System.out.println(i);
-                //We can play wordle now!!!!!!!!!!!!!!!!!!!
             }
         }
         recolorTextFields(position);
@@ -376,34 +376,7 @@ public class Controller {
 
         //Gets the value of the character being input
         TextField textField = (TextField) grid_input.getChildren().get(position);
-        String letter = textField.getText().toUpperCase();
-        List<String> numbers = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
-        /**
-         * OLD CODE HERE
-         * SAFE TO REMOVE
-         */
-        /*
-        //if letter is a number, removes it
-        if (numbers.contains(letter)){
-            textField.setText("");
-            //If input is letter moves to next box
-        } else if (textFieldValues.contains(letter)) {
-            textField = (TextField) grid_input.getChildren().get(position);
-            textField.setText(letter);
-            position += 1;
-            TextField textField2 = (TextField) grid_input.getChildren().get(position);
-            textField2.requestFocus();
-        }
-        //If backspace is typed, does it
-        if(letter.isEmpty()) {
-            if(position - 1 >= 0) {
-                position -= 1;
-                textField = (TextField) grid_input.getChildren().get(position);
-                textField.setText("");
-                textField.requestFocus();
-            }
-            }
-         */
+
         //Disabling submit button if guess text fields are not a word in dictionary
         if(!game.isValidWord(input.toLowerCase(Locale.ROOT))){
             submitButton.setDisable(true);
