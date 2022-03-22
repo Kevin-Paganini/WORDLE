@@ -180,13 +180,10 @@ public class Controller {
             for (int i = 0; i < numLetters; i++) {
                 TextField tf = gridOfTextFieldInputs.get(guess).get(i);
                 if (tf.isFocused()) {
-
                     if (letter == "DEL"){
-                        if (tf.getText().equals("")) {
-                            if(i > 0) {
+                        if (tf.getText().equals("") && i > 0) {
                                 gridOfTextFieldInputs.get(guess).get(i-1).requestFocus();
                                 gridOfTextFieldInputs.get(guess).get(i-1).setText("");
-                            }
                         }
                         else {
                             tf.setText("");
