@@ -181,12 +181,23 @@ public class Controller {
      */
     private void mouseClick(MouseEvent mouseEvent) {
         String letter = ((Label) mouseEvent.getSource()).getText().toUpperCase();
-        for(int i = 0; i < numLetters; i++){
-            TextField tf = gridOfTextFieldInputs.get(guess).get(i);
-            if(tf.isFocused()){
-                tf.setText(letter);
-                i = numLetters;
-            }
+            for (int i = 0; i < numLetters; i++) {
+                TextField tf = gridOfTextFieldInputs.get(guess).get(i);
+                if (tf.isFocused()) {
+                    if (letter == "DEL"){
+                        if (tf.getText().equals("") && i > 0) {
+                                gridOfTextFieldInputs.get(guess).get(i-1).requestFocus();
+                                gridOfTextFieldInputs.get(guess).get(i-1).setText("");
+                        }
+                        else {
+                            tf.setText("");
+                        }
+                    }
+                    else {
+                        tf.setText(letter);
+                        i = numLetters;
+                    }
+                }
         }
 
     }
@@ -218,7 +229,6 @@ public class Controller {
                 int finalC = c;
                 tf.textProperty().addListener((observable, oldValue, newValue) -> listener(observable, oldValue, newValue, finalC));
                 tf.setOnKeyPressed(this:: keyPressed);
-                tf.setOnKeyReleased(this:: getTextFieldValues);
                 tf.setMaxSize(50, 50);
                 grid.add(tf, c, r);
                 row.add(tf);
@@ -398,10 +408,9 @@ public class Controller {
      * Every time key is pressed
      * Getting text field values and making sure submit stays off
      * unless there is a valid word in the guess boxes
-     * @param keyEvent
      * @author //TODO
      */
-    private void getTextFieldValues(KeyEvent keyEvent){
+    private void getTextFieldValues(){
 
         //TODO Make sure illegal character like numbers or punctuation don't get inputted
 
@@ -675,6 +684,7 @@ public class Controller {
      * @return: void
      */
     private void listener(Observable e, String oldValue, String newValue, int index) {
+        getTextFieldValues();
         TextField tf = gridOfTextFieldInputs.get(guess).get(index);
         if(!tf.getText().equals("")){
             tf.setText(String.valueOf(tf.getText().charAt(0)));
