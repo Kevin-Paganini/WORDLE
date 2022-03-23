@@ -10,7 +10,8 @@ import java.util.List;
 
 public abstract class HelperMethods {
 
-    List<String> textFieldValues = Arrays.asList("Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
+
+    private static final List<String> textFieldValues = Arrays.asList("Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
             "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M", "DEL");
 
     int BUTTON_PADDING = 10;
@@ -60,6 +61,21 @@ public abstract class HelperMethods {
             return null;
         }
     }
+
+
+    /**
+     * Too Lazy to type it all so this is nice and succinct
+     * @author Kevin Paganini
+     */
+    public static HashMap<String, Integer> makeInitialHashMapForKeyBoardColors() {
+        HashMap<String, Integer> letters_used_grid_colors = new HashMap<>();
+        for (String letter : textFieldValues){
+            letters_used_grid_colors.put(letter, -1);
+        }
+        return letters_used_grid_colors;
+    }
+
+
 
 
 

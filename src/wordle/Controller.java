@@ -42,7 +42,7 @@ public class Controller {
     boolean DARK = true;
     boolean CONTRAST = true;
 
-    private final HashMap<String, Integer> letters_used_grid_colors = new HashMap<>();
+    private HashMap<String, Integer> letters_used_grid_colors;
 
 
     /**
@@ -55,6 +55,10 @@ public class Controller {
      * Makes submit button to enter word
      */
     private Button submitButton;
+
+
+    @FXML
+    private Button dark_light;
 
 
     /**
@@ -75,17 +79,23 @@ public class Controller {
         } catch (IOException e) {
             //TODO: Catch if the wordle-official file does not exist
         }
-
+        if(DARK){
+            dark_light.setText("DARK-MODE");
+        } else {
+            dark_light.setText("LIGHT-MODE");
+        }
 
 
         if(DEBUG){
             System.out.println(game.getTarget());
         }
-        makeInitialHashMapForKeyBoardColors();
+        letters_used_grid_colors = HelperMethods.makeInitialHashMapForKeyBoardColors();
 
         if(DARK){
+            MAIN_PANE.getStyleClass().clear();
             MAIN_PANE.getStyleClass().add("pane-dark");
         } else {
+            MAIN_PANE.getStyleClass().clear();
             MAIN_PANE.getStyleClass().add("pane");
         }
 
@@ -121,7 +131,11 @@ public class Controller {
 
         Button button = new Button();
         if(DARK){
+            button.getStyleClass().clear();
             button.getStyleClass().add("button-dark");
+        } else {
+            button.getStyleClass().clear();
+            button.getStyleClass().add("button");
         }
         button.setPrefSize(30, 30);
         button.setGraphic(view);
@@ -138,16 +152,7 @@ public class Controller {
     private void showStatistics(ActionEvent actionEvent) {
     }
 
-    /**
-     * Too Lazy to type it all so this is nice and succinct
-     * @author Kevin Paganini
-     */
-    private void makeInitialHashMapForKeyBoardColors() {
 
-        for (String letter : textFieldValues){
-            letters_used_grid_colors.put(letter, -1);
-        }
-    }
 
     /**
      * Creating keyboard replica to display to user what has been chosen
@@ -164,7 +169,11 @@ public class Controller {
         for(int i = 0; i < 26; i++) {
             Label label = new Label(textFieldValues.get(i));
             if(DARK){
+                label.getStyleClass().clear();
                 label.getStyleClass().add("label-dark");
+            } else {
+                label.getStyleClass().clear();
+                label.getStyleClass().add("label");
             }
             label.setMaxSize(50, 50);
             label.setMinSize(50, 50);
@@ -184,7 +193,11 @@ public class Controller {
 
         Label del = new Label(textFieldValues.get(26));
         if(DARK){
+            del.getStyleClass().clear();
             del.getStyleClass().add("label-dark");
+        } else {
+            del.getStyleClass().clear();
+            del.getStyleClass().add("label");
         }
         del.setMaxSize(100, 50);
         del.setMinSize(100, 50);
@@ -267,7 +280,11 @@ public class Controller {
     private Button makeSubmitButton(){
         submitButton = new Button("Submit");
         if(DARK){
+            submitButton.getStyleClass().clear();
             submitButton.getStyleClass().add("button-dark");
+        } else {
+            submitButton.getStyleClass().clear();
+            submitButton.getStyleClass().add("button");
         }
         submitButton.setOnAction(this:: submitButton);
         submitButton.setLayoutX((NUM_LETTERS * 60) + 75);
@@ -670,6 +687,20 @@ public class Controller {
         FileChooser fc = new FileChooser();
         DICTIONARY_FILE = fc.showOpenDialog(null);
         initialize();
+    }
+
+    public void dark_light_mode_switch(ActionEvent actionEvent) {
+        String text = dark_light.getText();
+        if(text.equals("DARK-MODE")){
+            dark_light.setText("LIGHT-MODE");
+            DARK = false;
+        } else if (text.equals("LIGHT-MODE")){
+            dark_light.setText("DARK-MODE");
+            DARK = true;
+
+        }
+        initialize();
+
     }
 }
 
