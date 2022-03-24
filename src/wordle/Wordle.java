@@ -40,7 +40,6 @@ public class Wordle {
      * @author Kevin Paganini, Atreyu Schilling
      */
     private void loadDictionary(File file) throws IOException{
-        try {
             if (DEBUG) {
                 System.out.println("\n\n\n");
             }
@@ -65,10 +64,6 @@ public class Wordle {
                 }
             }
             dictionary = tempDict;
-        }
-        catch (NullPointerException e){
-            System.out.println("hi");
-        }
     }
 
     /**
