@@ -685,8 +685,12 @@ public class Controller {
 
     public void importDictionary(ActionEvent actionEvent) {
         FileChooser fc = new FileChooser();
-        DICTIONARY_FILE = fc.showOpenDialog(null);
-        initialize();
+        File temp;
+        temp = fc.showOpenDialog(null);
+        if (temp != null) {
+            DICTIONARY_FILE = temp;
+            initialize();
+        }
     }
 
     public void dark_light_mode_switch(ActionEvent actionEvent) {
