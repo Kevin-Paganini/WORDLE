@@ -898,8 +898,10 @@ public class Controller {
         String guess = numGuess.getText();
         try {
             int num = Integer.parseInt(guess);
-            numGuesses = num;
-            startNewGame();
+            if(num > 0) {
+                numGuesses = num;
+                startNewGame();
+            }
         } catch (NumberFormatException e){
 
         }
