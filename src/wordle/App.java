@@ -24,6 +24,8 @@ public class App extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("UI.fxml"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add("Styling//stylesheet.css");
+        scene.getStylesheets().add("Styling//dark_stylesheet.css");
+        scene.getStylesheets().add("Styling//contrast_stylesheet.css");
         primaryStage.setScene(scene);
         primaryStage.show();
 

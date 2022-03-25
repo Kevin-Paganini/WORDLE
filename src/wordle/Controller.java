@@ -43,6 +43,7 @@ public class Controller {
     int NUM_LETTERS = 5;
     boolean DARK = false;
     boolean CONTRAST = false;
+    DialogPane win;
 
     private HashMap<String, Integer> letters_used_grid_colors;
 
@@ -67,6 +68,7 @@ public class Controller {
     TextField numGuess;
 
 
+
     /**
      * Makes submit button to enter word
      */
@@ -78,6 +80,9 @@ public class Controller {
 
     @FXML
     private Button contrast;
+
+    @FXML
+    private Button numChange;
 
     ArrayList<Button> buttons = new ArrayList<>();
 
@@ -140,6 +145,7 @@ public class Controller {
         buttons.add(importDictionaryButton);
         buttons.add(dark_light);
         buttons.add(contrast);
+        buttons.add(numChange);
         update_dark(DARK,CONTRAST);
         update_contrast(CONTRAST,DARK);
     }
@@ -389,17 +395,35 @@ public class Controller {
      */
     private void showWinAlert() {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Play Again");
-        DialogPane d;
-        d = a.getDialogPane();
-        d.getStylesheets().add("Styling//stylesheet.css");
+        win = a.getDialogPane();
+        win.getStylesheets().add("Styling//stylesheet.css");
+        win.getStylesheets().add("Styling//dark_stylesheet.css");
+        win.getStylesheets().add("Styling//contrast_stylesheet.css");
         //Did player win or lose
+        win.getStyleClass().clear();
         if(win_streak == 0) {
-            d.getStyleClass().add("loser-dialog");
+            if(DARK && !CONTRAST) {
+                win.getStyleClass().add("loser-dialog-dark");
+            } else if(DARK && CONTRAST){
+                win.getStyleClass().add("loser-dialog-dark-contrast");
+            } else if(CONTRAST && !DARK) {
+                win.getStyleClass().add("loser-dialog-contrast");
+            } else {
+                win.getStyleClass().add("loser-dialog");
+            }
         } else {
-            d.getStyleClass().add("winner-dialog");
+            if(DARK && !CONTRAST) {
+                win.getStyleClass().add("winner-dialog-dark");
+            } else if(DARK && CONTRAST){
+                win.getStyleClass().add("winner-dialog-dark-contrast");
+            } else if(CONTRAST && !DARK) {
+                win.getStyleClass().add("winner-dialog-contrast");
+            } else {
+                win.getStyleClass().add("winner-dialog");
+            }
         }
-        d.setHeaderText("Played = " + (wins + losses) + "\nWIN% = " + win_percentage + "%" + "\nGUESSES THIS GAME = " + guess + "\nWINSTREAK = " + win_streak);
-        d.setContentText("PLAY AGAIN?");
+        win.setHeaderText("Played = " + (wins + losses) + "\nWIN% = " + win_percentage + "%" + "\nGUESSES THIS GAME = " + guess + "\nWINSTREAK = " + win_streak);
+        win.setContentText("PLAY AGAIN?");
 
         Optional<ButtonType> result = a.showAndWait();
         if (!result.isPresent()) {
@@ -454,138 +478,10 @@ public class Controller {
      */
     private void colorAndStyleKeyboard(String letter) {
         Label box;
-        switch (letter){
-            case "Q":
-                box = (Label) letters_used.getChildren().get(0);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "W":
-                box = (Label) letters_used.getChildren().get(1);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "E":
-                box = (Label) letters_used.getChildren().get(2);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "R":
-                box = (Label) letters_used.getChildren().get(3);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "T":
-                box = (Label) letters_used.getChildren().get(4);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "Y":
-                box = (Label) letters_used.getChildren().get(5);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "U":
-                box = (Label) letters_used.getChildren().get(6);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "I":
-                box = (Label) letters_used.getChildren().get(7);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "O":
-                box = (Label) letters_used.getChildren().get(8);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "P":
-                box = (Label) letters_used.getChildren().get(9);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "A":
-                box = (Label) letters_used.getChildren().get(10);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "S":
-                box = (Label) letters_used.getChildren().get(11);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "D":
-                box = (Label) letters_used.getChildren().get(12);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "F":
-                box = (Label) letters_used.getChildren().get(13);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "G":
-                box = (Label) letters_used.getChildren().get(14);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "H":
-                box = (Label) letters_used.getChildren().get(15);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "J":
-                box = (Label) letters_used.getChildren().get(16);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "K":
-                box = (Label) letters_used.getChildren().get(17);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "L":
-                box = (Label) letters_used.getChildren().get(18);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "Z":
-                box = (Label) letters_used.getChildren().get(19);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "X":
-                box = (Label) letters_used.getChildren().get(20);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "C":
-                box = (Label) letters_used.getChildren().get(21);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "V":
-                box = (Label) letters_used.getChildren().get(22);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "B":
-                box = (Label) letters_used.getChildren().get(23);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "N":
-                box = (Label) letters_used.getChildren().get(24);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-            case "M":
-                box = (Label) letters_used.getChildren().get(25);
-                box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
-                break;
-        }
+        int index = textFieldValues.indexOf(letter);
+        box = (Label) letters_used.getChildren().get(index);
+        box.getStyleClass().clear();
+        box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
     }
     /**
      * @author David Kane
@@ -720,6 +616,8 @@ public class Controller {
             }
         }
         if(DARK){
+            numGuess.getStyleClass().clear();
+            numGuess.getStyleClass().add("text-field-dark");
             MAIN_PANE.getStyleClass().clear();
             MAIN_PANE.getStyleClass().add("pane-dark");
             SETTINGS_PANE.getStyleClass().clear();
@@ -733,7 +631,7 @@ public class Controller {
             }
             for(int i = 0; i < grid_input.getChildren().size();++i){
                 TextField tf = (TextField)grid_input.getChildren().get(i);
-                if(tf.getStyleClass().toString().equals("text-input text-field")) {
+                if(tf.getStyleClass().toString().equals("text-input text-field") || tf.getStyleClass().toString().equals("text-field")) {
                     tf.getStyleClass().clear();
                     tf.getStyleClass().add("text-field-dark");
                 }
@@ -741,6 +639,8 @@ public class Controller {
         } else if (!DARK){
             MAIN_PANE.getStyleClass().clear();
             MAIN_PANE.getStyleClass().add("pane");
+            numGuess.getStyleClass().clear();
+            numGuess.getStyleClass().add("text-field");
             for(int i = 0; i < letters_used.getChildren().size();++i){
                 Label temp = (Label) letters_used.getChildren().get(i);
                 if(temp.getStyleClass().toString().equals("label-dark")){
