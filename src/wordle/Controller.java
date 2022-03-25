@@ -577,8 +577,14 @@ public class Controller {
         }
         }
 
+    /**
+     * @author ?????? & David Kane
+     * Will try and change the library for the user
+     * @param actionEvent Button click (garbage value)
+     */
     public void importDictionary(ActionEvent actionEvent) {
         FileChooser fc = new FileChooser();
+        fc.setInitialDirectory(new File ("src/Resources/"));
         File temp;
         temp = fc.showOpenDialog(null);
         if (temp != null) {
