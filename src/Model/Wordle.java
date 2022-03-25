@@ -1,4 +1,5 @@
-package wordle;
+package Model;
+
 
 import java.io.*;
 import java.util.*;
@@ -7,25 +8,27 @@ public class Wordle {
     //Enables DEBUG mode
     public static final boolean DEBUG = false;
     //File that guesses are written to - if it doesn't exist, create it
-    public static final File storageFile = new File("src/Resources/previousGuesses.txt");
 
 
     //The naming scheme for private final is the same as private non-final. Only public final has SCREAMING_CAMEL_CASE
     private final int numLetters;
-    // The wordle might not even need to know how many guesses it's had.
-    // I'm leaving this here, but it may not be necessary. Weird
+    private final int guessesPossible;
     private int guessesLeft;
     private String target;
     private TreeSet<String> dictionary = null;
-
-    private final List<String> previousGuessesBuffer;
+    private final List<String> previousGuessesBuffer = new ArrayList<>();
 
     public Wordle(int numGuesses, int numLetters, File dictionary) throws IOException {
+        guessesPossible = numGuesses;
         this.guessesLeft = numGuesses;
         this.numLetters = numLetters;
         loadDictionary(dictionary);
         this.target = randomTarget();
-        previousGuessesBuffer = new ArrayList<>();
+    }
+
+    public Wordle(int numGuesses, int numLetters, File dictionary, Session session) throws IOException {
+        this(numGuesses, numLetters, dictionary);
+        session.addGame(this);
     }
 
     /**
@@ -135,14 +138,17 @@ public class Wordle {
         if (DEBUG) System.out.println(guess);
         // '\n' used for file formatting
         if (isWinner(guess)) {
-            //NOTE: Winning guesses terminate with a 1
-            previousGuessesBuffer.add(guess + "1\n");
+            previousGuessesBuffer.add(new Guess(guess, false, true));
+            guessesLeft=guessesPossible;
         } else if (guessesLeft == 0){
             //NOTE: Losing guesses terminate with a 0
-            previousGuessesBuffer.add(guess + "0\n");
+            previousGuessesBuffer.add(new Guess(guess, true, false));
+            guessesLeft=guessesPossible;
         } else {
-            previousGuessesBuffer.add(guess + "\n");
+            previousGuessesBuffer.add(new Guess(guess, false, false));
+            guessesLeft--;
         }
+
 
         char[] targetChars = target.toLowerCase(Locale.ROOT).toCharArray();
         char[] guessChars = guess.toLowerCase(Locale.ROOT).toCharArray();
@@ -197,8 +203,8 @@ public class Wordle {
      */
     public void storeGuesses() throws IOException {
         //Guesses will be stored in a specified file.
-        if (storageFile.createNewFile() && DEBUG) System.out.println("new previousGuesses file created");
-        BufferedWriter bw = new BufferedWriter(new FileWriter(storageFile, true));
+        if (Session.STORAGE_FILE.createNewFile() && DEBUG) System.out.println("new previousGuesses file created");
+        BufferedWriter bw = new BufferedWriter(new FileWriter(Session.STORAGE_FILE, true));
         //String.join without a delimiter might be dumb, but I'm not sure how to do it otherwise
         bw.append(String.join("", previousGuessesBuffer));
         bw.close();
@@ -208,80 +214,4 @@ public class Wordle {
     public String getTarget() {
         return target;
     }
-
-    /**
-     * Returns the average number of guesses per winning guess for all guesses in the storage file
-     * Does not count nor store guesses in the current buffer - this must be done elsewhere
-     * @return double representing the average number of user guesses per winning guess.
-     *      totalGuesses/numWins
-     *      Returns -1 if the storage file does not exist
-     *      Returns -2 if the storage file exists but does not contain any guess data
-     *      Returns 0 if the user has no wins but does have guesses
-     * @throws IOException IO error occurs
-     */
-    public double averageGuessesPerWin() throws IOException {
-        if (!storageFile.exists()) return -1;
-
-        String line;
-        double totalGuesses = 0;
-        double numWins = 0;
-        BufferedReader br = new BufferedReader(new FileReader(storageFile));
-        while ((line = br.readLine()) != null) {
-            totalGuesses++;
-            if (line.charAt(line.length() - 1) == '1') {
-                numWins++;
-            }
-        }
-        br.close();
-        if (totalGuesses == 0 ) return -2;
-        if (numWins == 0) return 0;
-
-        return totalGuesses / numWins;
-    }
-
-    /**
-     * Returns the number of wins over the total number of games
-     * Does not count nor store guesses in the current buffer - this must be done elsewhere
-     * @return double representing the ratio of winning guesses to winning & losing guesses
-     *      numWins / (numWins + numLosses)
-     *      Returns -1 if the storage file does not exist
-     *      Returns -2 if there are no wins or losses
-     * @throws IOException IO error occurs
-     */
-    public double winLossPercent() throws IOException {
-        if (!storageFile.exists()) return -1;
-
-        double numWins = 0, numLosses = 0;
-        BufferedReader br = new BufferedReader(new FileReader(storageFile));
-        String line;
-        while ((line = br.readLine()) != null) {
-            if (line.charAt(line.length() - 1) == '1') numWins++;
-            else if (line.charAt(line.length() - 1) == '0') numLosses++;
-        }
-        if (numLosses + numWins == 0) return -2;
-        return numWins / (numLosses + numWins);
-    }
-    /**
-     * Returns the current and highest win-streak as a double array.
-     * Does not count nor store guesses in the current buffer - this must be done elsewhere
-     * @return double array where the value at index 0 represents the current win-streak and
-     *      the value at index 1 represents the highest win-streak
-     *      Returns null if the storage file does not exist
-     * @throws IOException IO error occurs
-     */
-    public int[] winStreak() throws IOException {
-        if (!storageFile.exists()) return null;
-
-        BufferedReader br = new BufferedReader(new FileReader(storageFile));
-        int currentStreak = 0;
-        int highestStreak = 0;
-        String line;
-        while ((line = br.readLine()) != null) {
-            if (line.charAt(line.length() - 1) == '1') currentStreak++;
-            else if (line.charAt(line.length() - 1) == '0') currentStreak = 0;
-            highestStreak = Math.max(currentStreak, highestStreak);
-        }
-        return new int[]{currentStreak, highestStreak};
-    }
-
 }

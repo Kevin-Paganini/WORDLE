@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public abstract class HelperMethods {
+public abstract class Utils {
 
 
     private static final List<String> textFieldValues = Arrays.asList("Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",

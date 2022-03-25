@@ -2,7 +2,7 @@ package Testing;
 
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import wordle.Wordle;
+import Model.Wordle;
 
 import java.io.BufferedReader;
 import java.io.File;

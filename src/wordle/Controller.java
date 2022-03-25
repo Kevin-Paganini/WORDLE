@@ -1,5 +1,6 @@
 package wordle;
 
+import Model.Wordle;
 import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;
@@ -16,7 +17,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -24,10 +24,9 @@ import static javafx.scene.input.KeyCode.*;
 
 public class Controller {
     public static final boolean DEBUG = true;
-    private static File DICTIONARY_FILE =  new File("src/Resources/wordle-official.txt");
-    double BUTTON_PADDING = 10;
+    private static File dictionaryFile =  new File("src/Resources/wordle-official.txt");
+    public static final double BUTTON_PADDING = 10;
     private int guess = 0;
-    private int numLetters;
     ArrayList<List<TextField>> gridOfTextFieldInputs = new ArrayList<>();
     List<String> textFieldValues = Arrays.asList("Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
             "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M", "DEL");
@@ -39,8 +38,8 @@ public class Controller {
     int wins;
     int losses;
     double win_percentage;
-    int NUM_GUESSES = 6;
-    int NUM_LETTERS = 5;
+    int numGuesses = 6;
+    int numLetters = 5;
     boolean DARK = false;
     boolean CONTRAST = false;
 
@@ -91,24 +90,23 @@ public class Controller {
         // Creating Wordle Game
 
         try {
-            game = new Wordle(NUM_GUESSES, NUM_LETTERS, DICTIONARY_FILE);
+            game = new Wordle(numGuesses, numLetters, dictionaryFile);
         } catch (IOException e) {
             //TODO: Catch if the wordle-official file does not exist
         }
 
 
-        if(DEBUG){
-            System.out.println(game.getTarget());
-        }
-        letters_used_grid_colors = HelperMethods.makeInitialHashMapForKeyBoardColors();
+        if(DEBUG) System.out.println(game.getTarget());
+
+        letters_used_grid_colors = Utils.makeInitialHashMapForKeyBoardColors();
 
 
         //Creating grid of inputs
-        grid_input = createGridOfInputs(NUM_GUESSES, NUM_LETTERS);
+        grid_input = createGridOfInputs(numGuesses, numLetters);
 
         // Create keyboard of used letters
         letters_used = createKeyBoardInputs();
-        letters_used.setLayoutX((NUM_LETTERS * 60) + 100);
+        letters_used.setLayoutX((numLetters * 60) + 100);
         letters_used.setLayoutY(50);
         letters_used.getStyleClass().add("keyBoardGrid");
 
@@ -143,7 +141,7 @@ public class Controller {
         button.setPrefSize(30, 30);
         button.setGraphic(view);
         button.setOnAction(this::showStatistics);
-        button.setLayoutX((NUM_LETTERS * 60) + 75);
+        button.setLayoutX((numLetters * 60) + 75);
         button.setLayoutY(310);
         return button;
     }
@@ -269,7 +267,7 @@ public class Controller {
     private Button makeSubmitButton(){
         submitButton = new Button("Submit");
         submitButton.setOnAction(this:: submitButton);
-        submitButton.setLayoutX((NUM_LETTERS * 60) + 75);
+        submitButton.setLayoutX((numLetters * 60) + 75);
         submitButton.setLayoutY(200);
         submitButton.setDisable(true);
         return submitButton;
@@ -329,7 +327,7 @@ public class Controller {
                 //We can play wordle now!!!!!!!!!!!!!!!!!!!
             }
         }
-        HelperMethods.recolorTextFields(position, NUM_LETTERS, gridOfTextFieldInputs, guess,CONTRAST);
+        Utils.recolorTextFields(position, numLetters, gridOfTextFieldInputs, guess,CONTRAST);
 
 
         guess++;
@@ -342,7 +340,7 @@ public class Controller {
             showWinAlert();
         }
         //If there is a guess and it is wrong
-        else if (guess != NUM_GUESSES){
+        else if (guess != numGuesses){
             if (DEBUG) System.out.println("Try Again!");
             if (DEBUG) System.out.println(game.getTarget());
             //enables text fields that are next
@@ -442,132 +440,132 @@ public class Controller {
             case "Q":
                 box = (Label) letters_used.getChildren().get(0);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "W":
                 box = (Label) letters_used.getChildren().get(1);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "E":
                 box = (Label) letters_used.getChildren().get(2);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "R":
                 box = (Label) letters_used.getChildren().get(3);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "T":
                 box = (Label) letters_used.getChildren().get(4);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "Y":
                 box = (Label) letters_used.getChildren().get(5);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "U":
                 box = (Label) letters_used.getChildren().get(6);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "I":
                 box = (Label) letters_used.getChildren().get(7);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "O":
                 box = (Label) letters_used.getChildren().get(8);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "P":
                 box = (Label) letters_used.getChildren().get(9);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "A":
                 box = (Label) letters_used.getChildren().get(10);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "S":
                 box = (Label) letters_used.getChildren().get(11);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "D":
                 box = (Label) letters_used.getChildren().get(12);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "F":
                 box = (Label) letters_used.getChildren().get(13);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "G":
                 box = (Label) letters_used.getChildren().get(14);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "H":
                 box = (Label) letters_used.getChildren().get(15);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "J":
                 box = (Label) letters_used.getChildren().get(16);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "K":
                 box = (Label) letters_used.getChildren().get(17);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "L":
                 box = (Label) letters_used.getChildren().get(18);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "Z":
                 box = (Label) letters_used.getChildren().get(19);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "X":
                 box = (Label) letters_used.getChildren().get(20);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "C":
                 box = (Label) letters_used.getChildren().get(21);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "V":
                 box = (Label) letters_used.getChildren().get(22);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "B":
                 box = (Label) letters_used.getChildren().get(23);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "N":
                 box = (Label) letters_used.getChildren().get(24);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
             case "M":
                 box = (Label) letters_used.getChildren().get(25);
                 box.getStyleClass().clear();
-                box.getStyleClass().add(HelperMethods.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+                box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
                 break;
         }
     }
@@ -670,7 +668,7 @@ public class Controller {
         File temp;
         temp = fc.showOpenDialog(null);
         if (temp != null) {
-            DICTIONARY_FILE = temp;
+            dictionaryFile = temp;
             initialize();
         }
     }

@@ -1,4 +1,4 @@
-package Statistics;
+package Model;
 
 public class User {
 }

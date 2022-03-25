@@ -1,14 +1,13 @@
-package Statistics;
+package Model;
 
-import wordle.Wordle;
-
+import java.io.File;
 import java.util.ArrayList;
 
 public class Session {
-    private ArrayList<Wordle> sessionGames;
+    public static final File STORAGE_FILE = new File("src/Resources/previousGuesses.txt");
+    private final ArrayList<Wordle> sessionGames = new ArrayList<>();
 
     public Session (){
-        sessionGames  = new ArrayList<>();
 
     }
 
