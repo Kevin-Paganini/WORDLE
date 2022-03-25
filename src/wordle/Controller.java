@@ -16,6 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -40,7 +41,7 @@ public class Controller {
     double win_percentage;
     int NUM_GUESSES = 6;
     int NUM_LETTERS = 5;
-    boolean DARK = true;
+    boolean DARK = false;
     boolean CONTRAST = false;
 
     private HashMap<String, Integer> letters_used_grid_colors;
@@ -123,7 +124,8 @@ public class Controller {
         buttons.add(importDictionaryButton);
         buttons.add(dark_light);
         buttons.add(contrast);
-        dark_light_mode_switch(new ActionEvent());
+        update_dark(DARK,CONTRAST);
+        update_contrast(CONTRAST,DARK);
     }
 
     /**
@@ -673,19 +675,18 @@ public class Controller {
         }
     }
 
-    public void dark_light_mode_switch(ActionEvent actionEvent) {
-        String text = dark_light.getText();
-        if(text.equals("DARK-MODE") && CONTRAST) {
+    public void update_dark(boolean DARK, boolean CONTRAST) {
+        if(DARK && CONTRAST) {
             for(Button button : buttons) {
                 button.getStyleClass().clear();
                 button.getStyleClass().add("button-dark-contrast");
             }
-        } else if(CONTRAST){
+        } else if(CONTRAST && !DARK){
             for(Button button : buttons) {
                 button.getStyleClass().clear();
                 button.getStyleClass().add("button-contrast");
             }
-        } else if(text.equals("DARK-MODE")){
+        } else if(DARK && !CONTRAST){
             for(Button button : buttons) {
                 button.getStyleClass().clear();
                 button.getStyleClass().add("button-dark");
@@ -696,8 +697,7 @@ public class Controller {
                 button.getStyleClass().add("button");
             }
         }
-        if(text.equals("DARK-MODE")){
-            dark_light.setText("LIGHT-MODE");
+        if(DARK){
             MAIN_PANE.getStyleClass().clear();
             MAIN_PANE.getStyleClass().add("pane-dark");
             SETTINGS_PANE.getStyleClass().clear();
@@ -716,9 +716,7 @@ public class Controller {
                     tf.getStyleClass().add("text-field-dark");
                 }
             }
-            DARK = true;
-        } else if (text.equals("LIGHT-MODE")){
-            dark_light.setText("DARK-MODE");
+        } else if (!DARK){
             MAIN_PANE.getStyleClass().clear();
             MAIN_PANE.getStyleClass().add("pane");
             for(int i = 0; i < letters_used.getChildren().size();++i){
@@ -737,24 +735,44 @@ public class Controller {
             }
             SETTINGS_PANE.getStyleClass().clear();
             SETTINGS_PANE.getStyleClass().add("pane");
-            DARK = false;
         }
-        statButton.getStyleClass().add("button:hover");
+    }
+
+    public void dark_light_mode_switch(ActionEvent actionEvent) {
+        String text = dark_light.getText();
+        DARK = text.equals("DARK-MODE");
+        update_dark(DARK,CONTRAST);
+        if(DARK){
+            dark_light.setText("LIGHT-MODE");
+        } else {
+            dark_light.setText("DARK-MODE");
+        }
+
     }
 
     public void contrast_switch(ActionEvent actionEvent) {
         String text = contrast.getText();
-        if(text.equals("HIGH-CONTRAST-MODE") && DARK) {
+        CONTRAST = text.equals("HIGH-CONTRAST-MODE");
+        update_contrast(CONTRAST,DARK);
+        if(CONTRAST){
+            contrast.setText("NORMAL-MODE");
+        } else {
+            contrast.setText("HIGH-CONTRAST-MODE");
+        }
+    }
+
+    public void update_contrast(boolean CONTRAST, boolean DARK){
+        if(CONTRAST && DARK) {
             for(Button button : buttons) {
                 button.getStyleClass().clear();
                 button.getStyleClass().add("button-dark-contrast");
             }
-        } else if(text.equals("HIGH-CONTRAST-MODE")){
+        } else if(CONTRAST && !DARK){
             for(Button button : buttons) {
                 button.getStyleClass().clear();
                 button.getStyleClass().add("button-contrast");
             }
-        } else if(DARK){
+        } else if(DARK && !CONTRAST){
             for(Button button : buttons) {
                 button.getStyleClass().clear();
                 button.getStyleClass().add("button-dark");
@@ -765,9 +783,7 @@ public class Controller {
                 button.getStyleClass().add("button");
             }
         }
-        if(text.equals("HIGH-CONTRAST-MODE")){
-            contrast.setText("NORMAL-MODE");
-            CONTRAST = true;
+        if(CONTRAST){
             for(int i = 0; i < letters_used.getChildren().size();++i){
                 Label temp = (Label) letters_used.getChildren().get(i);
                 switch (temp.getStyleClass().toString()) {
@@ -802,10 +818,7 @@ public class Controller {
                         break;
                 }
             }
-
-        } else if(text.equals("NORMAL-MODE")){
-            contrast.setText("HIGH-CONTRAST-MODE");
-            CONTRAST = false;
+        } else if(!CONTRAST){
             for(int i = 0; i < letters_used.getChildren().size();++i){
                 Label temp = (Label) letters_used.getChildren().get(i);
                 switch (temp.getStyleClass().toString()) {

@@ -17,7 +17,7 @@
                <Pane fx:id="SETTINGS_PANE">
                <children>
                   <Button fx:id="importDictionaryButton" layoutX="29.0" layoutY="27.0" mnemonicParsing="false" onAction="#importDictionary" text="Import Dictionary File" />
-                  <Button fx:id="dark_light" layoutX="29.0" layoutY="72.0" mnemonicParsing="false" onAction="#dark_light_mode_switch" text="LIGHT-MODE" />
+                  <Button fx:id="dark_light" layoutX="29.0" layoutY="72.0" mnemonicParsing="false" onAction="#dark_light_mode_switch" text="DARK-MODE" />
                    <Button fx:id="contrast" layoutX="29.0" layoutY="120.0" mnemonicParsing="false" onAction = "#contrast_switch" text="HIGH-CONTRAST-MODE" />
                </children></Pane>
            </content>
