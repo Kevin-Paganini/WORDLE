@@ -68,7 +68,6 @@ public class Controller {
     TextField numGuess;
 
 
-
     /**
      * Makes submit button to enter word
      */
@@ -800,6 +799,7 @@ public class Controller {
             int num = Integer.parseInt(guess);
             if(num > 0) {
                 numGuesses = num;
+                numGuess.setText("");
                 startNewGame();
             }
         } catch (NumberFormatException e){
