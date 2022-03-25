@@ -17,7 +17,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -40,7 +39,7 @@ public class Controller {
     int wins;
     int losses;
     double win_percentage;
-    int NUM_GUESSES = 6;
+    int numGuesses = 6;
     int NUM_LETTERS = 5;
     boolean DARK = false;
     boolean CONTRAST = false;
@@ -63,6 +62,9 @@ public class Controller {
 
     @FXML
     Button importDictionaryButton;
+
+    @FXML
+    TextField numGuess;
 
 
     /**
@@ -103,7 +105,7 @@ public class Controller {
         // Creating Wordle Game
 
         try {
-            game = new Wordle(NUM_GUESSES, NUM_LETTERS, DICTIONARY_FILE);
+            game = new Wordle(numGuesses, NUM_LETTERS, DICTIONARY_FILE);
         } catch (IOException e) {
             //TODO: Catch if the wordle-official file does not exist
         }
@@ -118,7 +120,7 @@ public class Controller {
 
 
         //Creating grid of inputs
-        grid_input = createGridOfInputs(NUM_GUESSES, NUM_LETTERS);
+        grid_input = createGridOfInputs(numGuesses, NUM_LETTERS);
 
         // Create keyboard of used letters
         letters_used = createKeyBoardInputs();
@@ -356,7 +358,7 @@ public class Controller {
             showWinAlert();
         }
         //If there is a guess and it is wrong
-        else if (guess != NUM_GUESSES){
+        else if (guess != numGuesses){
             if (DEBUG) System.out.println("Try Again!");
             if (DEBUG) System.out.println(game.getTarget());
             //enables text fields that are next
@@ -888,6 +890,18 @@ public class Controller {
                         break;
                 }
             }
+        }
+    }
+
+
+    public void changeGuessAmount(ActionEvent actionEvent){
+        String guess = numGuess.getText();
+        try {
+            int num = Integer.parseInt(guess);
+            numGuesses = num;
+            startNewGame();
+        } catch (NumberFormatException e){
+
         }
     }
 }
