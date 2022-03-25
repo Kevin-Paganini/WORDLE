@@ -5,47 +5,9 @@
 
 }
 
-.button-contrast {
-    -fx-font : 14px "serief";
-    -fx-padding : 10;
-    -fx-background-color : #CCFF99;
-
-}
-
-.button-dark {
-    -fx-font : 14px "serief";
-    -fx-padding : 10;
-    -fx-background-color : #3d3c3a;
-    -fx-text-fill : white;
-
-}
-
-.button-dark-contrast {
-    -fx-font : 14px "serief";
-    -fx-padding : 10;
-    -fx-background-color : #3d3c3a;
-    -fx-text-fill : white;
-
-}
-
 .button:hover {
     -fx-background-color: rgb(156, 60, 61);
 }
-
-.button-dark:hover {
-    -fx-background-color: rgb(156, 60, 61);
-}
-
-.button-contrast:hover {
-    -fx-background-color: #8cf985;
-    -fx-text-fill: #000000;
-}
-
-.button-dark-contrast:hover {
-    -fx-background-color: #8cf985;
-    -fx-text-fill: #000000;
-}
-
 
 .correct-position-letter-tf {
     -fx-font : 20px "serief";
@@ -61,20 +23,6 @@
 
 }
 
-.correct-position-letter-tf-contrast {
-    -fx-font : 20px "serief";
-    -fx-border : black;
-    -fx-padding : 10;
-    -fx-width : 100px;
-    -fx-height : 100px;
-    -fx-background-radius: 10px;
-    -fx-background-color: #f5793a;
-    -fx-text-fill: black;
-    -fx-border-radius: 2;
-    -fx-text-align : center;
-
-}
-
 .correct-letter-tf {
     -fx-font : 20px "serief";
     -fx-border : black;
@@ -85,47 +33,6 @@
     -fx-background-color: #ffc40c;
     -fx-text-fill: white;
     -fx-border-radius: 2;
-    -fx-text-align : center;
-
-}
-
-.correct-letter-tf-contrast {
-    -fx-font : 20px "serief";
-    -fx-border : black;
-    -fx-padding : 10;
-    -fx-width : 100px;
-    -fx-height : 100px;
-    -fx-background-radius: 10px;
-    -fx-background-color: #85c0f9;
-    -fx-text-fill: black;
-    -fx-border-radius: 2;
-    -fx-text-align : center;
-
-}
-.winner-dialog {
-
-    -fx-background-color: #8fbc8f;
-    -fx-font : 20px "serief";
-    -fx-border : black;
-    -fx-width : 200px;
-    -fx-height : 400px;
-    -fx-text-align : center;
-
-}
-
-.winner-dialog:header *.header-panel {
-    -fx-background-color: #8fbc8f;
-    -fx-font : 20px "serief";
-
-}
-
-.loser-dialog {
-
-    -fx-background-color: #cd5c5c;
-    -fx-font : 20px "serief";
-    -fx-border : black;
-    -fx-width : 200px;
-    -fx-height : 400px;
     -fx-text-align : center;
 
 }
@@ -152,20 +59,6 @@
 
 }
 
-.wrong-letter-tf-contrast {
-    -fx-font : 20px "serief";
-    -fx-border : black;
-    -fx-padding : 10;
-    -fx-width : 100px;
-    -fx-height : 100px;
-    -fx-background-radius: 10px;
-    -fx-background-color: #8cf985;
-    -fx-text-fill: black;
-    -fx-border-radius: 2;
-    -fx-text-align : center;
-
-}
-
 .text-field {
     -fx-font : 20px "serief";
     -fx-border : black;
@@ -179,17 +72,18 @@
     -fx-text-align : center;
 }
 
-.text-field-dark {
+.text-field:disabled {
     -fx-font : 20px "serief";
     -fx-border : black;
     -fx-padding : 10;
     -fx-width : 100px;
     -fx-height : 100px;
     -fx-background-radius: 10px;
-    -fx-background-color: #3d3c3a;
+    -fx-background-color: #1e3d59;
     -fx-text-fill: white;
     -fx-border-radius: 2;
     -fx-text-align : center;
+    -fx-opacity: 0.5;
 }
 
 .label {
@@ -207,20 +101,6 @@
 
 }
 
-.label-dark {
-    -fx-font : 20px "serief";
-    -fx-border : black;
-    -fx-padding : 10;
-    -fx-width : 100px;
-    -fx-height : 100px;
-    -fx-background-radius: 10px;
-    -fx-background-color: #3d3c3a;
-    -fx-text-fill: white;
-    -fx-border-radius: 2;
-    -fx-text-alignment : center;
-    -fx-alignment : center;
-
-}
 
 .correct-position-letter-label {
     -fx-font : 20px "serief";
@@ -237,20 +117,6 @@
 
 }
 
-.correct-position-letter-label-contrast {
-    -fx-font : 20px "serief";
-    -fx-border : black;
-    -fx-padding : 10;
-    -fx-width : 100px;
-    -fx-height : 100px;
-    -fx-background-radius: 10px;
-    -fx-background-color: #f5793a;
-    -fx-text-fill: black;
-    -fx-border-radius: 2;
-    -fx-text-alignment : center;
-    -fx-alignment : center;
-
-}
 .correct-letter-label {
     -fx-font : 20px "serief";
     -fx-border : black;
@@ -266,20 +132,6 @@
 
 }
 
-.correct-letter-label-contrast {
-    -fx-font : 20px "serief";
-    -fx-border : black;
-    -fx-padding : 10;
-    -fx-width : 100px;
-    -fx-height : 100px;
-    -fx-background-radius: 10px;
-    -fx-background-color: #85c0f9;
-    -fx-text-fill: black;
-    -fx-border-radius: 2;
-    -fx-text-alignment : center;
-    -fx-alignment : center;
-
-}
 .wrong-letter-label {
     -fx-font : 20px "serief";
     -fx-border : black;
@@ -295,31 +147,100 @@
 
 }
 
-.wrong-letter-label-contrast {
-    -fx-font : 20px "serief";
-    -fx-border : black;
-    -fx-padding : 10;
-    -fx-width : 100px;
-    -fx-height : 100px;
-    -fx-background-radius: 10px;
-    -fx-background-color: #8cf985;
-    -fx-text-fill: black;
-    -fx-border-radius: 2;
-    -fx-text-alignment : center;
-    -fx-alignment : center;
-
-}
-
 .pane {
 
     -fx-background-color: #8fbc8f;
 }
 
-.pane-dark {
-
-    -fx-background-color: #000000;
-}
 
 .keyBoardGrid {
     -fx-alignment : center;
+}
+
+#numGuess{
+    -fx-font : 15px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-height : 50px;
+    -fx-background-radius: 10px;
+    -fx-background-color: white;
+    -fx-text-fill: #1e3d59;
+    -fx-border-radius: 2;
+    -fx-text-align : center;
+    }
+
+
+.winner-dialog {
+    -fx-background-color: #8fbc8f;
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-width : 200px;
+    -fx-height : 400px;
+    -fx-text-align : center;
+
+}
+
+.winner-dialog:header *.header-panel {
+    -fx-background-color: #8fbc8f;
+    -fx-font : 20px "serief";
+    -fx-padding : 10;
+
+}
+
+.winner-dialog > .content.label {
+    -fx-background-color: #008000;
+}
+
+.winner-dialog:header .header-panel .label{
+  -fx-background-color: #008000;
+  -fx-background-radius:10px;
+}
+
+.winner-dialog .button{
+        -fx-font : 14px "serief";
+        -fx-padding : 10;
+        -fx-background-color : #CCFF99;
+        -fx-text-fill : black;
+}
+
+.winner-dialog .button:hover{
+    -fx-background-color: rgb(156, 60, 61);
+}
+
+.loser-dialog {
+
+    -fx-background-color: #8fbc8f;
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-width : 200px;
+    -fx-height : 400px;
+    -fx-text-align : center;
+
+}
+
+.loser-dialog:header *.header-panel {
+    -fx-background-color: #8fbc8f;
+    -fx-font : 20px "serief";
+    -fx-padding : 10;
+
+}
+
+.loser-dialog > .content.label {
+    -fx-background-color: #cd5c5c;
+}
+
+.loser-dialog:header .header-panel .label{
+  -fx-background-color: #cd5c5c;
+  -fx-background-radius:10px;
+}
+
+.loser-dialog .button{
+        -fx-font : 14px "serief";
+        -fx-padding : 10;
+        -fx-background-color : #CCFF99;
+        -fx-text-fill : black;
+}
+
+.loser-dialog .button:hover{
+    -fx-background-color: rgb(156, 60, 61);
 }
