@@ -5,7 +5,22 @@
 
 }
 
+.button-contrast {
+    -fx-font : 14px "serief";
+    -fx-padding : 10;
+    -fx-background-color : #CCFF99;
+
+}
+
 .button-dark {
+    -fx-font : 14px "serief";
+    -fx-padding : 10;
+    -fx-background-color : #3d3c3a;
+    -fx-text-fill : white;
+
+}
+
+.button-dark-contrast {
     -fx-font : 14px "serief";
     -fx-padding : 10;
     -fx-background-color : #3d3c3a;
@@ -16,6 +31,21 @@
 .button:hover {
     -fx-background-color: rgb(156, 60, 61);
 }
+
+.button-dark:hover {
+    -fx-background-color: rgb(156, 60, 61);
+}
+
+.button-contrast:hover {
+    -fx-background-color: #8cf985;
+    -fx-text-fill: #000000;
+}
+
+.button-dark-contrast:hover {
+    -fx-background-color: #8cf985;
+    -fx-text-fill: #000000;
+}
+
 
 .correct-position-letter-tf {
     -fx-font : 20px "serief";
@@ -31,6 +61,20 @@
 
 }
 
+.correct-position-letter-tf-contrast {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #f5793a;
+    -fx-text-fill: black;
+    -fx-border-radius: 2;
+    -fx-text-align : center;
+
+}
+
 .correct-letter-tf {
     -fx-font : 20px "serief";
     -fx-border : black;
@@ -40,6 +84,20 @@
     -fx-background-radius: 10px;
     -fx-background-color: #ffc40c;
     -fx-text-fill: white;
+    -fx-border-radius: 2;
+    -fx-text-align : center;
+
+}
+
+.correct-letter-tf-contrast {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #85c0f9;
+    -fx-text-fill: black;
     -fx-border-radius: 2;
     -fx-text-align : center;
 
@@ -89,6 +147,20 @@
     -fx-background-radius: 10px;
     -fx-background-color: #cd5c5c;
     -fx-text-fill: white;
+    -fx-border-radius: 2;
+    -fx-text-align : center;
+
+}
+
+.wrong-letter-tf-contrast {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #8cf985;
+    -fx-text-fill: black;
     -fx-border-radius: 2;
     -fx-text-align : center;
 
@@ -164,6 +236,21 @@
     -fx-alignment : center;
 
 }
+
+.correct-position-letter-label-contrast {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #f5793a;
+    -fx-text-fill: black;
+    -fx-border-radius: 2;
+    -fx-text-alignment : center;
+    -fx-alignment : center;
+
+}
 .correct-letter-label {
     -fx-font : 20px "serief";
     -fx-border : black;
@@ -178,6 +265,21 @@
     -fx-alignment : center;
 
 }
+
+.correct-letter-label-contrast {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #85c0f9;
+    -fx-text-fill: black;
+    -fx-border-radius: 2;
+    -fx-text-alignment : center;
+    -fx-alignment : center;
+
+}
 .wrong-letter-label {
     -fx-font : 20px "serief";
     -fx-border : black;
@@ -187,6 +289,21 @@
     -fx-background-radius: 10px;
     -fx-background-color: #cd5c5c;
     -fx-text-fill: white;
+    -fx-border-radius: 2;
+    -fx-text-alignment : center;
+    -fx-alignment : center;
+
+}
+
+.wrong-letter-label-contrast {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #8cf985;
+    -fx-text-fill: black;
     -fx-border-radius: 2;
     -fx-text-alignment : center;
     -fx-alignment : center;

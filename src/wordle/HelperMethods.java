@@ -21,15 +21,24 @@ public abstract class HelperMethods {
      * @param position
      */
 
-    public static void recolorTextFields(int[] position, int numLetters, ArrayList<List<TextField>> gridOfTextFieldInputs, int guess) {
-        for(int i = 0; i < numLetters; i++){
-            TextField tf = gridOfTextFieldInputs.get(guess).get(i);
-            tf.getStyleClass().clear();
-            if (position[i] == 2) tf.getStyleClass().add("correct-position-letter-tf");
-            if (position[i] == 1) tf.getStyleClass().add("correct-letter-tf");
-            if (position[i] == 0) tf.getStyleClass().add("wrong-letter-tf");
+    public static void recolorTextFields(int[] position, int numLetters, ArrayList<List<TextField>> gridOfTextFieldInputs, int guess, boolean CONTRAST) {
+        if(CONTRAST) {
+            for(int i = 0; i < numLetters; i++){
+                TextField tf = gridOfTextFieldInputs.get(guess).get(i);
+                tf.getStyleClass().clear();
+                if (position[i] == 2) tf.getStyleClass().add("correct-position-letter-tf-contrast");
+                if (position[i] == 1) tf.getStyleClass().add("correct-letter-tf-contrast");
+                if (position[i] == 0) tf.getStyleClass().add("wrong-letter-tf-contrast");
+            }
+        } else {
+            for(int i = 0; i < numLetters; i++){
+                TextField tf = gridOfTextFieldInputs.get(guess).get(i);
+                tf.getStyleClass().clear();
+                if (position[i] == 2) tf.getStyleClass().add("correct-position-letter-tf");
+                if (position[i] == 1) tf.getStyleClass().add("correct-letter-tf");
+                if (position[i] == 0) tf.getStyleClass().add("wrong-letter-tf");
+            }
         }
-
     }
 
 
@@ -41,24 +50,42 @@ public abstract class HelperMethods {
      * @author Kevin Paganini
      */
 
-    public static String recolorLabel(int isCorrectLetter){
+    public static String recolorLabel(int isCorrectLetter,boolean contrast){
         if (isCorrectLetter < 0 || isCorrectLetter > 3){
             throw new IndexOutOfBoundsException();
         }
-        if (isCorrectLetter == -1){
-            return "label";
-        }
-        if (isCorrectLetter == 0){
-            return "wrong-letter-label";
-        }
-        else if (isCorrectLetter == 1){
-            return "correct-letter-label";
-        }
-        else if (isCorrectLetter == 2){
-            return "correct-position-letter-label";
-        }
-        else {
-            return null;
+        if(contrast) {
+            if (isCorrectLetter == -1){
+                return "label";
+            }
+            if (isCorrectLetter == 0){
+                return "wrong-letter-label-contrast";
+            }
+            else if (isCorrectLetter == 1){
+                return "correct-letter-label-contrast";
+            }
+            else if (isCorrectLetter == 2){
+                return "correct-position-letter-label-contrast";
+            }
+            else {
+                return null;
+            }
+        } else {
+            if (isCorrectLetter == -1){
+                return "label";
+            }
+            if (isCorrectLetter == 0){
+                return "wrong-letter-label";
+            }
+            else if (isCorrectLetter == 1){
+                return "correct-letter-label";
+            }
+            else if (isCorrectLetter == 2){
+                return "correct-position-letter-label";
+            }
+            else {
+                return null;
+            }
         }
     }
 
