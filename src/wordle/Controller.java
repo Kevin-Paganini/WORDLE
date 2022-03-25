@@ -17,7 +17,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 import static javafx.scene.input.KeyCode.*;
@@ -40,7 +42,7 @@ public class Controller {
     int losses;
     double win_percentage;
     int numGuesses = 6;
-    int NUM_LETTERS = 5;
+    int numOfLetters = 5;
     boolean DARK = false;
     boolean CONTRAST = false;
     DialogPane win;
@@ -109,26 +111,30 @@ public class Controller {
         // Creating Wordle Game
 
         try {
-            game = new Wordle(numGuesses, NUM_LETTERS, DICTIONARY_FILE);
+            BufferedReader brTest = new BufferedReader(new FileReader(DICTIONARY_FILE));
+            String word = brTest.readLine();
+            numOfLetters = word.length();
+            game = new Wordle(numGuesses, numOfLetters, DICTIONARY_FILE);
+
         } catch (IOException e) {
             //TODO: Catch if the wordle-official file does not exist
+        } catch (NullPointerException e){
+            //TODO: Catch if the opened dictionary file is blank
         }
-
-
-
 
         if(DEBUG){
             System.out.println(game.getTarget());
         }
+
         letters_used_grid_colors = HelperMethods.makeInitialHashMapForKeyBoardColors();
 
 
         //Creating grid of inputs
-        grid_input = createGridOfInputs(numGuesses, NUM_LETTERS);
+        grid_input = createGridOfInputs(numGuesses, numOfLetters);
 
         // Create keyboard of used letters
         letters_used = createKeyBoardInputs();
-        letters_used.setLayoutX((NUM_LETTERS * 60) + 100);
+        letters_used.setLayoutX((numOfLetters * 60) + 100);
         letters_used.setLayoutY(50);
         letters_used.getStyleClass().add("keyBoardGrid");
 
@@ -164,7 +170,7 @@ public class Controller {
         button.setPrefSize(30, 30);
         button.setGraphic(view);
         button.setOnAction(this::showStatistics);
-        button.setLayoutX((NUM_LETTERS * 60) + 75);
+        button.setLayoutX((numOfLetters * 60) + 75);
         button.setLayoutY(310);
         return button;
     }
@@ -291,7 +297,7 @@ public class Controller {
     private Button makeSubmitButton(){
         submitButton = new Button("Submit");
         submitButton.setOnAction(this:: submitButton);
-        submitButton.setLayoutX((NUM_LETTERS * 60) + 75);
+        submitButton.setLayoutX((numOfLetters * 60) + 75);
         submitButton.setLayoutY(200);
         submitButton.setDisable(true);
         return submitButton;
@@ -351,7 +357,7 @@ public class Controller {
                 //We can play wordle now!!!!!!!!!!!!!!!!!!!
             }
         }
-        HelperMethods.recolorTextFields(position, NUM_LETTERS, gridOfTextFieldInputs, guess,CONTRAST);
+        HelperMethods.recolorTextFields(position, numOfLetters, gridOfTextFieldInputs, guess,CONTRAST);
 
 
         guess++;
