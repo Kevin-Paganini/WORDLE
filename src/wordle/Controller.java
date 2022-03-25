@@ -641,7 +641,7 @@ public class Controller {
 
 
     /**
-     * @author: David Kane
+     * @author David Kane
      * Ensure only letters can be entered, and moves the boxes accordingly
      * @param: Observable e
      * @param: String oldValue
@@ -675,6 +675,12 @@ public class Controller {
         }
     }
 
+    /**
+     * @author Carson Meredith
+     * Changes from light to dark or dark to light
+     * @param DARK DARK/LIGHT setting desired
+     * @param CONTRAST CONTRAST/NORMAL setting desired
+     */
     public void update_dark(boolean DARK, boolean CONTRAST) {
         if(DARK && CONTRAST) {
             for(Button button : buttons) {
@@ -738,6 +744,11 @@ public class Controller {
         }
     }
 
+    /**
+     * @author Carson Meredith
+     * Changes dark mode if dark button is pressed
+     * @param actionEvent Button click
+     */
     public void dark_light_mode_switch(ActionEvent actionEvent) {
         String text = dark_light.getText();
         DARK = text.equals("DARK-MODE");
@@ -750,6 +761,11 @@ public class Controller {
 
     }
 
+    /**
+     * @author Carson Meredith
+     * Changes Contrast mode if contrast button is pressed
+     * @param actionEvent Button click
+     */
     public void contrast_switch(ActionEvent actionEvent) {
         String text = contrast.getText();
         CONTRAST = text.equals("HIGH-CONTRAST-MODE");
@@ -760,7 +776,12 @@ public class Controller {
             contrast.setText("HIGH-CONTRAST-MODE");
         }
     }
-
+    /**
+     * @author Carson Meredith
+     * Changes from CONTRAST to NORMAL or NORMAL to CONTRAST
+     * @param CONTRAST CONTRAST/NORMAL setting desired
+     * @param DARK DARK/LIGHT setting desired
+     */
     public void update_contrast(boolean CONTRAST, boolean DARK){
         if(CONTRAST && DARK) {
             for(Button button : buttons) {
