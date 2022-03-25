@@ -138,14 +138,14 @@ public class Wordle {
         if (DEBUG) System.out.println(guess);
         // '\n' used for file formatting
         if (isWinner(guess)) {
-            previousGuessesBuffer.add(new Guess(guess, false, true));
+            //previousGuessesBuffer.add(new Guess(guess, false, true));
             guessesLeft=guessesPossible;
         } else if (guessesLeft == 0){
             //NOTE: Losing guesses terminate with a 0
-            previousGuessesBuffer.add(new Guess(guess, true, false));
+            //previousGuessesBuffer.add(new Guess(guess, true, false));
             guessesLeft=guessesPossible;
         } else {
-            previousGuessesBuffer.add(new Guess(guess, false, false));
+            //previousGuessesBuffer.add(new Guess(guess, false, false));
             guessesLeft--;
         }
 
