@@ -1,5 +1,6 @@
 package wordle;
 
+import Statistics.Session;
 import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;
@@ -48,6 +49,8 @@ public class Controller {
 
     private Button statButton;
 
+    private Session session;
+
 
     /**
      * Main Grid of the application
@@ -85,6 +88,15 @@ public class Controller {
      */
     @FXML
     public void initialize(){
+      startNewGame();
+      session = new Session();
+    }
+
+    /**
+     * This used to be in initialize, this needs to happen everytime a new game is started
+     *
+     */
+    public void startNewGame(){
         guess = 0;
         MAIN_PANE.getChildren().clear();
         gridOfTextFieldInputs.clear();
@@ -95,6 +107,8 @@ public class Controller {
         } catch (IOException e) {
             //TODO: Catch if the wordle-official file does not exist
         }
+
+
 
 
         if(DEBUG){
@@ -391,7 +405,7 @@ public class Controller {
             Platform.exit();
         } else if (result.get() == ButtonType.OK) {
             //oke button is pressed
-            initialize();
+            startNewGame();
         } else if (result.get() == ButtonType.CANCEL){
             // cancel button is pressed
             Platform.exit();
@@ -671,7 +685,7 @@ public class Controller {
         temp = fc.showOpenDialog(null);
         if (temp != null) {
             DICTIONARY_FILE = temp;
-            initialize();
+            startNewGame();
         }
     }
 
