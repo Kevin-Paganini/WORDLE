@@ -1,8 +1,10 @@
 package Testing;
 
+import Model.Session;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import Model.Wordle;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,7 +13,20 @@ import java.io.IOException;
 
 
 public class ModelTesting {
+    Session session;
+
+    @BeforeEach
+    public void init(){
+        session = new Session();
+    }
+
+
+
+
+
+
     /**
+     *
      * Tests if the dictionary can be loaded and that it accurately compares
      * a word to the dictionary
      * @author Atreyu Schilling
@@ -21,7 +36,9 @@ public class ModelTesting {
     @Test
     public void dictCompare() throws IOException {
 
-        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"));
+        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session);
+
+
 
         Assertions.assertTrue(wordle.isValidWord("crane"));
         Assertions.assertTrue(wordle.isValidWord("shard"));
@@ -62,7 +79,7 @@ public class ModelTesting {
     // Passed on 3/16
     @Test
     public void guessCompare() throws IOException {
-        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"));
+        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session);
 
         //Most basic test
         Assertions.assertTrue(wordle.forceTarget("crane"));
@@ -93,7 +110,7 @@ public class ModelTesting {
     public void testGuessWriter() throws IOException {
         File file = new File("src/Resources/previousGuesses.txt");
         file.delete();
-        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"));
+        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session);
         //arbitrary target for testing purposes
         wordle.forceTarget("meant");
 

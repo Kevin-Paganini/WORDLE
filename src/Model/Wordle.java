@@ -11,12 +11,15 @@ public class Wordle {
 
 
     //The naming scheme for private final is the same as private non-final. Only public final has SCREAMING_CAMEL_CASE
-    private final int numLetters;
-    private final int guessesPossible;
+    private int numLetters;
+    private int guessesPossible;
     private int guessesLeft;
     private String target;
     private TreeSet<String> dictionary = null;
-    private final List<String> previousGuessesBuffer = new ArrayList<>();
+    private List<String> previousGuessesBuffer = new ArrayList<>();
+    private boolean isWin;
+
+    private ArrayList<String> guessList = new ArrayList<>();
 
     public Wordle(int numGuesses, int numLetters, File dictionary) throws IOException {
         guessesPossible = numGuesses;
@@ -24,6 +27,7 @@ public class Wordle {
         this.numLetters = numLetters;
         loadDictionary(dictionary);
         this.target = randomTarget();
+        this.isWin = false;
     }
 
     public Wordle(int numGuesses, int numLetters, File dictionary, Session session) throws IOException {
@@ -132,6 +136,10 @@ public class Wordle {
     public int[] returnPositions(String guess) {
         if (DEBUG) System.out.println(target);
         guessesLeft--;
+        if(guess.equals(target)){
+            isWin = true;
+        }
+        guessList.add(guess);
         if (!isValidWord(guess)) {
             return null;
         }
@@ -194,6 +202,11 @@ public class Wordle {
         return guess.equalsIgnoreCase(target);
     }
 
+
+    public boolean isWin() {
+        return isWin;
+    }
+
     /**
      * Stores the internal list of previous guesses into a text file and flushes
      * the buffer. Possibly call it after every puzzle.
@@ -214,4 +227,11 @@ public class Wordle {
     public String getTarget() {
         return target;
     }
+
+
+    public ArrayList<String> getGuessList(){
+        return guessList;
+    }
+
+
 }

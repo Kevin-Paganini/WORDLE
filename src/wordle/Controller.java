@@ -95,8 +95,9 @@ public class Controller {
      */
     @FXML
     public void initialize(){
-      startNewGame();
-      session = new Session();
+        session = new Session();
+        startNewGame();
+
     }
 
     /**
@@ -114,7 +115,7 @@ public class Controller {
             BufferedReader brTest = new BufferedReader(new FileReader(dictionaryFile));
             String word = brTest.readLine();
             numLetters = word.length();
-            game = new Wordle(numGuesses, numLetters, dictionaryFile);
+            game = new Wordle(numGuesses, numLetters, dictionaryFile, session);
 
         } catch (IOException e) {
             //TODO: Catch if the wordle-official file does not exist
@@ -316,7 +317,7 @@ public class Controller {
      * Functionality:
      * Getting input from guess fields
      * Disabling text fields that were enabled
-     * Checking positions of guess aainst target
+     * Checking positions of guess against target
      *
      * @author David Kane & Carson Meredith & Kevin Paganini
      */
@@ -433,12 +434,14 @@ public class Controller {
         Optional<ButtonType> result = a.showAndWait();
         if (!result.isPresent()) {
             // alert is exited, no button has been pressed.
+            session.prettyString();
             Platform.exit();
         } else if (result.get() == ButtonType.OK) {
             //oke button is pressed
             startNewGame();
         } else if (result.get() == ButtonType.CANCEL){
             // cancel button is pressed
+            session.prettyString();
             Platform.exit();
         }
     }

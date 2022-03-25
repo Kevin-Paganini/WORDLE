@@ -102,6 +102,13 @@ public abstract class Utils {
         return letters_used_grid_colors;
     }
 
+    public static HashMap<String, Integer> makeInitialHashMapForLetterFrequency() {
+        HashMap<String, Integer> letters_used_grid_colors = new HashMap<>();
+        for (String letter : textFieldValues){
+            letters_used_grid_colors.put(letter, 0);
+        }
+        return letters_used_grid_colors;
+    }
 
 
 
