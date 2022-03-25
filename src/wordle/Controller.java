@@ -220,6 +220,7 @@ public class Controller {
     /**
      * Functionality for software Keyboard
      * @param mouseEvent When letter is clicked
+     * @author David Kane
      */
     private void mouseClick(MouseEvent mouseEvent) {
         String letter = ((Label) mouseEvent.getSource()).getText().toUpperCase();
@@ -792,7 +793,11 @@ public class Controller {
         }
     }
 
-
+    /**
+     * @author David Kane
+     * Will change amount of guesses user is allowed if number entered is greater than 0
+     * @param actionEvent Button click (garbage value)
+     */
     public void changeGuessAmount(ActionEvent actionEvent){
         String guess = numGuess.getText();
         try {
