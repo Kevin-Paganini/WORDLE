@@ -821,5 +821,56 @@ public class Controller {
 
         }
     }
+
+    /**
+     * @author David Kane
+     * Will change dictionary to wordle default.
+     * @param actionEvent Button click (garbage value)
+     */
+    public void fiveLetterWord(ActionEvent actionEvent){
+        try {
+            File temp = new File ("src/Resources/wordle-official.txt");
+            if (!temp.equals(dictionaryFile)){
+                dictionaryFile = temp;
+                startNewGame();
+            }
+        } catch (NullPointerException e){
+            //TODO: Default wordle file could not be found
+        }
+    }
+
+    /**
+     * @author David Kane
+     * Will change dictionary to 6 letter words.
+     * @param actionEvent Button click (garbage value)
+     */
+    public void sixLetterWord(ActionEvent actionEvent){
+        try {
+            File temp = new File ("src/Resources/words_6_letters.txt");
+            if (!temp.equals(dictionaryFile)){
+                dictionaryFile = temp;
+                startNewGame();
+            }
+        } catch (NullPointerException e){
+            //TODO: Default wordle file could not be found
+        }
+    }
+
+    /**
+     * @author David Kane
+     * Will change dictionary to 7 letter words.
+     * @param actionEvent Button click (garbage value)
+     */
+    public void sevenLetterWord(ActionEvent actionEvent){
+        try {
+            File temp = new File ("src/Resources/words_7_letters.txt");
+            if (!temp.equals(dictionaryFile)){
+                dictionaryFile = temp;
+                startNewGame();
+            }
+        } catch (NullPointerException e){
+            //TODO: Default wordle file could not be found
+        }
+    }
 }
 
