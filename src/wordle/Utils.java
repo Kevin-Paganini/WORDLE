@@ -218,6 +218,13 @@ public abstract class Utils {
         return bc;
     }
 
+    /**
+     * Makes suggestions gridpane
+     * @param s
+     * @return gridpane for suggestions
+     * @author: Kevin Paganini
+     */
+
     public static GridPane makeSuggestionsGrid(Suggestions s) {
         GridPane grid = new GridPane();
         Label suggestions = new Label("Suggestions:");

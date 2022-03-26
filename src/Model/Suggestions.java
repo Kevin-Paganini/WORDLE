@@ -78,7 +78,7 @@ public class Suggestions {
                 removeWrongLetterWords(letter);
             }
             if(value == 1 && !seen.contains(letter)){
-                removeCorrectLetterWrongPos(letter);
+                removeCorrectLetterWrongPos(letter, j);
             }
             if (value == 2 && !seen.contains(letter) && positions[j] == 2){
                 if(letter.equals("E")){
@@ -121,7 +121,7 @@ public class Suggestions {
      * @param letter
      * @author Kevin Paganini
      */
-    public void removeCorrectLetterWrongPos(String letter){
+    public void removeCorrectLetterWrongPos(String letter, int index){
         ArrayList<String> badWords = new ArrayList<>();
         ArrayList<String> valid = new ArrayList<>();
         valid.addAll(validWords);
@@ -129,7 +129,7 @@ public class Suggestions {
             if(valid.get(i).equals("rogue")){
                 System.out.println("Hi");
             }
-            if(!valid.get(i).contains(letter.toLowerCase(Locale.ROOT))){
+            if(!valid.get(i).contains(letter.toLowerCase(Locale.ROOT)) || String.valueOf(valid.get(i).toCharArray()[index]).toUpperCase(Locale.ROOT).equals(letter)){
                 badWords.add(valid.get(i));
             }
         }
