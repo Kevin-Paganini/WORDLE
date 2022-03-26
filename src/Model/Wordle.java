@@ -233,5 +233,9 @@ public class Wordle {
         return guessList;
     }
 
+    public TreeSet<String> getDictionary(){
+        return dictionary;
+    }
+
 
 }

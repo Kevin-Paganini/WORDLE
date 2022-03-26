@@ -10,12 +10,10 @@ import java.util.Locale;
 public class Session {
     public static final File STORAGE_FILE = new File("src/Resources/previousGuesses.txt");
     private final ArrayList<Wordle> sessionGames = new ArrayList<>();
-    double averageGuesses;
-    HashMap<String, Integer> letterFrequency;
+
 
     public Session (){
-        averageGuesses = 0;
-        letterFrequency = Utils.makeInitialHashMapForLetterFrequency();
+
     }
 
     public void addGame(Wordle wordle){
@@ -27,13 +25,14 @@ public class Session {
         for(int i = 0; i < sessionGames.size(); i++){
            total += sessionGames.get(i).getGuessList().size();
         }
-        averageGuesses = total / sessionGames.size();
+        double averageGuesses = total / sessionGames.size();
 
         return averageGuesses;
     }
 
 
     public HashMap<String, Integer> getLetterGuessFrequency(){
+        HashMap<String, Integer> letterFrequency = Utils.makeInitialHashMapForLetterFrequency();
         for(int i = 0; i < sessionGames.size(); i++){
             for(int j = 0; j < sessionGames.get(i).getGuessList().size(); j++){
                 String guess = sessionGames.get(i).getGuessList().get(j);
@@ -45,6 +44,26 @@ public class Session {
             }
         }
         return letterFrequency;
+    }
+
+
+    public HashMap<String, Integer> getWordGuessFrequency(){
+        HashMap<String, Integer> wordFrequency = new HashMap<>();
+
+        for(int i = 0; i < sessionGames.size(); i++){
+            Wordle wordle = sessionGames.get(i);
+            ArrayList<String> guessList = wordle.getGuessList();
+            for(int j = 0; j < guessList.size(); j++){
+                if (wordFrequency.keySet().contains(guessList.get(j))){
+                    int val = wordFrequency.get(guessList.get(j));
+                    wordFrequency.put(guessList.get(j), ++val);
+                } else {
+                    wordFrequency.put(guessList.get(j), 1);
+                }
+            }
+        }
+
+        return Utils.sortHashMapByValue(wordFrequency);
     }
 
 
@@ -95,12 +114,12 @@ public class Session {
         System.out.println("Average guess number: " + getAverageGuesses());
         System.out.println("Letter Frequency:");
         HashMap<String, Integer> printLetter = getLetterGuessFrequency();
-        for(String key : printLetter.keySet()){
-            System.out.println("Letter: " + key + ": " + printLetter.get(key));
-        }
+        Utils.printHashMap(printLetter);
         System.out.println("Number of Wins: " + getWins());
         System.out.println("Number of Losses: " + getLosses());
         System.out.println("Longest Win Streak: " + getWinStreak());
+        System.out.println("Word freqeuncy: ");
+        Utils.printHashMap(getWordGuessFrequency());
         return "";
     }
 }

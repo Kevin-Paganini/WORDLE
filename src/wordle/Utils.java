@@ -3,10 +3,7 @@ package wordle;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public abstract class Utils {
 
@@ -110,6 +107,30 @@ public abstract class Utils {
         return letters_used_grid_colors;
     }
 
+
+
+    public static HashMap<String, Integer> sortHashMapByValue(HashMap<String, Integer> wordFreq){
+        List<Map.Entry<String, Integer>> list = new LinkedList<>(wordFreq.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+
+        LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
+        for(Map.Entry <String, Integer> entry: list){
+            sortedMap.put(entry.getKey(), entry.getValue());
+
+        }
+        return sortedMap;
+    }
+
+    public static void printHashMap(HashMap<String, Integer> dict){
+        for(String key : dict.keySet()){
+            System.out.println("key: " + key + ", Value: " + dict.get(key));
+        }
+    }
 
 
 
