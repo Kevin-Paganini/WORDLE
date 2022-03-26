@@ -18,6 +18,7 @@ public abstract class Utils {
      * Which style class should a key in keyboard get put in to
      * Key from keyboard gets new CSS class
      * @param position
+     * @author Kevin Paganini
      */
 
     public static void recolorTextFields(int[] position, int numLetters, ArrayList<List<TextField>> gridOfTextFieldInputs, int guess, boolean CONTRAST) {
@@ -101,6 +102,12 @@ public abstract class Utils {
         return letters_used_grid_colors;
     }
 
+    /**
+     * Didn't want to type it out either
+     * Used in Session statistics
+     * @return HashMap with frequencies initialized
+     * @author Kevin Paganini
+     */
     public static HashMap<String, Integer> makeInitialHashMapForLetterFrequency() {
         HashMap<String, Integer> letters_used_grid_colors = new HashMap<>();
         for (String letter : textFieldValues){
@@ -110,7 +117,12 @@ public abstract class Utils {
     }
 
 
-
+    /**
+     * Sorting of a hashmap by value
+     * @param wordFreq
+     * @return sorted hashmap just do (for (String key: hashmap.keyset)
+     * @author Kevin Paganini
+     */
     public static HashMap<String, Integer> sortHashMapByValue(HashMap<String, Integer> wordFreq){
         List<Map.Entry<String, Integer>> list = new LinkedList<>(wordFreq.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
@@ -128,14 +140,24 @@ public abstract class Utils {
         return sortedMap;
     }
 
+    /**
+     * Nice debug function / good for testing
+     * @param dict
+     * @author Kevin Paganini
+     */
     public static void printHashMap(HashMap<String, Integer> dict){
         for(String key : dict.keySet()){
             System.out.println("key: " + key + ", Value: " + dict.get(key));
         }
     }
 
-
-    public static BarChart<String, Number> makeWordBarChart(HashMap<String, Integer> dict){
+    /**
+     * Make 5 bar chart with whatever hashmap passed into it as long as value is a number
+     * @param dict
+     * @return barchart
+     * @author Kevin Paganini
+     */
+    public static BarChart<String, Number> make5BarChartFromHashMap(HashMap<String, Integer> dict){
         CategoryAxis x = new CategoryAxis();
         String [] freqWords = dict.keySet().toArray(new String[0]);
         if (freqWords.length > 5){
@@ -161,6 +183,12 @@ public abstract class Utils {
         return bc;
     }
 
+    /**
+     * Make the letter bar chart
+     * @param dict
+     * @return Barchart letter freq
+     * @author Kevin Paganini
+     */
     public static BarChart<String, Number> makeLetterBarChart(HashMap<String, Integer> dict){
         CategoryAxis x = new CategoryAxis();
         String [] freqWords = dict.keySet().toArray(new String[0]);

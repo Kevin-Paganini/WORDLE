@@ -907,6 +907,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Updates stats page after every game
+     */
     public void updateStats(){
         winLabel.setText(String.valueOf(session.getWins()));
         lossLabel.setText(String.valueOf(session.getLosses()));
@@ -914,7 +917,7 @@ public class Controller {
         longestWinStreak.setText(String.valueOf(session.getWinStreak()));
         frequentLetterPane.getChildren().clear();
         frequentWordPane.getChildren().clear();
-        frequentWordPane.getChildren().add(Utils.makeWordBarChart(session.getWordGuessFrequency()));
+        frequentWordPane.getChildren().add(Utils.make5BarChartFromHashMap(session.getWordGuessFrequency()));
         frequentLetterPane.getChildren().add(Utils.makeLetterBarChart(session.getLetterGuessFrequency()));
 
     }
