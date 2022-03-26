@@ -221,7 +221,7 @@ public abstract class Utils {
     public static GridPane makeSuggestionsGrid(Suggestions s) {
         GridPane grid = new GridPane();
         Label suggestions = new Label("Suggestions:");
-        grid.getChildren().add(suggestions);
+        grid.add(suggestions, 0, 0);
         Set<String> noWrongLetters = s.pruneDictionary();
         ArrayList<String> x = new ArrayList<>();
         x.addAll(noWrongLetters);
@@ -229,7 +229,7 @@ public abstract class Utils {
         for(int i = 0; i < loopTo; i++){
             Label word = new Label(String.valueOf(x.get(i)));
 
-            grid.add(word, i, 2);
+            grid.add(word, i+1, 2);
         }
         return grid;
     }
