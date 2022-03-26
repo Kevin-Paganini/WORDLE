@@ -19,6 +19,9 @@ public class Wordle {
     private List<String> previousGuessesBuffer = new ArrayList<>();
     private boolean isWin;
 
+    private int[] positions = null;
+    private String currentGuess = null;
+
     private ArrayList<String> guessList = new ArrayList<>();
 
     public Wordle(int numGuesses, int numLetters, File dictionary) throws IOException {
@@ -30,9 +33,10 @@ public class Wordle {
         this.isWin = false;
     }
 
-    public Wordle(int numGuesses, int numLetters, File dictionary, Session session) throws IOException {
+    public Wordle(int numGuesses, int numLetters, File dictionary, Session session, Suggestions suggestions) throws IOException {
         this(numGuesses, numLetters, dictionary);
         session.addGame(this);
+        suggestions.addGame(this);
     }
 
     /**
@@ -100,6 +104,7 @@ public class Wordle {
     public String randomTarget() {
         String target = (String) dictionary.toArray()[(int) (Math.random() * dictionary.size())];
         if (DEBUG) System.out.println(target);
+
         return target;
     }
 
@@ -134,6 +139,7 @@ public class Wordle {
      * @author Atreyu Schilling
      */
     public int[] returnPositions(String guess) {
+        currentGuess = guess;
         if (DEBUG) System.out.println(target);
         guessesLeft--;
         if(guess.equals(target)){
@@ -185,7 +191,7 @@ public class Wordle {
                 }
             }
         }
-
+        positions = resultantArray;
         //Since anything not dealt with is still 0s from initializing the array, just return
         return resultantArray;
     }
@@ -235,6 +241,14 @@ public class Wordle {
 
     public TreeSet<String> getDictionary(){
         return dictionary;
+    }
+
+    public int[] getPositionsArray(){
+        return positions;
+    }
+
+    public String getCurrentGuess(){
+        return currentGuess;
     }
 
 

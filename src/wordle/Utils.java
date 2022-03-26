@@ -1,10 +1,15 @@
 package wordle;
 
+import Model.Suggestions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.chart.*;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public abstract class Utils {
@@ -213,4 +218,19 @@ public abstract class Utils {
         return bc;
     }
 
+    public static GridPane makeSuggestionsGrid(Suggestions s) {
+        GridPane grid = new GridPane();
+        Label suggestions = new Label("Suggestions:");
+        grid.getChildren().add(suggestions);
+        Set<String> noWrongLetters = s.pruneDictionary();
+        ArrayList<String> x = new ArrayList<>();
+        x.addAll(noWrongLetters);
+        int loopTo = Math.min(5, x.size());
+        for(int i = 0; i < loopTo; i++){
+            Label word = new Label(String.valueOf(x.get(i)));
+
+            grid.add(word, i, 2);
+        }
+        return grid;
+    }
 }

@@ -1,6 +1,7 @@
 package Testing;
 
 import Model.Session;
+import Model.Suggestions;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import Model.Wordle;
@@ -14,10 +15,12 @@ import java.io.IOException;
 
 public class ModelTesting {
     Session session;
+    Suggestions suggestions;
 
     @BeforeEach
     public void init(){
         session = new Session();
+        suggestions = new Suggestions();
     }
 
 
@@ -36,7 +39,7 @@ public class ModelTesting {
     @Test
     public void dictCompare() throws IOException {
 
-        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session);
+        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session, suggestions);
 
 
 
@@ -79,7 +82,7 @@ public class ModelTesting {
     // Passed on 3/16
     @Test
     public void guessCompare() throws IOException {
-        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session);
+        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session, suggestions);
 
         //Most basic test
         Assertions.assertTrue(wordle.forceTarget("crane"));
@@ -110,7 +113,7 @@ public class ModelTesting {
     public void testGuessWriter() throws IOException {
         File file = new File("src/Resources/previousGuesses.txt");
         file.delete();
-        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session);
+        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session, suggestions);
         //arbitrary target for testing purposes
         wordle.forceTarget("meant");
 

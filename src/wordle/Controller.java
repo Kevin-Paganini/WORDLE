@@ -102,6 +102,8 @@ public class Controller {
      */
     private Button submitButton;
 
+    private GridPane SUGGESTIONS;
+
 
     @FXML
     private Button dark_light;
@@ -113,6 +115,9 @@ public class Controller {
     private Button numChange;
 
     ArrayList<Button> buttons = new ArrayList<>();
+
+
+    private Suggestions suggestions;
 
 
     /**
@@ -143,7 +148,9 @@ public class Controller {
             BufferedReader brTest = new BufferedReader(new FileReader(dictionaryFile));
             String word = brTest.readLine();
             numLetters = word.length();
-            game = new Wordle(numGuesses, numLetters, dictionaryFile, session);
+            suggestions = new Suggestions();
+            game = new Wordle(numGuesses, numLetters, dictionaryFile, session, suggestions);
+            suggestions.addGame(game);
 
         } catch (IOException e) {
             //TODO: Catch if the wordle-official file does not exist
@@ -169,9 +176,14 @@ public class Controller {
         statButton = createStatisticsButton();
         submitButton = makeSubmitButton();
 
+        SUGGESTIONS = new GridPane();
+        SUGGESTIONS.setLayoutX(numLetters * 60 + 200);
+        SUGGESTIONS.setLayoutY(250);
+
+
 
         // Adding all to main pane
-        MAIN_PANE.getChildren().addAll(grid_input, letters_used, statButton, submitButton);
+        MAIN_PANE.getChildren().addAll(grid_input, letters_used, statButton, submitButton, SUGGESTIONS);
         buttons.add(submitButton);
         buttons.add(statButton);
         buttons.add(importDictionaryButton);
@@ -389,6 +401,7 @@ public class Controller {
 
 
         guess++;
+        updateSuggestions();
         //If there is a guess, and it is right
         if(game.isWinner(input.toLowerCase(Locale.ROOT))){
             if (DEBUG) System.out.println("You Won!");
@@ -920,6 +933,12 @@ public class Controller {
         frequentWordPane.getChildren().add(Utils.make5BarChartFromHashMap(session.getWordGuessFrequency()));
         frequentLetterPane.getChildren().add(Utils.makeLetterBarChart(session.getLetterGuessFrequency()));
 
+    }
+
+
+    public void updateSuggestions(){
+        SUGGESTIONS.getChildren().clear();
+        SUGGESTIONS.getChildren().add(Utils.makeSuggestionsGrid(suggestions));
     }
 }
 
