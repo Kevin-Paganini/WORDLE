@@ -16,6 +16,8 @@ public class Session {
 
     }
 
+
+
     public void addGame(Wordle wordle){
         sessionGames.add(wordle);
     }

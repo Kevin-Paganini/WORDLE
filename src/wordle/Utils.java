@@ -1,6 +1,8 @@
 package wordle;
 
-import javafx.scene.control.Button;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.*;
 import javafx.scene.control.TextField;
 
 import java.util.*;
@@ -133,5 +135,54 @@ public abstract class Utils {
     }
 
 
+    public static BarChart<String, Number> makeWordBarChart(HashMap<String, Integer> dict){
+        CategoryAxis x = new CategoryAxis();
+        String [] freqWords = dict.keySet().toArray(new String[0]);
+        if (freqWords.length > 5){
+            freqWords = Arrays.copyOfRange(freqWords, 0, 5);
+
+        }
+
+        x.setCategories(FXCollections.<String>observableArrayList(freqWords));
+
+
+        x.setLabel("Word");
+
+        NumberAxis y = new NumberAxis();
+        y.setLabel("Frequency");
+        BarChart<String, Number> bc = new BarChart(x, y);
+        XYChart.Series<String, Number> series = new XYChart.Series();
+        for(int i = 0; i < freqWords.length; i++){
+
+            series.getData().add(new XYChart.Data<>(freqWords[i], dict.get(freqWords[i])));
+        }
+
+        bc.getData().add(series);
+        return bc;
+    }
+
+    public static BarChart<String, Number> makeLetterBarChart(HashMap<String, Integer> dict){
+        CategoryAxis x = new CategoryAxis();
+        String [] freqWords = dict.keySet().toArray(new String[0]);
+
+        x.setCategories(FXCollections.<String>observableArrayList(freqWords));
+
+
+        x.setLabel("Letter");
+        NumberAxis y = new NumberAxis();
+        y.setLabel("Frequency");
+        BarChart<String, Number> bc = new BarChart(x, y);
+        XYChart.Series<String, Number> series = new XYChart.Series();
+        for(int i = 0; i < freqWords.length; i++){
+
+            series.getData().add(new XYChart.Data<>(freqWords[i], dict.get(freqWords[i])));
+
+        }
+
+        bc.getData().add(series);
+        bc.setBarGap(10);
+
+        return bc;
+    }
 
 }

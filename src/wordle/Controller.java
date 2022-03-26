@@ -63,10 +63,38 @@ public class Controller {
     Pane SETTINGS_PANE;
 
     @FXML
-    Button importDictionaryButton;
+    AnchorPane STATS_PANE;
 
     @FXML
+    Button importDictionaryButton;
+
+
+
+    // Statistics Functionality
+    @FXML
     TextField numGuess;
+
+    @FXML
+    Label winLabel;
+
+    @FXML
+    Label lossLabel;
+
+    @FXML
+    Label avgNumGuesses;
+
+    @FXML
+    Label longestWinStreak;
+
+    @FXML
+    Pane frequentWordPane;
+
+    @FXML
+    Pane frequentLetterPane;
+
+
+
+
 
 
     /**
@@ -430,6 +458,9 @@ public class Controller {
         }
         win.setHeaderText("Played = " + (wins + losses) + "\nWIN% = " + win_percentage + "%" + "\nGUESSES THIS GAME = " + guess + "\nWINSTREAK = " + win_streak);
         win.setContentText("PLAY AGAIN?");
+
+        // Updating stats tab every time a game is done
+        updateStats();
 
         Optional<ButtonType> result = a.showAndWait();
         if (!result.isPresent()) {
@@ -874,6 +905,18 @@ public class Controller {
         } catch (NullPointerException e){
             //TODO: Default wordle file could not be found
         }
+    }
+
+    public void updateStats(){
+        winLabel.setText(String.valueOf(session.getWins()));
+        lossLabel.setText(String.valueOf(session.getLosses()));
+        avgNumGuesses.setText(String.valueOf(session.getAverageGuesses()));
+        longestWinStreak.setText(String.valueOf(session.getWinStreak()));
+        frequentLetterPane.getChildren().clear();
+        frequentWordPane.getChildren().clear();
+        frequentWordPane.getChildren().add(Utils.makeWordBarChart(session.getWordGuessFrequency()));
+        frequentLetterPane.getChildren().add(Utils.makeLetterBarChart(session.getLetterGuessFrequency()));
+
     }
 }
 
