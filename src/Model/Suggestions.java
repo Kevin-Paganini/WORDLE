@@ -17,6 +17,10 @@ public class Suggestions {
     private HashMap<String, Integer> validLetterHash;
     ArrayList seen;
 
+    /**
+     * Constructor
+     * @author: Kevin Paganini
+     */
     public Suggestions(){
         this.game = null;
         this.guesses = new ArrayList<>();
@@ -25,7 +29,10 @@ public class Suggestions {
          this.seen = new ArrayList();
     }
 
-
+    /**
+     * Add wordle game to suggestions so it can process and suggest
+     * @param wordle
+     */
     public void addGame(Wordle wordle) {
         this.game = wordle;
         Set<String> temp = wordle.getDictionary();
@@ -38,6 +45,11 @@ public class Suggestions {
         return guesses;
     }
 
+    /**
+     * Prunes the dictionary
+     * @return Set with possible words
+     * @author: Kevin Paganini
+     */
     public Set<String> pruneDictionary(){
         int[] positions = game.getPositionsArray();
         char[] currentGuess = game.getCurrentGuess().toCharArray();
@@ -81,6 +93,11 @@ public class Suggestions {
         return validWords;
     }
 
+    /**
+     * Removes words from list that have the wrong letter
+     * @param letter
+     * @author Kevin Paganini
+     */
     public void removeWrongLetterWords(String letter){
 
         ArrayList<String> badWords = new ArrayList<>();
@@ -99,6 +116,11 @@ public class Suggestions {
 
     }
 
+    /**
+     * Removes words that don't contain passed in letter
+     * @param letter
+     * @author Kevin Paganini
+     */
     public void removeCorrectLetterWrongPos(String letter){
         ArrayList<String> badWords = new ArrayList<>();
         ArrayList<String> valid = new ArrayList<>();
@@ -115,6 +137,12 @@ public class Suggestions {
 
     }
 
+    /**
+     * Removing words without passed in letter at specific spot
+     * @param letter
+     * @param index
+     * @author Kevin Paganini
+     */
     public void removeWordWithoutCorrectLetter(String letter, int index){
         ArrayList badWords = new ArrayList();
         ArrayList<String> valid = new ArrayList<>();
