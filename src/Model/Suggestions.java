@@ -41,6 +41,7 @@ public class Suggestions {
     public Set<String> pruneDictionary(){
         int[] positions = game.getPositionsArray();
         char[] currentGuess = game.getCurrentGuess().toCharArray();
+        validWords.remove(game.getCurrentGuess().toLowerCase(Locale.ROOT));
         for(int i = 0; i < positions.length; i++){
             int isCorrectValue = positions[i];
             String letter = String.valueOf(currentGuess[i]).toUpperCase(Locale.ROOT);
@@ -61,13 +62,16 @@ public class Suggestions {
             }
             String letter = String.valueOf(currentGuess[j]).toUpperCase(Locale.ROOT);
             int value = validLetterHash.get(letter);
-            if(value == 0 && !seen.contains(letter)) {
+            if(value == 0 && !seen.contains(letter) && !doubleLetter) {
                 removeWrongLetterWords(letter);
             }
             if(value == 1 && !seen.contains(letter)){
                 removeCorrectLetterWrongPos(letter);
             }
-            if (value == 2 && !seen.contains(letter) && !doubleLetter){
+            if (value == 2 && !seen.contains(letter) && positions[j] == 2){
+                if(letter.equals("E")){
+                    System.out.println();
+                }
                 removeWordWithoutCorrectLetter(letter, j);
                 seen.add(letter);
             }
@@ -83,7 +87,7 @@ public class Suggestions {
         ArrayList<String> valid = new ArrayList<>();
         valid.addAll(validWords);
         for(int i = 0; i < valid.size(); i++){
-            if(valid.get(i).equals("issue")){
+            if(valid.get(i).equals("rogue")){
                 System.out.println("Hi");
             }
             if(valid.get(i).contains(letter.toLowerCase(Locale.ROOT))){
@@ -100,7 +104,7 @@ public class Suggestions {
         ArrayList<String> valid = new ArrayList<>();
         valid.addAll(validWords);
         for(int i = 0; i < valid.size(); i++){
-            if(valid.get(i).equals("issue")){
+            if(valid.get(i).equals("rogue")){
                 System.out.println("Hi");
             }
             if(!valid.get(i).contains(letter.toLowerCase(Locale.ROOT))){
@@ -116,7 +120,7 @@ public class Suggestions {
         ArrayList<String> valid = new ArrayList<>();
         valid.addAll(validWords);
         for(int i = 0; i < valid.size(); i++){
-            if(valid.get(i).equals("issue")){
+            if(valid.get(i).equals("rogue")){
                 System.out.println("Hi");
 
             }
