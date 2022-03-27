@@ -41,7 +41,7 @@ public class Suggestions {
      * a list of all possible guesses left.
      * Uses the wordle's CURRENT GUESSES to determine guesses of the match.
      * @return Set with ALL possible words to guess for
-     * @author ??? Atreyu Schilling
+     * @author Kevin Paganini
      */
     public Set<String> returnPossibleWords() {
         Stream<String> validStream = validWords.stream();
@@ -80,4 +80,34 @@ public class Suggestions {
         }
         return validStream.collect(Collectors.toSet());
     }
+
+    /*
+    public String testThing(String word) {
+        //Here's the cute little test I left in
+        if (word.equals("rogue"))
+            System.out.println("Hi");
+
+        //First we sort through all the letters in the letter array
+        for (int i = 0; i < letterArr.length; i++) {
+
+            boolean letterExistsHere = word.charAt(i) == letterArr[i];
+            boolean letterExists = word.indexOf(letterArr[i]) == -1;
+
+            if ((positions[i] == 2 && !letterExistsHere) ||
+                    //If the letter should exist here but doesn't
+                    (positions[i] == 1 && (letterExistsHere || !letterExists)) ||
+                    //Or if the letter should exist somewhere that isn't here & exists here or doesn't exist at all
+                    (positions[i] == 0 && letterExists)) {
+                //Or if the letter shouldn't exist at all and does exist
+                return false;
+                //Kick it
+            }
+
+        }
+        //If it passed all the tests for each letter, this ONE WORD works for this ONE GUESS
+        return true;
+    }
+     */
+
+
 }
