@@ -17,7 +17,7 @@ public class Wordle {
     private TreeSet<String> dictionary = null;
 
     private int[] positions = null;
-    private final List<String> currentGuesses;
+    private final List<Guess> currentGuesses;
 
     private final ArrayList<Guess> guessList = new ArrayList<>();
 
@@ -130,8 +130,10 @@ public class Wordle {
      * if the guess is invalid
      * @author Atreyu Schilling
      */
-    public int[] returnPositions(String guess) {
+    public int[] makeGuess(String guess) {
+
         if (DEBUG) System.out.println(target);
+
         guessesLeft--;
         if (!isValidWord(guess)) {
             return null;
@@ -146,12 +148,26 @@ public class Wordle {
             guessesLeft=guessesPossible;
             currentGuesses.clear();
         } else {
-            guessList.add(new Guess(guess, false, false));
+            Guess addableGuess = new Guess(guess, false, false);
+            guessList.add(addableGuess);
+            currentGuesses.add(addableGuess);
             guessesLeft--;
-            currentGuesses.add(guess);
+
         }
+        return returnPositionsOnly(guess);
+    }
 
-
+    /**
+     * The part of makeGuess WITHOUT SIDE EFFECTS. This should be called when the positions array
+     * is needed but the user hasn't made a guess. See makeGuess for the array return type.
+     *
+     * NOTE: Does not check that the word guessed is in the dictionary. This must either be done separately or assumed.
+     *
+     * @param guess word to be checked against the target
+     * @return array of ints with the same length as the string, or null
+     * if the guess is invalid.
+     */
+    public int[] returnPositionsOnly(String guess) {
         char[] targetChars = target.toLowerCase(Locale.ROOT).toCharArray();
         char[] guessChars = guess.toLowerCase(Locale.ROOT).toCharArray();
         int[] resultantArray = new int[numLetters];
@@ -179,7 +195,6 @@ public class Wordle {
                 }
             }
         }
-        positions = resultantArray;
         //Since anything not dealt with is still 0s from initializing the array, just return
         return resultantArray;
     }
@@ -214,7 +229,7 @@ public class Wordle {
         return positions;
     }
 
-    public List<String> getCurrentGuesses(){
+    public List<Guess> getCurrentGuesses(){
         return currentGuesses;
     }
 

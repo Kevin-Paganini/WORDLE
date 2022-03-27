@@ -21,7 +21,6 @@ public class Session {
     //It's singleton time baybeee
     public static Session getSession() {
         if (instance == null) instance = new Session();
-
         return instance;
     }
 
@@ -36,7 +35,7 @@ public class Session {
     }
 
     /**
-     * Returns the average guesses per session as a double
+     * Returns the average guesses per game as a double
      *
      * @return guesses / games, as a double
      *         Returns -1 if no games have been played.
@@ -63,13 +62,14 @@ public class Session {
      */
     public HashMap<String, Integer> getLetterGuessFrequency(){
         HashMap<String, Integer> letterFrequency = Utils.intializeLetterFrequency();
-        for (Wordle sessionGame : games) {
-            for (int j = 0; j < sessionGame.getGuesses().size(); j++) {
-                String guess = sessionGame.getGuesses().get(j).getGuess();
-                for (int k = 0; k < guess.length(); k++) {
-                    String current_letter = String.valueOf(guess.toUpperCase(Locale.ROOT).toCharArray()[k]);
-                    int value = letterFrequency.get(current_letter);
-                    letterFrequency.put(current_letter, ++value);
+        for (Wordle game : games) {
+            for (Guess guess : game.getGuesses()) {
+                //For every guess of every game, split them into characters and cycle over them
+                char[] guessLetters = guess.getGuess().toLowerCase(Locale.ROOT).toCharArray();
+                for (char letter : guessLetters) {
+                    String letterStr = String.valueOf(letter);
+                    //Adds 1 to the frequency map
+                    letterFrequency.replace(letterStr, letterFrequency.get(letterStr) + 1);
                 }
             }
         }
@@ -88,16 +88,11 @@ public class Session {
 
         for (Wordle wordle : games) {
             for (Guess guess : wordle.getGuesses()) {
-
-                if (wordFrequency.containsKey(guess.getGuess())) {
-                    int val = wordFrequency.get(guess.getGuess());
-                    wordFrequency.put(guess.getGuess(), ++val);
-                } else {
-                    wordFrequency.put(guess.getGuess(), 1);
-                }
+                //For every guess of every game,
+                //assigns the index to 1 if there's no value there, and V+1 if there is
+                wordFrequency.merge(guess.getGuess(), 1, Integer::sum);
             }
         }
-
         return Utils.sortHashMapByValue(wordFrequency);
     }
 

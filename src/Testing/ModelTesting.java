@@ -78,18 +78,18 @@ public class ModelTesting {
 
         //Most basic test
         Assertions.assertTrue(wordle.forceTarget("crane"));
-        Assertions.assertArrayEquals(wordle.returnPositions("drake"), new int[]{0, 2, 2, 0, 2});
+        Assertions.assertArrayEquals(wordle.makeGuess("drake"), new int[]{0, 2, 2, 0, 2});
         //If index 2 is 1, e was checked too early or we double-dipped
-        Assertions.assertArrayEquals(wordle.returnPositions("creme"), new int[]{2, 2, 0, 0, 2});
-        Assertions.assertArrayEquals(wordle.returnPositions("epoch"), new int[]{1, 0, 0, 1, 0});
+        Assertions.assertArrayEquals(wordle.makeGuess("creme"), new int[]{2, 2, 0, 0, 2});
+        Assertions.assertArrayEquals(wordle.makeGuess("epoch"), new int[]{1, 0, 0, 1, 0});
         //Invalid entry
-        Assertions.assertArrayEquals(wordle.returnPositions("bingus"), null);
+        Assertions.assertArrayEquals(wordle.makeGuess("bingus"), null);
         //Exactly correct
-        Assertions.assertArrayEquals(wordle.returnPositions("crane"), new int[]{2, 2, 2, 2, 2});
+        Assertions.assertArrayEquals(wordle.makeGuess("crane"), new int[]{2, 2, 2, 2, 2});
 
         //Problem from before, fixed
         Assertions.assertTrue(wordle.forceTarget("meant"));
-        Assertions.assertArrayEquals(wordle.returnPositions("state"), new int[]{0, 1, 2, 0, 1});
+        Assertions.assertArrayEquals(wordle.makeGuess("state"), new int[]{0, 1, 2, 0, 1});
 
     }
 

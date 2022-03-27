@@ -379,7 +379,7 @@ public class Controller {
         guesses.add(input);
 
         // Checking positions of guess against target
-        int[] position = game.returnPositions(input.toLowerCase(Locale.ROOT));
+        int[] position = game.makeGuess(input.toLowerCase(Locale.ROOT));
 
 
         String letter;

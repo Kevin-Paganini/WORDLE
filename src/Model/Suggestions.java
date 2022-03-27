@@ -1,25 +1,28 @@
 package Model;
 
-import wordle.Utils;
-
-import java.util.*;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-//TO parse down dictionary and give suggestions
+/**
+ * This class is used to give the user suggestions based on all possible words in their loaded dictionary that
+ * can be guessed based on the previous guesses in this match.
+ *
+ * ONLY ONE SUGGESTION SHOULD BE CREATED, AND ONLY IN THE SESSION CLASS.
+ *
+ * @author ??? Atreyu Schilling
+ */
 public class Suggestions {
     private Wordle game;
 
-    //THIS IS A DEEP COPY. Make SURE this is a deep copy or the game will break.
+    //Because Strings are immutable this is safe to mess with
     private Set<String> validWords;
 
-    private final HashMap<String, Integer> validLetterHash;
-    List<String> seen;
 
-    //The only thing that should be creating one of these is the Session. That's it. Don't mess with this
-    protected Suggestions(){
-        this.validLetterHash = Utils.makeInitialHashMapForKeyBoardColors();
-    }
-
+    //The only thing that should be creating one of these is the Session.
+    protected Suggestions(){}
     /**
      * Attaches the provided Wordle object to this object. Suggestions will have
      * no functionality until a game is added. Once a game is added, all data regarding
@@ -33,125 +36,48 @@ public class Suggestions {
         this.validWords = new TreeSet<>(wordle.getDictionary());
     }
 
-    public List<Guess> getGuesses(){
-        return game.getGuesses();
-    }
-
     /**
-     * Prunes the dictionary
-     * @return Set with possible words
+     * Removes any elements of the dictionary that cannot be guessed due to previous guesses and returns
+     * a list of all possible guesses left.
+     * Uses the wordle's CURRENT GUESSES to determine guesses of the match.
+     * @return Set with ALL possible words to guess for
+     * @author ??? Atreyu Schilling
      */
-    public Set<String> pruneDictionary(){
-        int[] positions = game.getPositionsArray();
-        List<String> currentGuesses = game.getCurrentGuesses();
-        for (String guess : currentGuesses) {
-            validWords.remove(guess.toLowerCase(Locale.ROOT));
-        }
-        for(int position : positions){
-            String letter = String.valueOf(position).toUpperCase(Locale.ROOT);
-            if (validLetterHash.get(letter) < position){ // Checks if value stored is smaller than value achieved
-                validLetterHash.replace(letter, position); // If guess has higher value replaces old value
-            }
-        }
-        boolean doubleLetter = false;
-        for (String guess : currentGuesses) {
-            for(int j = 0; j < currentGuess.length; j++){
-                for(int i = 0; i < currentGuess.length; i++){
-                    if (i != j && currentGuess[i] == currentGuess[j]) {
-                        doubleLetter = true;
-                        break;
+    public Set<String> returnPossibleWords() {
+        Stream<String> validStream = validWords.stream();
+        List<Guess> guesses = game.getCurrentGuesses();
+        for (Guess guess : guesses) {
+            //Looking at every guess
+            char[] letterArr = guess.getGuess().toCharArray();
+            int[] positions = game.returnPositionsOnly(guess.getGuess());
+
+            validStream = validStream.filter((word) -> {
+
+                //Here's the cute little test I left in
+                if (word.equals("rogue"))
+                    System.out.println("Hi");
+
+                //First we sort through all the letters in the letter array
+                for (int i = 0; i < letterArr.length; i++) {
+
+                    boolean letterExistsHere = word.charAt(i) == letterArr[i];
+                    boolean letterExists = word.indexOf(letterArr[i]) == -1;
+
+                    if ((positions[i] == 2 && !letterExistsHere) ||
+                            //If the letter should exist here but doesn't
+                            (positions[i] == 1 && (letterExistsHere || !letterExists)) ||
+                            //Or if the letter should exist somewhere that isn't here & exists here or doesn't exist at all
+                            (positions[i] == 0 && letterExists)) {
+                            //Or if the letter shouldn't exist at all and does exist
+                        return false;
+                        //Kick it
                     }
 
                 }
-                String letter = String.valueOf(currentGuess[j]).toUpperCase(Locale.ROOT);
-                int value = validLetterHash.get(letter);
-                if(value == 0 && !seen.contains(letter) && !doubleLetter) {
-                    removeWrongLetterWords(letter);
-                }
-                if(value == 1 && !seen.contains(letter)){
-                    removeCorrectLetterWrongPos(letter, j);
-                }
-                if (value == 2 && !seen.contains(letter) && positions[j] == 2){
-                    if(letter.equals("E")){
-                        System.out.println();
-                    }
-                    removeWordWithoutCorrectLetter(letter, j);
-                    seen.add(letter);
-                }
-
-
-            }
+                //If it passed all the tests for each letter, this ONE WORD works for this ONE GUESS
+                return true;
+            });
         }
-
-        return validWords;
+        return validStream.collect(Collectors.toSet());
     }
-
-    /**
-     * Removes words from list that have the wrong letter
-     * @param letter
-     * @author Kevin Paganini
-     */
-    public void removeWrongLetterWords(String letter){
-
-        ArrayList<String> badWords = new ArrayList<>();
-        ArrayList<String> valid = new ArrayList<>();
-        valid.addAll(validWords);
-        for(int i = 0; i < valid.size(); i++){
-            if(valid.get(i).equals("rogue")){
-                System.out.println("Hi");
-            }
-            if(valid.get(i).contains(letter.toLowerCase(Locale.ROOT))){
-                badWords.add(valid.get(i));
-            }
-        }
-        validWords.removeAll(badWords);
-
-
-    }
-
-    /**
-     * Removes words that don't contain passed in letter
-     * @param letter
-     * @author Kevin Paganini
-     */
-    public void removeCorrectLetterWrongPos(String letter, int index){
-        ArrayList<String> badWords = new ArrayList<>();
-        ArrayList<String> valid = new ArrayList<>();
-        valid.addAll(validWords);
-        for(int i = 0; i < valid.size(); i++){
-            if(valid.get(i).equals("rogue")){
-                System.out.println("Hi");
-            }
-            if(!valid.get(i).contains(letter.toLowerCase(Locale.ROOT)) || String.valueOf(valid.get(i).toCharArray()[index]).toUpperCase(Locale.ROOT).equals(letter)){
-                badWords.add(valid.get(i));
-            }
-        }
-        validWords.removeAll(badWords);
-
-    }
-
-    /**
-     * Removing words without passed in letter at specific spot
-     * @param letter
-     * @param index
-     * @author Kevin Paganini
-     */
-    public void removeWordWithoutCorrectLetter(String letter, int index){
-        ArrayList badWords = new ArrayList();
-        ArrayList<String> valid = new ArrayList<>();
-        valid.addAll(validWords);
-        for(int i = 0; i < valid.size(); i++){
-            if(valid.get(i).equals("rogue")){
-                System.out.println("Hi");
-
-            }
-            String validLetterCheck = String.valueOf(valid.get(i).toCharArray()[index]).toUpperCase(Locale.ROOT);
-            if(!String.valueOf(valid.get(i).toCharArray()[index]).toUpperCase(Locale.ROOT).equals(letter)){
-                badWords.add(valid.get(i));
-            }
-        }
-        validWords.removeAll(badWords);
-    }
-
-
 }
