@@ -129,6 +129,7 @@ public class Wordle {
      * if the guess is invalid
      * @author Atreyu Schilling
      */
+
     public int[] makeGuess(String guess) {
 
         if (DEBUG) System.out.println(target);
@@ -139,21 +140,28 @@ public class Wordle {
         }
         if (DEBUG) System.out.println(guess);
         if (isWinner(guess)) {
-            guessList.add(new Guess(guess, false, true));
+            //guessList.add(new Guess(guess, false, true));
             guessesLeft=guessesPossible;
             currentGuesses.clear();
         } else if (guessesLeft == 0){
-            guessList.add(new Guess(guess, true, false));
+            //guessList.add(new Guess(guess, true, false));
             guessesLeft=guessesPossible;
             currentGuesses.clear();
         } else {
             Guess addableGuess = new Guess(guess, false, false);
-            guessList.add(addableGuess);
+            //guessList.add(addableGuess);
             currentGuesses.add(addableGuess);
             guessesLeft--;
 
         }
         return returnPositionsOnly(guess);
+    }
+
+    public void updateGuesses(ArrayList<String> guesses){
+        guessList.clear();
+        for (String guess: guesses){
+            guessList.add(new Guess(guess, true, false));
+        }
     }
 
     /**

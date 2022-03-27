@@ -440,6 +440,7 @@ public class Controller {
         if (DEBUG) System.out.println(input);
 
         guesses.add(input);
+        game.updateGuesses(guesses);
 
         // Checking positions of guess against target
         int[] position = game.makeGuess(input.toLowerCase(Locale.ROOT));
@@ -1015,7 +1016,6 @@ public class Controller {
     public void openStats(){
         String pc = getComputerName();
         pc = pc.replaceAll("[\\\\/:*?\"<>|]", "");
-        System.out.println("PC NAME: " + pc);
         if (!pc.equals(("ERROR"))){
             try{
                 File stats = new File("src/Resources/" + pc);
@@ -1063,7 +1063,6 @@ public class Controller {
     public void saveStats(){
         String pc = getComputerName();
         pc = pc.replaceAll("[\\\\/:*?\"<>|]", "");
-        System.out.println(pc);
         if (!pc.equals("ERROR")){
             String content = "";
             if (DARK) content += "DARK"; else content += "LIGHT";
