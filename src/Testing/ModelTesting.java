@@ -1,23 +1,18 @@
+package Testing;
+
 import Model.Session;
 import Model.Wordle;
 import org.junit.Test;
 import org.junit.jupiter.api.*;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 
 public class ModelTesting {
-    static Session session;
-
-    @BeforeAll
-    static void init(){
-        session = Session.getSession();
-    }
-
-
-
-
+    static Session session = Session.getSession();
 
 
     /**
@@ -95,56 +90,40 @@ public class ModelTesting {
 
     /**
      * Test must be re-written to accommodate new model
+     * This test fails currently
      */
     @Test
     public void testGuessWriter() throws IOException {
-        /*
+
         File file = new File("src/Resources/previousGuesses.txt");
         file.delete();
-        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session, suggestions);
+        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session);
         //arbitrary target for testing purposes
         wordle.forceTarget("meant");
 
-        wordle.returnPositions("crane");
-        wordle.returnPositions("creme");
-        wordle.returnPositions("death");
-        wordle.returnPositions("snake");
-
-        wordle.storeGuesses();
-
+        wordle.makeGuess("crane");
+        wordle.makeGuess("creme");
+        wordle.makeGuess("death");
+        wordle.makeGuess("snake");
         BufferedReader br = new BufferedReader(new FileReader(file));
         Assertions.assertEquals("crane", br.readLine());
         Assertions.assertEquals("creme", br.readLine());
         Assertions.assertEquals("death", br.readLine());
         Assertions.assertEquals("snake", br.readLine());
-        wordle.returnPositions("doubt");
+        wordle.makeGuess("doubt");
         Assertions.assertNull(br.readLine());
-        wordle.storeGuesses();
 
         Assertions.assertEquals("doubt", br.readLine());
         br.close();
         file.delete();
 
-        wordle.returnPositions("march");
-        wordle.returnPositions("meant");
-        wordle.storeGuesses();
+        wordle.makeGuess("march");
+        wordle.makeGuess("meant");
 
         br = new BufferedReader(new FileReader(file));
         Assertions.assertEquals("march", br.readLine());
         Assertions.assertEquals("meant0", br.readLine());
         br.close();
         file.delete();
-         */
-    }
-
-    /**
-     * Tests that the averageGuessesPerWin method functions as intended
-     * Any files created are destroyed on success
-     *
-     * NOTE: DO NOT RUN THIS TEST WHILE USEFUL THINGS ARE BEING STORED. IT WILL OVERWRITE THE previousGuesses.txt FILE
-     * @author Atreyu Schilling
-     */
-    @Test
-    public void testAverageWinReader() throws IOException {
     }
 }

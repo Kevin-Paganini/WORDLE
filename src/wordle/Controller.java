@@ -121,10 +121,6 @@ public class Controller {
 
     ArrayList<Button> buttons = new ArrayList<>();
 
-
-    private Suggestions suggestions;
-
-
     /**
      * Initialization function for window
      * Adding style sheets to specific elements
@@ -957,7 +953,7 @@ public class Controller {
 
     public void updateSuggestions(){
         SUGGESTIONS.getChildren().clear();
-        SUGGESTIONS.getChildren().add(Utils.makeSuggestionsGrid(suggestions));
+        SUGGESTIONS.getChildren().add(Utils.makeSuggestionsGrid(session.getSuggestions()));
     }
 
 

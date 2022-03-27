@@ -65,11 +65,13 @@ public class Session {
         for (Wordle game : games) {
             for (Guess guess : game.getGuesses()) {
                 //For every guess of every game, split them into characters and cycle over them
-                char[] guessLetters = guess.getGuess().toLowerCase(Locale.ROOT).toCharArray();
+                //Because the utils function returns all capitals,
+                //the resultant letters are capitalized as well
+                char[] guessLetters = guess.getGuess().toUpperCase(Locale.ROOT).toCharArray();
                 for (char letter : guessLetters) {
                     String letterStr = String.valueOf(letter);
-                    //Adds 1 to the frequency map
-                    letterFrequency.replace(letterStr, letterFrequency.get(letterStr) + 1);
+                    //Initializes the value in the frequency map to 1 if it doesn't exist, doesn't initialize it if not
+                    letterFrequency.merge(letterStr, 1, Integer::sum);
                 }
             }
         }
