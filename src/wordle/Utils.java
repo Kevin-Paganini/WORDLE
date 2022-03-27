@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public abstract class Utils {
@@ -113,7 +112,7 @@ public abstract class Utils {
      * @return HashMap with frequencies initialized
      * @author Kevin Paganini
      */
-    public static HashMap<String, Integer> makeInitialHashMapForLetterFrequency() {
+    public static HashMap<String, Integer> intializeLetterFrequency() {
         HashMap<String, Integer> letters_used_grid_colors = new HashMap<>();
         for (String letter : textFieldValues){
             letters_used_grid_colors.put(letter, 0);
@@ -130,17 +129,12 @@ public abstract class Utils {
      */
     public static HashMap<String, Integer> sortHashMapByValue(HashMap<String, Integer> wordFreq){
         List<Map.Entry<String, Integer>> list = new LinkedList<>(wordFreq.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
-            @Override
-            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                return o2.getValue().compareTo(o1.getValue());
-            }
-        });
+        list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
 
-        LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
-        for(Map.Entry <String, Integer> entry: list){
+        //I'm skeptical this needs a deep copy
+        LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<>();
+        for(Map.Entry <String, Integer> entry: list) {
             sortedMap.put(entry.getKey(), entry.getValue());
-
         }
         return sortedMap;
     }

@@ -10,33 +10,25 @@ public class Wordle {
     //File that guesses are written to - if it doesn't exist, create it
 
 
-    //The naming scheme for private final is the same as private non-final. Only public final has SCREAMING_CAMEL_CASE
-    private int numLetters;
-    private int guessesPossible;
+    private final int numLetters;
+    private final int guessesPossible;
     private int guessesLeft;
     private String target;
     private TreeSet<String> dictionary = null;
-    private List<String> previousGuessesBuffer = new ArrayList<>();
-    private boolean isWin;
 
     private int[] positions = null;
-    private String currentGuess = null;
+    private final List<String> currentGuesses;
 
-    private ArrayList<String> guessList = new ArrayList<>();
+    private final ArrayList<Guess> guessList = new ArrayList<>();
 
-    public Wordle(int numGuesses, int numLetters, File dictionary) throws IOException {
+    public Wordle(int numGuesses, int numLetters, File dictionary, Session session) throws IOException {
         guessesPossible = numGuesses;
         this.guessesLeft = numGuesses;
         this.numLetters = numLetters;
         loadDictionary(dictionary);
         this.target = randomTarget();
-        this.isWin = false;
-    }
-
-    public Wordle(int numGuesses, int numLetters, File dictionary, Session session, Suggestions suggestions) throws IOException {
-        this(numGuesses, numLetters, dictionary);
         session.addGame(this);
-        suggestions.addGame(this);
+        currentGuesses = new ArrayList<>();
     }
 
     /**
@@ -139,28 +131,24 @@ public class Wordle {
      * @author Atreyu Schilling
      */
     public int[] returnPositions(String guess) {
-        currentGuess = guess;
         if (DEBUG) System.out.println(target);
         guessesLeft--;
-        if(guess.equals(target)){
-            isWin = true;
-        }
-        guessList.add(guess);
         if (!isValidWord(guess)) {
             return null;
         }
         if (DEBUG) System.out.println(guess);
-        // '\n' used for file formatting
         if (isWinner(guess)) {
-            //previousGuessesBuffer.add(new Guess(guess, false, true));
+            guessList.add(new Guess(guess, false, true));
             guessesLeft=guessesPossible;
+            currentGuesses.clear();
         } else if (guessesLeft == 0){
-            //NOTE: Losing guesses terminate with a 0
-            //previousGuessesBuffer.add(new Guess(guess, true, false));
+            guessList.add(new Guess(guess, true, false));
             guessesLeft=guessesPossible;
+            currentGuesses.clear();
         } else {
-            //previousGuessesBuffer.add(new Guess(guess, false, false));
+            guessList.add(new Guess(guess, false, false));
             guessesLeft--;
+            currentGuesses.add(guess);
         }
 
 
@@ -209,33 +197,12 @@ public class Wordle {
     }
 
 
-    public boolean isWin() {
-        return isWin;
-    }
-
-    /**
-     * Stores the internal list of previous guesses into a text file and flushes
-     * the buffer. Possibly call it after every puzzle.
-     *
-     * @throws IOException IO error occurs when creating or writing to file
-     * @author Atreyu Schilling
-     */
-    public void storeGuesses() throws IOException {
-        //Guesses will be stored in a specified file.
-        if (Session.STORAGE_FILE.createNewFile() && DEBUG) System.out.println("new previousGuesses file created");
-        BufferedWriter bw = new BufferedWriter(new FileWriter(Session.STORAGE_FILE, true));
-        //String.join without a delimiter might be dumb, but I'm not sure how to do it otherwise
-        bw.append(String.join("", previousGuessesBuffer));
-        bw.close();
-        previousGuessesBuffer.clear();
-    }
-
     public String getTarget() {
         return target;
     }
 
 
-    public ArrayList<String> getGuessList(){
+    public List<Guess> getGuesses(){
         return guessList;
     }
 
@@ -247,8 +214,8 @@ public class Wordle {
         return positions;
     }
 
-    public String getCurrentGuess(){
-        return currentGuess;
+    public List<String> getCurrentGuesses(){
+        return currentGuesses;
     }
 
 

@@ -133,7 +133,7 @@ public class Controller {
      */
     @FXML
     public void initialize(){
-        session = new Session();
+        session = Session.getSession();
         startNewGame();
         openStats();
 
@@ -150,14 +150,10 @@ public class Controller {
         // Creating Wordle Game
 
         try {
-            //I have an idea solution for this - Atreyu
             BufferedReader brTest = new BufferedReader(new FileReader(dictionaryFile));
             String word = brTest.readLine();
             numLetters = word.length();
-            suggestions = new Suggestions();
-            game = new Wordle(numGuesses, numLetters, dictionaryFile, session, suggestions);
-            suggestions.addGame(game);
-
+            game = new Wordle(numGuesses, numLetters, dictionaryFile, session);
         } catch (IOException e) {
             //TODO: Catch if the wordle-official file does not exist
         } catch (NullPointerException e){

@@ -1,26 +1,18 @@
-package Testing;
-
 import Model.Session;
-import Model.Suggestions;
-import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import Model.Wordle;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.Test;
+import org.junit.jupiter.api.*;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 
 
 public class ModelTesting {
-    Session session;
-    Suggestions suggestions;
+    static Session session;
 
-    @BeforeEach
-    public void init(){
-        session = new Session();
-        suggestions = new Suggestions();
+    @BeforeAll
+    static void init(){
+        session = Session.getSession();
     }
 
 
@@ -39,7 +31,7 @@ public class ModelTesting {
     @Test
     public void dictCompare() throws IOException {
 
-        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session, suggestions);
+        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session);
 
 
 
@@ -62,16 +54,16 @@ public class ModelTesting {
         Assertions.assertFalse(wordle.isValidWord(""));
 
         //Dictionary contains shard but not crane - make sure we don't get false positives
-        wordle = new Wordle(5, 5, new File("src/Resources/shardnocrane.txt"));
+        wordle = new Wordle(5, 5, new File("src/Resources/shardnocrane.txt"), session);
         Assertions.assertFalse(wordle.isValidWord("crane"));
         Assertions.assertTrue(wordle.isValidWord("shard"));
 
         // file that has strings of invalid length
         Assertions.assertThrows(IOException.class ,() ->
-                new Wordle(5, 5, new File("src/Resources/invalidLengths.txt")));
+                new Wordle(5, 5, new File("src/Resources/invalidLengths.txt"), session));
         // file that has non-characters in it
         Assertions.assertThrows(IOException.class, () ->
-                new Wordle(5, 5, new File("src/Resources/invalidCharacters.txt")));
+                new Wordle(5, 5, new File("src/Resources/invalidCharacters.txt"), session));
 
     }
 
@@ -82,7 +74,7 @@ public class ModelTesting {
     // Passed on 3/16
     @Test
     public void guessCompare() throws IOException {
-        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session, suggestions);
+        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session);
 
         //Most basic test
         Assertions.assertTrue(wordle.forceTarget("crane"));
@@ -102,15 +94,11 @@ public class ModelTesting {
     }
 
     /**
-     * Tests that the guess writing portion of the program functions
-     * Any files created are destroyed on success
-     *
-     * NOTE: DO NOT RUN THIS TEST WHILE USEFUL THINGS ARE BEING STORED. IT WILL OVERWRITE THE previousGuesses.txt FILE
-     * @author Atreyu Schilling
+     * Test must be re-written to accommodate new model
      */
-    //Passed on 3/19
     @Test
     public void testGuessWriter() throws IOException {
+        /*
         File file = new File("src/Resources/previousGuesses.txt");
         file.delete();
         Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session, suggestions);
@@ -146,6 +134,7 @@ public class ModelTesting {
         Assertions.assertEquals("meant0", br.readLine());
         br.close();
         file.delete();
+         */
     }
 
     /**
@@ -155,31 +144,7 @@ public class ModelTesting {
      * NOTE: DO NOT RUN THIS TEST WHILE USEFUL THINGS ARE BEING STORED. IT WILL OVERWRITE THE previousGuesses.txt FILE
      * @author Atreyu Schilling
      */
-    //Tests passed on 3/19
     @Test
     public void testAverageWinReader() throws IOException {
-        /*
-        File file = new File("src/Resources/previousGuesses.txt");
-        file.delete();
-        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"));
-        
-        wordle.forceTarget("bench");
-        wordle.returnPositions("sting");
-        wordle.returnPositions("march");
-        wordle.returnPositions("bench");
-        wordle.storeGuesses();
-        Assertions.assertEquals(3.0, wordle.averageGuessesPerWin());
-        wordle.returnPositions("stiff");
-        wordle.storeGuesses();
-        Assertions.assertEquals(4.0, wordle.());
-        wordle.returnPositions("bench");
-        wordle.storeGuesses();
-        Assertions.assertEquals(2.5, wordle.averageGuessesPerWin());
-        file.delete();
-        Assertions.assertEquals(-1.0, wordle.averageGuessesPerWin());
-        wordle.storeGuesses();
-        Assertions.assertEquals(-2.0, wordle.averageGuessesPerWin());
-        file.delete();
-         */
     }
 }

@@ -9,36 +9,64 @@ import java.util.Locale;
 
 public class Session {
     public static final File STORAGE_FILE = new File("src/Resources/previousGuesses.txt");
-    private final ArrayList<Wordle> sessionGames = new ArrayList<>();
+    private final ArrayList<Wordle> games = new ArrayList<>();
+    private final Suggestions suggestions;
+    private static Session instance = null;
 
-
-    public Session (){
-
+    //Now, suggestions only needs to be stored once. We don't make new ones for each wordle
+    private Session () {
+        suggestions = new Suggestions();
     }
 
+    //It's singleton time baybeee
+    public static Session getSession() {
+        if (instance == null) instance = new Session();
+
+        return instance;
+    }
+
+    public Suggestions getSuggestions() {
+        return suggestions;
+    }
 
 
     public void addGame(Wordle wordle){
-        sessionGames.add(wordle);
+        games.add(wordle);
+        suggestions.addGame(wordle);
     }
 
+    /**
+     * Returns the average guesses per session as a double
+     *
+     * @return guesses / games, as a double
+     *         Returns -1 if no games have been played.
+     */
     public double getAverageGuesses(){
-        int total = 0;
-        for(int i = 0; i < sessionGames.size(); i++){
-           total += sessionGames.get(i).getGuessList().size();
+        double guesses = 0;
+        double matches = 0;
+        for (Wordle game : games) {
+            guesses += game.getGuesses().size();
+            //The Wordle doesn't represent a single game, but a single set of settings.
+            for (Guess guess : game.getGuesses()) {
+                if (guess.isWin() || guess.isLoss()) matches++;
+            }
         }
-        double averageGuesses = total / sessionGames.size();
-
-        return averageGuesses;
+        return guesses / matches;
     }
 
 
+    /**
+     * Returns the frequency of letters previously guessed as a key-value pair,
+     * where the key represents the letter and the value represents the frequency of that letter
+     *
+     * @return HashMap where key is the letter and value is the frequency
+     */
     public HashMap<String, Integer> getLetterGuessFrequency(){
-        HashMap<String, Integer> letterFrequency = Utils.makeInitialHashMapForLetterFrequency();
-        for(int i = 0; i < sessionGames.size(); i++){
-            for(int j = 0; j < sessionGames.get(i).getGuessList().size(); j++){
-                String guess = sessionGames.get(i).getGuessList().get(j);
-                for(int k = 0; k < guess.length(); k++){
+        HashMap<String, Integer> letterFrequency = Utils.intializeLetterFrequency();
+        for (Wordle sessionGame : games) {
+            for (int j = 0; j < sessionGame.getGuesses().size(); j++) {
+                String guess = sessionGame.getGuesses().get(j).getGuess();
+                for (int k = 0; k < guess.length(); k++) {
                     String current_letter = String.valueOf(guess.toUpperCase(Locale.ROOT).toCharArray()[k]);
                     int value = letterFrequency.get(current_letter);
                     letterFrequency.put(current_letter, ++value);
@@ -49,18 +77,23 @@ public class Session {
     }
 
 
+    /**
+     * Returns the frequency of words previously guessed as a key-value pair,
+     * where the key represents the word and the value represents the frequency of that word
+     *
+     * @return HashMap where key is the word and value is the frequency
+     */
     public HashMap<String, Integer> getWordGuessFrequency(){
         HashMap<String, Integer> wordFrequency = new HashMap<>();
 
-        for(int i = 0; i < sessionGames.size(); i++){
-            Wordle wordle = sessionGames.get(i);
-            ArrayList<String> guessList = wordle.getGuessList();
-            for(int j = 0; j < guessList.size(); j++){
-                if (wordFrequency.keySet().contains(guessList.get(j))){
-                    int val = wordFrequency.get(guessList.get(j));
-                    wordFrequency.put(guessList.get(j), ++val);
+        for (Wordle wordle : games) {
+            for (Guess guess : wordle.getGuesses()) {
+
+                if (wordFrequency.containsKey(guess.getGuess())) {
+                    int val = wordFrequency.get(guess.getGuess());
+                    wordFrequency.put(guess.getGuess(), ++val);
                 } else {
-                    wordFrequency.put(guessList.get(j), 1);
+                    wordFrequency.put(guess.getGuess(), 1);
                 }
             }
         }
@@ -68,12 +101,11 @@ public class Session {
         return Utils.sortHashMapByValue(wordFrequency);
     }
 
-
     public int getWins(){
         int totalWins = 0;
-        for(int i = 0; i < sessionGames.size(); i++){
-            if (sessionGames.get(i).isWin()){
-                totalWins++;
+        for (Wordle game : games) {
+            for (Guess guess : game.getGuesses()) {
+                if(guess.isWin()) totalWins++;
             }
         }
         return totalWins;
@@ -81,37 +113,39 @@ public class Session {
 
     public int getLosses(){
         int totalLosses = 0;
-        for(int i = 0; i < sessionGames.size(); i++){
-            if (!sessionGames.get(i).isWin()){
-                totalLosses++;
+        for (Wordle game : games) {
+            for (Guess guess : game.getGuesses()) {
+                if(guess.isLoss()) totalLosses++;
             }
         }
         return totalLosses;
     }
 
-
+    /**
+     * Returns the longest win-streak so far
+     * @return Longest win-streak as an integer
+     */
     public int getWinStreak(){
         int longestWinStreak = 0;
         int currentWinStreak = 0;
-        for(int i = 0; i < sessionGames.size(); i++)
-            if(sessionGames.get(i).isWin()){
-                currentWinStreak++;
-            } else {
-                if(currentWinStreak > longestWinStreak){
-                    longestWinStreak = currentWinStreak;
+        for (Wordle game : games) {
+            for (Guess guess : game.getGuesses()) {
+                if (guess.isWin()) {
+                    currentWinStreak++;
+                } else if(guess.isLoss()) {
+                    longestWinStreak = Math.max(currentWinStreak, longestWinStreak);
                     currentWinStreak = 0;
                 }
             }
-        if(currentWinStreak > longestWinStreak){
-            longestWinStreak = currentWinStreak;
         }
-
-        return longestWinStreak;
+        return Math.max(currentWinStreak, longestWinStreak);
     }
 
 
-
-    public String prettyString(){
+    /**
+     * USED FOR DEBUGGING - DO NOT USE OTHERWISE
+     */
+    public void prettyString(){
         System.out.println("Hello:");
         System.out.println("Average guess number: " + getAverageGuesses());
         System.out.println("Letter Frequency:");
@@ -122,6 +156,5 @@ public class Session {
         System.out.println("Longest Win Streak: " + getWinStreak());
         System.out.println("Word freqeuncy: ");
         Utils.printHashMap(getWordGuessFrequency());
-        return "";
     }
 }
