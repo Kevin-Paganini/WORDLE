@@ -224,7 +224,7 @@ public abstract class Utils {
         GridPane grid = new GridPane();
         Label suggestions = new Label("Suggestions:");
         grid.add(suggestions, 0, 0);
-        Set<String> noWrongLetters = s.returnPossibleWords();
+        Set<String> noWrongLetters = s.pruneDictionary();
         ArrayList<String> x = new ArrayList<>();
         x.addAll(noWrongLetters);
         int loopTo = Math.min(5, x.size());

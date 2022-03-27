@@ -12,7 +12,7 @@ public class Suggestions {
     private Set<String> validWords;
 
     private final HashMap<String, Integer> validLetterHash;
-    List<String> seen;
+    List<String> seen = new ArrayList<>();
 
     //The only thing that should be creating one of these is the Session. That's it. Don't mess with this
     protected Suggestions(){
@@ -41,19 +41,17 @@ public class Suggestions {
      * @return Set with possible words
      */
     public Set<String> pruneDictionary(){
-        List<Guess> currentGuesses = game.getCurrentGuesses();
-        int[] positions = game.returnPositionsOnly(currentGuesses.get(1).getGuess());
-        for (Guess guess : currentGuesses) {
-            validWords.remove(guess.getGuess().toLowerCase(Locale.ROOT));
-        }
-        for(int position : positions){
-            String letter = String.valueOf(position).toUpperCase(Locale.ROOT);
-            if (validLetterHash.get(letter) < position){ // Checks if value stored is smaller than value achieved
-                validLetterHash.replace(letter, position); // If guess has higher value replaces old value
-            }
-        }
         boolean doubleLetter = false;
+        List<Guess> currentGuesses = game.getCurrentGuesses();
         for (Guess guess : currentGuesses) {
+            int[] positions = game.returnPositionsOnly(guess.getGuess());
+            validWords.remove(guess.getGuess().toLowerCase(Locale.ROOT));
+            for (int i = 0; i < positions.length; i++) {
+                String letter = String.valueOf(guess.getGuess().charAt(i)).toUpperCase(Locale.ROOT);
+                if (validLetterHash.get(letter) < positions[i]) { // Checks if value stored is smaller than value achieved
+                    validLetterHash.replace(letter, positions[i]); // If guess has higher value replaces old value
+                }
+            }
             char[] currentGuess = guess.getGuess().toCharArray();
             for(int j = 0; j < currentGuess.length; j++){
                 for(int i = 0; i < currentGuess.length; i++){
