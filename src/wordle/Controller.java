@@ -188,20 +188,26 @@ public class Controller {
 
         //Creating grid of inputs
         grid_input = createGridOfInputs(numGuesses, numLetters);
+        grid_input.setLayoutX(350);
+        grid_input.setLayoutY(50);
 
         // Create keyboard of used letters
         letters_used = createKeyBoardInputs();
-        letters_used.setLayoutX((numLetters * 60) + 100);
-        letters_used.setLayoutY(50);
+        letters_used.setLayoutX(200);
+        letters_used.setLayoutY((numGuesses * 60) + 100);
         letters_used.getStyleClass().add("keyBoardGrid");
 
         // Create Statistics button
         statButton = createStatisticsButton();
+        statButton.setLayoutX(200);
+        statButton.setLayoutY(50);
         submitButton = makeSubmitButton();
+        submitButton.setLayoutY(50);
+        submitButton.setLayoutX(750);
 
         SUGGESTIONS = new GridPane();
-        SUGGESTIONS.setLayoutX(numLetters * 60 + 200);
-        SUGGESTIONS.setLayoutY(250);
+        SUGGESTIONS.setLayoutX(130);
+        SUGGESTIONS.setLayoutY((numGuesses*60)+240);
 
 
 
@@ -507,29 +513,22 @@ public class Controller {
         win.getStylesheets().add("Styling//stylesheet.css");
         win.getStylesheets().add("Styling//dark_stylesheet.css");
         win.getStylesheets().add("Styling//contrast_stylesheet.css");
+        String format = "";
         //Did player win or lose
         win.getStyleClass().clear();
-        if(win_streak == 0) {
-            if(DARK && !CONTRAST) {
-                win.getStyleClass().add("loser-dialog-dark");
-            } else if(DARK && CONTRAST){
-                win.getStyleClass().add("loser-dialog-dark-contrast");
-            } else if(CONTRAST && !DARK) {
-                win.getStyleClass().add("loser-dialog-contrast");
-            } else {
-                win.getStyleClass().add("loser-dialog");
-            }
+        if(win_streak==0) {
+            format+="loser";
         } else {
-            if(DARK && !CONTRAST) {
-                win.getStyleClass().add("winner-dialog-dark");
-            } else if(DARK && CONTRAST){
-                win.getStyleClass().add("winner-dialog-dark-contrast");
-            } else if(CONTRAST && !DARK) {
-                win.getStyleClass().add("winner-dialog-contrast");
-            } else {
-                win.getStyleClass().add("winner-dialog");
-            }
+            format += "winner";
         }
+        format+="-dialog";
+        if(DARK) {
+            format+="-dark";
+        }
+        if(CONTRAST){
+            format+="-contrast";
+        }
+        win.getStyleClass().add(format);
         win.setHeaderText("Played = " + (wins + losses) + "\nWIN% = " + win_percentage + "%" + "\nGUESSES THIS GAME = " + guess + "\nWINSTREAK = " + win_streak);
         win.setContentText("PLAY AGAIN?");
 
@@ -815,26 +814,16 @@ public class Controller {
      * @param DARK DARK/LIGHT setting desired
      */
     public void update_contrast(boolean CONTRAST, boolean DARK){
-        if(CONTRAST && DARK) {
-            for(Button button : buttons) {
-                button.getStyleClass().clear();
-                button.getStyleClass().add("button-dark-contrast");
-            }
-        } else if(CONTRAST && !DARK){
-            for(Button button : buttons) {
-                button.getStyleClass().clear();
-                button.getStyleClass().add("button-contrast");
-            }
-        } else if(DARK && !CONTRAST){
-            for(Button button : buttons) {
-                button.getStyleClass().clear();
-                button.getStyleClass().add("button-dark");
-            }
-        } else {
-            for(Button button : buttons) {
-                button.getStyleClass().clear();
-                button.getStyleClass().add("button");
-            }
+        String format = "button";
+        if(DARK) {
+            format+="-dark";
+        }
+        if(CONTRAST) {
+            format+="-contrast";
+        }
+        for(Button button : buttons) {
+            button.getStyleClass().clear();
+            button.getStyleClass().add(format);
         }
         if(CONTRAST){
             for(Label temp : labels) {

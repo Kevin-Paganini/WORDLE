@@ -14,7 +14,7 @@
     -fx-font : 14px "serief";
     -fx-padding : 10;
     -fx-background-color : #3d3c3a;
-    -fx-text-fill : white;
+    -fx-text-fill : black;
 
 }
 
@@ -28,8 +28,9 @@
 }
 
 .button-dark-contrast:hover {
-    -fx-background-color: #8cf985;
+    -fx-background-color: #ff0000;
     -fx-text-fill: #000000;
+    -fx-effect:dropshadow( three-pass-box, #ff0000, 20.0, 0.0, 0.0, 0.0);
 }
 
 .text-field-dark {
@@ -126,6 +127,7 @@
     -fx-width : 200px;
     -fx-height : 400px;
     -fx-text-align : center;
+    -fx-text-fill : black;
 
 }
 
@@ -133,26 +135,32 @@
     -fx-background-color: #000000;
     -fx-font : 20px "serief";
     -fx-padding: 10;
+    -fx-text-fill : black;
 }
 
 .winner-dialog-dark-contrast > .content.label {
-    -fx-background-color: #f5793a;
+    -fx-background-color: #2bffff;
+    -fx-text-fill : black;
+    -fx-effect:dropshadow( three-pass-box, #2bffff, 20.0, 0.0, 0.0, 0.0);
 }
 
 .winner-dialog-dark-contrast:header .header-panel .label{
-  -fx-background-color: #f5793a;
+  -fx-background-color: #2bffff;
+  -fx-effect:dropshadow( three-pass-box, #2bffff, 20.0, 0.0, 0.0, 0.0);
   -fx-background-radius:10px;
+  -fx-text-fill : black;
 }
 
 .winner-dialog-dark-contrast .button{
         -fx-font : 14px "serief";
         -fx-padding : 10;
         -fx-background-color : #3d3c3a;
-        -fx-text-fill : white;
+        -fx-text-fill : black;
 }
 
 .winner-dialog-dark-contrast .button:hover{
-    -fx-background-color: #8cf985;
+    -fx-background-color: #2bffff;
+    -fx-effect:dropshadow( three-pass-box, #2bffff, 20.0, 0.0, 0.0, 0.0);
 }
 
 .loser-dialog-dark {
@@ -191,6 +199,7 @@
 
 .loser-dialog-dark .button:hover{
     -fx-background-color: rgb(156, 60, 61);
+
 }
 
 
@@ -212,12 +221,14 @@
 }
 
 .loser-dialog-dark-contrast > .content.label {
-    -fx-background-color: #8cf985;
+    -fx-background-color: #ff0000;
+    -fx-effect:dropshadow( three-pass-box, #ff0000, 20.0, 0.0, 0.0, 0.0);
     -fx-text-fill : black;
 }
 
 .loser-dialog-dark-contrast:header .header-panel .label{
-  -fx-background-color: #8cf985;
+  -fx-background-color: #ff0000;
+  -fx-effect:dropshadow( three-pass-box, #ff0000, 20.0, 0.0, 0.0, 0.0);
   -fx-background-radius:10px;
   -fx-text-fill : black;
 }
@@ -230,7 +241,8 @@
 }
 
 .loser-dialog-dark-contrast .button:hover{
-    -fx-background-color: #8cf985;
+    -fx-background-color: #ff0000;
+    -fx-effect:dropshadow( three-pass-box, #ff0000, 20.0, 0.0, 0.0, 0.0);
 }
 
 .chart-dark {
