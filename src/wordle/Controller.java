@@ -17,10 +17,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import static javafx.scene.input.KeyCode.*;
 
@@ -42,8 +41,11 @@ public class Controller {
     double win_percentage;
     int numGuesses = 6;
     int numLetters = 5;
+    int avgGuesses = 0;
     boolean DARK = false;
     boolean CONTRAST = false;
+    boolean SUGGESTION = false;
+    ArrayList<String> guesses = new ArrayList<>();
     DialogPane win;
 
     private HashMap<String, Integer> letters_used_grid_colors;
@@ -67,6 +69,9 @@ public class Controller {
 
     @FXML
     Button importDictionaryButton;
+
+    @FXML
+    Button suggestion;
 
 
 
@@ -130,6 +135,7 @@ public class Controller {
     public void initialize(){
         session = new Session();
         startNewGame();
+        openStats();
 
     }
 
@@ -374,6 +380,8 @@ public class Controller {
 
         if (DEBUG) System.out.println(input);
 
+        guesses.add(input);
+
         // Checking positions of guess against target
         int[] position = game.returnPositions(input.toLowerCase(Locale.ROOT));
 
@@ -408,6 +416,7 @@ public class Controller {
             win_streak++;
             wins++;
             win_percentage = Math.min(100, ((double)wins/(losses+wins)) * 100);
+            saveStats();
             showWinAlert();
         }
         //If there is a guess and it is wrong
@@ -422,6 +431,7 @@ public class Controller {
             gridOfTextFieldInputs.get(guess).get(0).requestFocus();
         //If there is a guess and user is out of guesses
         } else {
+            saveStats();
             win_streak = 0;
             losses++;
             win_percentage = ((double)wins/(losses+wins)) * 100;
@@ -544,17 +554,8 @@ public class Controller {
         TextField textField = (TextField) e.getSource();
         KeyCode keyCode = e.getCode();
         if(keyCode == ENTER){
-            int pos = 0;
-            for(int i = 0; i < gridOfTextFieldInputs.get(guess).size(); i++){
-                TextField validator = gridOfTextFieldInputs.get(guess).get(i);
-                if(validator == textField){
-                    pos = i;
-                }
-            }
-            if(pos+1 == gridOfTextFieldInputs.get(guess).size()){
                 if(!submitButton.isDisabled())
                 submit();
-            }
         }
         else if(keyCode == LEFT){
             int pos = 0;
@@ -731,7 +732,7 @@ public class Controller {
         } else {
             dark_light.setText("DARK-MODE");
         }
-
+        saveStats();
     }
 
     /**
@@ -748,7 +749,26 @@ public class Controller {
         } else {
             contrast.setText("HIGH-CONTRAST-MODE");
         }
+        saveStats();
     }
+
+    /**
+     * @author David Kane
+     * Changes Disables/Enables Suggestions
+     * @param actionEvent Button click (garbage value)
+     */
+    public void suggestion_switch(ActionEvent actionEvent) {
+        if (suggestion.getText().equals("Suggestions: OFF")){
+            suggestion.setText("Suggestions: ON");
+            SUGGESTION = true;
+
+        }
+        else{
+            suggestion.setText("Suggestions: OFF");
+        }
+        saveStats();
+    }
+
     /**
      * @author Carson Meredith
      * Changes from CONTRAST to NORMAL or NORMAL to CONTRAST
@@ -924,10 +944,13 @@ public class Controller {
      * Updates stats page after every game
      */
     public void updateStats(){
-        winLabel.setText(String.valueOf(session.getWins()));
-        lossLabel.setText(String.valueOf(session.getLosses()));
+        //winLabel.setText(String.valueOf(session.getWins()));
+        winLabel.setText(String.valueOf(wins));
+        //lossLabel.setText(String.valueOf(session.getLosses()));
+        lossLabel.setText(String.valueOf(losses));
         avgNumGuesses.setText(String.valueOf(session.getAverageGuesses()));
-        longestWinStreak.setText(String.valueOf(session.getWinStreak()));
+        //longestWinStreak.setText(String.valueOf(session.getWinStreak()));
+        longestWinStreak.setText(String.valueOf(win_streak));
         frequentLetterPane.getChildren().clear();
         frequentWordPane.getChildren().clear();
         frequentWordPane.getChildren().add(Utils.make5BarChartFromHashMap(session.getWordGuessFrequency()));
@@ -939,6 +962,94 @@ public class Controller {
     public void updateSuggestions(){
         SUGGESTIONS.getChildren().clear();
         SUGGESTIONS.getChildren().add(Utils.makeSuggestionsGrid(suggestions));
+    }
+
+
+    public void openStats(){
+        String pc = getComputerName();
+        pc = pc.replaceAll("[\\\\/:*?\"<>|]", "");
+        System.out.println("PC NAME: " + pc);
+        if (!pc.equals(("ERROR"))){
+            try{
+                File stats = new File("src/Resources/" + pc);
+                BufferedReader br = new BufferedReader(new FileReader(stats));
+                String line = br.readLine();
+                if (line.equals("DARK")){
+                    dark_light_mode_switch(null);
+                }
+                line = br.readLine();
+                if (line.equals("CONTRAST")){
+                    contrast_switch(null);
+                }
+                line = br.readLine();
+                if (line.equals("SUGGESTION")){
+                    suggestion_switch(null);
+                }
+
+                wins = Integer.parseInt(br.readLine());
+                losses = Integer.parseInt(br.readLine());
+                win_streak = Integer.parseInt(br.readLine());
+                avgGuesses = Integer.parseInt(br.readLine());
+
+                line = br.readLine();
+                while (line != null){
+                    guesses.add(line);
+                    line = br.readLine();
+                }
+
+            }catch (FileNotFoundException e){
+                //NO FILE: DO NOTHING.
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            //TODO: Handle error
+        }
+    }
+
+    public void saveStats(){
+        String pc = getComputerName();
+        pc = pc.replaceAll("[\\\\/:*?\"<>|]", "");
+        System.out.println(pc);
+        if (!pc.equals("ERROR")){
+            String content = "";
+            if (DARK) content += "DARK"; else content += "LIGHT";
+            if (CONTRAST) content += "\nCONTRAST"; else content += "\nNORMAL MODE";
+            if (SUGGESTION) content += "\nSUGGESTION"; else content += "\nNO SUGGESTIONS";
+            if (wins + losses == 0){
+                avgGuesses = 0;
+            }
+            else {
+                avgGuesses = (avgGuesses + guess) / (wins + losses);
+            }
+            content += "\n" + wins + "\n" + losses + "\n" + win_streak + "\n" + avgGuesses;
+
+            for (int i = 0; i < guesses.size(); i++){
+                content+= "\n" + guesses.get(i);
+            }
+
+            try {
+                Files.write(Paths.get("src/Resources/" + pc), content.getBytes());
+            }
+            catch (IOException ignored){};
+
+
+        }
+        else{
+            //TODO: Handle error
+        }
+    }
+
+    private String getComputerName()
+    {
+        Map<String, String> env = System.getenv();
+        if (env.containsKey("COMPUTERNAME"))
+            return env.get("COMPUTERNAME");
+        else if (env.containsKey("HOSTNAME"))
+            return env.get("HOSTNAME");
+        else
+            return "ERROR";
     }
 }
 
