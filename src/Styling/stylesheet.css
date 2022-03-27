@@ -244,3 +244,7 @@
 .loser-dialog .button:hover{
     -fx-background-color: rgb(156, 60, 61);
 }
+
+.chart {
+    -fx-background-color: #8fbc8f;
+}

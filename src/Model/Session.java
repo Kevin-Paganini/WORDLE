@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
+
+/**
+ * Session class to keep track of user statistics for one run through of program
+ * @author Kevin Paganini
+ */
 public class Session {
     public static final File STORAGE_FILE = new File("src/Resources/previousGuesses.txt");
     private final ArrayList<Wordle> games = new ArrayList<>();
@@ -139,11 +144,11 @@ public class Session {
     }
 
 
+
     /**
      * USED FOR DEBUGGING - DO NOT USE OTHERWISE
      */
-    public void prettyString(){
-        System.out.println("Hello:");
+    public void prettyString() {
         System.out.println("Average guess number: " + getAverageGuesses());
         System.out.println("Letter Frequency:");
         HashMap<String, Integer> printLetter = getLetterGuessFrequency();

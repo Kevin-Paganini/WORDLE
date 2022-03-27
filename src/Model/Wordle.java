@@ -16,7 +16,6 @@ public class Wordle {
     private String target;
     private TreeSet<String> dictionary = null;
 
-    private int[] positions = null;
     private final List<Guess> currentGuesses;
 
     private final ArrayList<Guess> guessList = new ArrayList<>();
@@ -223,10 +222,6 @@ public class Wordle {
 
     public TreeSet<String> getDictionary(){
         return dictionary;
-    }
-
-    public int[] getPositionsArray(){
-        return positions;
     }
 
     public List<Guess> getCurrentGuesses(){
