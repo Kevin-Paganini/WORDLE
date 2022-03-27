@@ -101,6 +101,9 @@ public class Session {
         for(int i = 0; i < sessionGames.size(); i++)
             if(sessionGames.get(i).isWin()){
                 currentWinStreak++;
+                if(currentWinStreak > longestWinStreak){
+                    longestWinStreak = currentWinStreak;
+                }
             } else {
                 if(currentWinStreak > longestWinStreak){
                     longestWinStreak = currentWinStreak;
