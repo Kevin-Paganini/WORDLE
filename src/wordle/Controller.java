@@ -30,6 +30,7 @@ public class Controller {
     public static final double BUTTON_PADDING = 10;
     private int guess = 0;
     ArrayList<List<TextField>> gridOfTextFieldInputs = new ArrayList<>();
+    ArrayList<Label> suggestions = new ArrayList<>();
     List<String> textFieldValues = Arrays.asList("Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
             "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M", "DEL");
     Wordle game = null;
@@ -42,12 +43,13 @@ public class Controller {
     double win_percentage;
     int numGuesses = 6;
     int numLetters = 5;
-    int avgGuesses = 0;
+    double avgGuesses = 0;
     boolean DARK = false;
     boolean CONTRAST = false;
     boolean SUGGESTION = false;
     ArrayList<String> guesses = new ArrayList<>();
     DialogPane win;
+
 
     private HashMap<String, Integer> letters_used_grid_colors;
 
@@ -799,10 +801,13 @@ public class Controller {
         if (suggestion.getText().equals("Suggestions: OFF")){
             suggestion.setText("Suggestions: ON");
             SUGGESTION = true;
+            SUGGESTIONS.setVisible(true);
 
         }
         else{
             suggestion.setText("Suggestions: OFF");
+            SUGGESTIONS.setVisible(false);
+
         }
         saveStats();
     }
@@ -991,13 +996,11 @@ public class Controller {
     public void updateSuggestions(){
         GridPane grid = Utils.makeSuggestionsGrid(session.getSuggestions());
         SUGGESTIONS.getChildren().clear();
-        if(suggestion.getText().equals("Suggestions: ON")){
             SUGGESTIONS.getChildren().add(grid);
-        }
+
         for(int i = 0; i < grid.getChildren().size();++i){
             Label temp = (Label)grid.getChildren().get(i);
             temp.getStyleClass().clear();
-
             if(DARK){
                 temp.getStyleClass().add("label-dark");
             } else {
@@ -1018,28 +1021,33 @@ public class Controller {
                 File stats = new File("src/Resources/" + pc);
                 BufferedReader br = new BufferedReader(new FileReader(stats));
                 String line = br.readLine();
+                Boolean dk = false, ct = false, sug = false;
                 if (line.equals("DARK")){
-                    dark_light_mode_switch(null);
+                    dk = true;
                 }
                 line = br.readLine();
                 if (line.equals("CONTRAST")){
-                    contrast_switch(null);
+                    ct = true;
                 }
                 line = br.readLine();
                 if (line.equals("SUGGESTION")){
-                    suggestion_switch(null);
+                    sug = true;
                 }
 
                 wins = Integer.parseInt(br.readLine());
                 losses = Integer.parseInt(br.readLine());
                 win_streak = Integer.parseInt(br.readLine());
-                avgGuesses = Integer.parseInt(br.readLine());
+                avgGuesses = Double.parseDouble(br.readLine());
 
                 line = br.readLine();
                 while (line != null){
                     guesses.add(line);
                     line = br.readLine();
                 }
+
+                if (dk) dark_light_mode_switch(null);
+                if (ct) contrast_switch(null);
+                if (sug) suggestion_switch(null);
 
             }catch (FileNotFoundException e){
                 //NO FILE: DO NOTHING.

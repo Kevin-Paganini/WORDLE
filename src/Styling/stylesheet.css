@@ -248,3 +248,6 @@
 .chart {
     -fx-background-color: #8fbc8f;
 }
+.hide {
+    -fx-opacity: 0;
+}

@@ -220,8 +220,8 @@ public abstract class Utils {
      */
 
     public static GridPane makeSuggestionsGrid(Suggestions s) {
-        GridPane grid = new GridPane();
 
+        GridPane grid = new GridPane();
         Label suggestions = new Label("Suggestions:");
         grid.add(suggestions, 0, 0);
         Set<String> noWrongLetters = s.returnPossibleWords();
