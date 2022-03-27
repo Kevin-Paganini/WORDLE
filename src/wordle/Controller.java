@@ -6,6 +6,7 @@ import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.chart.BarChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -92,6 +93,18 @@ public class Controller {
     Label longestWinStreak;
 
     @FXML
+    Label winLabel2;
+
+    @FXML
+    Label lossLabel2;
+
+    @FXML
+    Label avgNumGuesses2;
+
+    @FXML
+    Label longestWinStreak2;
+
+    @FXML
     Pane frequentWordPane;
 
     @FXML
@@ -119,7 +132,19 @@ public class Controller {
     @FXML
     private Button numChange;
 
+    @FXML
+    private Button fiveLetterDictionary;
+
+    @FXML
+    private Button sixLetterDictionary;
+
+    @FXML
+    private Button sevenLetterDictionary;
+
     ArrayList<Button> buttons = new ArrayList<>();
+    ArrayList<Pane> panes = new ArrayList<>();
+    ArrayList<Label> labels = new ArrayList<>();
+    ArrayList<TextField> textFields = new ArrayList<>();
 
 
     private Suggestions suggestions;
@@ -190,12 +215,46 @@ public class Controller {
 
         // Adding all to main pane
         MAIN_PANE.getChildren().addAll(grid_input, letters_used, statButton, submitButton, SUGGESTIONS);
+        //Add all buttons to list of buttons
         buttons.add(submitButton);
         buttons.add(statButton);
         buttons.add(importDictionaryButton);
         buttons.add(dark_light);
         buttons.add(contrast);
         buttons.add(numChange);
+        buttons.add(fiveLetterDictionary);
+        buttons.add(sixLetterDictionary);
+        buttons.add(sevenLetterDictionary);
+        buttons.add(suggestion);
+
+        //Add all panes to list of panes
+        panes.add(SETTINGS_PANE);
+        panes.add(MAIN_PANE);
+        panes.add(STATS_PANE);
+        panes.add(frequentLetterPane);
+        panes.add(frequentWordPane);
+
+        //Add all labels to list of labels
+        for(int i = 0; i < letters_used.getChildren().size();++i){
+            Label temp = (Label)letters_used.getChildren().get(i);
+            labels.add(temp);
+        }
+        labels.add(winLabel);
+        labels.add(longestWinStreak);
+        labels.add(lossLabel);
+        labels.add(avgNumGuesses);
+        labels.add(winLabel2);
+        labels.add(longestWinStreak2);
+        labels.add(lossLabel2);
+        labels.add(avgNumGuesses2);
+
+        //Add all textfields to list of textfields
+        for(int i = 0; i < grid_input.getChildren().size();++i){
+            TextField tf = (TextField)grid_input.getChildren().get(i);
+            textFields.add(tf);
+        }
+        textFields.add(numGuess);
+
         update_dark(DARK,CONTRAST);
         update_contrast(CONTRAST,DARK);
     }
@@ -674,47 +733,35 @@ public class Controller {
             }
         }
         if(DARK){
-            numGuess.getStyleClass().clear();
-            numGuess.getStyleClass().add("text-field-dark");
-            MAIN_PANE.getStyleClass().clear();
-            MAIN_PANE.getStyleClass().add("pane-dark");
-            SETTINGS_PANE.getStyleClass().clear();
-            SETTINGS_PANE.getStyleClass().add("pane-dark");
-            for(int i = 0; i < letters_used.getChildren().size();++i){
-                Label temp = (Label)letters_used.getChildren().get(i);
-                if(temp.getStyleClass().toString().equals("label")){
-                    temp.getStyleClass().clear();
-                    temp.getStyleClass().add("label-dark");
-                }
+            for(Pane pane : panes) {
+                pane.getStyleClass().clear();
+                pane.getStyleClass().add("pane-dark");
             }
-            for(int i = 0; i < grid_input.getChildren().size();++i){
-                TextField tf = (TextField)grid_input.getChildren().get(i);
+            for(Label label : labels) {
+                label.getStyleClass().clear();
+                label.getStyleClass().add("label-dark");
+            }
+            for(TextField tf : textFields) {
                 if(tf.getStyleClass().toString().equals("text-input text-field") || tf.getStyleClass().toString().equals("text-field")) {
                     tf.getStyleClass().clear();
                     tf.getStyleClass().add("text-field-dark");
                 }
             }
         } else if (!DARK){
-            MAIN_PANE.getStyleClass().clear();
-            MAIN_PANE.getStyleClass().add("pane");
-            numGuess.getStyleClass().clear();
-            numGuess.getStyleClass().add("text-field");
-            for(int i = 0; i < letters_used.getChildren().size();++i){
-                Label temp = (Label) letters_used.getChildren().get(i);
-                if(temp.getStyleClass().toString().equals("label-dark")){
-                    temp.getStyleClass().clear();
-                    temp.getStyleClass().add("label");
-                }
+            for(Pane pane : panes) {
+                pane.getStyleClass().clear();
+                pane.getStyleClass().add("pane");
             }
-            for(int i = 0; i < grid_input.getChildren().size();++i){
-                TextField tf = (TextField)grid_input.getChildren().get(i);
+            for(Label label : labels) {
+                label.getStyleClass().clear();
+                label.getStyleClass().add("label");
+            }
+            for(TextField tf : textFields) {
                 if(tf.getStyleClass().toString().equals("text-field-dark")) {
                     tf.getStyleClass().clear();
                     tf.getStyleClass().add("text-field");
                 }
             }
-            SETTINGS_PANE.getStyleClass().clear();
-            SETTINGS_PANE.getStyleClass().add("pane");
         }
     }
 
@@ -798,8 +845,7 @@ public class Controller {
             }
         }
         if(CONTRAST){
-            for(int i = 0; i < letters_used.getChildren().size();++i){
-                Label temp = (Label) letters_used.getChildren().get(i);
+            for(Label temp : labels) {
                 switch (temp.getStyleClass().toString()) {
                     case "correct-position-letter-label":
                         temp.getStyleClass().clear();
@@ -815,8 +861,7 @@ public class Controller {
                         break;
                 }
             }
-            for(int i = 0; i < grid_input.getChildren().size();++i){
-                TextField tf = (TextField)grid_input.getChildren().get(i);
+            for(TextField tf : textFields) {
                 switch (tf.getStyleClass().toString()) {
                     case "correct-position-letter-tf":
                         tf.getStyleClass().clear();
@@ -833,8 +878,7 @@ public class Controller {
                 }
             }
         } else if(!CONTRAST){
-            for(int i = 0; i < letters_used.getChildren().size();++i){
-                Label temp = (Label) letters_used.getChildren().get(i);
+            for(Label temp : labels) {
                 switch (temp.getStyleClass().toString()) {
                     case "correct-position-letter-label-contrast":
                         temp.getStyleClass().clear();
@@ -850,8 +894,7 @@ public class Controller {
                         break;
                 }
             }
-            for(int i = 0; i < grid_input.getChildren().size();++i){
-                TextField tf = (TextField)grid_input.getChildren().get(i);
+            for(TextField tf : textFields) {
                 switch (tf.getStyleClass().toString()) {
                     case "correct-position-letter-tf-contrast":
                         tf.getStyleClass().clear();
@@ -953,16 +996,33 @@ public class Controller {
         longestWinStreak.setText(String.valueOf(win_streak));
         frequentLetterPane.getChildren().clear();
         frequentWordPane.getChildren().clear();
-        frequentWordPane.getChildren().add(Utils.make5BarChartFromHashMap(session.getWordGuessFrequency()));
+        BarChart chart = Utils.make5BarChartFromHashMap(session.getWordGuessFrequency());
+        chart.getStylesheets().add("Styling//stylesheet.css");
+        chart.getStylesheets().add("Styling//dark_stylesheet.css");
+        chart.getStylesheets().add("Styling//contrast_stylesheet.css");
+        chart.getStyleClass().add("chart-dark");
+        frequentWordPane.getChildren().add(chart);
         frequentLetterPane.getChildren().add(Utils.makeLetterBarChart(session.getLetterGuessFrequency()));
 
     }
 
 
     public void updateSuggestions(){
+        GridPane grid = Utils.makeSuggestionsGrid(suggestions);
         SUGGESTIONS.getChildren().clear();
         if(suggestion.getText().equals("Suggestions: ON")){
-            SUGGESTIONS.getChildren().add(Utils.makeSuggestionsGrid(suggestions));
+            SUGGESTIONS.getChildren().add(grid);
+        }
+        for(int i = 0; i < grid.getChildren().size();++i){
+            Label temp = (Label)grid.getChildren().get(i);
+            temp.getStyleClass().clear();
+
+            if(DARK){
+                temp.getStyleClass().add("label-dark");
+            } else {
+                temp.getStyleClass().add("label");
+            }
+            labels.add(temp);
         }
 
     }

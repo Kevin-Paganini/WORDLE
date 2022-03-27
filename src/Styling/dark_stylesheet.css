@@ -232,3 +232,25 @@
 .loser-dialog-dark-contrast .button:hover{
     -fx-background-color: #8cf985;
 }
+
+.chart-dark {
+    -fx-background-color: #000000;
+}
+
+.chart-dark .label{
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #3d3c3a;
+    -fx-text-fill: white;
+    -fx-border-radius: 2;
+    -fx-text-alignment : center;
+    -fx-alignment : center;
+}
+
+.chart-dark-bar{
+    -fx-background-color : #3d3c3a;
+}
