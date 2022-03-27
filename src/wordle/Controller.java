@@ -961,7 +961,10 @@ public class Controller {
 
     public void updateSuggestions(){
         SUGGESTIONS.getChildren().clear();
-        SUGGESTIONS.getChildren().add(Utils.makeSuggestionsGrid(suggestions));
+        if(suggestion.getText().equals("Suggestions: ON")){
+            SUGGESTIONS.getChildren().add(Utils.makeSuggestionsGrid(suggestions));
+        }
+
     }
 
 
