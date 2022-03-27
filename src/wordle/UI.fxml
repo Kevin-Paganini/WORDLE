@@ -3,11 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane fx:id="TAB_PANE" prefHeight="673.0" prefWidth="1079.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wordle.Controller">
+<TabPane fx:id="TAB_PANE" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wordle.Controller">
    <tabs>
       <Tab closable="false" text="Wordle">
          <content>
-            <AnchorPane fx:id="MAIN_PANE" prefHeight="400.0" prefWidth="600.0">
+            <AnchorPane fx:id="MAIN_PANE" prefHeight="800.0" prefWidth="1000.0">
 
 </AnchorPane>
          </content>
