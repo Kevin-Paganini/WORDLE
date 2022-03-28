@@ -21,6 +21,7 @@ import javafx.stage.FileChooser;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.util.*;
 import static javafx.scene.input.KeyCode.*;
 
@@ -30,7 +31,7 @@ public class Controller {
     public static final double BUTTON_PADDING = 10;
     private int guess = 0;
     ArrayList<List<TextField>> gridOfTextFieldInputs = new ArrayList<>();
-    ArrayList<Label> suggestions = new ArrayList<>();
+    ArrayList<String> tempGuesses = new ArrayList<>();
     List<String> textFieldValues = Arrays.asList("Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
             "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M", "DEL");
     Wordle game = null;
@@ -980,7 +981,10 @@ public class Controller {
         winLabel.setText(String.valueOf(wins));
         //lossLabel.setText(String.valueOf(session.getLosses()));
         lossLabel.setText(String.valueOf(losses));
-        avgNumGuesses.setText(String.valueOf(session.getAverageGuesses()));
+        //avgNumGuesses.setText(String.valueOf(session.getAverageGuesses()));
+        DecimalFormat df = new DecimalFormat("#.#");
+        avgNumGuesses.setText(String.valueOf(df.format(avgGuesses)));
+        System.out.println(avgNumGuesses.getText());
         //longestWinStreak.setText(String.valueOf(session.getWinStreak()));
         longestWinStreak.setText(String.valueOf(win_streak));
         frequentLetterPane.getChildren().clear();
@@ -1074,7 +1078,7 @@ public class Controller {
                 avgGuesses = 0;
             }
             else {
-                avgGuesses = (avgGuesses + guess) / (wins + losses);
+                avgGuesses = ((avgGuesses*(wins+losses -1)) + guess) / (wins + losses);
             }
             content += "\n" + wins + "\n" + losses + "\n" + win_streak + "\n" + avgGuesses;
 
