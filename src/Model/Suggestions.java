@@ -1,86 +1,94 @@
 package Model;
 
+import sun.reflect.generics.tree.Tree;
 import wordle.Utils;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
-//TO parse down dictionary and give suggestions
+//TO parse down dictionary and givwe suggestions
 public class Suggestions {
     private Wordle game;
-
-    //THIS IS A DEEP COPY. Make SURE this is a deep copy or the game will break.
     private Set<String> validWords;
+    private ArrayList<String> wrongLetters;
+    private ArrayList<String> correctLetterWrongPos;
+    private ArrayList<String> correctLetter;
+    private ArrayList<String> guesses;
+    private HashMap<String, Integer> validLetterHash;
+    ArrayList seen;
 
-    private final HashMap<String, Integer> validLetterHash;
-    List<String> seen = new ArrayList<>();
-
-    //The only thing that should be creating one of these is the Session. That's it. Don't mess with this
-    protected Suggestions(){
+    /**
+     * Constructor
+     * @author: Kevin Paganini
+     */
+    public Suggestions(){
+        this.game = null;
+        this.guesses = new ArrayList<>();
+        this.validWords = new HashSet<>();
         this.validLetterHash = Utils.makeInitialHashMapForKeyBoardColors();
+        this.seen = new ArrayList();
     }
 
     /**
-     * Attaches the provided Wordle object to this object. Suggestions will have
-     * no functionality until a game is added. Once a game is added, all data regarding
-     * the previous game is wiped.
-     *
-     * @param wordle wordle to attach suggestions to
-     * @author Kevin Paganini, Atreyu Schilling
+     * Add wordle game to suggestions so it can process and suggest
+     * @param wordle
      */
     public void addGame(Wordle wordle) {
         this.game = wordle;
-        this.validWords = new TreeSet<>(wordle.getDictionary());
+        Set<String> temp = wordle.getDictionary();
+
+        this.validWords.addAll(temp);
     }
 
-    public List<Guess> getGuesses(){
-        return game.getGuesses();
-    }
+
 
     /**
      * Prunes the dictionary
      * @return Set with possible words
+     * @author: Kevin Paganini
      */
     public Set<String> pruneDictionary(){
-        boolean doubleLetter = false;
-        List<Guess> currentGuesses = game.getCurrentGuesses();
-        for (Guess guess : currentGuesses) {
-            int[] positions = game.returnPositionsOnly(guess.getGuess());
-            validWords.remove(guess.getGuess().toLowerCase(Locale.ROOT));
-            for (int i = 0; i < positions.length; i++) {
-                String letter = String.valueOf(guess.getGuess().charAt(i)).toUpperCase(Locale.ROOT);
-                if (validLetterHash.get(letter) < positions[i]) { // Checks if value stored is smaller than value achieved
-                    validLetterHash.replace(letter, positions[i]); // If guess has higher value replaces old value
-                }
+        int[] positions = game.getPositionsArray();
+        char[] currentGuess = game.getCurrentGuess().toCharArray();
+        System.out.println(game.getCurrentGuess());
+        System.out.println(game.getTarget());
+        validWords.remove(game.getCurrentGuess().toLowerCase(Locale.ROOT));
+        for(int i = 0; i < positions.length; i++){
+            int isCorrectValue = positions[i];
+            String letter = String.valueOf(currentGuess[i]).toUpperCase(Locale.ROOT);
+            if (validLetterHash.get(letter) < isCorrectValue){ // Checks if value stored is smaller than value achieved
+                validLetterHash.replace(letter, isCorrectValue); // If guess has higher value replaces old value
             }
-            char[] currentGuess = guess.getGuess().toCharArray();
-            for(int j = 0; j < currentGuess.length; j++){
-                for(int i = 0; i < currentGuess.length; i++){
-                    if (i != j && currentGuess[i] == currentGuess[j]) {
-                        doubleLetter = true;
-                        break;
-                    }
-
-                }
-                String letter = String.valueOf(currentGuess[j]).toUpperCase(Locale.ROOT);
-                int value = validLetterHash.get(letter);
-                if(value == 0 && !seen.contains(letter) && !doubleLetter) {
-                    removeWrongLetterWords(letter);
-                }
-                if(value == 1 && !seen.contains(letter)){
-                    removeCorrectLetterWrongPos(letter, j);
-                }
-                if (value == 2 && !seen.contains(letter) && positions[j] == 2){
-                    if(letter.equals("E")){
-                        System.out.println();
-                    }
-                    removeWordWithoutCorrectLetter(letter, j);
-                    seen.add(letter);
-                }
 
 
-            }
         }
+        boolean doubleLetter = false;
+        for(int j = 0; j < currentGuess.length; j++){
+            for(int i = 0; i < currentGuess.length; i++){
+                if(i!=j){
+                    if (currentGuess[i] == currentGuess[j]){
+                        doubleLetter = true;
+                    }
+                }
+            }
+            String letter = String.valueOf(currentGuess[j]).toUpperCase(Locale.ROOT);
+            int value = validLetterHash.get(letter);
+            if(value == 0 && !seen.contains(letter) && !doubleLetter) {
+                removeWrongLetterWords(letter);
+            }
+            if(value == 1 && !seen.contains(letter)){
+                removeCorrectLetterWrongPos(letter, j);
+            }
+            if (value == 2 && !seen.contains(letter) && positions[j] == 2){
+                if(letter.equals("E")){
+                    System.out.println();
+                }
+                removeWordWithoutCorrectLetter(letter, j);
+                seen.add(letter);
+            }
 
+
+        }
         return validWords;
     }
 

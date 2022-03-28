@@ -113,7 +113,7 @@ public class Controller {
     Pane frequentLetterPane;
 
 
-
+    Suggestions suggest;
 
 
 
@@ -176,7 +176,9 @@ public class Controller {
             BufferedReader brTest = new BufferedReader(new FileReader(dictionaryFile));
             String word = brTest.readLine();
             numLetters = word.length();
-            game = new Wordle(numGuesses, numLetters, dictionaryFile, session);
+            suggest = new Suggestions();
+            game = new Wordle(numGuesses, numLetters, dictionaryFile, session, suggest);
+            suggest.addGame(game);
         } catch (IOException e) {
             //TODO: Catch if the wordle-official file does not exist
         } catch (NullPointerException e){
@@ -995,7 +997,7 @@ public class Controller {
 
 
     public void updateSuggestions(){
-        GridPane grid = Utils.makeSuggestionsGrid(session.getSuggestions());
+        GridPane grid = Utils.makeSuggestionsGrid(suggest);
         SUGGESTIONS.getChildren().clear();
             SUGGESTIONS.getChildren().add(grid);
 

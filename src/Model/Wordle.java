@@ -9,7 +9,8 @@ public class Wordle {
     public static final boolean DEBUG = false;
     //File that guesses are written to - if it doesn't exist, create it
 
-
+    private String curGuess = "";
+    private int[] posArray = null;
     private final int numLetters;
     private final int guessesPossible;
     private int guessesLeft;
@@ -20,7 +21,7 @@ public class Wordle {
 
     private final ArrayList<Guess> guessList = new ArrayList<>();
 
-    public Wordle(int numGuesses, int numLetters, File dictionary, Session session) throws IOException {
+    public Wordle(int numGuesses, int numLetters, File dictionary, Session session, Suggestions suggestions) throws IOException {
         guessesPossible = numGuesses;
         this.guessesLeft = numGuesses;
         this.numLetters = numLetters;
@@ -131,7 +132,7 @@ public class Wordle {
      */
 
     public int[] makeGuess(String guess) {
-
+        curGuess = guess;
         if (DEBUG) System.out.println(target);
 
         guessesLeft--;
@@ -175,6 +176,7 @@ public class Wordle {
      * if the guess is invalid.
      */
     public int[] returnPositionsOnly(String guess) {
+
         char[] targetChars = target.toLowerCase(Locale.ROOT).toCharArray();
         char[] guessChars = guess.toLowerCase(Locale.ROOT).toCharArray();
         int[] resultantArray = new int[numLetters];
@@ -202,6 +204,7 @@ public class Wordle {
                 }
             }
         }
+        posArray = resultantArray;
         //Since anything not dealt with is still 0s from initializing the array, just return
         return resultantArray;
     }
@@ -235,6 +238,19 @@ public class Wordle {
     public List<Guess> getCurrentGuesses(){
         return currentGuesses;
     }
+
+
+
+    public int[] getPositionsArray() {
+        return posArray;
+    }
+
+    public String getCurrentGuess() {
+        return curGuess;
+
+    }
+
+
 
 
 }
