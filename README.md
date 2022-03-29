@@ -34,9 +34,9 @@ GNU GPL 1.3 (Open source)
 
 ## Project status
 ### In development:
-7, 8, 9, (AI for fun)
+6, 7, 8, 9, (AI for fun)
 
 
 ### Completed:
 User Story:
-1, 2, 3, 4, 5, 6
+1, 2, 3, 4, 5, 
