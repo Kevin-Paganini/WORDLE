@@ -5,6 +5,15 @@ Importing and saving stats after every game
 
 Initialize calls read method to read stats file and initialize stats to what they were stored as
 
+Basic Idea:
+After every game write to file
+Session or some class reads in file and updates stats that way
+
+
+
+
+
+
 after every game
 write to file
 Game num: x
@@ -23,6 +32,19 @@ reuse
 afoul
 earth
 
+
+
+**BUG
+Word and letter frequency incorrect after
+Lost five time in a row inputting earth:
+EXPECTED:
+e: 30, a: 30, r: 30, t: 30, h: 30
+earth: 30
+GOT:
+e: 90, a: 90, r: 90, t: 90, h: 90
+earth: 90
+
+Output file looks fine, however stats tab is incorrect
 
 wordle could have a toString method that does this
 
