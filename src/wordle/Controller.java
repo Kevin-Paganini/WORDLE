@@ -160,7 +160,6 @@ public class Controller {
         session = Session.getSession();
         startNewGame();
         openStats();
-
     }
 
     /**
@@ -802,17 +801,29 @@ public class Controller {
      * @param actionEvent Button click (garbage value)
      */
     public void suggestion_switch(ActionEvent actionEvent) {
+
+        if (SUGGESTION){
+            suggestion.setText("Suggestions: OFF");
+            SUGGESTIONS.setVisible(false);
+            SUGGESTION = false;
+        }
+        else{
+            suggestion.setText("Suggestions: ON");
+            SUGGESTION = true;
+            SUGGESTIONS.setVisible(true);
+        }
+        /*
         if (suggestion.getText().equals("Suggestions: OFF")){
             suggestion.setText("Suggestions: ON");
             SUGGESTION = true;
             SUGGESTIONS.setVisible(true);
-
         }
         else{
             suggestion.setText("Suggestions: OFF");
             SUGGESTIONS.setVisible(false);
-
         }
+
+         */
         saveStats();
     }
 
@@ -996,7 +1007,6 @@ public class Controller {
         chart.getStyleClass().add("chart-dark");
         frequentWordPane.getChildren().add(chart);
         frequentLetterPane.getChildren().add(Utils.makeLetterBarChart(session.getLetterGuessFrequency()));
-
     }
 
 
@@ -1015,6 +1025,7 @@ public class Controller {
             }
             labels.add(temp);
         }
+        if (SUGGESTION) SUGGESTIONS.setVisible(true); else SUGGESTIONS.setVisible(false);
 
     }
 
