@@ -212,7 +212,7 @@ public class Controller {
 
         SUGGESTIONS = new GridPane();
         SUGGESTIONS.setLayoutX(130);
-        SUGGESTIONS.setLayoutY((numGuesses*60)+240);
+        SUGGESTIONS.setLayoutY((numGuesses*60)+300);
 
 
 

@@ -1,0 +1,38 @@
+
+
+
+Importing and saving stats after every game
+
+Initialize calls read method to read stats file and initialize stats to what they were stored as
+
+after every game
+write to file
+Game num: x
+Target: yyyyy
+Guess num: x
+Win: yes/no
+Guesses
+
+
+SAMPLE:
+Game num: 12
+Target: earth
+Guess num: 3
+Win: yes
+reuse
+afoul
+earth
+
+
+wordle could have a toString method that does this
+
+when reading in parse this and write into an object than we can refactor session class to take in list of those objects
+and then that can return the stats
+
+
+
+
+
+
+
+

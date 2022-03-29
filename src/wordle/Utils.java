@@ -223,15 +223,16 @@ public abstract class Utils {
 
         GridPane grid = new GridPane();
         Label suggestions = new Label("Suggestions:");
-        grid.add(suggestions, 0, 0);
+        grid.add(suggestions, 0, 2);
         Set<String> noWrongLetters = s.pruneDictionary();
         ArrayList<String> x = new ArrayList<>();
+        grid.setHgap(10);
         x.addAll(noWrongLetters);
         int loopTo = Math.min(5, x.size());
         for(int i = 0; i < loopTo; i++){
             Label word = new Label(String.valueOf(x.get(i)));
 
-            grid.add(word, i+1, 2);
+            grid.add(word, i+2, 2);
         }
         return grid;
     }
