@@ -33,4 +33,8 @@ GNU GPL 1.3 (Open source)
 (You can do whatever you want with it, just don't claim its yours)
 
 ## Project status
-In development
+In development:
+7, 8, 9, (AI for fun)
+Completed:
+User Story:
+1, 2, 3, 4, 5, 6
