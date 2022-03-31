@@ -159,4 +159,7 @@ public class Session {
         System.out.println("Word freqeuncy: ");
         Utils.printHashMap(getWordGuessFrequency());
     }
+
+
+
 }
