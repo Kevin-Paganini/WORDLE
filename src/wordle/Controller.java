@@ -707,6 +707,7 @@ public class Controller {
      * @param actionEvent Button click (garbage value)
      */
     public void importDictionary(ActionEvent actionEvent) {
+        runTimer();
         FileChooser fc = new FileChooser();
         fc.setInitialDirectory(new File ("src/Resources/"));
         File temp;
@@ -794,6 +795,7 @@ public class Controller {
         try {
             int num = Integer.parseInt(guess);
             if(num > 0) {
+                runTimer();
                 numGuesses = num;
                 numGuess.setText("");
                 startNewGame();
@@ -812,6 +814,7 @@ public class Controller {
         try {
             File temp = new File ("src/Resources/wordle-official.txt");
             if (!temp.equals(dictionaryFile)){
+                runTimer();
                 dictionaryFile = temp;
                 startNewGame();
             }
@@ -829,6 +832,7 @@ public class Controller {
         try {
             File temp = new File ("src/Resources/words_6_letters.txt");
             if (!temp.equals(dictionaryFile)){
+                runTimer();
                 dictionaryFile = temp;
                 startNewGame();
             }
@@ -846,6 +850,7 @@ public class Controller {
         try {
             File temp = new File ("src/Resources/words_7_letters.txt");
             if (!temp.equals(dictionaryFile)){
+                runTimer();
                 dictionaryFile = temp;
                 startNewGame();
             }
@@ -994,6 +999,7 @@ public class Controller {
     }
 
     public void changeHardMode(ActionEvent actionEvent) {
+        runTimer();
         if(hard_mode.getText().equals("Hard Mode")) {
             hard_mode.setText("Easy Mode");
             HARD = true;
