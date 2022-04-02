@@ -25,11 +25,12 @@ public abstract class Utils {
      * @author Kevin Paganini
      */
 
-    public static void recolorTextFields(int[] position, int numLetters, ArrayList<List<TextField>> gridOfTextFieldInputs, int guess, boolean CONTRAST) {
+    public static void recolorTextFields(int[] position, int numLetters, ArrayList<List<TextField>> gridOfTextFieldInputs, int guess, boolean CONTRAST, boolean HARD) {
         if(CONTRAST) {
             for(int i = 0; i < numLetters; i++){
                 TextField tf = gridOfTextFieldInputs.get(guess).get(i);
                 tf.getStyleClass().clear();
+                if(HARD) tf.setText("");
                 if (position[i] == 2) tf.getStyleClass().add("correct-position-letter-tf-contrast");
                 if (position[i] == 1) tf.getStyleClass().add("correct-letter-tf-contrast");
                 if (position[i] == 0) tf.getStyleClass().add("wrong-letter-tf-contrast");
@@ -38,6 +39,7 @@ public abstract class Utils {
             for(int i = 0; i < numLetters; i++){
                 TextField tf = gridOfTextFieldInputs.get(guess).get(i);
                 tf.getStyleClass().clear();
+                if(HARD) tf.setText("");
                 if (position[i] == 2) tf.getStyleClass().add("correct-position-letter-tf");
                 if (position[i] == 1) tf.getStyleClass().add("correct-letter-tf");
                 if (position[i] == 0) tf.getStyleClass().add("wrong-letter-tf");
@@ -54,42 +56,42 @@ public abstract class Utils {
      * @author Kevin Paganini
      */
 
-    public static String recolorLabel(int isCorrectLetter,boolean contrast){
+    public static String recolorLabel(int isCorrectLetter,boolean contrast, boolean DARK,boolean HARD){
         if (isCorrectLetter < 0 || isCorrectLetter > 3){
             throw new IndexOutOfBoundsException();
         }
-        if(contrast) {
-            if (isCorrectLetter == -1){
-                return "label";
+        if(!HARD) {
+            if (contrast) {
+                if (isCorrectLetter == -1) {
+                    return "label";
+                }
+                if (isCorrectLetter == 0) {
+                    return "wrong-letter-label-contrast";
+                } else if (isCorrectLetter == 1) {
+                    return "correct-letter-label-contrast";
+                } else if (isCorrectLetter == 2) {
+                    return "correct-position-letter-label-contrast";
+                } else {
+                    return null;
+                }
+            } else {
+                if (isCorrectLetter == -1) {
+                    return "label";
+                }
+                if (isCorrectLetter == 0) {
+                    return "wrong-letter-label";
+                } else if (isCorrectLetter == 1) {
+                    return "correct-letter-label";
+                } else if (isCorrectLetter == 2) {
+                    return "correct-position-letter-label";
+                } else {
+                    return null;
+                }
             }
-            if (isCorrectLetter == 0){
-                return "wrong-letter-label-contrast";
-            }
-            else if (isCorrectLetter == 1){
-                return "correct-letter-label-contrast";
-            }
-            else if (isCorrectLetter == 2){
-                return "correct-position-letter-label-contrast";
-            }
-            else {
-                return null;
-            }
+        } else if(DARK) {
+            return "label-dark";
         } else {
-            if (isCorrectLetter == -1){
-                return "label";
-            }
-            if (isCorrectLetter == 0){
-                return "wrong-letter-label";
-            }
-            else if (isCorrectLetter == 1){
-                return "correct-letter-label";
-            }
-            else if (isCorrectLetter == 2){
-                return "correct-position-letter-label";
-            }
-            else {
-                return null;
-            }
+            return "label";
         }
     }
 
