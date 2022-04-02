@@ -1,6 +1,8 @@
 package wordle;
 
 import Model.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;
@@ -17,6 +19,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -31,7 +34,6 @@ public class Controller {
     public static final double BUTTON_PADDING = 10;
     private int guess = 0;
     ArrayList<List<TextField>> gridOfTextFieldInputs = new ArrayList<>();
-    ArrayList<String> tempGuesses = new ArrayList<>();
     List<String> textFieldValues = Arrays.asList("Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
             "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M", "DEL");
     Wordle game = null;
@@ -48,6 +50,8 @@ public class Controller {
     boolean DARK = false;
     boolean CONTRAST = false;
     boolean SUGGESTION = false;
+    boolean HARD = false;
+    boolean RUNNING = false;
     ArrayList<String> guesses = new ArrayList<>();
     DialogPane win;
 
@@ -113,6 +117,9 @@ public class Controller {
     @FXML
     Pane frequentLetterPane;
 
+    @FXML
+    Button hard_mode;
+
 
     Suggestions suggest;
 
@@ -124,6 +131,9 @@ public class Controller {
     private Button submitButton;
 
     private GridPane SUGGESTIONS;
+
+    @FXML
+    Label timer;
 
 
     @FXML
@@ -148,6 +158,7 @@ public class Controller {
     ArrayList<Pane> panes = new ArrayList<>();
     ArrayList<Label> labels = new ArrayList<>();
     ArrayList<TextField> textFields = new ArrayList<>();
+    Timeline timeline;
 
     /**
      * Initialization function for window
@@ -157,6 +168,10 @@ public class Controller {
      */
     @FXML
     public void initialize(){
+        timeline = new Timeline(new KeyFrame(Duration.millis(100),(e)->{
+            increaseTimer();
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
         session = Session.getSession();
         startNewGame();
         openStats();
@@ -212,11 +227,13 @@ public class Controller {
         SUGGESTIONS = new GridPane();
         SUGGESTIONS.setLayoutX(130);
         SUGGESTIONS.setLayoutY((numGuesses*60)+300);
+        timer = new Label();
+        timer.setText("0");
 
 
 
         // Adding all to main pane
-        MAIN_PANE.getChildren().addAll(grid_input, letters_used, statButton, submitButton, SUGGESTIONS);
+        MAIN_PANE.getChildren().addAll(grid_input, letters_used, statButton, submitButton, SUGGESTIONS, timer);
         //Add all buttons to list of buttons
         buttons.add(submitButton);
         buttons.add(statButton);
@@ -228,6 +245,7 @@ public class Controller {
         buttons.add(sixLetterDictionary);
         buttons.add(sevenLetterDictionary);
         buttons.add(suggestion);
+        buttons.add(hard_mode);
 
         //Add all panes to list of panes
         panes.add(SETTINGS_PANE);
@@ -249,6 +267,7 @@ public class Controller {
         labels.add(longestWinStreak2);
         labels.add(lossLabel2);
         labels.add(avgNumGuesses2);
+        labels.add(timer);
 
         //Add all textfields to list of textfields
         for(int i = 0; i < grid_input.getChildren().size();++i){
@@ -257,8 +276,9 @@ public class Controller {
         }
         textFields.add(numGuess);
 
-        update_dark(DARK,CONTRAST);
-        update_contrast(CONTRAST,DARK);
+        StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
+        StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
+        runTimer();
     }
 
     /**
@@ -336,15 +356,19 @@ public class Controller {
      */
     private void mouseClick(MouseEvent mouseEvent) {
         String letter = ((Label) mouseEvent.getSource()).getText().toUpperCase();
+        enterLetter(letter);
+    }
+
+    private void enterLetter(String letter){
         if (letter == "DEL"){
-          for (int i = numLetters-1; i >= 0; i--){
-              TextField tf = gridOfTextFieldInputs.get(guess).get(i);
-              if (!tf.getText().equals("")) {
-                  tf.setText("");
-                  tf.requestFocus();
-                  i = 0;
-              }
-          }
+            for (int i = numLetters-1; i >= 0; i--){
+                TextField tf = gridOfTextFieldInputs.get(guess).get(i);
+                if (!tf.getText().equals("")) {
+                    tf.setText("");
+                    tf.requestFocus();
+                    i = 0;
+                }
+            }
         }
 
         else {
@@ -352,10 +376,21 @@ public class Controller {
                 TextField tf = gridOfTextFieldInputs.get(guess).get(i);
                 if (tf.getText().equals("")) {
                     i = numLetters;
-                        tf.setText(letter);
-                    }
+                    tf.setText(letter);
                 }
+            }
         }
+    }
+
+    public void enterSuggestion(MouseEvent event){
+        String word = ((Label) event.getSource()).getText().toUpperCase();
+        for(int i = 0; i < numLetters; ++i) {
+            gridOfTextFieldInputs.get(guess).get(i).setText("");
+        }
+        for(int i = 0; i < word.length(); ++i) {
+            enterLetter(Character.toString(word.charAt(i)));
+        }
+        submit();
     }
 
 
@@ -466,7 +501,7 @@ public class Controller {
                 //We can play wordle now!!!!!!!!!!!!!!!!!!!
             }
         }
-        Utils.recolorTextFields(position, numLetters, gridOfTextFieldInputs, guess,CONTRAST);
+        Utils.recolorTextFields(position, numLetters, gridOfTextFieldInputs, guess,CONTRAST, HARD);
 
 
 
@@ -513,30 +548,12 @@ public class Controller {
      * @author Carson Merediith
      */
     private void showWinAlert() {
+        runTimer();
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Play Again");
         win = a.getDialogPane();
-        win.getStylesheets().add("Styling//stylesheet.css");
-        win.getStylesheets().add("Styling//dark_stylesheet.css");
-        win.getStylesheets().add("Styling//contrast_stylesheet.css");
-        String format = "";
-        //Did player win or lose
-        win.getStyleClass().clear();
-        if(win_streak==0) {
-            format+="loser";
-        } else {
-            format += "winner";
-        }
-        format+="-dialog";
-        if(DARK) {
-            format+="-dark";
-        }
-        if(CONTRAST){
-            format+="-contrast";
-        }
-        win.getStyleClass().add(format);
-        win.setHeaderText("Played = " + (wins + losses) + "\nWIN% = " + win_percentage + "%" + "\nGUESSES THIS GAME = " + guess + "\nWINSTREAK = " + win_streak);
+        StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
+        win.setHeaderText("Played = " + (wins + losses) + "\nWIN% = " + win_percentage + "%" + "\nGUESSES THIS GAME = " + guess + "\nWINSTREAK = " + win_streak + "\nTIME: = " + timer.getText());
         win.setContentText("PLAY AGAIN?");
-
         // Updating stats tab every time a game is done
         updateStats();
 
@@ -598,7 +615,7 @@ public class Controller {
         int index = textFieldValues.indexOf(letter);
         box = (Label) letters_used.getChildren().get(index);
         box.getStyleClass().clear();
-        box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST));
+        box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST,DARK, HARD));
     }
     /**
      * @author David Kane
@@ -702,74 +719,13 @@ public class Controller {
 
     /**
      * @author Carson Meredith
-     * Changes from light to dark or dark to light
-     * @param DARK DARK/LIGHT setting desired
-     * @param CONTRAST CONTRAST/NORMAL setting desired
-     */
-    public void update_dark(boolean DARK, boolean CONTRAST) {
-        if(DARK && CONTRAST) {
-            for(Button button : buttons) {
-                button.getStyleClass().clear();
-                button.getStyleClass().add("button-dark-contrast");
-            }
-        } else if(CONTRAST && !DARK){
-            for(Button button : buttons) {
-                button.getStyleClass().clear();
-                button.getStyleClass().add("button-contrast");
-            }
-        } else if(DARK && !CONTRAST){
-            for(Button button : buttons) {
-                button.getStyleClass().clear();
-                button.getStyleClass().add("button-dark");
-            }
-        } else {
-            for(Button button : buttons) {
-                button.getStyleClass().clear();
-                button.getStyleClass().add("button");
-            }
-        }
-        if(DARK){
-            for(Pane pane : panes) {
-                pane.getStyleClass().clear();
-                pane.getStyleClass().add("pane-dark");
-            }
-            for(Label label : labels) {
-                label.getStyleClass().clear();
-                label.getStyleClass().add("label-dark");
-            }
-            for(TextField tf : textFields) {
-                if(tf.getStyleClass().toString().equals("text-input text-field") || tf.getStyleClass().toString().equals("text-field")) {
-                    tf.getStyleClass().clear();
-                    tf.getStyleClass().add("text-field-dark");
-                }
-            }
-        } else if (!DARK){
-            for(Pane pane : panes) {
-                pane.getStyleClass().clear();
-                pane.getStyleClass().add("pane");
-            }
-            for(Label label : labels) {
-                label.getStyleClass().clear();
-                label.getStyleClass().add("label");
-            }
-            for(TextField tf : textFields) {
-                if(tf.getStyleClass().toString().equals("text-field-dark")) {
-                    tf.getStyleClass().clear();
-                    tf.getStyleClass().add("text-field");
-                }
-            }
-        }
-    }
-
-    /**
-     * @author Carson Meredith
      * Changes dark mode if dark button is pressed
      * @param actionEvent Button click
      */
     public void dark_light_mode_switch(ActionEvent actionEvent) {
         String text = dark_light.getText();
         DARK = text.equals("DARK-MODE");
-        update_dark(DARK,CONTRAST);
+        StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
         if(DARK){
             dark_light.setText("LIGHT-MODE");
         } else {
@@ -786,7 +742,7 @@ public class Controller {
     public void contrast_switch(ActionEvent actionEvent) {
         String text = contrast.getText();
         CONTRAST = text.equals("HIGH-CONTRAST-MODE");
-        update_contrast(CONTRAST,DARK);
+        StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
         if(CONTRAST){
             contrast.setText("NORMAL-MODE");
         } else {
@@ -827,92 +783,6 @@ public class Controller {
         saveStats();
     }
 
-    /**
-     * @author Carson Meredith
-     * Changes from CONTRAST to NORMAL or NORMAL to CONTRAST
-     * @param CONTRAST CONTRAST/NORMAL setting desired
-     * @param DARK DARK/LIGHT setting desired
-     */
-    public void update_contrast(boolean CONTRAST, boolean DARK){
-        String format = "button";
-        if(DARK) {
-            format+="-dark";
-        }
-        if(CONTRAST) {
-            format+="-contrast";
-        }
-        for(Button button : buttons) {
-            button.getStyleClass().clear();
-            button.getStyleClass().add(format);
-        }
-        if(CONTRAST){
-            for(Label temp : labels) {
-                switch (temp.getStyleClass().toString()) {
-                    case "correct-position-letter-label":
-                        temp.getStyleClass().clear();
-                        temp.getStyleClass().add("correct-position-letter-label-contrast");
-                        break;
-                    case "correct-letter-label":
-                        temp.getStyleClass().clear();
-                        temp.getStyleClass().add("correct-letter-label-contrast");
-                        break;
-                    case "wrong-letter-label":
-                        temp.getStyleClass().clear();
-                        temp.getStyleClass().add("wrong-letter-label-contrast");
-                        break;
-                }
-            }
-            for(TextField tf : textFields) {
-                switch (tf.getStyleClass().toString()) {
-                    case "correct-position-letter-tf":
-                        tf.getStyleClass().clear();
-                        tf.getStyleClass().add("correct-position-letter-tf-contrast");
-                        break;
-                    case "correct-letter-tf":
-                        tf.getStyleClass().clear();
-                        tf.getStyleClass().add("correct-letter-tf-contrast");
-                        break;
-                    case "wrong-letter-tf":
-                        tf.getStyleClass().clear();
-                        tf.getStyleClass().add("wrong-letter-tf-contrast");
-                        break;
-                }
-            }
-        } else if(!CONTRAST){
-            for(Label temp : labels) {
-                switch (temp.getStyleClass().toString()) {
-                    case "correct-position-letter-label-contrast":
-                        temp.getStyleClass().clear();
-                        temp.getStyleClass().add("correct-position-letter-label");
-                        break;
-                    case "correct-letter-label-contrast":
-                        temp.getStyleClass().clear();
-                        temp.getStyleClass().add("correct-letter-label");
-                        break;
-                    case "wrong-letter-label-contrast":
-                        temp.getStyleClass().clear();
-                        temp.getStyleClass().add("wrong-letter-label");
-                        break;
-                }
-            }
-            for(TextField tf : textFields) {
-                switch (tf.getStyleClass().toString()) {
-                    case "correct-position-letter-tf-contrast":
-                        tf.getStyleClass().clear();
-                        tf.getStyleClass().add("correct-position-letter-tf");
-                        break;
-                    case "correct-letter-tf-contrast":
-                        tf.getStyleClass().clear();
-                        tf.getStyleClass().add("correct-letter-tf");
-                        break;
-                    case "wrong-letter-tf-contrast":
-                        tf.getStyleClass().clear();
-                        tf.getStyleClass().add("wrong-letter-tf");
-                        break;
-                }
-            }
-        }
-    }
 
     /**
      * @author David Kane
@@ -1012,6 +882,9 @@ public class Controller {
 
     public void updateSuggestions(){
         GridPane grid = Utils.makeSuggestionsGrid(suggest);
+        for(int i = 0; i < grid.getChildren().size();++i) {
+            grid.getChildren().get(i).setOnMouseClicked(this:: enterSuggestion);
+        }
         SUGGESTIONS.getChildren().clear();
             SUGGESTIONS.getChildren().add(grid);
 
@@ -1118,6 +991,40 @@ public class Controller {
             return env.get("HOSTNAME");
         else
             return "ERROR";
+    }
+
+    public void changeHardMode(ActionEvent actionEvent) {
+        if(hard_mode.getText().equals("Hard Mode")) {
+            hard_mode.setText("Easy Mode");
+            HARD = true;
+            startNewGame();
+        } else {
+            hard_mode.setText("Hard Mode");
+            HARD = false;
+            startNewGame();
+        }
+    }
+
+    public void runTimer(){
+        if(!RUNNING){
+            timeline.play();
+            RUNNING = true;
+        } else {
+            timeline.stop();
+            RUNNING = false;
+        }
+
+    }
+
+    public void increaseTimer(){
+        if(RUNNING) {
+            double time = 0;
+            time = Double.parseDouble(timer.getText());
+            time = time * 10;
+            time += 1;
+            time = time/10;
+            timer.setText(Double.toString(time));
+        }
     }
 }
 

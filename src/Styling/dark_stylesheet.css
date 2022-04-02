@@ -14,7 +14,7 @@
     -fx-font : 14px "serief";
     -fx-padding : 10;
     -fx-background-color : #3d3c3a;
-    -fx-text-fill : black;
+    -fx-text-fill : white;
 
 }
 
@@ -29,7 +29,7 @@
 
 .button-dark-contrast:hover {
     -fx-background-color: #ff0000;
-    -fx-text-fill: #000000;
+    -fx-text-fill: white;
     -fx-effect:dropshadow( three-pass-box, #ff0000, 20.0, 0.0, 0.0, 0.0);
 }
 
@@ -155,11 +155,12 @@
         -fx-font : 14px "serief";
         -fx-padding : 10;
         -fx-background-color : #3d3c3a;
-        -fx-text-fill : black;
+        -fx-text-fill : white;
 }
 
 .winner-dialog-dark-contrast .button:hover{
     -fx-background-color: #2bffff;
+     -fx-text-fill : black;
     -fx-effect:dropshadow( three-pass-box, #2bffff, 20.0, 0.0, 0.0, 0.0);
 }
 
