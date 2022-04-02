@@ -882,7 +882,7 @@ public class Controller {
 
     public void updateSuggestions(){
         GridPane grid = Utils.makeSuggestionsGrid(suggest);
-        for(int i = 0; i < grid.getChildren().size();++i) {
+        for(int i = 1; i < grid.getChildren().size();++i) {
             grid.getChildren().get(i).setOnMouseClicked(this:: enterSuggestion);
         }
         SUGGESTIONS.getChildren().clear();
