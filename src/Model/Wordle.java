@@ -9,15 +9,13 @@ public class Wordle {
     public static final boolean DEBUG = false;
     //File that guesses are written to - if it doesn't exist, create it
 
-    private String curGuess = "";
+    private String currentGuess = "";
     private int[] posArray = null;
     private int numLetters = 0;
     private final int guessesPossible;
     private int guessesLeft;
     private String target;
     private TreeSet<String> dictionary = null;
-
-    private final List<Guess> currentGuesses;
 
     private final ArrayList<Guess> guessList = new ArrayList<>();
 
@@ -27,7 +25,7 @@ public class Wordle {
         loadDictionary(dictionary);
         this.target = randomTarget();
         session.addGame(this);
-        currentGuesses = new ArrayList<>();
+        suggestions.addGame(this);
     }
 
     /**
@@ -42,9 +40,8 @@ public class Wordle {
      * @author Kevin Paganini, Atreyu Schilling
      */
     private void loadDictionary(File file) throws IOException{
-            if (DEBUG) {
-                System.out.println("\n\n\n");
-            }
+            if (DEBUG) System.out.println("\n\n\n");
+
             TreeSet<String> tempDict = new TreeSet<>();
             Scanner sc = new Scanner(file);
             //Line tracker for debug purposes
@@ -67,10 +64,7 @@ public class Wordle {
                     throw new IOException("Line " + line + " contains a string with invalid characters");
                 line++;
                 tempDict.add(cookie);
-                if (DEBUG) {
-
-                    System.out.println(cookie);
-                }
+                if (DEBUG) System.out.println(cookie);
             }
             dictionary = tempDict;
     }
@@ -96,7 +90,7 @@ public class Wordle {
     /**
      * Random Target Method from start
      * THIS IS THE METHOD USED TO MAKE A TARGET
-     * TODO: Could add difficulty rankings
+     *
      * @author paganinik, Atreyu Schilling
      */
     public String randomTarget() {
@@ -137,7 +131,7 @@ public class Wordle {
      */
 
     public int[] makeGuess(String guess) {
-        curGuess = guess;
+        currentGuess = guess;
         if (DEBUG) System.out.println(target);
 
         guessesLeft--;
@@ -146,19 +140,14 @@ public class Wordle {
         }
         if (DEBUG) System.out.println(guess);
         if (isWinner(guess)) {
-            //guessList.add(new Guess(guess, false, true));
+            guessList.add(new Guess(guess, false, true));
             guessesLeft=guessesPossible;
-            currentGuesses.clear();
         } else if (guessesLeft == 0){
-            //guessList.add(new Guess(guess, true, false));
+            guessList.add(new Guess(guess, true, false));
             guessesLeft=guessesPossible;
-            currentGuesses.clear();
         } else {
-            Guess addableGuess = new Guess(guess, false, false);
-            //guessList.add(addableGuess);
-            currentGuesses.add(addableGuess);
+            guessList.add(new Guess(guess, false, false));
             guessesLeft--;
-
         }
         return returnPositionsOnly(guess);
     }
@@ -210,7 +199,7 @@ public class Wordle {
             }
         }
         posArray = resultantArray;
-        //Since anything not dealt with is still 0s from initializing the array, just return
+        //anything not dealt with is still 0
         return resultantArray;
     }
 
@@ -240,18 +229,13 @@ public class Wordle {
         return dictionary;
     }
 
-    public List<Guess> getCurrentGuesses(){
-        return currentGuesses;
-    }
-
-
 
     public int[] getPositionsArray() {
         return posArray;
     }
 
     public String getCurrentGuess() {
-        return curGuess;
+        return currentGuess;
 
     }
 

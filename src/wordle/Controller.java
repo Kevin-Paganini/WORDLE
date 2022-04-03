@@ -707,11 +707,10 @@ public class Controller {
     /**
      * @author David Kane
      * Ensure only letters can be entered, and moves the boxes accordingly
-     * @param: Observable e
-     * @param: String oldValue
-     * @param: String newValue
-     * @param: int index
-     * @return: void
+     * @param Observable e
+     * @param String oldValue
+     * @param String newValue
+     * @param int index
      */
     private void listener(Observable e, String oldValue, String newValue, int index) {
         getTextFieldValues();
