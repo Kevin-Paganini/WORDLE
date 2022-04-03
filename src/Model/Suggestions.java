@@ -1,10 +1,7 @@
 package Model;
 
-import sun.reflect.generics.tree.Tree;
 import wordle.Utils;
 
-import javax.lang.model.type.ArrayType;
-import java.lang.reflect.Array;
 import java.util.*;
 
 //TO parse down dictionary and givwe suggestions

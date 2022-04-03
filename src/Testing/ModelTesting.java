@@ -1,24 +1,15 @@
 package Testing;
 
-import Model.Session;
-import Model.Suggestions;
-import Model.Wordle;
+import Model.*;
 import org.junit.Test;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.*;
 
 
 public class ModelTesting {
     static Session session = Session.getSession();
-
-
-    @BeforeEach
-
-
 
     /**
      *
@@ -30,8 +21,7 @@ public class ModelTesting {
     // Passed on 3/16
     @Test
     public void dictCompare() throws IOException {
-        Suggestions suggestions = new Suggestions();
-        Wordle wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session, suggestions);
+        Wordle wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session);
 
 
 
@@ -54,16 +44,16 @@ public class ModelTesting {
         Assertions.assertFalse(wordle.isValidWord(""));
 
         //Dictionary contains shard but not crane - make sure we don't get false positives
-        wordle = new Wordle(5, new File("src/Resources/shardnocrane.txt"), session, suggestions);
+        wordle = new Wordle(5, new File("src/Resources/shardnocrane.txt"), session);
         Assertions.assertFalse(wordle.isValidWord("crane"));
         Assertions.assertTrue(wordle.isValidWord("shard"));
 
         // file that has strings of invalid length
         Assertions.assertThrows(IOException.class ,() ->
-                new Wordle(5, new File("src/Resources/invalidLengths.txt"), session, suggestions));
+                new Wordle(5, new File("src/Resources/invalidLengths.txt"), session));
         // file that has non-characters in it
         Assertions.assertThrows(IOException.class, () ->
-                new Wordle(5, new File("src/Resources/invalidCharacters.txt"), session, suggestions));
+                new Wordle(5, new File("src/Resources/invalidCharacters.txt"), session));
 
     }
 
@@ -74,8 +64,7 @@ public class ModelTesting {
     // Passed on 3/16
     @Test
     public void guessCompare() throws IOException {
-        Suggestions suggestions = new Suggestions();
-        Wordle wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session, suggestions);
+        Wordle wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session);
 
         //Most basic test
         Assertions.assertTrue(wordle.forceTarget("crane"));
@@ -100,10 +89,9 @@ public class ModelTesting {
      */
     @Test
     public void testGuessWriter() throws IOException {
-        Suggestions suggestions = new Suggestions();
         File file = new File("src/Resources/previousGuesses.txt");
         file.delete();
-        Wordle wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session, suggestions);
+        Wordle wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session);
         //arbitrary target for testing purposes
         wordle.forceTarget("meant");
 
@@ -131,5 +119,21 @@ public class ModelTesting {
         Assertions.assertEquals("meant0", br.readLine());
         br.close();
         file.delete();
+    }
+
+    @Test
+    public void testSuggestions() throws IOException {
+        Wordle wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session);
+        wordle.forceTarget("queen");
+        wordle.makeGuess("queer");
+        Set<String> set = new TreeSet<>();
+        set.add("queen");
+        Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
+        set.clear();
+        wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session);
+        wordle.forceTarget("queen");
+        wordle.makeGuess("queer");
+        wordle.makeGuess("snack");
+        Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
     }
 }

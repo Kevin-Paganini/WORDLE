@@ -15,25 +15,25 @@ public class Wordle {
     private final int guessesPossible;
     private int guessesLeft;
     private String target;
-    private TreeSet<String> dictionary = null;
+    private final TreeSet<String> dictionary = new TreeSet<>();
+    private final Suggestions suggestions;
 
     private final ArrayList<Guess> guessList = new ArrayList<>();
 
-    public Wordle(int numGuesses, File dictionary, Session session, Suggestions suggestions) throws IOException {
+    public Wordle(int numGuesses, File dictionary, Session session) throws IOException {
         guessesPossible = numGuesses;
         this.guessesLeft = numGuesses;
         loadDictionary(dictionary);
         this.target = randomTarget();
         session.addGame(this);
+        suggestions = new Suggestions();
         suggestions.addGame(this);
     }
 
     /**
      * Reads dictionary file and interprets all words in file. If it can be properly parsed,
      * the dictionary will be loaded into dictionary interally. Throws IOException if it can't
-     * interpret the file properly.
-     *
-     * Does not clear the existing dictionary until the file is interpreted completely
+     * interpret the file properly. An error will fail the object's construction.
      *
      * @param file to read dictionary from
      * @throws IOException file contains invalid entries (wrong length or non-letter characters)
@@ -42,7 +42,6 @@ public class Wordle {
     private void loadDictionary(File file) throws IOException{
             if (DEBUG) System.out.println("\n\n\n");
 
-            TreeSet<String> tempDict = new TreeSet<>();
             Scanner sc = new Scanner(file);
             //Line tracker for debug purposes
             int line = 1;
@@ -51,7 +50,7 @@ public class Wordle {
                 throw new IOException("Line " + line + " contains a string with invalid characters");
             else {
                 numLetters = firstWord.length();
-                tempDict.add(firstWord);
+                dictionary.add(firstWord);
             }
             while (sc.hasNextLine()) {
                 String cookie = sc.nextLine().trim().toLowerCase(Locale.ROOT);
@@ -63,10 +62,9 @@ public class Wordle {
                 if (!cookie.matches("^[A-Za-z]+$"))
                     throw new IOException("Line " + line + " contains a string with invalid characters");
                 line++;
-                tempDict.add(cookie);
+                dictionary.add(cookie);
                 if (DEBUG) System.out.println(cookie);
             }
-            dictionary = tempDict;
     }
 
     /**
@@ -243,5 +241,9 @@ public class Wordle {
 
     public int getNumLetters() {
         return numLetters;
+    }
+
+    public Suggestions getSuggestions() {
+        return suggestions;
     }
 }

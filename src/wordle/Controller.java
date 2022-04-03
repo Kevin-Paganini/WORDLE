@@ -190,10 +190,8 @@ public class Controller {
 
         try {
 
-            suggest = new Suggestions();
-            game = new Wordle(numGuesses, dictionaryFile, session, suggest);
+            game = new Wordle(numGuesses, dictionaryFile, session);
             numLetters = game.getNumLetters();
-            suggest.addGame(game);
             if(DEBUG) System.out.println(game.getTarget());
 
             letters_used_grid_colors = Utils.makeInitialHashMapForKeyBoardColors();
@@ -707,10 +705,10 @@ public class Controller {
     /**
      * @author David Kane
      * Ensure only letters can be entered, and moves the boxes accordingly
-     * @param Observable e
-     * @param String oldValue
-     * @param String newValue
-     * @param int index
+     * @param e
+     * @param oldValue
+     * @param newValue
+     * @param index
      */
     private void listener(Observable e, String oldValue, String newValue, int index) {
         getTextFieldValues();
@@ -925,7 +923,7 @@ public class Controller {
 
 
     public void updateSuggestions(){
-        GridPane grid = Utils.makeSuggestionsGrid(suggest);
+        GridPane grid = Utils.makeSuggestionsGrid(game.getSuggestions());
         for(int i = 1; i < grid.getChildren().size();++i) {
             grid.getChildren().get(i).setOnMouseClicked(this:: enterSuggestion);
         }
