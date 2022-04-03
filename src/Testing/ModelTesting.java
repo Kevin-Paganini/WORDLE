@@ -31,7 +31,7 @@ public class ModelTesting {
     @Test
     public void dictCompare() throws IOException {
         Suggestions suggestions = new Suggestions();
-        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session, suggestions);
+        Wordle wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session, suggestions);
 
 
 
@@ -54,16 +54,16 @@ public class ModelTesting {
         Assertions.assertFalse(wordle.isValidWord(""));
 
         //Dictionary contains shard but not crane - make sure we don't get false positives
-        wordle = new Wordle(5, 5, new File("src/Resources/shardnocrane.txt"), session, suggestions);
+        wordle = new Wordle(5, new File("src/Resources/shardnocrane.txt"), session, suggestions);
         Assertions.assertFalse(wordle.isValidWord("crane"));
         Assertions.assertTrue(wordle.isValidWord("shard"));
 
         // file that has strings of invalid length
         Assertions.assertThrows(IOException.class ,() ->
-                new Wordle(5, 5, new File("src/Resources/invalidLengths.txt"), session, suggestions));
+                new Wordle(5, new File("src/Resources/invalidLengths.txt"), session, suggestions));
         // file that has non-characters in it
         Assertions.assertThrows(IOException.class, () ->
-                new Wordle(5, 5, new File("src/Resources/invalidCharacters.txt"), session, suggestions));
+                new Wordle(5, new File("src/Resources/invalidCharacters.txt"), session, suggestions));
 
     }
 
@@ -75,7 +75,7 @@ public class ModelTesting {
     @Test
     public void guessCompare() throws IOException {
         Suggestions suggestions = new Suggestions();
-        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session, suggestions);
+        Wordle wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session, suggestions);
 
         //Most basic test
         Assertions.assertTrue(wordle.forceTarget("crane"));
@@ -103,7 +103,7 @@ public class ModelTesting {
         Suggestions suggestions = new Suggestions();
         File file = new File("src/Resources/previousGuesses.txt");
         file.delete();
-        Wordle wordle = new Wordle(5, 5, new File("src/Resources/wordle-official.txt"), session, suggestions);
+        Wordle wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session, suggestions);
         //arbitrary target for testing purposes
         wordle.forceTarget("meant");
 

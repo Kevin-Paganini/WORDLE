@@ -11,7 +11,7 @@ public class Wordle {
 
     private String curGuess = "";
     private int[] posArray = null;
-    private final int numLetters;
+    private int numLetters = 0;
     private final int guessesPossible;
     private int guessesLeft;
     private String target;
@@ -21,10 +21,9 @@ public class Wordle {
 
     private final ArrayList<Guess> guessList = new ArrayList<>();
 
-    public Wordle(int numGuesses, int numLetters, File dictionary, Session session, Suggestions suggestions) throws IOException {
+    public Wordle(int numGuesses, File dictionary, Session session, Suggestions suggestions) throws IOException {
         guessesPossible = numGuesses;
         this.guessesLeft = numGuesses;
-        this.numLetters = numLetters;
         loadDictionary(dictionary);
         this.target = randomTarget();
         session.addGame(this);
@@ -50,6 +49,13 @@ public class Wordle {
             Scanner sc = new Scanner(file);
             //Line tracker for debug purposes
             int line = 1;
+            String firstWord = sc.nextLine().trim().toLowerCase(Locale.ROOT);
+            if (!firstWord.matches("^[A-Za-z]+$"))
+                throw new IOException("Line " + line + " contains a string with invalid characters");
+            else {
+                numLetters = firstWord.length();
+                tempDict.add(firstWord);
+            }
             while (sc.hasNextLine()) {
                 String cookie = sc.nextLine().trim().toLowerCase(Locale.ROOT);
 
@@ -250,6 +256,7 @@ public class Wordle {
     }
 
 
-
-
+    public int getNumLetters() {
+        return numLetters;
+    }
 }

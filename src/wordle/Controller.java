@@ -182,103 +182,108 @@ public class Controller {
      *
      */
     public void startNewGame(){
+        RUNNING = false;
         guess = 0;
         MAIN_PANE.getChildren().clear();
         gridOfTextFieldInputs.clear();
         // Creating Wordle Game
 
         try {
-            BufferedReader brTest = new BufferedReader(new FileReader(dictionaryFile));
-            String word = brTest.readLine();
-            numLetters = word.length();
+
             suggest = new Suggestions();
-            game = new Wordle(numGuesses, numLetters, dictionaryFile, session, suggest);
+            game = new Wordle(numGuesses, dictionaryFile, session, suggest);
+            numLetters = game.getNumLetters();
             suggest.addGame(game);
+            if(DEBUG) System.out.println(game.getTarget());
+
+            letters_used_grid_colors = Utils.makeInitialHashMapForKeyBoardColors();
+
+
+            //Creating grid of inputs
+            grid_input = createGridOfInputs(numGuesses, numLetters);
+            grid_input.setLayoutX(350);
+            grid_input.setLayoutY(50);
+
+            // Create keyboard of used letters
+            letters_used = createKeyBoardInputs();
+            letters_used.setLayoutX(200);
+            letters_used.setLayoutY((numGuesses * 60) + 100);
+            letters_used.getStyleClass().add("keyBoardGrid");
+
+            // Create Statistics button
+            statButton = createStatisticsButton();
+            statButton.setLayoutX(200);
+            statButton.setLayoutY(50);
+            submitButton = makeSubmitButton();
+            submitButton.setLayoutY(50);
+            submitButton.setLayoutX(750);
+
+            SUGGESTIONS = new GridPane();
+            SUGGESTIONS.setLayoutX(130);
+            SUGGESTIONS.setLayoutY((numGuesses*60)+300);
+            timer = new Label();
+            timer.setText("0");
+
+
+
+            // Adding all to main pane
+            MAIN_PANE.getChildren().addAll(grid_input, letters_used, statButton, submitButton, SUGGESTIONS, timer);
+            //Add all buttons to list of buttons
+            buttons.add(submitButton);
+            buttons.add(statButton);
+            buttons.add(importDictionaryButton);
+            buttons.add(dark_light);
+            buttons.add(contrast);
+            buttons.add(numChange);
+            buttons.add(fiveLetterDictionary);
+            buttons.add(sixLetterDictionary);
+            buttons.add(sevenLetterDictionary);
+            buttons.add(suggestion);
+            buttons.add(hard_mode);
+
+            //Add all panes to list of panes
+            panes.add(SETTINGS_PANE);
+            panes.add(MAIN_PANE);
+            panes.add(STATS_PANE);
+            panes.add(frequentLetterPane);
+            panes.add(frequentWordPane);
+
+            //Add all labels to list of labels
+            for(int i = 0; i < letters_used.getChildren().size();++i){
+                Label temp = (Label)letters_used.getChildren().get(i);
+                labels.add(temp);
+            }
+            labels.add(winLabel);
+            labels.add(longestWinStreak);
+            labels.add(lossLabel);
+            labels.add(avgNumGuesses);
+            labels.add(winLabel2);
+            labels.add(longestWinStreak2);
+            labels.add(lossLabel2);
+            labels.add(avgNumGuesses2);
+            labels.add(timer);
+
+            //Add all textfields to list of textfields
+            for(int i = 0; i < grid_input.getChildren().size();++i){
+                TextField tf = (TextField)grid_input.getChildren().get(i);
+                textFields.add(tf);
+            }
+            textFields.add(numGuess);
+
+            StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
+            StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
+            runTimer();
         } catch (IOException e) {
             //TODO: Catch if the wordle-official file does not exist
+            System.out.println("Entered an invalid File");
+
+
         } catch (NullPointerException e){
             //TODO: Catch if the opened dictionary file is blank
+
         }
 
-        if(DEBUG) System.out.println(game.getTarget());
 
-        letters_used_grid_colors = Utils.makeInitialHashMapForKeyBoardColors();
-
-
-        //Creating grid of inputs
-        grid_input = createGridOfInputs(numGuesses, numLetters);
-        grid_input.setLayoutX(350);
-        grid_input.setLayoutY(50);
-
-        // Create keyboard of used letters
-        letters_used = createKeyBoardInputs();
-        letters_used.setLayoutX(200);
-        letters_used.setLayoutY((numGuesses * 60) + 100);
-        letters_used.getStyleClass().add("keyBoardGrid");
-
-        // Create Statistics button
-        statButton = createStatisticsButton();
-        statButton.setLayoutX(200);
-        statButton.setLayoutY(50);
-        submitButton = makeSubmitButton();
-        submitButton.setLayoutY(50);
-        submitButton.setLayoutX(750);
-
-        SUGGESTIONS = new GridPane();
-        SUGGESTIONS.setLayoutX(130);
-        SUGGESTIONS.setLayoutY((numGuesses*60)+300);
-        timer = new Label();
-        timer.setText("0");
-
-
-
-        // Adding all to main pane
-        MAIN_PANE.getChildren().addAll(grid_input, letters_used, statButton, submitButton, SUGGESTIONS, timer);
-        //Add all buttons to list of buttons
-        buttons.add(submitButton);
-        buttons.add(statButton);
-        buttons.add(importDictionaryButton);
-        buttons.add(dark_light);
-        buttons.add(contrast);
-        buttons.add(numChange);
-        buttons.add(fiveLetterDictionary);
-        buttons.add(sixLetterDictionary);
-        buttons.add(sevenLetterDictionary);
-        buttons.add(suggestion);
-        buttons.add(hard_mode);
-
-        //Add all panes to list of panes
-        panes.add(SETTINGS_PANE);
-        panes.add(MAIN_PANE);
-        panes.add(STATS_PANE);
-        panes.add(frequentLetterPane);
-        panes.add(frequentWordPane);
-
-        //Add all labels to list of labels
-        for(int i = 0; i < letters_used.getChildren().size();++i){
-            Label temp = (Label)letters_used.getChildren().get(i);
-            labels.add(temp);
-        }
-        labels.add(winLabel);
-        labels.add(longestWinStreak);
-        labels.add(lossLabel);
-        labels.add(avgNumGuesses);
-        labels.add(winLabel2);
-        labels.add(longestWinStreak2);
-        labels.add(lossLabel2);
-        labels.add(avgNumGuesses2);
-        labels.add(timer);
-
-        //Add all textfields to list of textfields
-        for(int i = 0; i < grid_input.getChildren().size();++i){
-            TextField tf = (TextField)grid_input.getChildren().get(i);
-            textFields.add(tf);
-        }
-        textFields.add(numGuess);
-
-        StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
-        StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
-        runTimer();
     }
 
     /**
