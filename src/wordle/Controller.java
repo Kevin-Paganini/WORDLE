@@ -277,6 +277,29 @@ public class Controller {
             //TODO: Catch if the wordle-official file does not exist
             System.out.println("Entered an invalid File");
 
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Invalid File");
+            win = a.getDialogPane();
+            StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
+            win.setHeaderText("INVALID FILE");
+            win.setContentText("Please enter a valid file.");
+            StylingChanger.changeAlert(a,win,DARK,CONTRAST,0);
+
+
+            Optional<ButtonType> result = a.showAndWait();
+            if (!result.isPresent()) {
+                // alert is exited, no button has been pressed.
+                session.prettyString();
+                Platform.exit();
+            } else if (result.get() == ButtonType.OK) {
+                //oke button is pressed
+                importDictionary();
+                startNewGame();
+            } else if (result.get() == ButtonType.CANCEL){
+                // cancel button is pressed
+                session.prettyString();
+                Platform.exit();
+            }
+
 
         } catch (NullPointerException e){
             //TODO: Catch if the opened dictionary file is blank
@@ -712,6 +735,18 @@ public class Controller {
      * @param actionEvent Button click (garbage value)
      */
     public void importDictionary(ActionEvent actionEvent) {
+        runTimer();
+        FileChooser fc = new FileChooser();
+        fc.setInitialDirectory(new File ("src/Resources/"));
+        File temp;
+        temp = fc.showOpenDialog(null);
+        if (temp != null) {
+            dictionaryFile = temp;
+            startNewGame();
+        }
+    }
+
+    public void importDictionary(){
         runTimer();
         FileChooser fc = new FileChooser();
         fc.setInitialDirectory(new File ("src/Resources/"));
