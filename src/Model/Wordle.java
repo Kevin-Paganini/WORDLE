@@ -136,6 +136,7 @@ public class Wordle {
         if (!isValidWord(guess)) {
             return null;
         }
+        guess = guess.toUpperCase(Locale.ROOT);
         if (DEBUG) System.out.println("Guess: " + guess);
         if (isWinner(guess)) {
             guessList.add(new Guess(guess, false, true));
@@ -152,6 +153,10 @@ public class Wordle {
 
     public void updateGuesses(String guess){
             guessList.add(new Guess(guess, true, false));
+    }
+
+    public void clearGuesses(){
+        guessList.clear();
     }
 
     /**

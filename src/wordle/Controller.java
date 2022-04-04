@@ -515,7 +515,7 @@ public class Controller {
         if (DEBUG) System.out.println(input);
 
         guesses.add(input);
-        game.updateGuesses(input);
+        //game.updateGuesses(input.toUpperCase(Locale.ROOT));
 
         // Checking positions of guess against target
         int[] position = game.makeGuess(input.toLowerCase(Locale.ROOT));
@@ -1071,7 +1071,6 @@ public class Controller {
         String user = username.getText();
         user = user.replaceAll("[\\\\/:*?\"<>|]", "");
         if (!user.equalsIgnoreCase(this.user)){
-            startNewGame();
             updateUser(user);
         }
     }
@@ -1108,6 +1107,7 @@ public class Controller {
             line = br.readLine();
             guesses.clear();
             while (line != null) {
+                line = line.toUpperCase(Locale.ROOT);
                 guesses.add(line);
                 game.updateGuesses(line);
                 line = br.readLine();
@@ -1141,11 +1141,13 @@ public class Controller {
     }
 
     public void resetUser(){
+        startNewGame();
         wins = 0;
         losses = 0;
         win_streak = 0;
         avgGuesses = 0;
         guesses.clear();
+        game.clearGuesses();
         if (DARK) {
             dark_light_mode_switch(null);
         }

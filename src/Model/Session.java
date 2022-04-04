@@ -5,6 +5,7 @@ import wordle.Utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -67,8 +68,8 @@ public class Session {
      */
     public HashMap<String, Integer> getLetterGuessFrequency(){
         HashMap<String, Integer> letterFrequency = Utils.intializeLetterFrequency();
-        for (Wordle game : games) {
-            for (Guess guess : game.getGuesses()) {
+        List<Guess> guesses = games.get(games.size()-1).getGuesses();
+            for (Guess guess : guesses) {
                 //For every guess of every game, split them into characters and cycle over them
                 //Because the utils function returns all capitals,
                 //the resultant letters are capitalized as well
@@ -79,7 +80,6 @@ public class Session {
                     letterFrequency.merge(letterStr, 1, Integer::sum);
                 }
             }
-        }
         return letterFrequency;
     }
 
@@ -91,14 +91,13 @@ public class Session {
      * @return HashMap where key is the word and value is the frequency
      */
     public HashMap<String, Integer> getWordGuessFrequency(){
-        HashMap<String, Integer> wordFrequency = new HashMap<>();
 
-        for (Wordle wordle : games) {
-            for (Guess guess : wordle.getGuesses()) {
+        HashMap<String, Integer> wordFrequency = new HashMap<>();
+            List<Guess> guesses = games.get(games.size()-1).getGuesses();
+            for (Guess guess : guesses) {
                 //For every guess of every game,
                 //assigns the index to 1 if there's no value there, and V+1 if there is
                 wordFrequency.merge(guess.getGuess(), 1, Integer::sum);
-            }
         }
         return Utils.sortHashMapByValue(wordFrequency);
     }
