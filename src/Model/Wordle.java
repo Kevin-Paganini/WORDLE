@@ -93,7 +93,7 @@ public class Wordle {
      */
     public String randomTarget() {
         String target = (String) dictionary.toArray()[(int) (Math.random() * dictionary.size())];
-        if (DEBUG) System.out.println(target);
+        if (DEBUG) System.out.println("Target: " + target);
 
         return target;
     }
@@ -131,13 +131,13 @@ public class Wordle {
 
     public int[] makeGuess(String guess) {
         currentGuess = guess;
-        if (DEBUG) System.out.println(target);
+        if (DEBUG) System.out.println("Target: " + target);
 
         guessesLeft--;
         if (!isValidWord(guess)) {
             return null;
         }
-        if (DEBUG) System.out.println(guess);
+        if (DEBUG) System.out.println("Guess: " + guess);
         if (isWinner(guess)) {
             guessList.add(new Guess(guess, false, true));
             guessesLeft=guessesPossible;
