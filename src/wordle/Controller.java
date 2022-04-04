@@ -56,11 +56,12 @@ public class Controller {
     boolean RUNNING = false;
     ArrayList<String> guesses = new ArrayList<>();
     DialogPane win;
+    boolean hintFlag = false;
 
 
     private HashMap<String, Integer> letters_used_grid_colors;
 
-    private Button statButton;
+    private Button hintButton;
 
     private Session session;
 
@@ -222,9 +223,11 @@ public class Controller {
             letters_used.getStyleClass().add("keyBoardGrid");
 
             // Create Statistics button
-            statButton = createStatisticsButton();
-            statButton.setLayoutX(200);
-            statButton.setLayoutY(50);
+            hintButton = createHintButton();
+            hintButton.setLayoutX(200);
+            hintButton.setLayoutY(50);
+            hintButton.setDisable(true);
+            hintFlag = false;
             submitButton = makeSubmitButton();
             submitButton.setLayoutY(50);
             submitButton.setLayoutX(750);
@@ -238,10 +241,10 @@ public class Controller {
 
 
             // Adding all to main pane
-            MAIN_PANE.getChildren().addAll(grid_input, letters_used, statButton, submitButton, SUGGESTIONS, timer);
+            MAIN_PANE.getChildren().addAll(grid_input, letters_used, hintButton, submitButton, SUGGESTIONS, timer);
             //Add all buttons to list of buttons
             buttons.add(submitButton);
-            buttons.add(statButton);
+            buttons.add(hintButton);
             buttons.add(importDictionaryButton);
             buttons.add(dark_light);
             buttons.add(contrast);
@@ -325,15 +328,15 @@ public class Controller {
      * @author Kevin Paganini
      * //TODO Maybe pick a better icon
      */
-    private Button createStatisticsButton() {
+    private Button createHintButton() {
 
-        Image image = new Image("file:src/Resources/stat.jpg", 30, 30, false, false);
+        Image image = new Image("file:src/Resources/hint.png", 30, 30, false, false);
         ImageView view = new ImageView(image);
 
         Button button = new Button();
         button.setPrefSize(30, 30);
         button.setGraphic(view);
-        button.setOnAction(this::showStatistics);
+        button.setOnAction(this::showHint);
         button.setLayoutX((numLetters * 60) + 75);
         button.setLayoutY(310);
         return button;
@@ -343,7 +346,22 @@ public class Controller {
      * Show statistics of user
      * @param actionEvent
      */
-    private void showStatistics(ActionEvent actionEvent) {
+    private void showHint(ActionEvent actionEvent) {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "HINT");
+        win = a.getDialogPane();
+        StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
+        win.setHeaderText("HINT");
+
+        Set<String> hints = game.getSuggestions().getValidWords();
+        ArrayList<String> hintList = new ArrayList<>();
+        hintList.addAll(hints);
+        win.setContentText(hintList.get(0));
+        StylingChanger.changeAlert(a,win,DARK,CONTRAST,1);
+
+
+        Optional<ButtonType> result = a.showAndWait();
+        hintButton.setDisable(true);
+
     }
 
 
@@ -504,6 +522,11 @@ public class Controller {
     private void submit() {
         // do verification stuff
 
+        // Turning on hint button after first guess
+        if(hintFlag == false){
+            hintButton.setDisable(false);
+            hintFlag = true;
+        }
         //Getting input from guess text fields
         String input = "";
         for(int i = 0; i < numLetters; i++){

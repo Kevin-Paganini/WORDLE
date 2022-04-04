@@ -27,6 +27,11 @@ public class Suggestions {
         this.seen = new ArrayList();
     }
 
+
+    public Set<String> getValidWords(){
+        return validWords;
+    }
+
     /**
      * Add wordle game to suggestions so it can process and suggest
      * @param wordle
