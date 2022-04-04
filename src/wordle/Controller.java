@@ -573,7 +573,7 @@ public class Controller {
 
         guesses.add(input);
         updateStats();
-        //game.updateGuesses(input.toUpperCase(Locale.ROOT));
+        game.updateGuesses(input.toUpperCase(Locale.ROOT));
 
         // Checking positions of guess against target
         int[] position = game.makeGuess(input.toLowerCase(Locale.ROOT));
@@ -1005,7 +1005,14 @@ public class Controller {
             }
         }
 
-        BarChart chart = Utils.make5BarChartFromHashMap(wordFrequency);
+        LinkedHashMap<String, Integer> reverseSortedMap = new LinkedHashMap<>();
+
+        wordFrequency.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
+
+        BarChart chart = Utils.make5BarChartFromHashMap(reverseSortedMap);
         chart.getStylesheets().add("Styling//stylesheet.css");
         chart.getStylesheets().add("Styling//dark_stylesheet.css");
         chart.getStylesheets().add("Styling//contrast_stylesheet.css");

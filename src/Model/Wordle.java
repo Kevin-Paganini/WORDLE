@@ -96,7 +96,7 @@ public class Wordle {
     public String randomTarget() {
         String target = (String) dictionary.toArray()[(int) (Math.random() * dictionary.size())];
         if (DEBUG) System.out.println("Target: " + target);
-        target = "thick";
+        //target = "thick";
         return target;
     }
 
