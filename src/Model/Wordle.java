@@ -133,9 +133,11 @@ public class Wordle {
         if (DEBUG) System.out.println("Target: " + target);
 
         guessesLeft--;
+        /*
         if (!isValidWord(guess)) {
             return null;
         }
+         */
         guess = guess.toUpperCase(Locale.ROOT);
         if (DEBUG) System.out.println("Guess: " + guess);
         if (isWinner(guess)) {

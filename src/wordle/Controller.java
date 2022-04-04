@@ -538,6 +538,7 @@ public class Controller {
         if (DEBUG) System.out.println(input);
 
         guesses.add(input);
+        updateStats();
         //game.updateGuesses(input.toUpperCase(Locale.ROOT));
 
         // Checking positions of guess against target
@@ -589,9 +590,9 @@ public class Controller {
             gridOfTextFieldInputs.get(guess).get(0).requestFocus();
         //If there is a guess and user is out of guesses
         } else {
-            saveStats();
             win_streak = 0;
             losses++;
+            saveStats();
             win_percentage = ((double)wins/(losses+wins)) * 100;
             if(win_percentage > 100) {
                 win_percentage = 100;
@@ -943,13 +944,41 @@ public class Controller {
         longestWinStreak.setText(String.valueOf(win_streak));
         frequentLetterPane.getChildren().clear();
         frequentWordPane.getChildren().clear();
-        BarChart chart = Utils.make5BarChartFromHashMap(session.getWordGuessFrequency());
+        HashMap<String, Integer> wordFrequency = new HashMap<>();
+        HashMap<String, Integer> letterFrequency = new HashMap<>();
+
+        for(int i = 0; i < 26; i++){
+            int asciiValue = 65 + i;
+            char letter = (char)asciiValue;
+            letterFrequency.put(String.valueOf(letter), 0);
+        }
+
+        for(String word : guesses){
+            if (wordFrequency.containsKey(word)){
+                wordFrequency.replace(word, wordFrequency.get(word)+1);
+            }
+            else{
+                wordFrequency.put(word, 1);
+            }
+            for (char c : word.toCharArray()) {
+                String letter = String.valueOf(c);
+                if (letterFrequency.containsKey(letter)){
+                    letterFrequency.replace(letter, letterFrequency.get(letter)+1);
+                }
+                else {
+                    letterFrequency.put(letter, 1);
+                }
+            }
+        }
+
+        BarChart chart = Utils.make5BarChartFromHashMap(wordFrequency);
         chart.getStylesheets().add("Styling//stylesheet.css");
         chart.getStylesheets().add("Styling//dark_stylesheet.css");
         chart.getStylesheets().add("Styling//contrast_stylesheet.css");
         chart.getStyleClass().add("chart-dark");
         frequentWordPane.getChildren().add(chart);
-        frequentLetterPane.getChildren().add(Utils.makeLetterBarChart(session.getLetterGuessFrequency()));
+
+        frequentLetterPane.getChildren().add(Utils.makeLetterBarChart(letterFrequency));
     }
 
 
@@ -1140,6 +1169,7 @@ public class Controller {
             if (ct && !CONTRAST) contrast_switch(null);
             if (sug && !CONTRAST) suggestion_switch(null);
             if (ad && !ADMIN) setAdmin();
+            updateStats();
         }
         catch (FileNotFoundException e){
             resetUser();
@@ -1147,7 +1177,6 @@ public class Controller {
         catch (IOException e){
             //TODO: HANDLE ERROR
         }
-
     }
 
     public void toggle_admin(ActionEvent e){
@@ -1164,7 +1193,7 @@ public class Controller {
     }
 
     public void resetUser(){
-        startNewGame();
+        initialize();
         wins = 0;
         losses = 0;
         win_streak = 0;
@@ -1184,6 +1213,7 @@ public class Controller {
             setAdmin();
         }
         saveStats();
+        updateStats();
     }
 }
 
