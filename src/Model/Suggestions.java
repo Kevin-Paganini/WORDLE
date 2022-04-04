@@ -46,7 +46,7 @@ public class Suggestions {
      * @author: Kevin Paganini
      */
     public Set<String> pruneDictionary(){
-        if(game.getCurrentGuess().equals("kitty")){
+        if(game.getCurrentGuess().equals("queer")){
             System.out.println("hi");
         }
         int[] positions = game.getPositionsArray();
@@ -99,7 +99,7 @@ public class Suggestions {
             if(value == 1 && !seen.contains(letter)){
                 removeCorrectLetterWrongPos(letter, j);
             }
-            if (value == 2 && !seen.contains(letter) && positions[j] == 2){
+            if (value == 2 && positions[j] == 2){
                 if(letter.equals("E")){
                     System.out.println();
                 }

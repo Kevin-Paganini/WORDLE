@@ -131,7 +131,7 @@ public class ModelTesting {
         wordle.makeGuess("queer");
         Set<String> set = new TreeSet<>();
         set.add("queen");
-        //Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
+        Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
         wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session);
         wordle.forceTarget("queen");
         wordle.makeGuess("queer");
