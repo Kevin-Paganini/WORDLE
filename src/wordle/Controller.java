@@ -31,6 +31,7 @@ import static javafx.scene.input.KeyCode.*;
 public class Controller {
     public static final boolean DEBUG = true;
     private static File dictionaryFile =  new File("src/Resources/wordle-official.txt");
+    private static File lastWorkingFile = dictionaryFile;
     public static final double BUTTON_PADDING = 10;
     private int guess = 0;
     ArrayList<List<TextField>> gridOfTextFieldInputs = new ArrayList<>();
@@ -187,6 +188,7 @@ public class Controller {
         try {
 
             game = new Wordle(numGuesses, dictionaryFile, session);
+            lastWorkingFile = dictionaryFile;
             RUNNING = false;
             guess = 0;
             MAIN_PANE.getChildren().clear();
@@ -271,6 +273,7 @@ public class Controller {
             StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
             StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
         } catch (IOException e) {
+            dictionaryFile = lastWorkingFile;
             //TODO: Catch if the wordle-official file does not exist
             System.out.println("Entered an invalid File");
 
@@ -297,6 +300,7 @@ public class Controller {
                 //Platform.exit();
             }
         } catch (NullPointerException e){
+            dictionaryFile = lastWorkingFile;
             //TODO: Catch if the opened dictionary file is blank
 
         } finally {
@@ -729,19 +733,12 @@ public class Controller {
      * @param actionEvent Button click (garbage value)
      */
     public void importDictionary(ActionEvent actionEvent) {
-        runTimer();
-        FileChooser fc = new FileChooser();
-        fc.setInitialDirectory(new File ("src/Resources/"));
-        File temp;
-        temp = fc.showOpenDialog(null);
-        if (temp != null) {
-            dictionaryFile = temp;
-            startNewGame();
-        }
+        importDictionary();
     }
 
     public void importDictionary(){
-        runTimer();
+        timeline.pause();
+        RUNNING = false;
         FileChooser fc = new FileChooser();
         fc.setInitialDirectory(new File ("src/Resources/"));
         File temp;
@@ -750,6 +747,8 @@ public class Controller {
             dictionaryFile = temp;
             startNewGame();
         }
+        timeline.play();
+        RUNNING = true;
     }
 
     /**
@@ -937,8 +936,7 @@ public class Controller {
             }
             labels.add(temp);
         }
-        if (SUGGESTION) SUGGESTIONS.setVisible(true); else SUGGESTIONS.setVisible(false);
-
+        SUGGESTIONS.setVisible(SUGGESTION);
     }
 
 
