@@ -355,7 +355,41 @@ public class Controller {
         Set<String> hints = game.getSuggestions().getValidWords();
         ArrayList<String> hintList = new ArrayList<>();
         hintList.addAll(hints);
-        win.setContentText(hintList.get(0));
+        ArrayList<String> g = game.getGuesses_for_wordle_game();
+        String target = game.getTarget();
+        ArrayList<Character> usedLetters = new ArrayList<>();
+
+        for(int i = 0; i < g.size(); i++)
+        {
+            char[] word = g.get(i).toUpperCase(Locale.ROOT).toCharArray();
+            for(int j = 0; j < word.length; j++)
+            {
+                if(!usedLetters.contains(word[j]))
+                {
+                    usedLetters.add(word[j]);
+                }
+
+            }
+
+        }
+        char hintLetter = '~';
+        char[] t = target.toUpperCase(Locale.ROOT).toCharArray();
+        for(int i = 0; i < t.length; i++)
+        {
+            if(!usedLetters.contains(t[i])){
+                hintLetter = t[i];
+                break;
+            }
+        }
+        if(hintLetter == '~'){
+            win.setContentText(hintList.get(0));
+        } else {
+            win.setContentText(String.valueOf(hintLetter));
+        }
+
+
+
+
         StylingChanger.changeAlert(a,win,DARK,CONTRAST,1);
 
 

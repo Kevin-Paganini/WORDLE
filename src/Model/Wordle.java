@@ -17,6 +17,7 @@ public class Wordle {
     private String target;
     private final TreeSet<String> dictionary = new TreeSet<>();
     private final Suggestions suggestions;
+    private ArrayList<String> guesses_for_wordle_game;
 
     private final ArrayList<Guess> guessList = new ArrayList<>();
 
@@ -28,6 +29,7 @@ public class Wordle {
         session.addGame(this);
         suggestions = new Suggestions();
         suggestions.addGame(this);
+        this.guesses_for_wordle_game = new ArrayList<>();
     }
 
     /**
@@ -94,6 +96,7 @@ public class Wordle {
     public String randomTarget() {
         String target = (String) dictionary.toArray()[(int) (Math.random() * dictionary.size())];
         if (DEBUG) System.out.println("Target: " + target);
+        target = "thick";
         return target;
     }
 
@@ -130,6 +133,7 @@ public class Wordle {
 
     public int[] makeGuess(String guess) {
         currentGuess = guess;
+        guesses_for_wordle_game.add(guess);
         if (DEBUG) System.out.println("Target: " + target);
 
         guessesLeft--;
@@ -248,5 +252,10 @@ public class Wordle {
 
     public Suggestions getSuggestions() {
         return suggestions;
+    }
+
+
+    public ArrayList<String> getGuesses_for_wordle_game(){
+        return guesses_for_wordle_game;
     }
 }
