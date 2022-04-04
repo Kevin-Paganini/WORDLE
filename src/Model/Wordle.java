@@ -150,11 +150,8 @@ public class Wordle {
         return returnPositionsOnly(guess);
     }
 
-    public void updateGuesses(ArrayList<String> guesses){
-        guessList.clear();
-        for (String guess: guesses){
+    public void updateGuesses(String guess){
             guessList.add(new Guess(guess, true, false));
-        }
     }
 
     /**

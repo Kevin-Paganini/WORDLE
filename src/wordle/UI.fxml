@@ -43,6 +43,15 @@
                    <TextField fx:id="numGuess" layoutX="29.0" layoutY="216.0" maxHeight="70" maxWidth="150" promptText="Number of Guesses" />
                    <Button fx:id="numChange" layoutX="190.0" layoutY="216.0" mnemonicParsing="false" onAction="#changeGuessAmount" text="Submit" />
                    <Button fx:id ="hard_mode" layoutX ="549.0" layoutY = "24.0" onAction="#changeHardMode" text="Hard Mode"/>
+
+                   <TextField fx:id="username" layoutX="29.0" layoutY="300.0" maxHeight="70" maxWidth="150" promptText="Enter Username" />
+                   <Button fx:id="userChange" layoutX="190.0" layoutY="300.0" mnemonicParsing="false" onAction="#changeUser" text="Submit" />
+
+                   <TextField fx:id="admin" layoutX="29.0" layoutY="352.0" maxHeight="70" maxWidth="150" promptText="Admin Password" />
+                   <Button fx:id="adminToggle" layoutX="190.0" layoutY="352.0" mnemonicParsing="false" onAction="#toggle_admin" text="Submit" />
+
+                   <Button fx:id="resetUser" layoutX="29.0" layoutY="450.0" mnemonicParsing="false" onAction="#resetUser" text="RESET USER" />
+
                </children></Pane>
            </content>
        </Tab>
