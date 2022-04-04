@@ -11,7 +11,7 @@ public class Wordle {
 
     private String currentGuess = "";
     private int[] posArray = null;
-    private int numLetters = 0;
+    private int numLetters;
     private final int guessesPossible;
     private int guessesLeft;
     private String target;

@@ -182,15 +182,15 @@ public class Controller {
      *
      */
     public void startNewGame(){
-        RUNNING = false;
-        guess = 0;
-        MAIN_PANE.getChildren().clear();
-        gridOfTextFieldInputs.clear();
-        // Creating Wordle Game
 
+        // Creating Wordle Game
         try {
 
             game = new Wordle(numGuesses, dictionaryFile, session);
+            RUNNING = false;
+            guess = 0;
+            MAIN_PANE.getChildren().clear();
+            gridOfTextFieldInputs.clear();
             numLetters = game.getNumLetters();
             if(DEBUG) System.out.println(game.getTarget());
 
@@ -270,7 +270,6 @@ public class Controller {
 
             StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
             StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
-            runTimer();
         } catch (IOException e) {
             //TODO: Catch if the wordle-official file does not exist
             System.out.println("Entered an invalid File");
@@ -287,24 +286,22 @@ public class Controller {
             if (!result.isPresent()) {
                 // alert is exited, no button has been pressed.
                 session.prettyString();
-                Platform.exit();
+                //Platform.exit();
             } else if (result.get() == ButtonType.OK) {
                 //oke button is pressed
                 importDictionary();
-                startNewGame();
             } else if (result.get() == ButtonType.CANCEL){
                 // cancel button is pressed
                 session.prettyString();
-                Platform.exit();
+                //stack
+                //Platform.exit();
             }
-
-
         } catch (NullPointerException e){
             //TODO: Catch if the opened dictionary file is blank
 
+        } finally {
+            runTimer();
         }
-
-
     }
 
     /**

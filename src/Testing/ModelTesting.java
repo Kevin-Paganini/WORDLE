@@ -83,6 +83,16 @@ public class ModelTesting {
 
     }
 
+
+    @Test
+    public void testDictionaryReading() {
+        Assertions.assertDoesNotThrow(() -> new Wordle(5, new File("src/Resources/wordle-official.txt"), session));
+        Assertions.assertThrows(IOException.class, () -> new Wordle(5, new File("src/Resources/shakespeare_dict_test.txt"), session));
+        Assertions.assertThrows(IOException.class, () -> new Wordle(5, new File("src/Resources/invalidLengths.txt"), session));
+        Assertions.assertThrows(IOException.class, () -> new Wordle(5, new File("src/Resources/invalidCharacters.txt"), session));
+
+    }
+
     /**
      * Test must be re-written to accommodate new model
      * This test fails currently
@@ -132,10 +142,20 @@ public class ModelTesting {
         Set<String> set = new TreeSet<>();
         set.add("queen");
         Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
+
         wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session);
         wordle.forceTarget("queen");
         wordle.makeGuess("queer");
+        wordle.getSuggestions().pruneDictionary();
         wordle.makeGuess("snack");
+        Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
+
+        wordle = new Wordle(5, new File("src/Resources/words_6_letters.txt"), session);
+        wordle.forceTarget("bubble");
+        wordle.makeGuess("bubals"); //Yes this is a real word
+        set.clear();
+        set.add("bubble");
+        set.add("bubbly");
         Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
     }
 }
