@@ -157,7 +157,7 @@
     -fx-alignment : center;
 }
 
-#numGuess{
+#numGuess, #admin, #username{
     -fx-font : 15px "serief";
     -fx-border : black;
     -fx-padding : 10;

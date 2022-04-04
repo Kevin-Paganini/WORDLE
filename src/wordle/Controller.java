@@ -30,6 +30,7 @@ import static javafx.scene.input.KeyCode.*;
 
 public class Controller {
     public static final boolean DEBUG = true;
+    public static final String ADMIN_PASSWORD = "1234";
     private static File dictionaryFile =  new File("src/Resources/wordle-official.txt");
     private static File lastWorkingFile = dictionaryFile;
     public static final double BUTTON_PADDING = 10;
@@ -87,6 +88,13 @@ public class Controller {
     // Statistics Functionality
     @FXML
     TextField numGuess;
+
+    @FXML
+    TextField username;
+
+    @FXML
+    TextField admin;
+
 
     @FXML
     Label winLabel;
@@ -155,11 +163,14 @@ public class Controller {
     @FXML
     private Button sevenLetterDictionary;
 
+
     ArrayList<Button> buttons = new ArrayList<>();
     ArrayList<Pane> panes = new ArrayList<>();
     ArrayList<Label> labels = new ArrayList<>();
     ArrayList<TextField> textFields = new ArrayList<>();
+    String user = getUserName();
     Timeline timeline;
+    boolean ADMIN = false;
 
     /**
      * Initialization function for window
@@ -504,7 +515,7 @@ public class Controller {
         if (DEBUG) System.out.println(input);
 
         guesses.add(input);
-        game.updateGuesses(guesses);
+        game.updateGuesses(input);
 
         // Checking positions of guess against target
         int[] position = game.makeGuess(input.toLowerCase(Locale.ROOT));
@@ -579,7 +590,8 @@ public class Controller {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Play Again");
         win = a.getDialogPane();
         StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
-        win.setHeaderText("Played = " + (wins + losses) + "\nWIN% = " + win_percentage + "%" + "\nGUESSES THIS GAME = " + guess + "\nWINSTREAK = " + win_streak + "\nTIME: = " + timer.getText());
+        DecimalFormat df = new DecimalFormat("0.00");
+        win.setHeaderText("Played = " + (wins + losses) + "\nWIN% = " + df.format(win_percentage) + "%" + "\nGUESSES THIS GAME = " + guess + "\nWINSTREAK = " + win_streak + "\nTIME: = " + timer.getText());
         win.setContentText("PLAY AGAIN?");
         // Updating stats tab every time a game is done
         updateStats();
@@ -945,36 +957,17 @@ public class Controller {
         pc = pc.replaceAll("[\\\\/:*?\"<>|]", "");
         if (!pc.equals(("ERROR"))){
             try{
-                File stats = new File("src/Resources/" + pc);
-                BufferedReader br = new BufferedReader(new FileReader(stats));
+                File pcFile = new File("src/Resources/" + pc);
+                BufferedReader br = new BufferedReader(new FileReader(pcFile));
                 String line = br.readLine();
-                Boolean dk = false, ct = false, sug = false;
-                if (line.equals("DARK")){
-                    dk = true;
+
+                if (!line.equals(null)){
+                    updateUser(line);
                 }
-                line = br.readLine();
-                if (line.equals("CONTRAST")){
-                    ct = true;
-                }
-                line = br.readLine();
-                if (line.equals("SUGGESTION")){
-                    sug = true;
+                else{
+                    //TODO: THROW ERROR
                 }
 
-                wins = Integer.parseInt(br.readLine());
-                losses = Integer.parseInt(br.readLine());
-                win_streak = Integer.parseInt(br.readLine());
-                avgGuesses = Double.parseDouble(br.readLine());
-
-                line = br.readLine();
-                while (line != null){
-                    guesses.add(line);
-                    line = br.readLine();
-                }
-
-                if (dk) dark_light_mode_switch(null);
-                if (ct) contrast_switch(null);
-                if (sug) suggestion_switch(null);
 
             }catch (FileNotFoundException e){
                 //NO FILE: DO NOTHING.
@@ -991,8 +984,14 @@ public class Controller {
         String pc = getComputerName();
         pc = pc.replaceAll("[\\\\/:*?\"<>|]", "");
         if (!pc.equals("ERROR")){
+            try {
+                Files.write(Paths.get("src/Resources/" + pc), user.getBytes());
+            }
+            catch (IOException ignored){};
+
             String content = "";
-            if (DARK) content += "DARK"; else content += "LIGHT";
+            if (ADMIN) content += "ADMIN"; else content += "USER";
+            if (DARK) content += "\nDARK"; else content += "\nLIGHT";
             if (CONTRAST) content += "\nCONTRAST"; else content += "\nNORMAL MODE";
             if (SUGGESTION) content += "\nSUGGESTION"; else content += "\nNO SUGGESTIONS";
             if (wins + losses == 0){
@@ -1008,7 +1007,7 @@ public class Controller {
             }
 
             try {
-                Files.write(Paths.get("src/Resources/" + pc), content.getBytes());
+                Files.write(Paths.get("src/Resources/" + user), content.getBytes());
             }
             catch (IOException ignored){};
 
@@ -1030,6 +1029,9 @@ public class Controller {
             return "ERROR";
     }
 
+    private String getUserName(){
+        return System.getProperty("user.name");
+    }
     public void changeHardMode(ActionEvent actionEvent) {
         runTimer();
         if(hard_mode.getText().equals("Hard Mode")) {
@@ -1063,6 +1065,100 @@ public class Controller {
             time = time/10;
             timer.setText(Double.toString(time));
         }
+    }
+
+    public void changeUser(ActionEvent e){
+        String user = username.getText();
+        user = user.replaceAll("[\\\\/:*?\"<>|]", "");
+        if (!user.equalsIgnoreCase(this.user)){
+            startNewGame();
+            updateUser(user);
+        }
+    }
+
+    public void updateUser(String user){
+        this.user = user;
+        try {
+            File stats = new File("src/Resources/" + user);
+            BufferedReader br = new BufferedReader(new FileReader(stats));
+            String line = br.readLine();
+
+            Boolean dk = false, ct = false, sug = false, ad = false;
+            if (line.equals("ADMIN")) {
+                ad = true;
+            }
+            line = br.readLine();
+            if (line.equals("DARK")) {
+                dk = true;
+            }
+            line = br.readLine();
+            if (line.equals("CONTRAST")) {
+                ct = true;
+            }
+            line = br.readLine();
+            if (line.equals("SUGGESTION")) {
+                sug = true;
+            }
+
+            wins = Integer.parseInt(br.readLine());
+            losses = Integer.parseInt(br.readLine());
+            win_streak = Integer.parseInt(br.readLine());
+            avgGuesses = Double.parseDouble(br.readLine());
+
+            line = br.readLine();
+            guesses.clear();
+            while (line != null) {
+                guesses.add(line);
+                game.updateGuesses(line);
+                line = br.readLine();
+            }
+
+            if (dk && !DARK) dark_light_mode_switch(null);
+            if (ct && !CONTRAST) contrast_switch(null);
+            if (sug && !CONTRAST) suggestion_switch(null);
+            if (ad && !ADMIN) setAdmin();
+        }
+        catch (FileNotFoundException e){
+            resetUser();
+        }
+        catch (IOException e){
+            //TODO: HANDLE ERROR
+        }
+
+    }
+
+    public void toggle_admin(ActionEvent e){
+        //TODO: ADMIN
+        String userInput = admin.getText();
+
+        if (userInput.equals(ADMIN_PASSWORD) && !ADMIN){
+            setAdmin();
+            saveStats();
+        }
+    }
+    public void setAdmin(){
+        ADMIN = !ADMIN;
+    }
+
+    public void resetUser(){
+        wins = 0;
+        losses = 0;
+        win_streak = 0;
+        avgGuesses = 0;
+        guesses.clear();
+        if (DARK) {
+            dark_light_mode_switch(null);
+        }
+        if (CONTRAST){
+            contrast_switch(null);
+        }
+        if (SUGGESTION){
+            suggestion_switch(null);
+        }
+        if (ADMIN){
+            setAdmin();
+        }
+        saveStats();
     }
 }
 
