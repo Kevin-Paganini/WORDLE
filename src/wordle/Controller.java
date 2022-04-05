@@ -20,7 +20,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -57,7 +56,6 @@ public class Controller {
     ArrayList<String> guesses = new ArrayList<>();
     DialogPane win;
     boolean hintFlag = false;
-
 
     private HashMap<String, Integer> letters_used_grid_colors;
 
@@ -1102,7 +1100,7 @@ public class Controller {
             }
 
             try {
-                Files.write(Paths.get("src/Resources/" + user), content.getBytes());
+                Files.write(Paths.get("src/Resources/UserData/" + user), content.getBytes());
             }
             catch (IOException ignored){};
 
@@ -1171,10 +1169,11 @@ public class Controller {
         }
     }
 
+
     public void updateUser(String user){
         this.user = user;
         try {
-            File stats = new File("src/Resources/" + user);
+            File stats = new File("src/Resources/UserData/" + user);
             BufferedReader br = new BufferedReader(new FileReader(stats));
             String line = br.readLine();
 
@@ -1218,13 +1217,13 @@ public class Controller {
             updateStats();
         }
         catch (FileNotFoundException e){
-            System.out.println("test");
             resetUser();
         }
         catch (IOException e){
             //TODO: HANDLE ERROR
         }
     }
+
 
     public void toggle_admin(ActionEvent e){
         //TODO: ADMIN
@@ -1247,7 +1246,6 @@ public class Controller {
 
     public void resetUser(){
         startNewGame();
-        System.out.println("test2");
         wins = 0;
         losses = 0;
         win_streak = 0;
@@ -1270,4 +1268,3 @@ public class Controller {
         updateStats();
     }
 }
-
