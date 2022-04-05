@@ -1164,7 +1164,7 @@ public class Controller {
     public void changeUser(ActionEvent e){
         String user = username.getText();
         user = user.replaceAll("[\\\\/:*?\"<>|]", "");
-        if (!user.equals("") && !user.equalsIgnoreCase(this.user)){
+        if (!user.trim().equals("") && !user.equalsIgnoreCase(this.user)){
             updateUser(user);
         }
     }
