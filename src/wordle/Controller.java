@@ -608,7 +608,7 @@ public class Controller {
             win_streak++;
             wins++;
 
-            saveGlobalData();
+            saveGlobalData("Yes");
 
             win_percentage = Math.min(100, ((double)wins/(losses+wins)) * 100);
             saveStats();
@@ -634,7 +634,7 @@ public class Controller {
                 win_percentage = 100;
             }
 
-            saveGlobalData();
+            saveGlobalData("No");
 
             showWinAlert();
         }
@@ -643,8 +643,8 @@ public class Controller {
 
     }
 
-    public void saveGlobalData(){
-        String fileInput = "User: " + user + "\nGame Number: " + (wins+losses) + "\nTarget: " + game.getTarget().toUpperCase(Locale.ROOT) + "\nNumber of Guesses: " + guess;
+    public void saveGlobalData(String winner){
+        String fileInput = "User: " + user + "\nGame Number: " + (wins+losses) + "\nTarget: " + game.getTarget().toUpperCase(Locale.ROOT) + "\nNumber of Guesses: " + guess + "\nWin: " + winner;
         int size = guesses.size();
         for(int i = guess; i > 0; i--){
             fileInput += "\n" + guesses.get(size-i);
@@ -666,7 +666,7 @@ public class Controller {
             text += "\n" + fileInput;
             Files.write(Paths.get("src/Resources/UserData/GlobalData"), text.getBytes());
         } catch (IOException e){
-
+            System.out.println("clown");
         }
         System.out.println(fileInput);
     }
