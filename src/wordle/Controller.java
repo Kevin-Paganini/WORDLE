@@ -607,6 +607,9 @@ public class Controller {
             if (DEBUG) System.out.println("You Won!");
             win_streak++;
             wins++;
+
+            saveGlobalData();
+
             win_percentage = Math.min(100, ((double)wins/(losses+wins)) * 100);
             saveStats();
             showWinAlert();
@@ -630,6 +633,9 @@ public class Controller {
             if(win_percentage > 100) {
                 win_percentage = 100;
             }
+
+            saveGlobalData();
+
             showWinAlert();
         }
         submitButton.setDisable(true);
@@ -637,6 +643,33 @@ public class Controller {
 
     }
 
+    public void saveGlobalData(){
+        String fileInput = "User: " + user + "\nGame Number: " + (wins+losses) + "\nTarget: " + game.getTarget().toUpperCase(Locale.ROOT) + "\nNumber of Guesses: " + guess;
+        int size = guesses.size();
+        for(int i = guess; i > 0; i--){
+            fileInput += "\n" + guesses.get(size-i);
+        }
+        fileInput += "\n";
+        String text = "";
+        try {
+            File stats = new File("src/Resources/UserData/GlobalData");
+            BufferedReader br = new BufferedReader(new FileReader(stats));
+            String line = br.readLine();
+            while (line != null){
+                text += line + "\n";
+                line = br.readLine();
+            }
+
+        } catch (IOException e){}
+
+        try {
+            text += "\n" + fileInput;
+            Files.write(Paths.get("src/Resources/UserData/GlobalData"), text.getBytes());
+        } catch (IOException e){
+
+        }
+        System.out.println(fileInput);
+    }
     /**
      * Creates alert when user either wins or loses their game of wordle
      * Shows information on win streak, guesses made, and win percentage
