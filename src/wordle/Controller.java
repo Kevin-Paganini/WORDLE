@@ -169,7 +169,7 @@ public class Controller {
     ArrayList<Pane> panes = new ArrayList<>();
     ArrayList<Label> labels = new ArrayList<>();
     ArrayList<TextField> textFields = new ArrayList<>();
-    String user = getUserName();
+    String user;
     Timeline timeline;
     boolean ADMIN = false;
 
@@ -186,6 +186,7 @@ public class Controller {
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         session = Session.getSession();
+        user = getUserName();
         startNewGame();
         openStats();
     }
@@ -827,14 +828,7 @@ public class Controller {
      * @param actionEvent Button click
      */
     public void dark_light_mode_switch(ActionEvent actionEvent) {
-        String text = dark_light.getText();
-        DARK = text.equals("DARK-MODE");
-        StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
-        if(DARK){
-            dark_light.setText("LIGHT-MODE");
-        } else {
-            dark_light.setText("DARK-MODE");
-        }
+        setDark();
         saveStats();
     }
 
@@ -844,14 +838,7 @@ public class Controller {
      * @param actionEvent Button click
      */
     public void contrast_switch(ActionEvent actionEvent) {
-        String text = contrast.getText();
-        CONTRAST = text.equals("HIGH-CONTRAST-MODE");
-        StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
-        if(CONTRAST){
-            contrast.setText("NORMAL-MODE");
-        } else {
-            contrast.setText("HIGH-CONTRAST-MODE");
-        }
+        setContrast();
         saveStats();
     }
 
@@ -861,7 +848,23 @@ public class Controller {
      * @param actionEvent Button click (garbage value)
      */
     public void suggestion_switch(ActionEvent actionEvent) {
+        setSuggestion();
+        saveStats();
+    }
 
+
+    public void setDark(){
+        String text = dark_light.getText();
+        DARK = text.equals("DARK-MODE");
+        StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
+        if(DARK){
+            dark_light.setText("LIGHT-MODE");
+        } else {
+            dark_light.setText("DARK-MODE");
+        }
+    }
+
+    public void setSuggestion(){
         if (SUGGESTION){
             suggestion.setText("Suggestions: OFF");
             SUGGESTIONS.setVisible(false);
@@ -872,21 +875,18 @@ public class Controller {
             SUGGESTION = true;
             SUGGESTIONS.setVisible(true);
         }
-        /*
-        if (suggestion.getText().equals("Suggestions: OFF")){
-            suggestion.setText("Suggestions: ON");
-            SUGGESTION = true;
-            SUGGESTIONS.setVisible(true);
-        }
-        else{
-            suggestion.setText("Suggestions: OFF");
-            SUGGESTIONS.setVisible(false);
-        }
-
-         */
-        saveStats();
     }
 
+    public void setContrast(){
+        String text = contrast.getText();
+        CONTRAST = text.equals("HIGH-CONTRAST-MODE");
+        StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
+        if(CONTRAST){
+            contrast.setText("NORMAL-MODE");
+        } else {
+            contrast.setText("HIGH-CONTRAST-MODE");
+        }
+    }
 
     /**
      * @author David Kane
@@ -1080,7 +1080,9 @@ public class Controller {
             try {
                 Files.write(Paths.get("src/Resources/" + pc), user.getBytes());
             }
-            catch (IOException ignored){};
+            catch (IOException ignored){
+                //TODO: Handle Error
+            };
 
             String content = "";
             if (ADMIN) content += "ADMIN"; else content += "USER";
@@ -1125,6 +1127,7 @@ public class Controller {
     private String getUserName(){
         return System.getProperty("user.name");
     }
+
     public void changeHardMode(ActionEvent actionEvent) {
         runTimer();
         if(hard_mode.getText().equals("Hard Mode")) {
@@ -1163,7 +1166,7 @@ public class Controller {
     public void changeUser(ActionEvent e){
         String user = username.getText();
         user = user.replaceAll("[\\\\/:*?\"<>|]", "");
-        if (!user.equalsIgnoreCase(this.user)){
+        if (!user.equals("") && !user.equalsIgnoreCase(this.user)){
             updateUser(user);
         }
     }
@@ -1206,13 +1209,16 @@ public class Controller {
                 line = br.readLine();
             }
 
-            if (dk && !DARK) dark_light_mode_switch(null);
-            if (ct && !CONTRAST) contrast_switch(null);
-            if (sug && !CONTRAST) suggestion_switch(null);
-            if (ad && !ADMIN) setAdmin();
+            if (dk != DARK) setDark();
+            if (ct != CONTRAST) setContrast();
+            if (sug != SUGGESTION) setSuggestion();
+            if (ad != ADMIN) setAdmin();
+            saveStats();
+            startNewGame();
             updateStats();
         }
         catch (FileNotFoundException e){
+            System.out.println("test");
             resetUser();
         }
         catch (IOException e){
@@ -1231,10 +1237,17 @@ public class Controller {
     }
     public void setAdmin(){
         ADMIN = !ADMIN;
+        if (ADMIN){
+
+        }
+        else{
+
+        }
     }
 
     public void resetUser(){
-        initialize();
+        startNewGame();
+        System.out.println("test2");
         wins = 0;
         losses = 0;
         win_streak = 0;
@@ -1242,13 +1255,13 @@ public class Controller {
         guesses.clear();
         game.clearGuesses();
         if (DARK) {
-            dark_light_mode_switch(null);
+            setDark();
         }
         if (CONTRAST){
-            contrast_switch(null);
+            setContrast();
         }
         if (SUGGESTION){
-            suggestion_switch(null);
+            setSuggestion();
         }
         if (ADMIN){
             setAdmin();
