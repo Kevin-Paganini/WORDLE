@@ -15,28 +15,9 @@ import java.util.Locale;
 public class Session {
     public static final File STORAGE_FILE = new File("src/Resources/previousGuesses.txt");
     private final ArrayList<Wordle> games = new ArrayList<>();
-    private final Suggestions suggestions;
-    private static Session instance = null;
-
-    //Now, suggestions only needs to be stored once. We don't make new ones for each wordle
-    private Session () {
-        suggestions = new Suggestions();
-    }
-
-    //It's singleton time baybeee
-    public static Session getSession() {
-        if (instance == null) instance = new Session();
-        return instance;
-    }
-
-    public Suggestions getSuggestions() {
-        return suggestions;
-    }
-
 
     public void addGame(Wordle wordle){
         games.add(wordle);
-        suggestions.addGame(wordle);
     }
 
     /**

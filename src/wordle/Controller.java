@@ -184,14 +184,14 @@ public class Controller {
             increaseTimer();
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
-        session = Session.getSession();
+        session = new Session();
         startNewGame();
         openStats();
     }
 
     /**
-     * This used to be in initialize, this needs to happen everytime a new game is started
-     *
+     * Loads a new Wordle object into the UI. Error checking for invalid file is contained.
+     * This should be called after any game or when any game is to be reloaded. Initialize should not be called.
      */
     public void startNewGame(){
 
@@ -350,8 +350,8 @@ public class Controller {
 
     /**
      * Creating keyboard replica to display to user what has been chosen
-     * and what is right
-     * @return grid of keyboard
+     * and the colour of the corrosponding letter
+     * @return GridPane containing labels of all keyboard inputs which can be clicked.
      * @author Kevin Paganini
      */
     private GridPane createKeyBoardInputs() {
@@ -388,8 +388,9 @@ public class Controller {
     }
 
     /**
-     * Functionality for software Keyboard
-     * @param mouseEvent When letter is clicked
+     * Functionality for keyboard inputs. Allows the auxiliary keyboard to be pressed to simulate a letter
+     * being entered into the application
+     * @param mouseEvent On click
      * @author David Kane
      */
     private void mouseClick(MouseEvent mouseEvent) {
@@ -398,7 +399,7 @@ public class Controller {
     }
 
     private void enterLetter(String letter){
-        if (letter == "DEL"){
+        if (Objects.equals(letter, "DEL")){
             for (int i = numLetters-1; i >= 0; i--){
                 TextField tf = gridOfTextFieldInputs.get(guess).get(i);
                 if (!tf.getText().equals("")) {
@@ -420,6 +421,10 @@ public class Controller {
         }
     }
 
+    /**
+     *
+     * @param event
+     */
     public void enterSuggestion(MouseEvent event){
         String word = ((Label) event.getSource()).getText().toUpperCase();
         for(int i = 0; i < numLetters; ++i) {
@@ -433,17 +438,20 @@ public class Controller {
 
 
     /**
+     * Creates primary Wordle interface for exactly 1 game. The most basic functionality of Wordle.
+     * Each input field can hold exactly 1 character. When entered, the previous row of inputs
+     * is disabled and coloured according to wordle.makeGuess() return. Textfield listeners is declared
+     * elsewhere.
      *
-     * Create grid of inputFields for words
-     * @param numGuesses (Number of guesses)
-     * @param numLetters (NUmber of letters being used for words)
+     * @param numGuesses Guesses that can be made in this game - columns in grid
+     * @param numLetters Length of the guesses that can be made - rows in grid
      * @return Gridpane of inputs + filled out arrayList called gridOfTextFieldInputs
      * @author Kevin Paganini
      */
     private GridPane createGridOfInputs(int numGuesses, int numLetters){
         this.numLetters = numLetters;
         if (gridOfTextFieldInputs.size() != 0){
-            gridOfTextFieldInputs = new ArrayList();
+            gridOfTextFieldInputs = new ArrayList<>();
         }
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(BUTTON_PADDING));
@@ -451,7 +459,7 @@ public class Controller {
         grid.setVgap(BUTTON_PADDING);
 
         for (int r = 0; r < numGuesses; r++) {
-            ArrayList<TextField> row = new ArrayList();
+            ArrayList<TextField> row = new ArrayList<>();
             gridOfTextFieldInputs.add(row);
             for (int c = 0; c < this.numLetters; c++) {
                 TextField tf = new TextField();
@@ -470,7 +478,7 @@ public class Controller {
     }
 
     /**
-     * Makes submit button for grid
+     * Makes submit button for grid. Listener is declared below
      * @author Kevin Paganini
      */
     private Button makeSubmitButton(){
@@ -494,10 +502,10 @@ public class Controller {
 
     /**
      * Action to be performed when submit is clicked
-     * Functionality:
-     * Getting input from guess fields
-     * Disabling text fields that were enabled
-     * Checking positions of guess against target
+     *
+     * Gets input from guess fields
+     * Disables text fields that were enabled
+     * Checks positions of guess against target
      *
      * @author David Kane & Carson Meredith & Kevin Paganini
      */
@@ -614,10 +622,9 @@ public class Controller {
 
 
     /**
-     * Every time key is pressed
-     * Getting text field values and making sure submit stays off
-     * unless there is a valid word in the guess boxes
-     * @author //TODO
+     * Validates that the word in the row (one guess) is valid. Called
+     * every time a key is pressed.
+     * @author TODO
      */
     private void getTextFieldValues(){
 
@@ -625,20 +632,10 @@ public class Controller {
         submitButton.setDisable(false);
         String input = "";
         for(int i = 0; i < numLetters; i++){
-
             TextField tf = gridOfTextFieldInputs.get(guess).get(i);
             input += tf.getText();
-
-
         }
-
-        //TODO We could make a validation class to simplify controller
-        //The code below could go in there
-
         //Gets the value of the character being input
-        TextField textField = (TextField) grid_input.getChildren().get(position);
-        String letter = textField.getText().toUpperCase();
-        List<String> numbers = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
         //Disabling submit button if guess text fields are not a word in dictionary
         if(!game.isValidWord(input.toLowerCase(Locale.ROOT))){
             submitButton.setDisable(true);
@@ -657,9 +654,10 @@ public class Controller {
         box.getStyleClass().add(Utils.recolorLabel(letters_used_grid_colors.get(letter),CONTRAST,DARK, HARD));
     }
     /**
-     * @author David Kane
-     * Allows User to Navigate Boxes (and use Enter Key)
+     * Allows User to navigate guess boxes and also lets the user press "enter" to submit if possible.
+     * Handles arrow-keys and backspace key. Does not handle inputs
      * @param e keyEvent to trigger the function
+     * @author David Kane
      */
     private void keyPressed(KeyEvent e){
         TextField textField = (TextField) e.getSource();
@@ -716,12 +714,12 @@ public class Controller {
 
 
     /**
-     * @author David Kane
      * Ensure only letters can be entered, and moves the boxes accordingly
-     * @param e
-     * @param oldValue
-     * @param newValue
-     * @param index
+     * @author David Kane
+     * @param e ???
+     * @param oldValue ???
+     * @param newValue ???
+     * @param index index of the box the key is being entered in (???)
      */
     private void listener(Observable e, String oldValue, String newValue, int index) {
         getTextFieldValues();
@@ -737,12 +735,13 @@ public class Controller {
                 }
             }
         }
-        }
+    }
 
     /**
-     * @author ?????? & David Kane
-     * Will try and change the library for the user
+     * Prompts the user to change the dictionary and loads a new Wordle if the dictionary was
+     * changed. StartNewGame handles the event where the file doesn't work.
      * @param actionEvent Button click (garbage value)
+     * @author Atreyu Schilling & David Kane
      */
     public void importDictionary(ActionEvent actionEvent) {
         importDictionary();
@@ -764,9 +763,9 @@ public class Controller {
     }
 
     /**
-     * @author Carson Meredith
      * Changes dark mode if dark button is pressed
      * @param actionEvent Button click
+     * @author Carson Meredith
      */
     public void dark_light_mode_switch(ActionEvent actionEvent) {
         String text = dark_light.getText();
@@ -831,9 +830,9 @@ public class Controller {
 
 
     /**
-     * @author David Kane
      * Will change amount of guesses user is allowed if number entered is greater than 0
      * @param actionEvent Button click (garbage value)
+     * @author David Kane
      */
     public void changeGuessAmount(ActionEvent actionEvent){
         String guess = numGuess.getText();
@@ -846,7 +845,7 @@ public class Controller {
                 startNewGame();
             }
         } catch (NumberFormatException e){
-
+            //TODO
         }
     }
 
