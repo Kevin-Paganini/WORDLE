@@ -20,7 +20,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -56,11 +55,11 @@ public class Controller {
     boolean RUNNING = false;
     ArrayList<String> guesses = new ArrayList<>();
     DialogPane win;
-
+    boolean hintFlag = false;
 
     private HashMap<String, Integer> letters_used_grid_colors;
 
-    private Button statButton;
+    private Button hintButton;
 
     private Session session;
 
@@ -168,7 +167,7 @@ public class Controller {
     ArrayList<Pane> panes = new ArrayList<>();
     ArrayList<Label> labels = new ArrayList<>();
     ArrayList<TextField> textFields = new ArrayList<>();
-    String user = getUserName();
+    String user;
     Timeline timeline;
     boolean ADMIN = false;
 
@@ -185,6 +184,7 @@ public class Controller {
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         session = new Session();
+        user = getUserName();
         startNewGame();
         openStats();
     }
@@ -222,9 +222,11 @@ public class Controller {
             letters_used.getStyleClass().add("keyBoardGrid");
 
             // Create Statistics button
-            statButton = createStatisticsButton();
-            statButton.setLayoutX(200);
-            statButton.setLayoutY(50);
+            hintButton = createHintButton();
+            hintButton.setLayoutX(200);
+            hintButton.setLayoutY(50);
+            hintButton.setDisable(true);
+            hintFlag = false;
             submitButton = makeSubmitButton();
             submitButton.setLayoutY(50);
             submitButton.setLayoutX(750);
@@ -238,10 +240,10 @@ public class Controller {
 
 
             // Adding all to main pane
-            MAIN_PANE.getChildren().addAll(grid_input, letters_used, statButton, submitButton, SUGGESTIONS, timer);
+            MAIN_PANE.getChildren().addAll(grid_input, letters_used, hintButton, submitButton, SUGGESTIONS, timer);
             //Add all buttons to list of buttons
             buttons.add(submitButton);
-            buttons.add(statButton);
+            buttons.add(hintButton);
             buttons.add(importDictionaryButton);
             buttons.add(dark_light);
             buttons.add(contrast);
@@ -325,15 +327,15 @@ public class Controller {
      * @author Kevin Paganini
      * //TODO Maybe pick a better icon
      */
-    private Button createStatisticsButton() {
+    private Button createHintButton() {
 
-        Image image = new Image("file:src/Resources/stat.jpg", 30, 30, false, false);
+        Image image = new Image("file:src/Resources/hint.png", 30, 30, false, false);
         ImageView view = new ImageView(image);
 
         Button button = new Button();
         button.setPrefSize(30, 30);
         button.setGraphic(view);
-        button.setOnAction(this::showStatistics);
+        button.setOnAction(this::showHint);
         button.setLayoutX((numLetters * 60) + 75);
         button.setLayoutY(310);
         return button;
@@ -343,7 +345,56 @@ public class Controller {
      * Show statistics of user
      * @param actionEvent
      */
-    private void showStatistics(ActionEvent actionEvent) {
+    private void showHint(ActionEvent actionEvent) {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "HINT");
+        win = a.getDialogPane();
+        StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
+        win.setHeaderText("HINT");
+
+        Set<String> hints = game.getSuggestions().getValidWords();
+        ArrayList<String> hintList = new ArrayList<>();
+        hintList.addAll(hints);
+        ArrayList<String> g = game.getGuesses_for_wordle_game();
+        String target = game.getTarget();
+        ArrayList<Character> usedLetters = new ArrayList<>();
+
+        for(int i = 0; i < g.size(); i++)
+        {
+            char[] word = g.get(i).toUpperCase(Locale.ROOT).toCharArray();
+            for(int j = 0; j < word.length; j++)
+            {
+                if(!usedLetters.contains(word[j]))
+                {
+                    usedLetters.add(word[j]);
+                }
+
+            }
+
+        }
+        char hintLetter = '~';
+        char[] t = target.toUpperCase(Locale.ROOT).toCharArray();
+        for(int i = 0; i < t.length; i++)
+        {
+            if(!usedLetters.contains(t[i])){
+                hintLetter = t[i];
+                break;
+            }
+        }
+        if(hintLetter == '~'){
+            win.setContentText(hintList.get(0));
+        } else {
+            win.setContentText(String.valueOf(hintLetter));
+        }
+
+
+
+
+        StylingChanger.changeAlert(a,win,DARK,CONTRAST,1);
+
+
+        Optional<ButtonType> result = a.showAndWait();
+        hintButton.setDisable(true);
+
     }
 
 
@@ -512,6 +563,11 @@ public class Controller {
     private void submit() {
         // do verification stuff
 
+        // Turning on hint button after first guess
+        if(hintFlag == false){
+            hintButton.setDisable(false);
+            hintFlag = true;
+        }
         //Getting input from guess text fields
         String input = "";
         for(int i = 0; i < numLetters; i++){
@@ -523,7 +579,8 @@ public class Controller {
         if (DEBUG) System.out.println(input);
 
         guesses.add(input);
-        game.updateGuesses(input);
+        updateStats();
+        game.updateGuesses(input.toUpperCase(Locale.ROOT));
 
         // Checking positions of guess against target
         int[] position = game.makeGuess(input.toLowerCase(Locale.ROOT));
@@ -558,6 +615,9 @@ public class Controller {
             if (DEBUG) System.out.println("You Won!");
             win_streak++;
             wins++;
+
+            saveGlobalData("Yes");
+
             win_percentage = Math.min(100, ((double)wins/(losses+wins)) * 100);
             saveStats();
             showWinAlert();
@@ -574,13 +634,16 @@ public class Controller {
             gridOfTextFieldInputs.get(guess).get(0).requestFocus();
         //If there is a guess and user is out of guesses
         } else {
-            saveStats();
             win_streak = 0;
             losses++;
+            saveStats();
             win_percentage = ((double)wins/(losses+wins)) * 100;
             if(win_percentage > 100) {
                 win_percentage = 100;
             }
+
+            saveGlobalData("No");
+
             showWinAlert();
         }
         submitButton.setDisable(true);
@@ -588,6 +651,33 @@ public class Controller {
 
     }
 
+    public void saveGlobalData(String winner){
+        String fileInput = "User: " + user + "\nGame Number: " + (wins+losses) + "\nTarget: " + game.getTarget().toUpperCase(Locale.ROOT) + "\nNumber of Guesses: " + guess + "\nWin: " + winner;
+        int size = guesses.size();
+        for(int i = guess; i > 0; i--){
+            fileInput += "\n" + guesses.get(size-i);
+        }
+        fileInput += "\n";
+        String text = "";
+        try {
+            File stats = new File("src/Resources/UserData/GlobalData");
+            BufferedReader br = new BufferedReader(new FileReader(stats));
+            String line = br.readLine();
+            while (line != null){
+                text += line + "\n";
+                line = br.readLine();
+            }
+
+        } catch (IOException e){}
+        //TODO
+        try {
+            text += "\n" + fileInput;
+            Files.write(Paths.get("src/Resources/UserData/GlobalData"), text.getBytes());
+        } catch (IOException e){
+            System.out.println("clown");
+        }
+        System.out.println(fileInput);
+    }
     /**
      * Creates alert when user either wins or loses their game of wordle
      * Shows information on win streak, guesses made, and win percentage
@@ -768,14 +858,7 @@ public class Controller {
      * @author Carson Meredith
      */
     public void dark_light_mode_switch(ActionEvent actionEvent) {
-        String text = dark_light.getText();
-        DARK = text.equals("DARK-MODE");
-        StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
-        if(DARK){
-            dark_light.setText("LIGHT-MODE");
-        } else {
-            dark_light.setText("DARK-MODE");
-        }
+        setDark();
         saveStats();
     }
 
@@ -785,14 +868,7 @@ public class Controller {
      * @param actionEvent Button click
      */
     public void contrast_switch(ActionEvent actionEvent) {
-        String text = contrast.getText();
-        CONTRAST = text.equals("HIGH-CONTRAST-MODE");
-        StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
-        if(CONTRAST){
-            contrast.setText("NORMAL-MODE");
-        } else {
-            contrast.setText("HIGH-CONTRAST-MODE");
-        }
+        setContrast();
         saveStats();
     }
 
@@ -802,7 +878,23 @@ public class Controller {
      * @param actionEvent Button click (garbage value)
      */
     public void suggestion_switch(ActionEvent actionEvent) {
+        setSuggestion();
+        saveStats();
+    }
 
+
+    public void setDark(){
+        String text = dark_light.getText();
+        DARK = text.equals("DARK-MODE");
+        StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
+        if(DARK){
+            dark_light.setText("LIGHT-MODE");
+        } else {
+            dark_light.setText("DARK-MODE");
+        }
+    }
+
+    public void setSuggestion(){
         if (SUGGESTION){
             suggestion.setText("Suggestions: OFF");
             SUGGESTIONS.setVisible(false);
@@ -813,21 +905,18 @@ public class Controller {
             SUGGESTION = true;
             SUGGESTIONS.setVisible(true);
         }
-        /*
-        if (suggestion.getText().equals("Suggestions: OFF")){
-            suggestion.setText("Suggestions: ON");
-            SUGGESTION = true;
-            SUGGESTIONS.setVisible(true);
-        }
-        else{
-            suggestion.setText("Suggestions: OFF");
-            SUGGESTIONS.setVisible(false);
-        }
-
-         */
-        saveStats();
     }
 
+    public void setContrast(){
+        String text = contrast.getText();
+        CONTRAST = text.equals("HIGH-CONTRAST-MODE");
+        StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
+        if(CONTRAST){
+            contrast.setText("NORMAL-MODE");
+        } else {
+            contrast.setText("HIGH-CONTRAST-MODE");
+        }
+    }
 
     /**
      * Will change amount of guesses user is allowed if number entered is greater than 0
@@ -919,13 +1008,48 @@ public class Controller {
         longestWinStreak.setText(String.valueOf(win_streak));
         frequentLetterPane.getChildren().clear();
         frequentWordPane.getChildren().clear();
-        BarChart chart = Utils.make5BarChartFromHashMap(session.getWordGuessFrequency());
+        HashMap<String, Integer> wordFrequency = new HashMap<>();
+        HashMap<String, Integer> letterFrequency = new HashMap<>();
+
+        for(int i = 0; i < 26; i++){
+            int asciiValue = 65 + i;
+            char letter = (char)asciiValue;
+            letterFrequency.put(String.valueOf(letter), 0);
+        }
+
+        for(String word : guesses){
+            if (wordFrequency.containsKey(word)){
+                wordFrequency.replace(word, wordFrequency.get(word)+1);
+            }
+            else{
+                wordFrequency.put(word, 1);
+            }
+            for (char c : word.toCharArray()) {
+                String letter = String.valueOf(c);
+                if (letterFrequency.containsKey(letter)){
+                    letterFrequency.replace(letter, letterFrequency.get(letter)+1);
+                }
+                else {
+                    letterFrequency.put(letter, 1);
+                }
+            }
+        }
+
+        LinkedHashMap<String, Integer> reverseSortedMap = new LinkedHashMap<>();
+
+        wordFrequency.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
+
+        BarChart chart = Utils.make5BarChartFromHashMap(reverseSortedMap);
         chart.getStylesheets().add("Styling//stylesheet.css");
         chart.getStylesheets().add("Styling//dark_stylesheet.css");
         chart.getStylesheets().add("Styling//contrast_stylesheet.css");
         chart.getStyleClass().add("chart-dark");
         frequentWordPane.getChildren().add(chart);
-        frequentLetterPane.getChildren().add(Utils.makeLetterBarChart(session.getLetterGuessFrequency()));
+
+        frequentLetterPane.getChildren().add(Utils.makeLetterBarChart(letterFrequency));
     }
 
 
@@ -986,7 +1110,9 @@ public class Controller {
             try {
                 Files.write(Paths.get("src/Resources/" + pc), user.getBytes());
             }
-            catch (IOException ignored){};
+            catch (IOException ignored){
+                //TODO: Handle Error
+            };
 
             String content = "";
             if (ADMIN) content += "ADMIN"; else content += "USER";
@@ -1006,7 +1132,7 @@ public class Controller {
             }
 
             try {
-                Files.write(Paths.get("src/Resources/" + user), content.getBytes());
+                Files.write(Paths.get("src/Resources/UserData/" + user), content.getBytes());
             }
             catch (IOException ignored){};
 
@@ -1031,6 +1157,7 @@ public class Controller {
     private String getUserName(){
         return System.getProperty("user.name");
     }
+
     public void changeHardMode(ActionEvent actionEvent) {
         runTimer();
         if(hard_mode.getText().equals("Hard Mode")) {
@@ -1069,16 +1196,16 @@ public class Controller {
     public void changeUser(ActionEvent e){
         String user = username.getText();
         user = user.replaceAll("[\\\\/:*?\"<>|]", "");
-        if (!user.equalsIgnoreCase(this.user)){
-            startNewGame();
+        if (!user.trim().equals("") && !user.equalsIgnoreCase(this.user)){
             updateUser(user);
         }
     }
 
+
     public void updateUser(String user){
         this.user = user;
         try {
-            File stats = new File("src/Resources/" + user);
+            File stats = new File("src/Resources/UserData/" + user);
             BufferedReader br = new BufferedReader(new FileReader(stats));
             String line = br.readLine();
 
@@ -1107,15 +1234,19 @@ public class Controller {
             line = br.readLine();
             guesses.clear();
             while (line != null) {
+                line = line.toUpperCase(Locale.ROOT);
                 guesses.add(line);
                 game.updateGuesses(line);
                 line = br.readLine();
             }
 
-            if (dk && !DARK) dark_light_mode_switch(null);
-            if (ct && !CONTRAST) contrast_switch(null);
-            if (sug && !CONTRAST) suggestion_switch(null);
-            if (ad && !ADMIN) setAdmin();
+            if (dk != DARK) setDark();
+            if (ct != CONTRAST) setContrast();
+            if (sug != SUGGESTION) setSuggestion();
+            if (ad != ADMIN) setAdmin();
+            saveStats();
+            startNewGame();
+            updateStats();
         }
         catch (FileNotFoundException e){
             resetUser();
@@ -1123,8 +1254,8 @@ public class Controller {
         catch (IOException e){
             //TODO: HANDLE ERROR
         }
-
     }
+
 
     public void toggle_admin(ActionEvent e){
         //TODO: ADMIN
@@ -1137,27 +1268,35 @@ public class Controller {
     }
     public void setAdmin(){
         ADMIN = !ADMIN;
+        if (ADMIN){
+
+        }
+        else{
+
+        }
     }
 
     public void resetUser(){
+        startNewGame();
         wins = 0;
         losses = 0;
         win_streak = 0;
         avgGuesses = 0;
         guesses.clear();
+        game.clearGuesses();
         if (DARK) {
-            dark_light_mode_switch(null);
+            setDark();
         }
         if (CONTRAST){
-            contrast_switch(null);
+            setContrast();
         }
         if (SUGGESTION){
-            suggestion_switch(null);
+            setSuggestion();
         }
         if (ADMIN){
             setAdmin();
         }
         saveStats();
+        updateStats();
     }
 }
-

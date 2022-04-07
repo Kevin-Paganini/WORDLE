@@ -18,12 +18,12 @@ public abstract class StylingChanger {
                 button.getStyleClass().clear();
                 button.getStyleClass().add("button-dark-contrast");
             }
-        } else if(CONTRAST && !DARK){
+        } else if(CONTRAST){
             for(Button button : buttons) {
                 button.getStyleClass().clear();
                 button.getStyleClass().add("button-contrast");
             }
-        } else if(DARK && !CONTRAST){
+        } else if(DARK){
             for(Button button : buttons) {
                 button.getStyleClass().clear();
                 button.getStyleClass().add("button-dark");
@@ -51,7 +51,7 @@ public abstract class StylingChanger {
                     tf.getStyleClass().add("text-field-dark");
                 }
             }
-        } else if (!DARK){
+        } else {
             for(Pane pane : panes) {
                 pane.getStyleClass().clear();
                 pane.getStyleClass().add("pane");
@@ -121,7 +121,7 @@ public abstract class StylingChanger {
                         break;
                 }
             }
-        } else if(!CONTRAST){
+        } else {
             for(Label temp : labels) {
                 switch (temp.getStyleClass().toString()) {
                     case "correct-position-letter-label-contrast":

@@ -9,7 +9,7 @@ import java.util.*;
 
 
 public class ModelTesting {
-    static Session session = Session.getSession();
+    static Session session = new Session();
 
     /**
      *
@@ -144,6 +144,7 @@ public class ModelTesting {
         Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
 
         wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session);
+
         wordle.forceTarget("queen");
         wordle.makeGuess("queer");
         wordle.getSuggestions().pruneDictionary();
@@ -157,5 +158,7 @@ public class ModelTesting {
         set.add("bubble");
         set.add("bubbly");
         Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
+
+
     }
 }

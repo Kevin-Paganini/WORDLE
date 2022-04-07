@@ -5,6 +5,7 @@ import wordle.Utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -72,10 +73,10 @@ public class Session {
      * @return HashMap where key is the word and value is the frequency
      */
     public HashMap<String, Integer> getWordGuessFrequency(){
-        HashMap<String, Integer> wordFrequency = new HashMap<>();
 
-        for (Wordle wordle : games) {
-            for (Guess guess : wordle.getGuesses()) {
+        HashMap<String, Integer> wordFrequency = new HashMap<>();
+        for (Wordle game : games) {
+            for (Guess guess : game.getGuesses()) {
                 //For every guess of every game,
                 //assigns the index to 1 if there's no value there, and V+1 if there is
                 wordFrequency.merge(guess.getGuess(), 1, Integer::sum);
