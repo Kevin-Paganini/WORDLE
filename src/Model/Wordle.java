@@ -7,8 +7,6 @@ import java.util.*;
 public class Wordle {
     //Enables DEBUG mode
     public static final boolean DEBUG = false;
-    //File that guesses are written to - if it doesn't exist, create it
-
     private String currentGuess = "";
     private int[] posArray = null;
     private int numLetters;
@@ -17,7 +15,6 @@ public class Wordle {
     private String target;
     private final TreeSet<String> dictionary = new TreeSet<>();
     private final Suggestions suggestions;
-    private ArrayList<String> guesses_for_wordle_game;
 
     private final ArrayList<Guess> guessList = new ArrayList<>();
 
@@ -29,7 +26,6 @@ public class Wordle {
         session.addGame(this);
         suggestions = new Suggestions();
         suggestions.addGame(this);
-        this.guesses_for_wordle_game = new ArrayList<>();
     }
 
     /**
@@ -133,15 +129,9 @@ public class Wordle {
 
     public int[] makeGuess(String guess) {
         currentGuess = guess;
-        guesses_for_wordle_game.add(guess);
         if (DEBUG) System.out.println("Target: " + target);
 
         guessesLeft--;
-        /*
-        if (!isValidWord(guess)) {
-            return null;
-        }
-         */
         guess = guess.toUpperCase(Locale.ROOT);
         if (DEBUG) System.out.println("Guess: " + guess);
         if (isWinner(guess)) {
@@ -252,10 +242,5 @@ public class Wordle {
 
     public Suggestions getSuggestions() {
         return suggestions;
-    }
-
-
-    public ArrayList<String> getGuesses_for_wordle_game(){
-        return guesses_for_wordle_game;
     }
 }

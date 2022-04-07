@@ -4,16 +4,12 @@ import wordle.Utils;
 
 import java.util.*;
 
-//TO parse down dictionary and givwe suggestions
+//TO parse down dictionary and give suggestions
 public class Suggestions {
     private Wordle game;
-    private Set<String> validWords;
-    private ArrayList<String> wrongLetters;
-    private ArrayList<String> correctLetterWrongPos;
-    private ArrayList<String> correctLetter;
-    private ArrayList<String> guesses;
-    private HashMap<String, Integer> validLetterHash;
-    ArrayList seen;
+    private final Set<String> validWords;
+    private final HashMap<String, Integer> validLetterHash;
+    ArrayList<String> seen;
 
     /**
      * Constructor
@@ -21,10 +17,9 @@ public class Suggestions {
      */
     public Suggestions(){
         this.game = null;
-        this.guesses = new ArrayList<>();
         this.validWords = new HashSet<>();
         this.validLetterHash = Utils.makeInitialHashMapForKeyBoardColors();
-        this.seen = new ArrayList();
+        this.seen = new ArrayList<>();
     }
 
 
@@ -51,9 +46,6 @@ public class Suggestions {
      * @author: Kevin Paganini
      */
     public Set<String> pruneDictionary(){
-        if(game.getCurrentGuess().equals("queer")){
-            System.out.println("hi");
-        }
         int[] positions = game.getPositionsArray();
         char[] currentGuess = game.getCurrentGuess().toCharArray();
         System.out.println(game.getCurrentGuess());
@@ -83,9 +75,6 @@ public class Suggestions {
 
         for(int j = 0; j < currentGuess.length; j++){
             String letter = String.valueOf(currentGuess[j]).toUpperCase(Locale.ROOT);
-            if(letter.equals("L")){
-                System.out.println("hi");
-            }
             int value = validLetterHash.get(letter);
             if((value == 0 && !seen.contains(letter)) || doubleLetter) { // if the letter is not wrong or there is a double letter
                 if(!doubleLetter || (!String.valueOf(doubleLetterValue).toUpperCase(Locale.ROOT).equals(letter)) || positions[j] == 0){
@@ -105,9 +94,6 @@ public class Suggestions {
                 removeCorrectLetterWrongPos(letter, j);
             }
             if (value == 2 && positions[j] == 2){
-                if(letter.equals("E")){
-                    System.out.println();
-                }
                 removeWordWithoutCorrectLetter(letter, j);
                 seen.add(letter);
             }
@@ -127,11 +113,9 @@ public class Suggestions {
         //Create letter frequency going through all valid words left
         //Sort by highest frequency
         // Suggest words with letters with highest frequency
-        ArrayList<String> valid = new ArrayList<>();
-        valid.addAll(validWords);
+        ArrayList<String> valid = new ArrayList<>(validWords);
         HashMap<String, Integer> letterFreq = Utils.intializeLetterFrequency();
-        for(int i = 0; i < valid.size(); i++){
-            String word = valid.get(i);
+        for (String word : valid) {
             char[] guessLetters = word.toUpperCase(Locale.ROOT).toCharArray();
             for (char letter : guessLetters) {
                 String letterStr = String.valueOf(letter);
@@ -143,12 +127,10 @@ public class Suggestions {
         }
         HashMap<String, Integer> sortedHashLetterFreq = Utils.sortHashMapByValue(letterFreq);
         String [] freqLetters = sortedHashLetterFreq.keySet().toArray(new String[0]);
-        for(int i = 0; i < freqLetters.length; i++){
-            String letter = freqLetters[i];
-            for(int j = 0; j < valid.size(); j++){
-
-                if(valid.get(j).toUpperCase(Locale.ROOT).contains(letter)){
-                    validWordsSorted.add(valid.get(j));
+        for (String letter : freqLetters) {
+            for (String s : valid) {
+                if (s.toUpperCase(Locale.ROOT).contains(letter)) {
+                    validWordsSorted.add(s);
                 }
             }
 
@@ -164,17 +146,13 @@ public class Suggestions {
     public void removeWrongLetterWords(String letter){
 
         ArrayList<String> badWords = new ArrayList<>();
-        ArrayList<String> valid = new ArrayList<>();
-        valid.addAll(validWords);
-        for(int i = 0; i < valid.size(); i++){
-            if(valid.get(i).equals("moose")){
-                System.out.println("Hi");
-            }
-            if(valid.get(i).contains(letter.toLowerCase(Locale.ROOT))){
-                badWords.add(valid.get(i));
+        ArrayList<String> valid = new ArrayList<>(validWords);
+        for (String s : valid) {
+            if (s.contains(letter.toLowerCase(Locale.ROOT))) {
+                badWords.add(s);
             }
         }
-        validWords.removeAll(badWords);
+        badWords.forEach(validWords::remove);
 
 
     }
@@ -186,18 +164,14 @@ public class Suggestions {
      */
     public void removeCorrectLetterWrongPos(String letter, int index){
         ArrayList<String> badWords = new ArrayList<>();
-        ArrayList<String> valid = new ArrayList<>();
-        valid.addAll(validWords);
-        for(int i = 0; i < valid.size(); i++){
-            if(valid.get(i).equals("moose")){
-                System.out.println("Hi");
-            }
-            if(!valid.get(i).contains(letter.toLowerCase(Locale.ROOT)) ||
-                    String.valueOf(valid.get(i).toCharArray()[index]).toUpperCase(Locale.ROOT).equals(letter)){
-                badWords.add(valid.get(i));
+        ArrayList<String> valid = new ArrayList<>(validWords);
+        for (String s : valid) {
+            if (!s.contains(letter.toLowerCase(Locale.ROOT)) ||
+                    String.valueOf(s.toCharArray()[index]).toUpperCase(Locale.ROOT).equals(letter)) {
+                badWords.add(s);
             }
         }
-        validWords.removeAll(badWords);
+        badWords.forEach(validWords::remove);
 
     }
 
@@ -208,20 +182,15 @@ public class Suggestions {
      * @author Kevin Paganini
      */
     public void removeWordWithoutCorrectLetter(String letter, int index){
-        ArrayList badWords = new ArrayList();
-        ArrayList<String> valid = new ArrayList<>();
-        valid.addAll(validWords);
-        for(int i = 0; i < valid.size(); i++){
-            if(valid.get(i).equals("moose")){
-                System.out.println("Hi");
-
-            }
-            String validLetterCheck = String.valueOf(valid.get(i).toCharArray()[index]).toUpperCase(Locale.ROOT);
-            if(!String.valueOf(valid.get(i).toCharArray()[index]).toUpperCase(Locale.ROOT).equals(letter)){
-                badWords.add(valid.get(i));
+        ArrayList<String> badWords = new ArrayList<>();
+        ArrayList<String> valid = new ArrayList<>(validWords);
+        for (String s : valid) {
+            //String validLetterCheck = String.valueOf(s.toCharArray()[index]).toUpperCase(Locale.ROOT);
+            if (!String.valueOf(s.toCharArray()[index]).toUpperCase(Locale.ROOT).equals(letter)) {
+                badWords.add(s);
             }
         }
-        validWords.removeAll(badWords);
+        badWords.forEach(validWords::remove);
     }
 
 

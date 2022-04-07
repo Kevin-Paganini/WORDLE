@@ -17,7 +17,8 @@ public abstract class Utils {
     private static final List<String> textFieldValues = Arrays.asList("Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
             "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M", "DEL");
 
-    int BUTTON_PADDING = 10;
+    //int BUTTON_PADDING = 10;
+
     /**
      * Which style class should a key in keyboard get put in to
      * Key from keyboard gets new CSS class
@@ -62,9 +63,6 @@ public abstract class Utils {
         }
         if(!HARD) {
             if (contrast) {
-                if (isCorrectLetter == -1) {
-                    return "label";
-                }
                 if (isCorrectLetter == 0) {
                     return "wrong-letter-label-contrast";
                 } else if (isCorrectLetter == 1) {
@@ -75,9 +73,6 @@ public abstract class Utils {
                     return null;
                 }
             } else {
-                if (isCorrectLetter == -1) {
-                    return "label";
-                }
                 if (isCorrectLetter == 0) {
                     return "wrong-letter-label";
                 } else if (isCorrectLetter == 1) {
@@ -194,20 +189,17 @@ public abstract class Utils {
         CategoryAxis x = new CategoryAxis();
         String [] freqWords = dict.keySet().toArray(new String[0]);
 
-        x.setCategories(FXCollections.<String>observableArrayList(freqWords));
+        x.setCategories(FXCollections.observableArrayList(freqWords));
 
 
         x.setLabel("Letter");
         NumberAxis y = new NumberAxis();
         y.setLabel("Frequency");
-        BarChart<String, Number> bc = new BarChart(x, y);
-        XYChart.Series<String, Number> series = new XYChart.Series();
-        for(int i = 0; i < freqWords.length; i++){
-
-            series.getData().add(new XYChart.Data<>(freqWords[i], dict.get(freqWords[i])));
-
+        BarChart<String, Number> bc = new BarChart<>(x, y);
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        for (String freqWord : freqWords) {
+            series.getData().add(new XYChart.Data<>(freqWord, dict.get(freqWord)));
         }
-
         bc.getData().add(series);
         bc.setBarGap(10);
 
@@ -226,10 +218,8 @@ public abstract class Utils {
         GridPane grid = new GridPane();
         Label suggestions = new Label("Suggestions:");
         grid.add(suggestions, 0, 2);
-        Set<String> noWrongLetters = s.pruneDictionary();
-        ArrayList<String> x = new ArrayList<>();
         grid.setHgap(10);
-        x.addAll(noWrongLetters);
+        ArrayList<String> x = new ArrayList<>(s.pruneDictionary());
         int loopTo = Math.min(5, x.size());
         for(int i = 0; i < loopTo; i++){
             Label word = new Label(String.valueOf(x.get(i)));

@@ -40,7 +40,6 @@ public class Controller {
     Wordle game = null;
     GridPane letters_used;
     GridPane grid_input; // This has the submit button + grid of textfields FYI
-    int position;
     int win_streak;
     int wins;
     int losses;
@@ -129,10 +128,6 @@ public class Controller {
     Button hard_mode;
 
 
-    Suggestions suggest;
-
-
-
     /**
      * Makes submit button to enter word
      */
@@ -199,6 +194,7 @@ public class Controller {
         try {
 
             game = new Wordle(numGuesses, dictionaryFile, session);
+
             lastWorkingFile = dictionaryFile;
             RUNNING = false;
             guess = 0;
@@ -351,32 +347,23 @@ public class Controller {
         StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
         win.setHeaderText("HINT");
 
-        Set<String> hints = game.getSuggestions().getValidWords();
-        ArrayList<String> hintList = new ArrayList<>();
-        hintList.addAll(hints);
-        ArrayList<String> g = game.getGuesses_for_wordle_game();
-        String target = game.getTarget();
-        ArrayList<Character> usedLetters = new ArrayList<>();
+        ArrayList<String> hintList = new ArrayList<>(game.getSuggestions().getValidWords());
 
-        for(int i = 0; i < g.size(); i++)
-        {
-            char[] word = g.get(i).toUpperCase(Locale.ROOT).toCharArray();
-            for(int j = 0; j < word.length; j++)
-            {
-                if(!usedLetters.contains(word[j]))
-                {
-                    usedLetters.add(word[j]);
+        ArrayList<Character> usedLetters = new ArrayList<>();
+        for (Guess value : game.getGuesses()) {
+            char[] word = value.getGuess().toUpperCase(Locale.ROOT).toCharArray();
+            for (char c : word) {
+                if (!usedLetters.contains(c)) {
+                    usedLetters.add(c);
                 }
 
             }
 
         }
         char hintLetter = '~';
-        char[] t = target.toUpperCase(Locale.ROOT).toCharArray();
-        for(int i = 0; i < t.length; i++)
-        {
-            if(!usedLetters.contains(t[i])){
-                hintLetter = t[i];
+        for (char c : game.getTarget().toUpperCase(Locale.ROOT).toCharArray()) {
+            if (!usedLetters.contains(c)) {
+                hintLetter = c;
                 break;
             }
         }
@@ -386,15 +373,11 @@ public class Controller {
             win.setContentText(String.valueOf(hintLetter));
         }
 
-
-
-
         StylingChanger.changeAlert(a,win,DARK,CONTRAST,1);
 
 
         Optional<ButtonType> result = a.showAndWait();
         hintButton.setDisable(true);
-
     }
 
 
@@ -564,7 +547,7 @@ public class Controller {
         // do verification stuff
 
         // Turning on hint button after first guess
-        if(hintFlag == false){
+        if(!hintFlag){
             hintButton.setDisable(false);
             hintFlag = true;
         }
@@ -1042,7 +1025,7 @@ public class Controller {
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
 
-        BarChart chart = Utils.make5BarChartFromHashMap(reverseSortedMap);
+        BarChart<String, Number> chart = Utils.make5BarChartFromHashMap(reverseSortedMap);
         chart.getStylesheets().add("Styling//stylesheet.css");
         chart.getStylesheets().add("Styling//dark_stylesheet.css");
         chart.getStylesheets().add("Styling//contrast_stylesheet.css");
@@ -1084,7 +1067,7 @@ public class Controller {
                 BufferedReader br = new BufferedReader(new FileReader(pcFile));
                 String line = br.readLine();
 
-                if (!line.equals(null)){
+                if (line != null){
                     updateUser(line);
                 }
                 else{
@@ -1148,10 +1131,7 @@ public class Controller {
         Map<String, String> env = System.getenv();
         if (env.containsKey("COMPUTERNAME"))
             return env.get("COMPUTERNAME");
-        else if (env.containsKey("HOSTNAME"))
-            return env.get("HOSTNAME");
-        else
-            return "ERROR";
+        else return env.getOrDefault("HOSTNAME", "ERROR");
     }
 
     private String getUserName(){
@@ -1209,7 +1189,7 @@ public class Controller {
             BufferedReader br = new BufferedReader(new FileReader(stats));
             String line = br.readLine();
 
-            Boolean dk = false, ct = false, sug = false, ad = false;
+            boolean dk = false, ct = false, sug = false, ad = false;
             if (line.equals("ADMIN")) {
                 ad = true;
             }
