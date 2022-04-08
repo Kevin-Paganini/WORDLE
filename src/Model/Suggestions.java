@@ -127,10 +127,14 @@ public class Suggestions {
         }
         HashMap<String, Integer> sortedHashLetterFreq = Utils.sortHashMapByValue(letterFreq);
         String [] freqLetters = sortedHashLetterFreq.keySet().toArray(new String[0]);
+
         for (String letter : freqLetters) {
             for (String s : valid) {
                 if (s.toUpperCase(Locale.ROOT).contains(letter)) {
-                    validWordsSorted.add(s);
+                    if (!validWordsSorted.contains(s)){
+                        validWordsSorted.add(s);
+                    }
+
                 }
             }
 
