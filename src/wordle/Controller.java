@@ -174,9 +174,7 @@ public class Controller {
      */
     @FXML
     public void initialize(){
-        timeline = new Timeline(new KeyFrame(Duration.millis(100),(e)->{
-            increaseTimer();
-        }));
+        timeline = new Timeline(new KeyFrame(Duration.millis(100), (e)->increaseTimer()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         session = new Session();
         user = getUserName();
@@ -189,8 +187,6 @@ public class Controller {
      * This should be called after any game or when any game is to be reloaded. Initialize should not be called.
      */
     public void startNewGame(){
-
-        // Creating Wordle Game
         try {
 
             game = new Wordle(numGuesses, dictionaryFile, session);
@@ -338,44 +334,24 @@ public class Controller {
     }
 
     /**
-     * Show statistics of user
-     * @param actionEvent
+     * Hint button is disabled until first guess is made
+     * Hint button gets turned on once first guess is made
+     * User gets one hint per game
+     * Hint button disabled after one hint
+     * User gets letter until all letters in target have been guessed than gives suggestion word
+     * @param actionEvent button click
      */
     private void showHint(ActionEvent actionEvent) {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, "HINT");
         win = a.getDialogPane();
         StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
         win.setHeaderText("HINT");
-
-        ArrayList<String> hintList = new ArrayList<>(game.getSuggestions().getValidWords());
-
-        ArrayList<Character> usedLetters = new ArrayList<>();
-        for (Guess value : game.getGuesses()) {
-            char[] word = value.getGuess().toUpperCase(Locale.ROOT).toCharArray();
-            for (char c : word) {
-                if (!usedLetters.contains(c)) {
-                    usedLetters.add(c);
-                }
-
-            }
-
-        }
-        char hintLetter = '~';
-        for (char c : game.getTarget().toUpperCase(Locale.ROOT).toCharArray()) {
-            if (!usedLetters.contains(c)) {
-                hintLetter = c;
-                break;
-            }
-        }
-        if(hintLetter == '~'){
-            win.setContentText(hintList.get(0));
-        } else {
-            win.setContentText(String.valueOf(hintLetter));
-        }
+        String hint = game.getHint();
+        win.setContentText(String.valueOf(hint));
 
         StylingChanger.changeAlert(a,win,DARK,CONTRAST,1);
 
-
+        //TODO What's this for
         Optional<ButtonType> result = a.showAndWait();
         hintButton.setDisable(true);
     }
@@ -384,12 +360,11 @@ public class Controller {
 
     /**
      * Creating keyboard replica to display to user what has been chosen
-     * and the colour of the corrosponding letter
+     * and the colour of the corresponding letter
      * @return GridPane containing labels of all keyboard inputs which can be clicked.
      * @author Kevin Paganini
      */
     private GridPane createKeyBoardInputs() {
-
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(BUTTON_PADDING));
         grid.setHgap(BUTTON_PADDING);
@@ -408,10 +383,7 @@ public class Controller {
                 grid.add(label, ((i - 19) % 7) + 1, 2); // Third Row of Keyboard
 
             }
-
-
         }
-
         Label del = new Label(textFieldValues.get(26));
         del.setMaxSize(100, 50);
         del.setMinSize(100, 50);
@@ -432,19 +404,22 @@ public class Controller {
         enterLetter(letter);
     }
 
+    /**
+     * Allows for backend letter entry into the input grid
+     * Does not interface with user and is not a listener
+     * @param letter Letter being entered
+     */
     private void enterLetter(String letter){
-        if (Objects.equals(letter, "DEL")){
+        if (letter.equals("DEL")) {
             for (int i = numLetters-1; i >= 0; i--){
                 TextField tf = gridOfTextFieldInputs.get(guess).get(i);
                 if (!tf.getText().equals("")) {
                     tf.setText("");
                     tf.requestFocus();
-                    i = 0;
+                    break;
                 }
             }
-        }
-
-        else {
+        } else {
             for (int i = 0; i < numLetters; i++) {
                 TextField tf = gridOfTextFieldInputs.get(guess).get(i);
                 if (tf.getText().equals("")) {
@@ -456,10 +431,10 @@ public class Controller {
     }
 
     /**
-     *
-     * @param event
+     * Allows the user to click the suggestion and automatically guess it
+     * @param event button click
      */
-    public void enterSuggestion(MouseEvent event){
+    public void enterSuggestion(MouseEvent event) {
         String word = ((Label) event.getSource()).getText().toUpperCase();
         for(int i = 0; i < numLetters; ++i) {
             gridOfTextFieldInputs.get(guess).get(i).setText("");
@@ -510,7 +485,6 @@ public class Controller {
         }
         return grid;
     }
-
     /**
      * Makes submit button for grid. Listener is declared below
      * @author Kevin Paganini
@@ -846,9 +820,9 @@ public class Controller {
     }
 
     /**
-     * @author Carson Meredith
      * Changes Contrast mode if contrast button is pressed
      * @param actionEvent Button click
+     * @author Carson Meredith
      */
     public void contrast_switch(ActionEvent actionEvent) {
         setContrast();
@@ -856,16 +830,18 @@ public class Controller {
     }
 
     /**
-     * @author David Kane
-     * Changes Disables/Enables Suggestions
+     * Disables/Enables Suggestions
      * @param actionEvent Button click (garbage value)
+     * @author David Kane
      */
     public void suggestion_switch(ActionEvent actionEvent) {
         setSuggestion();
         saveStats();
     }
 
-
+    /**
+     * Toggles dark mode - used in the button listener
+     */
     public void setDark(){
         String text = dark_light.getText();
         DARK = text.equals("DARK-MODE");
@@ -877,6 +853,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Toggles suggestions - used in the button listener
+     */
     public void setSuggestion(){
         if (SUGGESTION){
             suggestion.setText("Suggestions: OFF");
@@ -890,6 +869,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Toggles contrast mode - used in the button listener
+     */
     public void setContrast(){
         String text = contrast.getText();
         CONTRAST = text.equals("HIGH-CONTRAST-MODE");
@@ -902,7 +884,8 @@ public class Controller {
     }
 
     /**
-     * Will change amount of guesses user is allowed if number entered is greater than 0
+     * Changes amount of guesses user is allowed
+     * If <= 0, does nothing
      * @param actionEvent Button click (garbage value)
      * @author David Kane
      */
@@ -922,9 +905,9 @@ public class Controller {
     }
 
     /**
-     * @author David Kane
-     * Will change dictionary to wordle default.
+     * Changes dictionary to wordle default.
      * @param actionEvent Button click (garbage value)
+     * @author David Kane
      */
     public void fiveLetterWord(ActionEvent actionEvent){
         try {
@@ -940,38 +923,38 @@ public class Controller {
     }
 
     /**
-     * @author David Kane
-     * Will change dictionary to 6 letter words.
+     * Changes dictionary to 6-letter words.
      * @param actionEvent Button click (garbage value)
+     * @author David Kane
      */
     public void sixLetterWord(ActionEvent actionEvent){
-        try {
-            File temp = new File ("src/Resources/words_6_letters.txt");
-            if (!temp.equals(dictionaryFile)){
-                runTimer();
-                dictionaryFile = temp;
-                startNewGame();
-            }
-        } catch (NullPointerException e){
-            //TODO: Default wordle file could not be found
+        File temp = new File("src/Resources/words_6_letters.txt");
+        if (!temp.exists() || !temp.isFile()) {
+            //TODO: Wordle file not found
+            return;
+        }
+        if (!temp.equals(dictionaryFile)){
+            runTimer();
+            dictionaryFile = temp;
+            startNewGame();
         }
     }
 
     /**
-     * @author David Kane
-     * Will change dictionary to 7 letter words.
+     * Changes dictionary to 7 letter words.
      * @param actionEvent Button click (garbage value)
+     * @author David Kane
      */
     public void sevenLetterWord(ActionEvent actionEvent){
-        try {
-            File temp = new File ("src/Resources/words_7_letters.txt");
-            if (!temp.equals(dictionaryFile)){
-                runTimer();
-                dictionaryFile = temp;
-                startNewGame();
-            }
-        } catch (NullPointerException e){
-            //TODO: Default wordle file could not be found
+        File temp = new File ("src/Resources/words_7_letters.txt");
+        if (!temp.exists() || !temp.isFile()) {
+            //TODO: Wordle file not found
+            return;
+        }
+        if (!temp.equals(dictionaryFile)){
+            runTimer();
+            dictionaryFile = temp;
+            startNewGame();
         }
     }
 
@@ -1035,7 +1018,9 @@ public class Controller {
         frequentLetterPane.getChildren().add(Utils.makeLetterBarChart(letterFrequency));
     }
 
-
+    /**
+     * Updates the suggestions grid then determines if it should be visible
+     */
     public void updateSuggestions(){
         GridPane grid = Utils.makeSuggestionsGrid(game.getSuggestions());
         for(int i = 1; i < grid.getChildren().size();++i) {
@@ -1066,11 +1051,9 @@ public class Controller {
                 File pcFile = new File("src/Resources/" + pc);
                 BufferedReader br = new BufferedReader(new FileReader(pcFile));
                 String line = br.readLine();
-
                 if (line != null){
                     updateUser(line);
-                }
-                else{
+                } else{
                     //TODO: THROW ERROR
                 }
 
@@ -1089,39 +1072,36 @@ public class Controller {
     public void saveStats(){
         String pc = getComputerName();
         pc = pc.replaceAll("[\\\\/:*?\"<>|]", "");
-        if (!pc.equals("ERROR")){
-            try {
-                Files.write(Paths.get("src/Resources/" + pc), user.getBytes());
-            }
-            catch (IOException ignored){
-                //TODO: Handle Error
-            };
-
-            String content = "";
-            if (ADMIN) content += "ADMIN"; else content += "USER";
-            if (DARK) content += "\nDARK"; else content += "\nLIGHT";
-            if (CONTRAST) content += "\nCONTRAST"; else content += "\nNORMAL MODE";
-            if (SUGGESTION) content += "\nSUGGESTION"; else content += "\nNO SUGGESTIONS";
-            if (wins + losses == 0){
-                avgGuesses = 0;
-            }
-            else {
-                avgGuesses = ((avgGuesses*(wins+losses -1)) + guess) / (wins + losses);
-            }
-            content += "\n" + wins + "\n" + losses + "\n" + win_streak + "\n" + avgGuesses;
-
-            for (String s : guesses) {
-                content += "\n" + s;
-            }
-
-            try {
-                Files.write(Paths.get("src/Resources/UserData/" + user), content.getBytes());
-            }
-            catch (IOException ignored){};
-
-
+        if (pc.equals("ERROR")) {
+            //TODO: Computer name error
+            return;
         }
-        else{
+        try {
+            Files.write(Paths.get("src/Resources/" + pc), user.getBytes());
+        }
+        catch (IOException e){
+            //TODO: PC File does weirdness
+            return;
+        }
+        String content = "";
+        if (ADMIN) content += "ADMIN"; else content += "USER";
+        if (DARK) content += "\nDARK"; else content += "\nLIGHT";
+        if (CONTRAST) content += "\nCONTRAST"; else content += "\nNORMAL MODE";
+        if (SUGGESTION) content += "\nSUGGESTION"; else content += "\nNO SUGGESTIONS";
+        if (wins + losses == 0){
+            avgGuesses = 0;
+        }
+        else {
+            avgGuesses = ((avgGuesses*(wins+losses -1)) + guess) / (wins + losses);
+        }
+        content += "\n" + wins + "\n" + losses + "\n" + win_streak + "\n" + avgGuesses;
+        for (String s : guesses) {
+            content += "\n" + s;
+        }
+        try {
+            Files.write(Paths.get("src/Resources/UserData/" + user), content.getBytes());
+        }
+        catch (IOException e){
             //TODO: Handle error
         }
     }
@@ -1138,17 +1118,20 @@ public class Controller {
         return System.getProperty("user.name");
     }
 
+    /**
+     * Toggles hard-mode and restarts the game
+     * @param actionEvent button press
+     */
     public void changeHardMode(ActionEvent actionEvent) {
         runTimer();
-        if(hard_mode.getText().equals("Hard Mode")) {
+        if (hard_mode.getText().equals("Hard Mode")) {
             hard_mode.setText("Easy Mode");
             HARD = true;
-            startNewGame();
         } else {
             hard_mode.setText("Hard Mode");
             HARD = false;
-            startNewGame();
         }
+        startNewGame();
     }
 
     public void runTimer(){
@@ -1162,10 +1145,12 @@ public class Controller {
 
     }
 
+    /**
+     * Some timer weirdness
+     */
     public void increaseTimer(){
         if(RUNNING) {
-            double time = 0;
-            time = Double.parseDouble(timer.getText());
+            double time = Double.parseDouble(timer.getText());
             time = time * 10;
             time += 1;
             time = time/10;
@@ -1232,13 +1217,13 @@ public class Controller {
             resetUser();
         }
         catch (IOException e){
-            //TODO: HANDLE ERROR
+            //TODO HANDLE ERROR
         }
     }
 
 
     public void toggle_admin(ActionEvent e){
-        //TODO: ADMIN
+        //TODO ADMIN
         String userInput = admin.getText();
 
         if (userInput.equals(ADMIN_PASSWORD) && !ADMIN){
@@ -1250,12 +1235,14 @@ public class Controller {
         ADMIN = !ADMIN;
         if (ADMIN){
 
-        }
-        else{
+        } else {
 
         }
     }
 
+    /**
+     * Resets the game and resets the game's user.
+     */
     public void resetUser(){
         startNewGame();
         wins = 0;
@@ -1264,18 +1251,10 @@ public class Controller {
         avgGuesses = 0;
         guesses.clear();
         game.clearGuesses();
-        if (DARK) {
-            setDark();
-        }
-        if (CONTRAST){
-            setContrast();
-        }
-        if (SUGGESTION){
-            setSuggestion();
-        }
-        if (ADMIN){
-            setAdmin();
-        }
+        if (DARK) setDark();
+        if (CONTRAST) setContrast();
+        if (SUGGESTION) setSuggestion();
+        if (ADMIN) setAdmin();
         saveStats();
         updateStats();
     }

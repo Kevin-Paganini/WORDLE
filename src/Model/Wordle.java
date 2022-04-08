@@ -200,13 +200,34 @@ public class Wordle {
     }
 
 
+    public String getHint() {
+        ArrayList<Character> usedLetters = new ArrayList<>();
+        for (Guess value : guessList) {
+            char[] word = value.getGuess().toUpperCase(Locale.ROOT).toCharArray();
+            for (char c : word) {
+                if (!usedLetters.contains(c)) {
+                    usedLetters.add(c);
+                }
+
+            }
+        }
+        char hintLetter = 0;
+        for (char c : target.toUpperCase(Locale.ROOT).toCharArray()) {
+            if (!usedLetters.contains(c)) {
+                hintLetter = c;
+                break;
+            }
+        }
+        if (hintLetter == 0) return new ArrayList<>(suggestions.getValidWords()).get(0);
+        return String.valueOf(hintLetter);
+    }
+
     /**
      * Returns true if a provided guess matches the target and false if not.
      * @param guess guess to be checked against the target
      * @return true if target matches guess ignoring case, false otherwise
      * @author Kevin Paganini, Atreyu Schilling
      */
-
     public boolean isWinner(String guess) {
         return guess.equalsIgnoreCase(target);
     }
