@@ -278,7 +278,6 @@ public class Controller {
             StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
             StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
         } catch (IOException e) {
-            dictionaryFile = lastWorkingFile;
             //TODO: Catch if the wordle-official file does not exist
             System.out.println("Entered an invalid File");
 
@@ -305,10 +304,10 @@ public class Controller {
                 //Platform.exit();
             }
         } catch (NullPointerException e){
-            dictionaryFile = lastWorkingFile;
             //TODO: Catch if the opened dictionary file is blank
 
         } finally {
+            dictionaryFile = lastWorkingFile;
             runTimer();
         }
     }
