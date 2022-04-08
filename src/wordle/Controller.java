@@ -335,6 +335,7 @@ public class Controller {
         button.setLayoutX((numLetters * 60) + 75);
         button.setLayoutY(310);
         return button;
+
     }
 
     /**
@@ -342,10 +343,12 @@ public class Controller {
      * @param actionEvent
      */
     private void showHint(ActionEvent actionEvent) {
+        /*
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, "HINT");
         win = a.getDialogPane();
         StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
         win.setHeaderText("HINT");
+         */
 
         ArrayList<String> hintList = new ArrayList<>(game.getSuggestions().getValidWords());
 
@@ -361,22 +364,29 @@ public class Controller {
 
         }
         char hintLetter = '~';
-        for (char c : game.getTarget().toUpperCase(Locale.ROOT).toCharArray()) {
+        int index = -1;
+        //for (char c : game.getTarget().toUpperCase(Locale.ROOT).toCharArray()) {
+            for (int i = 0; i < game.getTarget().toUpperCase(Locale.ROOT).length(); i++){
+                char c = game.getTarget().toUpperCase(Locale.ROOT).charAt(i);
             if (!usedLetters.contains(c)) {
                 hintLetter = c;
+                index = i;
                 break;
             }
         }
         if(hintLetter == '~'){
             win.setContentText(hintList.get(0));
         } else {
-            win.setContentText(String.valueOf(hintLetter));
+            TextField tf = gridOfTextFieldInputs.get(guess).get(index);
+            tf.setText(String.valueOf(hintLetter));
+            tf.setDisable(true);
+            //win.setContentText(String.valueOf(hintLetter));
         }
 
-        StylingChanger.changeAlert(a,win,DARK,CONTRAST,1);
+        //StylingChanger.changeAlert(a,win,DARK,CONTRAST,1);
 
 
-        Optional<ButtonType> result = a.showAndWait();
+        //Optional<ButtonType> result = a.showAndWait();
         hintButton.setDisable(true);
     }
 
@@ -748,10 +758,25 @@ public class Controller {
                 }
             }
             if (pos > 0){
-                gridOfTextFieldInputs.get(guess).get(pos-1).requestFocus();
+                if(gridOfTextFieldInputs.get(guess).get(pos - 1).isDisabled()) {
+                    if (pos-1 > 0){
+                        gridOfTextFieldInputs.get(guess).get(pos - 2).requestFocus();
+                    }
+                    else{
+                        gridOfTextFieldInputs.get(guess).get(gridOfTextFieldInputs.get(guess).size() - 1).requestFocus();
+                    }
+                }
+                else {
+                    gridOfTextFieldInputs.get(guess).get(pos - 1).requestFocus();
+                }
             }
             else{
-                gridOfTextFieldInputs.get(guess).get(gridOfTextFieldInputs.get(guess).size() -1).requestFocus();
+                if (gridOfTextFieldInputs.get(guess).get(gridOfTextFieldInputs.get(guess).size() -1).isDisabled()){
+                    gridOfTextFieldInputs.get(guess).get(gridOfTextFieldInputs.get(guess).size() - 2).requestFocus();
+                }
+                else {
+                    gridOfTextFieldInputs.get(guess).get(gridOfTextFieldInputs.get(guess).size() - 1).requestFocus();
+                }
             }
         }
         else if (keyCode == RIGHT) {
@@ -763,10 +788,24 @@ public class Controller {
                 }
             }
             if (pos + 1 < gridOfTextFieldInputs.get(guess).size()) {
-                gridOfTextFieldInputs.get(guess).get(pos + 1).requestFocus();
-            }
+                if(gridOfTextFieldInputs.get(guess).get(pos + 1).isDisabled()) {
+                    if (pos + 2 < gridOfTextFieldInputs.get(guess).size()) {
+                        gridOfTextFieldInputs.get(guess).get(pos + 2).requestFocus();
+                    }
+                    else{
+                        gridOfTextFieldInputs.get(guess).get(0).requestFocus();
+                    }
+                }
+                else {
+                    gridOfTextFieldInputs.get(guess).get(pos + 1).requestFocus();
+                }            }
             else{
-                gridOfTextFieldInputs.get(guess).get(0).requestFocus();
+                if (gridOfTextFieldInputs.get(guess).get(0).isDisabled()){
+                    gridOfTextFieldInputs.get(guess).get(1).requestFocus();
+                }
+                else {
+                    gridOfTextFieldInputs.get(guess).get(0).requestFocus();
+                }
             }
         }
         else if (keyCode == BACK_SPACE){
@@ -778,8 +817,16 @@ public class Controller {
                 }
             }
             if (textField.getText().equals("") && pos > 0){
-                gridOfTextFieldInputs.get(guess).get(pos-1).setText("");
-                gridOfTextFieldInputs.get(guess).get(pos-1).requestFocus();
+                if (gridOfTextFieldInputs.get(guess).get(pos-1).isDisabled()){
+                 if (pos-1 > 0){
+                     gridOfTextFieldInputs.get(guess).get(pos - 2).setText("");
+                     gridOfTextFieldInputs.get(guess).get(pos - 2).requestFocus();
+                 }
+                }
+                else {
+                    gridOfTextFieldInputs.get(guess).get(pos - 1).setText("");
+                    gridOfTextFieldInputs.get(guess).get(pos - 1).requestFocus();
+                }
             }
         }
     }
@@ -804,7 +851,14 @@ public class Controller {
             } else {
                 tf.setText(tf.getText().toUpperCase());
                 if (index + 1 < gridOfTextFieldInputs.get(guess).size()) {
-                    gridOfTextFieldInputs.get(guess).get(index + 1).requestFocus();
+                    if(gridOfTextFieldInputs.get(guess).get(index + 1).isDisabled()) {
+                        if (index + 2 < gridOfTextFieldInputs.get(guess).size()) {
+                            gridOfTextFieldInputs.get(guess).get(index + 2).requestFocus();
+                        }
+                    }
+                    else {
+                            gridOfTextFieldInputs.get(guess).get(index + 1).requestFocus();
+                    }
                 }
             }
         }

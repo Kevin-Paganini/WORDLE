@@ -6,3 +6,40 @@ Number of Guesses: 2
 Win: Yes
 BURNT
 GENIE
+
+User: kaned
+Game Number: 15
+Target: MOVIE
+Number of Guesses: 2
+Win: Yes
+LOSER
+MOVIE
+
+User: kaned
+Game Number: 16
+Target: LEASH
+Number of Guesses: 6
+Win: No
+LOSER
+LOSER
+LOSER
+LOSER
+LOSER
+LOSER
+
+User: kaned
+Game Number: 17
+Target: ELIDE
+Number of Guesses: 3
+Win: Yes
+ARROW
+HEARD
+ELIDE
+
+User: kaned
+Game Number: 18
+Target: ESSAY
+Number of Guesses: 2
+Win: Yes
+ARROW
+ESSAY
