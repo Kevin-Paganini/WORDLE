@@ -321,7 +321,15 @@ public class Controller {
             }
             scores = Utils.readScoreboard();
             if(!scores.isEmpty()){
-                Scoreboard = Utils.updateScoreboard(scores,Scoreboard, numLetters, HARD);
+                int dif = 0;
+                if (HARD) {
+                    dif = 1;
+                }
+                int sug = 0;
+                if(SUGGESTION) {
+                    sug = 1;
+                }
+                Scoreboard = Utils.updateScoreboard(scores,Scoreboard, numLetters, dif, sug);
             }
             StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
             StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
@@ -657,6 +665,20 @@ public class Controller {
             saveGlobalData("Yes");
 
             win_percentage = Math.min(100, ((double)wins/(losses+wins)) * 100);
+            //Scoreboard stuff
+            int dif = 0;
+            if (HARD) {
+                dif = 1;
+            }
+            int sug = 0;
+            if(SUGGESTION) {
+                sug = 1;
+            }
+            //Adds a new score to the list of scores
+            scores.add(user + "," + timer.getText() + ";" + guess + ":" + numLetters + "/" + dif + "|" + sug);
+            scores.sort(Utils::sortScoreboard);
+            //Saves scoreboard
+            Utils.saveScoreboard(scores,Scoreboard, numLetters, dif,sug);
             saveStats();
             showWinAlert();
         }
@@ -714,7 +736,6 @@ public class Controller {
         } catch (IOException e){
             System.out.println("clown");
         }
-        System.out.println(fileInput);
     }
     /**
      * Creates alert when user either wins or loses their game of wordle
@@ -731,16 +752,6 @@ public class Controller {
         win.setContentText("PLAY AGAIN?");
         // Updating stats tab every time a game is done
         updateStats();
-        //Add score to scoreboard
-        int dif = 0;
-        if (HARD) {
-            dif = 1;
-        }
-        scores.add(user + "," + timer.getText() + ";" + guess + ":" + numLetters + "/" + dif);
-        Collections.sort(scores, Utils::sortScoreboard);
-        //Saves scoreboard
-        Utils.saveScoreboard(scores,Scoreboard, numLetters, HARD);
-
         Optional<ButtonType> result = a.showAndWait();
         if (!result.isPresent()) {
             // alert is exited, no button has been pressed.
@@ -971,6 +982,15 @@ public class Controller {
     public void suggestion_switch(ActionEvent actionEvent) {
         setSuggestion();
         saveStats();
+        int dif = 0;
+        if(HARD) {
+            dif = 1;
+        }
+        int sug = 0;
+        if(SUGGESTION) {
+            sug = 1;
+        }
+        Utils.updateScoreboard(scores,Scoreboard,numLetters,dif,sug);
     }
 
 
