@@ -50,16 +50,18 @@
            <content>
                <Pane fx:id="SETTINGS_PANE">
                <children>
-                   <Button fx:id="fiveLetterDictionary" layoutX="29.0" layoutY="24.0" mnemonicParsing="false" onAction="#fiveLetterWord" text="5 Letter Words" />
-                   <Button fx:id="sixLetterDictionary" layoutX="149.0" layoutY="24.0" mnemonicParsing="false" onAction="#sixLetterWord" text="6 Letter Words" />
-                   <Button fx:id="sevenLetterDictionary" layoutX="269.0" layoutY="24.0" mnemonicParsing="false" onAction="#sevenLetterWord" text="7 Letter Words" />
-                   <Button fx:id="importDictionaryButton" layoutX="389.0" layoutY="24.0" mnemonicParsing="false" onAction="#importDictionary" text="Import Dictionary File" />
+                   <Button fx:id="threeLetterDictionary" layoutX="29.0" layoutY="24.0" mnemonicParsing="false" onAction="#threeLetterWord" text="3 Letter Words" />
+                   <Button fx:id="fourLetterDictionary" layoutX="149.0" layoutY="24.0" mnemonicParsing="false" onAction="#fourLetterWord" text="4 Letter Words" />
+                   <Button fx:id="fiveLetterDictionary" layoutX="269.0" layoutY="24.0" mnemonicParsing="false" onAction="#fiveLetterWord" text="5 Letter Words" />
+                   <Button fx:id="sixLetterDictionary" layoutX="389.0" layoutY="24.0" mnemonicParsing="false" onAction="#sixLetterWord" text="6 Letter Words" />
+                   <Button fx:id="sevenLetterDictionary" layoutX="509.0" layoutY="24.0" mnemonicParsing="false" onAction="#sevenLetterWord" text="7 Letter Words" />
+                   <Button fx:id="importDictionaryButton" layoutX="629.0" layoutY="24.0" mnemonicParsing="false" onAction="#importDictionary" text="Import Dictionary File" />
                   <Button fx:id="dark_light" layoutX="29.0" layoutY="72.0" mnemonicParsing="false" onAction="#dark_light_mode_switch" text="DARK-MODE" />
                    <Button fx:id="contrast" layoutX="29.0" layoutY="120.0" mnemonicParsing="false" onAction="#contrast_switch" text="HIGH-CONTRAST-MODE" />
                    <Button fx:id="suggestion" layoutX="29.0" layoutY="168.0" mnemonicParsing="false" onAction="#suggestion_switch" text="Suggestions: OFF" />
                    <TextField fx:id="numGuess" layoutX="29.0" layoutY="216.0" maxHeight="70" maxWidth="150" promptText="Number of Guesses" />
                    <Button fx:id="numChange" layoutX="190.0" layoutY="216.0" mnemonicParsing="false" onAction="#changeGuessAmount" text="Submit" />
-                   <Button fx:id ="hard_mode" layoutX ="549.0" layoutY = "24.0" onAction="#changeHardMode" text="Hard Mode"/>
+                   <Button fx:id ="hard_mode" layoutX ="7899.0" layoutY = "24.0" onAction="#changeHardMode" text="Hard Mode"/>
 
                    <TextField fx:id="username" layoutX="29.0" layoutY="300.0" maxHeight="70" maxWidth="150" promptText="Enter Username" />
                    <Button fx:id="userChange" layoutX="190.0" layoutY="300.0" mnemonicParsing="false" onAction="#changeUser" text="Submit" />

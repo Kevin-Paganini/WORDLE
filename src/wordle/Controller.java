@@ -157,6 +157,12 @@ public class Controller {
     private Button numChange;
 
     @FXML
+    private Button threeLetterDictionary;
+
+    @FXML
+    private Button fourLetterDictionary;
+
+    @FXML
     private Button fiveLetterDictionary;
 
     @FXML
@@ -270,6 +276,8 @@ public class Controller {
             buttons.add(dark_light);
             buttons.add(contrast);
             buttons.add(numChange);
+            buttons.add(threeLetterDictionary);
+            buttons.add(fourLetterDictionary);
             buttons.add(fiveLetterDictionary);
             buttons.add(sixLetterDictionary);
             buttons.add(sevenLetterDictionary);
@@ -1046,6 +1054,42 @@ public class Controller {
             }
         } catch (NumberFormatException e){
             //TODO
+        }
+    }
+
+    /**
+     * @author Carson Meredith
+     * Will change dictionary to 3 letter words.
+     * @param actionEvent Button click (garbage value)
+     */
+    public void threeLetterWord(ActionEvent actionEvent){
+        try {
+            File temp = new File ("src/Resources/words_3_letters.txt");
+            if (!temp.equals(dictionaryFile)){
+                runTimer();
+                dictionaryFile = temp;
+                startNewGame();
+            }
+        } catch (NullPointerException e){
+            //TODO: Default wordle file could not be found
+        }
+    }
+
+    /**
+     * @author Carson Meredith
+     * Will change dictionary to 4 letter words.
+     * @param actionEvent Button click (garbage value)
+     */
+    public void fourLetterWord(ActionEvent actionEvent){
+        try {
+            File temp = new File ("src/Resources/words_4_letters.txt");
+            if (!temp.equals(dictionaryFile)){
+                runTimer();
+                dictionaryFile = temp;
+                startNewGame();
+            }
+        } catch (NullPointerException e){
+            //TODO: Default wordle file could not be found
         }
     }
 
