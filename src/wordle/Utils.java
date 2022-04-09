@@ -253,7 +253,7 @@ public abstract class Utils {
         return score;
     }
 
-    public static void saveScoreboard(List<String> scores, VBox Scoreboard){
+    public static void saveScoreboard(ArrayList<String> scores, VBox Scoreboard, int numLetters, boolean HARD){
         Collections.sort(scores, Utils::sortScoreboard);
         String text = "";
         for(String line : scores){
@@ -264,13 +264,7 @@ public abstract class Utils {
         } catch(IOException e) {
             System.out.println("aloha");
         }
-        for(int i =0; i < scores.size(); ++i){
-            Label temp = (Label)Scoreboard.getChildren().get(i+1);
-            String score = scores.get(i);
-            double time = Double.parseDouble(score.substring(score.lastIndexOf(",") + 1, score.lastIndexOf(";")));
-            int guesses = Integer.parseInt(score.substring(score.lastIndexOf(";") + 1));
-            temp.setText(score.substring(0, score.indexOf(",")) + ": " + time + "/" + guesses);
-        }
+        updateScoreboard(scores,Scoreboard, numLetters, HARD);
     }
 
     public static int sortScoreboard(String s1, String s2) {
@@ -279,21 +273,31 @@ public abstract class Utils {
         if(first < second){
             return -1;
         } else if (first == second){
-            double guess1 = Double.parseDouble(s1.substring(s1.lastIndexOf(";") + 1));
-            double guess2 = Double.parseDouble(s2.substring(s2.lastIndexOf(";") + 1));
+            double guess1 = Double.parseDouble(s1.substring(s1.lastIndexOf(";") + 1,s1.lastIndexOf(":")));
+            double guess2 = Double.parseDouble(s2.substring(s2.lastIndexOf(";") + 1,s2.lastIndexOf(":")));
             return Double.compare(guess1, guess2);
         } else {
             return 1;
         }
     }
 
-    public static VBox updateScoreboard(ArrayList<String> scores, VBox Scoreboard) {
+    public static VBox updateScoreboard(ArrayList<String> scores, VBox Scoreboard, int numLetters, boolean HARD) {
+        int total = 0;
+        int dif1 = 0;
+        if(HARD) {
+            dif1 = 1;
+        }
         for(int i =0; i < scores.size(); ++i){
-            Label temp = (Label)Scoreboard.getChildren().get(i+1);
             String score = scores.get(i);
-            double time = Double.parseDouble(score.substring(score.lastIndexOf(",") + 1, score.lastIndexOf(";")));
-            int guesses = Integer.parseInt(score.substring(score.lastIndexOf(";") + 1));
-            temp.setText(score.substring(0, score.indexOf(",")) + ": " + time + "/" + guesses);
+            int letters = Integer.parseInt(score.substring(score.lastIndexOf(":") + 1, score.lastIndexOf("/")));
+            int dif2 = Integer.parseInt(score.substring(score.lastIndexOf("/") + 1));
+            if(total < 10 && letters == numLetters && dif1 == dif2) {
+                Label temp = (Label)Scoreboard.getChildren().get(total + 1);
+                double time = Double.parseDouble(score.substring(score.lastIndexOf(",") + 1, score.lastIndexOf(";")));
+                int guesses = Integer.parseInt(score.substring(score.lastIndexOf(";") + 1,score.lastIndexOf(":")));
+                temp.setText(score.substring(0, score.indexOf(",")) + ": " + time + "/" + guesses);
+                total++;
+            }
         }
         return Scoreboard;
     }

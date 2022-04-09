@@ -496,3 +496,222 @@ Number of Guesses: 2
 Win: Yes
 CHILD
 SMITH
+
+User: meredithc
+Game Number: 50
+Target: WHACK
+Number of Guesses: 2
+Win: Yes
+CHILD
+WHACK
+
+User: meredithc
+Game Number: 51
+Target: TOWER
+Number of Guesses: 4
+Win: Yes
+CHILD
+VAGUE
+FORTH
+TOWER
+
+User: meredithc
+Game Number: 52
+Target: FLORA
+Number of Guesses: 3
+Win: Yes
+CHILD
+VAGUE
+FLORA
+
+User: meredithc
+Game Number: 53
+Target: WOMEN
+Number of Guesses: 2
+Win: Yes
+CHILD
+WOMEN
+
+User: meredithc
+Game Number: 54
+Target: GOUGE
+Number of Guesses: 2
+Win: Yes
+VAGUE
+GOUGE
+
+User: meredithc
+Game Number: 55
+Target: STILL
+Number of Guesses: 2
+Win: Yes
+CHILD
+STILL
+
+User: meredithc
+Game Number: 56
+Target: THING
+Number of Guesses: 2
+Win: Yes
+CHILD
+THING
+
+User: meredithc
+Game Number: 57
+Target: RETRO
+Number of Guesses: 2
+Win: Yes
+VAGUE
+RETRO
+
+User: meredithc
+Game Number: 58
+Target: ROAST
+Number of Guesses: 2
+Win: Yes
+CHILD
+ROAST
+
+User: meredithc
+Game Number: 59
+Target: CREAKY
+Number of Guesses: 2
+Win: Yes
+LETTER
+CREAKY
+
+User: meredithc
+Game Number: 60
+Target: STARK
+Number of Guesses: 2
+Win: Yes
+CHILD
+STARK
+
+User: meredithc
+Game Number: 61
+Target: THERES
+Number of Guesses: 2
+Win: Yes
+LETTER
+THERES
+
+User: meredithc
+Game Number: 62
+Target: CEDING
+Number of Guesses: 2
+Win: Yes
+LETTER
+CEDING
+
+User: meredithc
+Game Number: 63
+Target: CULTIC
+Number of Guesses: 2
+Win: Yes
+LETTER
+CULTIC
+
+User: meredithc
+Game Number: 64
+Target: PRESOAK
+Number of Guesses: 2
+Win: Yes
+MONTHLY
+PRESOAK
+
+User: meredithc
+Game Number: 65
+Target: FINER
+Number of Guesses: 2
+Win: Yes
+CHILD
+FINER
+
+User: meredithc
+Game Number: 66
+Target: PROOF
+Number of Guesses: 2
+Win: Yes
+CHILD
+PROOF
+
+User: meredithc
+Game Number: 67
+Target: SHANK
+Number of Guesses: 2
+Win: Yes
+CHILD
+SHANK
+
+User: meredithc
+Game Number: 68
+Target: GNOSES
+Number of Guesses: 2
+Win: Yes
+VIRGIN
+GNOSES
+
+User: meredithc
+Game Number: 69
+Target: BREED
+Number of Guesses: 2
+Win: Yes
+CHILD
+BREED
+
+User: meredithc
+Game Number: 70
+Target: BLISS
+Number of Guesses: 2
+Win: Yes
+VAGUE
+BLISS
+
+User: meredithc
+Game Number: 71
+Target: TREND
+Number of Guesses: 2
+Win: Yes
+CHILD
+TREND
+
+User: meredithc
+Game Number: 72
+Target: SHOWY
+Number of Guesses: 2
+Win: Yes
+VAGUE
+SHOWY
+
+User: meredithc
+Game Number: 73
+Target: LOVELY
+Number of Guesses: 2
+Win: Yes
+VIRGIN
+LOVELY
+
+User: meredithc
+Game Number: 74
+Target: COYOTE
+Number of Guesses: 2
+Win: Yes
+VIRGIN
+COYOTE
+
+User: meredithc
+Game Number: 75
+Target: REALITY
+Number of Guesses: 2
+Win: Yes
+LETTERS
+REALITY
+
+User: meredithc
+Game Number: 76
+Target: DEFICIT
+Number of Guesses: 2
+Win: Yes
+REALITY
+DEFICIT

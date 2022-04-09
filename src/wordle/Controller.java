@@ -315,8 +315,14 @@ public class Controller {
             textFields.add(numGuess);
 
             Scoreboard.setSpacing(10.0);
+            for(int i = 1; i < Scoreboard.getChildren().size();++i) {
+                Label temp = (Label)Scoreboard.getChildren().get(i);
+                temp.setText("");
+            }
             scores = Utils.readScoreboard();
-            Scoreboard = Utils.updateScoreboard(scores,Scoreboard);
+            if(!scores.isEmpty()){
+                Scoreboard = Utils.updateScoreboard(scores,Scoreboard, numLetters, HARD);
+            }
             StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
             StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
         } catch (IOException e) {
@@ -726,13 +732,14 @@ public class Controller {
         // Updating stats tab every time a game is done
         updateStats();
         //Add score to scoreboard
-        scores.add(user + "," + timer.getText() + ";" + guess);
-        Collections.sort(scores, Utils::sortScoreboard);
-        if(scores.size() > 10){
-            scores.remove(10);
+        int dif = 0;
+        if (HARD) {
+            dif = 1;
         }
+        scores.add(user + "," + timer.getText() + ";" + guess + ":" + numLetters + "/" + dif);
+        Collections.sort(scores, Utils::sortScoreboard);
         //Saves scoreboard
-        Utils.saveScoreboard(scores,Scoreboard);
+        Utils.saveScoreboard(scores,Scoreboard, numLetters, HARD);
 
         Optional<ButtonType> result = a.showAndWait();
         if (!result.isPresent()) {
