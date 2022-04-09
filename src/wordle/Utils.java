@@ -8,7 +8,14 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public abstract class Utils {
@@ -227,5 +234,67 @@ public abstract class Utils {
             grid.add(word, i+2, 2);
         }
         return grid;
+    }
+
+    public static ArrayList<String> readScoreboard(){
+        ArrayList<String> score = new ArrayList<>();
+        String text = "";
+        try {
+            File scores = new File("src/Resources/UserData/Scoreboard");
+            BufferedReader br = new BufferedReader(new FileReader(scores));
+            String line = br.readLine();
+            while (line != null){
+                score.add(line);
+                line = br.readLine();
+            }
+        }catch (IOException e) {
+            System.out.println("Scoreboard could not be read");
+        }
+        return score;
+    }
+
+    public static void saveScoreboard(List<String> scores, VBox Scoreboard){
+        Collections.sort(scores, Utils::sortScoreboard);
+        String text = "";
+        for(String line : scores){
+            text += line + "\n";
+        }
+        try {
+            Files.write(Paths.get("src/Resources/UserData/Scoreboard"),text.getBytes());
+        } catch(IOException e) {
+            System.out.println("aloha");
+        }
+        for(int i =0; i < scores.size(); ++i){
+            Label temp = (Label)Scoreboard.getChildren().get(i+1);
+            String score = scores.get(i);
+            double time = Double.parseDouble(score.substring(score.lastIndexOf(",") + 1, score.lastIndexOf(";")));
+            int guesses = Integer.parseInt(score.substring(score.lastIndexOf(";") + 1));
+            temp.setText(score.substring(0, score.indexOf(",")) + ": " + time + "/" + guesses);
+        }
+    }
+
+    public static int sortScoreboard(String s1, String s2) {
+        double first = Double.parseDouble(s1.substring(s1.lastIndexOf(",") + 1, s1.lastIndexOf(";")));
+        double second = Double.parseDouble(s2.substring(s2.lastIndexOf(",") + 1, s2.lastIndexOf(";")));
+        if(first < second){
+            return -1;
+        } else if (first == second){
+            double guess1 = Double.parseDouble(s1.substring(s1.lastIndexOf(";") + 1));
+            double guess2 = Double.parseDouble(s2.substring(s2.lastIndexOf(";") + 1));
+            return Double.compare(guess1, guess2);
+        } else {
+            return 1;
+        }
+    }
+
+    public static VBox updateScoreboard(ArrayList<String> scores, VBox Scoreboard) {
+        for(int i =0; i < scores.size(); ++i){
+            Label temp = (Label)Scoreboard.getChildren().get(i+1);
+            String score = scores.get(i);
+            double time = Double.parseDouble(score.substring(score.lastIndexOf(",") + 1, score.lastIndexOf(";")));
+            int guesses = Integer.parseInt(score.substring(score.lastIndexOf(";") + 1));
+            temp.setText(score.substring(0, score.indexOf(",")) + ": " + time + "/" + guesses);
+        }
+        return Scoreboard;
     }
 }

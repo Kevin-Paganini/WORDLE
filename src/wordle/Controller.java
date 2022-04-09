@@ -4,10 +4,13 @@ import Model.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -18,9 +21,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import javafx.util.Pair;
+
 import java.io.*;
+import java.nio.DoubleBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
@@ -28,7 +35,7 @@ import java.util.*;
 import static javafx.scene.input.KeyCode.*;
 
 public class Controller {
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     public static final String ADMIN_PASSWORD = "1234";
     private static File dictionaryFile =  new File("src/Resources/wordle-official.txt");
     private static File lastWorkingFile = dictionaryFile;
@@ -53,6 +60,7 @@ public class Controller {
     boolean HARD = false;
     boolean RUNNING = false;
     ArrayList<String> guesses = new ArrayList<>();
+    ArrayList<String> scores = new ArrayList<>();
     DialogPane win;
     boolean hintFlag = false;
 
@@ -67,7 +75,7 @@ public class Controller {
      * Main Grid of the application
      */
     @FXML
-    AnchorPane MAIN_PANE;
+    Pane MAIN_PANE;
 
     @FXML
     Pane SETTINGS_PANE;
@@ -157,6 +165,24 @@ public class Controller {
     @FXML
     private Button sevenLetterDictionary;
 
+    @FXML
+    private Button userChange;
+
+    @FXML
+    private Button adminToggle;
+
+    @FXML
+    private Button resetUser;
+
+    @FXML
+    private TabPane TAB_PANE;
+
+    @FXML
+    private VBox Scoreboard;
+
+    @FXML
+    private Pane ScorePane;
+
 
     ArrayList<Button> buttons = new ArrayList<>();
     ArrayList<Pane> panes = new ArrayList<>();
@@ -207,8 +233,10 @@ public class Controller {
 
 
             //Creating grid of inputs
+            //width scale = 1.92
+            //height scale = 1.235
             grid_input = createGridOfInputs(numGuesses, numLetters);
-            grid_input.setLayoutX(350);
+            grid_input.setLayoutX(350 - (numLetters -5) * 30);
             grid_input.setLayoutY(50);
 
             // Create keyboard of used letters
@@ -216,7 +244,6 @@ public class Controller {
             letters_used.setLayoutX(200);
             letters_used.setLayoutY((numGuesses * 60) + 100);
             letters_used.getStyleClass().add("keyBoardGrid");
-
             // Create Statistics button
             hintButton = createHintButton();
             hintButton.setLayoutX(200);
@@ -225,18 +252,17 @@ public class Controller {
             hintFlag = false;
             submitButton = makeSubmitButton();
             submitButton.setLayoutY(50);
-            submitButton.setLayoutX(750);
+            submitButton.setLayoutX(grid_input.getLayoutX() + (numLetters * 60) + 100);
 
             SUGGESTIONS = new GridPane();
             SUGGESTIONS.setLayoutX(130);
             SUGGESTIONS.setLayoutY((numGuesses*60)+300);
             timer = new Label();
-            timer.setText("0");
-
-
+            timer.setText("0.0");
 
             // Adding all to main pane
             MAIN_PANE.getChildren().addAll(grid_input, letters_used, hintButton, submitButton, SUGGESTIONS, timer);
+
             //Add all buttons to list of buttons
             buttons.add(submitButton);
             buttons.add(hintButton);
@@ -249,6 +275,9 @@ public class Controller {
             buttons.add(sevenLetterDictionary);
             buttons.add(suggestion);
             buttons.add(hard_mode);
+            buttons.add(userChange);
+            buttons.add(resetUser);
+            buttons.add(adminToggle);
 
             //Add all panes to list of panes
             panes.add(SETTINGS_PANE);
@@ -256,10 +285,16 @@ public class Controller {
             panes.add(STATS_PANE);
             panes.add(frequentLetterPane);
             panes.add(frequentWordPane);
+            panes.add(Scoreboard);
+            panes.add(ScorePane);
 
             //Add all labels to list of labels
             for(int i = 0; i < letters_used.getChildren().size();++i){
                 Label temp = (Label)letters_used.getChildren().get(i);
+                labels.add(temp);
+            }
+            for(int i = 0; i < Scoreboard.getChildren().size();++i){
+                Label temp = (Label)Scoreboard.getChildren().get(i);
                 labels.add(temp);
             }
             labels.add(winLabel);
@@ -279,6 +314,9 @@ public class Controller {
             }
             textFields.add(numGuess);
 
+            Scoreboard.setSpacing(10.0);
+            scores = Utils.readScoreboard();
+            Scoreboard = Utils.updateScoreboard(scores,Scoreboard);
             StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
             StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
         } catch (IOException e) {
@@ -291,6 +329,7 @@ public class Controller {
             StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
             win.setHeaderText("INVALID FILE");
             win.setContentText("Please enter a valid file.");
+
             StylingChanger.changeAlert(a,win,DARK,CONTRAST,0);
 
 
@@ -686,6 +725,14 @@ public class Controller {
         win.setContentText("PLAY AGAIN?");
         // Updating stats tab every time a game is done
         updateStats();
+        //Add score to scoreboard
+        scores.add(user + "," + timer.getText() + ";" + guess);
+        Collections.sort(scores, Utils::sortScoreboard);
+        if(scores.size() > 10){
+            scores.remove(10);
+        }
+        //Saves scoreboard
+        Utils.saveScoreboard(scores,Scoreboard);
 
         Optional<ButtonType> result = a.showAndWait();
         if (!result.isPresent()) {
@@ -1040,7 +1087,7 @@ public class Controller {
         //avgNumGuesses.setText(String.valueOf(session.getAverageGuesses()));
         DecimalFormat df = new DecimalFormat("#.#");
         avgNumGuesses.setText(String.valueOf(df.format(avgGuesses)));
-        System.out.println(avgNumGuesses.getText());
+        if (DEBUG) System.out.println(avgNumGuesses.getText());
         //longestWinStreak.setText(String.valueOf(session.getWinStreak()));
         longestWinStreak.setText(String.valueOf(win_streak));
         frequentLetterPane.getChildren().clear();
