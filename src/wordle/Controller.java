@@ -618,7 +618,7 @@ public class Controller {
         // do verification stuff
 
         // Turning on hint button after first guess
-        if(!hintFlag){
+        if(!hintFlag && !HARD){
             hintButton.setDisable(false);
             hintFlag = true;
         }
@@ -1014,15 +1014,19 @@ public class Controller {
     }
 
     public void setSuggestion(){
-        if (SUGGESTION){
-            suggestion.setText("Suggestions: OFF");
-            SUGGESTIONS.setVisible(false);
-            SUGGESTION = false;
-        }
-        else{
-            suggestion.setText("Suggestions: ON");
-            SUGGESTION = true;
-            SUGGESTIONS.setVisible(true);
+        if(HARD) {
+            suggestion.setDisable(true);
+        } else {
+            if (SUGGESTION){
+                suggestion.setText("Suggestions: OFF");
+                SUGGESTIONS.setVisible(false);
+                SUGGESTION = false;
+            }
+            else{
+                suggestion.setText("Suggestions: ON");
+                SUGGESTION = true;
+                SUGGESTIONS.setVisible(true);
+            }
         }
     }
 
@@ -1315,6 +1319,9 @@ public class Controller {
         if(hard_mode.getText().equals("Hard Mode")) {
             hard_mode.setText("Easy Mode");
             HARD = true;
+            suggestion.setDisable(true);
+            SUGGESTION = false;
+            suggestion.setText("Suggestions: OFF");
             startNewGame();
         } else {
             hard_mode.setText("Hard Mode");
@@ -1342,6 +1349,26 @@ public class Controller {
             time += 1;
             time = time/10;
             timer.setText(Double.toString(time));
+            if(HARD && time>=45) {
+                timeline.stop();
+                win_streak = 0;
+                losses++;
+                saveStats();
+                win_percentage = ((double)wins/(losses+wins)) * 100;
+                if(win_percentage > 100) {
+                    win_percentage = 100;
+                }
+
+                saveGlobalData("No");
+                Alert a = new Alert(Alert.AlertType.CONFIRMATION, "OUT OF TIME");
+                win = a.getDialogPane();
+                StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
+                win.setHeaderText("YOU GOTTA BE QUICKER THAN THAT");
+                win.setContentText("TRY AGAIN");
+                a.setOnCloseRequest(evt -> startNewGame());
+                a.show();
+            }
+
         }
     }
 

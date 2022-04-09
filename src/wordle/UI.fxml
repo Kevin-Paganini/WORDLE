@@ -61,7 +61,7 @@
                    <Button fx:id="suggestion" layoutX="29.0" layoutY="168.0" mnemonicParsing="false" onAction="#suggestion_switch" text="Suggestions: OFF" />
                    <TextField fx:id="numGuess" layoutX="29.0" layoutY="216.0" maxHeight="70" maxWidth="150" promptText="Number of Guesses" />
                    <Button fx:id="numChange" layoutX="190.0" layoutY="216.0" mnemonicParsing="false" onAction="#changeGuessAmount" text="Submit" />
-                   <Button fx:id ="hard_mode" layoutX ="7899.0" layoutY = "24.0" onAction="#changeHardMode" text="Hard Mode"/>
+                   <Button fx:id ="hard_mode" layoutX ="789.0" layoutY = "24.0" onAction="#changeHardMode" text="Hard Mode"/>
 
                    <TextField fx:id="username" layoutX="29.0" layoutY="300.0" maxHeight="70" maxWidth="150" promptText="Enter Username" />
                    <Button fx:id="userChange" layoutX="190.0" layoutY="300.0" mnemonicParsing="false" onAction="#changeUser" text="Submit" />
