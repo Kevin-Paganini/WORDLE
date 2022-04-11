@@ -92,7 +92,7 @@ public class ModelTesting {
         Assertions.assertThrows(IOException.class, () -> new Wordle(5, new File("src/Resources/shakespeare_dict_test.txt"), session));
         Assertions.assertThrows(IOException.class, () -> new Wordle(5, new File("src/Resources/invalidLengths.txt"), session));
         Assertions.assertThrows(IOException.class, () -> new Wordle(5, new File("src/Resources/invalidCharacters.txt"), session));
-
+        Assertions.assertThrows(IOException.class, () -> new Wordle(5, new File("src/Resources/thisDoesNotExist.txt"), session));
     }
 
     @Test
@@ -103,6 +103,9 @@ public class ModelTesting {
         Set<String> set = new TreeSet<>();
         set.add("queen");
         Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
+
+        //Calling this twice should return the same thing
+        Assertions.assertEquals(wordle.getSuggestions().pruneDictionary(), wordle.getSuggestions().pruneDictionary());
 
         wordle = new Wordle(5, OFFICIAL, session);
 
@@ -136,5 +139,40 @@ public class ModelTesting {
         wordle.makeGuess("ninja");
         Assertions.assertEquals(new Pair<>(4, 'y'), wordle.getHint());
         wordle.makeGuess("wryly");
-        Assertions.assertEquals(new Pair<>(3, 'n'), wordle.getHint());}
+        Assertions.assertEquals(new Pair<>(3, 'n'), wordle.getHint());
+        wordle = new Wordle(5, OFFICIAL, session);
+        wordle.forceTarget("queen");
+        wordle.makeGuess("quest");
+        Assertions.assertEquals(new Pair<>(4, 'n'), wordle.getHint());
+    }
+
+    @Test
+    public void testHintsWithSuggestions() throws IOException {
+        Set<String> set = new TreeSet<>();
+        set.add("queer");
+        set.add("queen");
+        set.add("quell");
+        set.add("query");
+        set.add("queue");
+
+        Wordle wordle = new Wordle(5, OFFICIAL, session);
+        wordle.forceTarget("queen");
+        wordle.makeGuess("quest");
+
+        Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
+        Assertions.assertEquals(new Pair<>(4, 'n'), wordle.getHint());
+
+        set = new TreeSet<>();
+        set.add("queen");
+
+        Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
+        //Make getting a hint doesn't somehow change the suggestions
+        wordle = new Wordle(5, OFFICIAL, session);
+        wordle.forceTarget("queen");
+        wordle.makeGuess("queer");
+        Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
+        Assertions.assertEquals(new Pair<>(4, 'n'), wordle.getHint());
+        Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
+
+    }
 }
