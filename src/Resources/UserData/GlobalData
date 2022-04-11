@@ -1339,3 +1339,33 @@ VAGUE
 PORCH
 BATCH
 LATCH
+
+User: meredithc
+Game Number: 143
+Target: FANNY
+Number of Guesses: 4
+Win: Yes
+CHILD
+VAGUE
+FORTH
+FANNY
+
+User: meredithc
+Game Number: 144
+Target: GLOOM
+Number of Guesses: 4
+Win: No
+CHILD
+VAGUE
+FORTH
+LEGAL
+
+User: meredithc
+Game Number: 145
+Target: ACORN
+Number of Guesses: 4
+Win: Yes
+CHILD
+WRECK
+SCRAM
+ACORN

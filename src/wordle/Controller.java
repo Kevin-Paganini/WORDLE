@@ -177,9 +177,6 @@ public class Controller {
     private Button resetUser;
 
     @FXML
-    private TabPane TAB_PANE;
-
-    @FXML
     private VBox Scoreboard;
 
     @FXML
@@ -1121,15 +1118,10 @@ public class Controller {
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
-
-        BarChart<String, Number> chart = Utils.make5BarChartFromHashMap(reverseSortedMap);
-        chart.getStylesheets().add("Styling//stylesheet.css");
-        chart.getStylesheets().add("Styling//dark_stylesheet.css");
-        chart.getStylesheets().add("Styling//contrast_stylesheet.css");
-        chart.getStyleClass().add("chart-dark");
-        frequentWordPane.getChildren().add(chart);
-
+        frequentWordPane.getChildren().add(Utils.make5BarChartFromHashMap(reverseSortedMap));
         frequentLetterPane.getChildren().add(Utils.makeLetterBarChart(letterFrequency));
+        panes.add(frequentWordPane);
+        panes.add(frequentLetterPane);
     }
 
     /**
@@ -1247,6 +1239,7 @@ public class Controller {
             startNewGame();
         } else {
             hard_mode.setText("Hard Mode");
+            suggestion.setDisable(false);
             HARD = false;
         }
         startNewGame();

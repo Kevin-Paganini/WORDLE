@@ -209,7 +209,6 @@ public abstract class Utils {
         }
         bc.getData().add(series);
         bc.setBarGap(10);
-
         return bc;
     }
 

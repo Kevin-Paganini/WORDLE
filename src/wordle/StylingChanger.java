@@ -36,6 +36,8 @@ public abstract class StylingChanger {
         }
         if(DARK){
             for(Pane pane : panes) {
+                pane.getStylesheets().clear();
+                pane.getStylesheets().add("Styling/dark_stylesheet.css");
                 pane.getStyleClass().clear();
                 pane.getStyleClass().add("pane-dark");
             }
@@ -53,6 +55,8 @@ public abstract class StylingChanger {
             }
         } else {
             for(Pane pane : panes) {
+                pane.getStylesheets().clear();
+                pane.getStylesheets().add("Styling/stylesheet.css");
                 pane.getStyleClass().clear();
                 pane.getStyleClass().add("pane");
             }

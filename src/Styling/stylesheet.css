@@ -245,9 +245,25 @@
     -fx-background-color: rgb(156, 60, 61);
 }
 
-.chart {
-    -fx-background-color: #8fbc8f;
+.chart-plot-background {
+    -fx-background-color: #8fbc8f
 }
+
+.chart .label{
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #1e3d59;
+    -fx-text-fill: white;
+    -fx-border-radius: 2;
+    -fx-text-alignment : center;
+    -fx-alignment : center;
+}
+
+.default-color0.chart-bar { -fx-bar-fill: #cd5c5c; }
 .hide {
     -fx-opacity: 0;
 }
