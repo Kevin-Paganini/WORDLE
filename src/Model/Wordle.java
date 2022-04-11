@@ -1,6 +1,8 @@
 package Model;
 
 
+import javafx.util.Pair;
+
 import java.io.*;
 import java.util.*;
 
@@ -67,20 +69,19 @@ public class Wordle {
 
     /**
      * Forces a provided string to become the target word
-     * If the target word is not in the provided dictionary, the target does not change
+     * If the target word is not in the provided dictionary, an IllegalArgumentException is thrown
      *
      * This should primarily be used for debug purposes
      *
      * @param target string to force the target to be
-     * @return False if the target is not in the dictionary, true otherwise
+     * @throws IllegalArgumentException a word not contained in the provided dictionary is passed
      * @author Kevin Paganini, Atreyu Schilling
      */
-    public boolean forceTarget(String target) {
-        if(dictionary.contains(target)){
-            this.target = target;
-            return true;
+    public void forceTarget(String target) {
+        if(!dictionary.contains(target)){
+            throw new IllegalArgumentException(target + " not in provided dictionary");
         }
-        return false;
+        this.target = target;
     }
 
     /**
@@ -130,7 +131,9 @@ public class Wordle {
     public int[] makeGuess(String guess) {
         currentGuess = guess;
         if (DEBUG) System.out.println("Target: " + target);
-
+        if (!isValidWord(guess)) {
+            return null;
+        }
         guessesLeft--;
         guess = guess.toUpperCase(Locale.ROOT);
         if (DEBUG) System.out.println("Guess: " + guess);
@@ -199,6 +202,55 @@ public class Wordle {
         return resultantArray;
     }
 
+    /**
+     * Returns a pair containing an Integer keyed to a String representing the index
+     * of a letter that is correct in the target given the following criteria:
+     *  If the user has never guessed a letter in the target, it will return the first instance of this as index-character
+     *  If the user has guessed all letters in the target, but not all correctly positioned, it will find the first
+     *      incorrectly positioned character and return it as index-character
+     *  If the user has guessed all letters, and has guessed all positions, returns the last letter of the target by default
+     *
+     * This does not track how many times it was called.
+     *
+     * @return Integer Character pair
+     * The Integer indicates the index of the letter to be changed
+     * The Character indicates the letter the hint should display
+     * @author Atreyu Schilling, Kevin Paganini
+     */
+    public Pair<Integer, Character> getHint() {
+        Set<Character> usedLetters = new TreeSet<>();
+        for (Guess guess : guessList) {
+            for (char c : guess.getGuess().toLowerCase(Locale.ROOT).toCharArray()){
+                usedLetters.add(c);
+            }
+        }
+        //If the letter hasn't ever been guessed, return the first thing it can immediately
+        for (int i = 0; i < target.length(); i++) {
+            if (!usedLetters.contains(target.charAt(i))) {
+                return new Pair<>(i, target.charAt(i));
+            }
+        }
+        //Else, go through the target and eliminate letters that are already greened
+        char[] targetArr = target.toCharArray();
+        for (Guess guess : guessList) {
+            //Is there a reason the guess string is uppercase? Everything else here is lowercase.
+            String strGuess = guess.getGuess().toLowerCase();
+            for (int i = 0; i < strGuess.length(); i++) {
+                if (strGuess.charAt(i) == targetArr[i]) {
+                    targetArr[i] = 0;
+                }
+            }
+        }
+        for(int i = 0; i < targetArr.length; i++) {
+            if (targetArr[i] != 0) {
+                return new Pair<>(i, targetArr[i]);
+            }
+        }
+
+        //If all letters are guessed, and every position has a green, just return the last one
+        //The player already has the answer and shouldn't need a hint
+        return new Pair<>(target.length() - 1, target.charAt(target.length() - 1));
+    }
 
     /**
      * Returns true if a provided guess matches the target and false if not.
@@ -206,7 +258,6 @@ public class Wordle {
      * @return true if target matches guess ignoring case, false otherwise
      * @author Kevin Paganini, Atreyu Schilling
      */
-
     public boolean isWinner(String guess) {
         return guess.equalsIgnoreCase(target);
     }

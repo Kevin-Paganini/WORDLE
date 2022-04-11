@@ -1,6 +1,7 @@
 package Testing;
 
 import Model.*;
+import javafx.util.Pair;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
@@ -10,6 +11,7 @@ import java.util.*;
 
 public class ModelTesting {
     static Session session = new Session();
+    private static final File OFFICIAL = new File("src/Resources/wordle-official.txt");
 
     /**
      *
@@ -21,7 +23,7 @@ public class ModelTesting {
     // Passed on 3/16
     @Test
     public void dictCompare() throws IOException {
-        Wordle wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session);
+        Wordle wordle = new Wordle(5, OFFICIAL, session);
 
 
 
@@ -64,21 +66,21 @@ public class ModelTesting {
     // Passed on 3/16
     @Test
     public void guessCompare() throws IOException {
-        Wordle wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session);
+        Wordle wordle = new Wordle(5, OFFICIAL, session);
 
         //Most basic test
-        Assertions.assertTrue(wordle.forceTarget("crane"));
+        Assertions.assertDoesNotThrow(() -> wordle.forceTarget("crane"));
         Assertions.assertArrayEquals(wordle.makeGuess("drake"), new int[]{0, 2, 2, 0, 2});
         //If index 2 is 1, e was checked too early or we double-dipped
         Assertions.assertArrayEquals(wordle.makeGuess("creme"), new int[]{2, 2, 0, 0, 2});
         Assertions.assertArrayEquals(wordle.makeGuess("epoch"), new int[]{1, 0, 0, 1, 0});
         //Invalid entry
-        Assertions.assertArrayEquals(wordle.makeGuess("bingus"), null);
+        Assertions.assertNull(wordle.makeGuess("bingus"));
         //Exactly correct
         Assertions.assertArrayEquals(wordle.makeGuess("crane"), new int[]{2, 2, 2, 2, 2});
 
         //Problem from before, fixed
-        Assertions.assertTrue(wordle.forceTarget("meant"));
+        Assertions.assertDoesNotThrow(() -> wordle.forceTarget("meant"));
         Assertions.assertArrayEquals(wordle.makeGuess("state"), new int[]{0, 1, 2, 0, 1});
 
     }
@@ -86,64 +88,23 @@ public class ModelTesting {
 
     @Test
     public void testDictionaryReading() {
-        Assertions.assertDoesNotThrow(() -> new Wordle(5, new File("src/Resources/wordle-official.txt"), session));
+        Assertions.assertDoesNotThrow(() -> new Wordle(5, OFFICIAL, session));
         Assertions.assertThrows(IOException.class, () -> new Wordle(5, new File("src/Resources/shakespeare_dict_test.txt"), session));
         Assertions.assertThrows(IOException.class, () -> new Wordle(5, new File("src/Resources/invalidLengths.txt"), session));
         Assertions.assertThrows(IOException.class, () -> new Wordle(5, new File("src/Resources/invalidCharacters.txt"), session));
 
     }
 
-    /**
-     * Test must be re-written to accommodate new model
-     * This test fails currently
-     */
-    @Test
-    public void testGuessWriter() throws IOException {
-        /*
-        File file = new File("src/Resources/previousGuesses.txt");
-        file.delete();
-        Wordle wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session);
-        //arbitrary target for testing purposes
-        wordle.forceTarget("meant");
-
-        wordle.makeGuess("crane");
-        wordle.makeGuess("creme");
-        wordle.makeGuess("death");
-        wordle.makeGuess("snake");
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        Assertions.assertEquals("crane", br.readLine());
-        Assertions.assertEquals("creme", br.readLine());
-        Assertions.assertEquals("death", br.readLine());
-        Assertions.assertEquals("snake", br.readLine());
-        wordle.makeGuess("doubt");
-        Assertions.assertNull(br.readLine());
-
-        Assertions.assertEquals("doubt", br.readLine());
-        br.close();
-        file.delete();
-
-        wordle.makeGuess("march");
-        wordle.makeGuess("meant");
-
-        br = new BufferedReader(new FileReader(file));
-        Assertions.assertEquals("march", br.readLine());
-        Assertions.assertEquals("meant0", br.readLine());
-        br.close();
-        file.delete();
-
-         */
-    }
-
     @Test
     public void testSuggestions() throws IOException {
-        Wordle wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session);
+        Wordle wordle = new Wordle(5, OFFICIAL, session);
         wordle.forceTarget("queen");
         wordle.makeGuess("queer");
         Set<String> set = new TreeSet<>();
         set.add("queen");
         Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
 
-        wordle = new Wordle(5, new File("src/Resources/wordle-official.txt"), session);
+        wordle = new Wordle(5, OFFICIAL, session);
 
         wordle.forceTarget("queen");
         wordle.makeGuess("queer");
@@ -151,14 +112,29 @@ public class ModelTesting {
         wordle.makeGuess("snack");
         Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
 
-        wordle = new Wordle(5, new File("src/Resources/words_6_letters.txt"), session);
+        wordle = new Wordle(6, new File("src/Resources/words_6_letters.txt"), session);
         wordle.forceTarget("bubble");
         wordle.makeGuess("bubals"); //Yes this is a real word
         set.clear();
         set.add("bubble");
         set.add("bubbly");
         Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
-
-
     }
+
+    @Test
+    public void testHints() throws IOException {
+        Wordle wordle = new Wordle(5, OFFICIAL, session);
+        wordle.forceTarget("marsh");
+        wordle.makeGuess("march");
+        Assertions.assertEquals(new Pair<>(3, 's'), wordle.getHint());
+        wordle.makeGuess("sedan");
+        Assertions.assertEquals(new Pair<>(3, 's'), wordle.getHint());
+        wordle.makeGuess("swish");
+        Assertions.assertEquals(new Pair<>(4, 'h'), wordle.getHint());
+        wordle = new Wordle(5, OFFICIAL, session);
+        wordle.forceTarget("ninny");
+        wordle.makeGuess("ninja");
+        Assertions.assertEquals(new Pair<>(4, 'y'), wordle.getHint());
+        wordle.makeGuess("wryly");
+        Assertions.assertEquals(new Pair<>(3, 'n'), wordle.getHint());}
 }
