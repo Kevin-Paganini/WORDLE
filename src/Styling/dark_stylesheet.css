@@ -246,11 +246,11 @@
     -fx-effect:dropshadow( three-pass-box, #ff0000, 20.0, 0.0, 0.0, 0.0);
 }
 
-.chart-dark {
-    -fx-background-color: #000000;
+.chart-plot-background {
+    -fx-background-color: #3d3c3a
 }
 
-.chart-dark .label{
+.chart .label{
     -fx-font : 20px "serief";
     -fx-border : black;
     -fx-padding : 10;
@@ -264,6 +264,4 @@
     -fx-alignment : center;
 }
 
-.chart-dark-bar{
-    -fx-background-color : #3d3c3a;
-}
+.default-color0.chart-bar { -fx-bar-fill: #cd5c5c; }
