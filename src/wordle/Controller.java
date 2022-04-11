@@ -18,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import javafx.util.Pair;
@@ -55,6 +56,7 @@ public class Controller {
     boolean HARD = false;
     boolean RUNNING = false;
     ArrayList<String> guesses = new ArrayList<>();
+    ArrayList<String> scores = new ArrayList<>();
     DialogPane win;
     boolean hintFlag = false;
 
@@ -69,7 +71,7 @@ public class Controller {
      * Main Grid of the application
      */
     @FXML
-    AnchorPane MAIN_PANE;
+    Pane MAIN_PANE;
 
     @FXML
     Pane SETTINGS_PANE;
@@ -151,6 +153,12 @@ public class Controller {
     private Button numChange;
 
     @FXML
+    private Button threeLetterDictionary;
+
+    @FXML
+    private Button fourLetterDictionary;
+
+    @FXML
     private Button fiveLetterDictionary;
 
     @FXML
@@ -158,6 +166,24 @@ public class Controller {
 
     @FXML
     private Button sevenLetterDictionary;
+
+    @FXML
+    private Button userChange;
+
+    @FXML
+    private Button adminToggle;
+
+    @FXML
+    private Button resetUser;
+
+    @FXML
+    private TabPane TAB_PANE;
+
+    @FXML
+    private VBox Scoreboard;
+
+    @FXML
+    private Pane ScorePane;
 
 
     ArrayList<Button> buttons = new ArrayList<>();
@@ -204,8 +230,10 @@ public class Controller {
 
 
             //Creating grid of inputs
+            //width scale = 1.92
+            //height scale = 1.235
             grid_input = createGridOfInputs(numGuesses, numLetters);
-            grid_input.setLayoutX(350);
+            grid_input.setLayoutX(350 - (numLetters -5) * 30);
             grid_input.setLayoutY(50);
 
             // Create keyboard of used letters
@@ -213,7 +241,6 @@ public class Controller {
             letters_used.setLayoutX(200);
             letters_used.setLayoutY((numGuesses * 60) + 100);
             letters_used.getStyleClass().add("keyBoardGrid");
-
             // Create Statistics button
             hintButton = createHintButton();
             hintButton.setLayoutX(200);
@@ -222,18 +249,17 @@ public class Controller {
             hintFlag = false;
             submitButton = makeSubmitButton();
             submitButton.setLayoutY(50);
-            submitButton.setLayoutX(750);
+            submitButton.setLayoutX(grid_input.getLayoutX() + (numLetters * 60) + 100);
 
             SUGGESTIONS = new GridPane();
             SUGGESTIONS.setLayoutX(130);
             SUGGESTIONS.setLayoutY((numGuesses*60)+300);
             timer = new Label();
-            timer.setText("0");
-
-
+            timer.setText("0.0");
 
             // Adding all to main pane
             MAIN_PANE.getChildren().addAll(grid_input, letters_used, hintButton, submitButton, SUGGESTIONS, timer);
+
             //Add all buttons to list of buttons
             buttons.add(submitButton);
             buttons.add(hintButton);
@@ -241,11 +267,16 @@ public class Controller {
             buttons.add(dark_light);
             buttons.add(contrast);
             buttons.add(numChange);
+            buttons.add(threeLetterDictionary);
+            buttons.add(fourLetterDictionary);
             buttons.add(fiveLetterDictionary);
             buttons.add(sixLetterDictionary);
             buttons.add(sevenLetterDictionary);
             buttons.add(suggestion);
             buttons.add(hard_mode);
+            buttons.add(userChange);
+            buttons.add(resetUser);
+            buttons.add(adminToggle);
 
             //Add all panes to list of panes
             panes.add(SETTINGS_PANE);
@@ -253,10 +284,16 @@ public class Controller {
             panes.add(STATS_PANE);
             panes.add(frequentLetterPane);
             panes.add(frequentWordPane);
+            panes.add(Scoreboard);
+            panes.add(ScorePane);
 
             //Add all labels to list of labels
             for(int i = 0; i < letters_used.getChildren().size();++i){
                 Label temp = (Label)letters_used.getChildren().get(i);
+                labels.add(temp);
+            }
+            for(int i = 0; i < Scoreboard.getChildren().size();++i){
+                Label temp = (Label)Scoreboard.getChildren().get(i);
                 labels.add(temp);
             }
             labels.add(winLabel);
@@ -276,6 +313,23 @@ public class Controller {
             }
             textFields.add(numGuess);
 
+            Scoreboard.setSpacing(10.0);
+            for(int i = 1; i < Scoreboard.getChildren().size();++i) {
+                Label temp = (Label)Scoreboard.getChildren().get(i);
+                temp.setText("");
+            }
+            scores = Utils.readScoreboard();
+            if(!scores.isEmpty()){
+                int dif = 0;
+                if (HARD) {
+                    dif = 1;
+                }
+                int sug = 0;
+                if(SUGGESTION) {
+                    sug = 1;
+                }
+                Scoreboard = Utils.updateScoreboard(scores,Scoreboard, numLetters, dif, sug);
+            }
             StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
             StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
         } catch (IOException e) {
@@ -287,6 +341,7 @@ public class Controller {
             StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
             win.setHeaderText("INVALID FILE");
             win.setContentText("Please enter a valid file.");
+
             StylingChanger.changeAlert(a,win,DARK,CONTRAST,0);
 
 
@@ -344,7 +399,6 @@ public class Controller {
      */
     private void showHint(ActionEvent actionEvent) {
         Pair<Integer, Character> hint = game.getHint();
-
         TextField tf = gridOfTextFieldInputs.get(guess).get(hint.getKey());
         tf.setText(String.valueOf(hint.getValue()));
         tf.setDisable(true);
@@ -516,7 +570,7 @@ public class Controller {
         // do verification stuff
 
         // Turning on hint button after first guess
-        if(!hintFlag){
+        if(!hintFlag && !HARD){
             hintButton.setDisable(false);
             hintFlag = true;
         }
@@ -571,6 +625,20 @@ public class Controller {
             saveGlobalData("Yes");
 
             win_percentage = Math.min(100, ((double)wins/(losses+wins)) * 100);
+            //Scoreboard stuff
+            int dif = 0;
+            if (HARD) {
+                dif = 1;
+            }
+            int sug = 0;
+            if(SUGGESTION) {
+                sug = 1;
+            }
+            //Adds a new score to the list of scores
+            scores.add(user + "," + timer.getText() + ";" + guess + ":" + numLetters + "/" + dif + "|" + sug);
+            scores.sort(Utils::sortScoreboard);
+            //Saves scoreboard
+            Utils.saveScoreboard(scores,Scoreboard, numLetters, dif,sug);
             saveStats();
             showWinAlert();
         }
@@ -628,7 +696,6 @@ public class Controller {
         } catch (IOException e){
             System.out.println("clown");
         }
-        System.out.println(fileInput);
     }
     /**
      * Creates alert when user either wins or loses their game of wordle
@@ -645,7 +712,6 @@ public class Controller {
         win.setContentText("PLAY AGAIN?");
         // Updating stats tab every time a game is done
         updateStats();
-
         Optional<ButtonType> result = a.showAndWait();
         if (!result.isPresent()) {
             // alert is exited, no button has been pressed.
@@ -876,6 +942,15 @@ public class Controller {
     public void suggestion_switch(ActionEvent actionEvent) {
         setSuggestion();
         saveStats();
+        int dif = 0;
+        if(HARD) {
+            dif = 1;
+        }
+        int sug = 0;
+        if(SUGGESTION) {
+            sug = 1;
+        }
+        Utils.updateScoreboard(scores,Scoreboard,numLetters,dif,sug);
     }
 
     /**
@@ -896,15 +971,19 @@ public class Controller {
      * Toggles suggestions - used in the button listener
      */
     public void setSuggestion(){
-        if (SUGGESTION){
-            suggestion.setText("Suggestions: OFF");
-            SUGGESTIONS.setVisible(false);
-            SUGGESTION = false;
-        }
-        else{
-            suggestion.setText("Suggestions: ON");
-            SUGGESTION = true;
-            SUGGESTIONS.setVisible(true);
+        if(HARD) {
+            suggestion.setDisable(true);
+        } else {
+            if (SUGGESTION){
+                suggestion.setText("Suggestions: OFF");
+                SUGGESTIONS.setVisible(false);
+                SUGGESTION = false;
+            }
+            else{
+                suggestion.setText("Suggestions: ON");
+                SUGGESTION = true;
+                SUGGESTIONS.setVisible(true);
+            }
         }
     }
 
@@ -944,7 +1023,48 @@ public class Controller {
     }
 
     /**
+<<<<<<< HEAD
      * Changes dictionary to wordle default.
+=======
+     * @author Carson Meredith
+     * Will change dictionary to 3 letter words.
+     * @param actionEvent Button click (garbage value)
+     */
+    public void threeLetterWord(ActionEvent actionEvent){
+        try {
+            File temp = new File ("src/Resources/words_3_letters.txt");
+            if (!temp.equals(dictionaryFile)){
+                runTimer();
+                dictionaryFile = temp;
+                startNewGame();
+            }
+        } catch (NullPointerException e){
+            //TODO: Default wordle file could not be found
+        }
+    }
+
+    /**
+     * @author Carson Meredith
+     * Will change dictionary to 4 letter words.
+     * @param actionEvent Button click (garbage value)
+     */
+    public void fourLetterWord(ActionEvent actionEvent){
+        try {
+            File temp = new File ("src/Resources/words_4_letters.txt");
+            if (!temp.equals(dictionaryFile)){
+                runTimer();
+                dictionaryFile = temp;
+                startNewGame();
+            }
+        } catch (NullPointerException e){
+            //TODO: Default wordle file could not be found
+        }
+    }
+
+    /**
+     * @author David Kane
+     * Will change dictionary to wordle default.
+>>>>>>> 39f2a5063dde55a77b7e3aed51f760123ac60f70
      * @param actionEvent Button click (garbage value)
      * @author David Kane
      */
@@ -1008,7 +1128,7 @@ public class Controller {
         //avgNumGuesses.setText(String.valueOf(session.getAverageGuesses()));
         DecimalFormat df = new DecimalFormat("#.#");
         avgNumGuesses.setText(String.valueOf(df.format(avgGuesses)));
-        System.out.println(avgNumGuesses.getText());
+        if (DEBUG) System.out.println(avgNumGuesses.getText());
         //longestWinStreak.setText(String.valueOf(session.getWinStreak()));
         longestWinStreak.setText(String.valueOf(win_streak));
         frequentLetterPane.getChildren().clear();
@@ -1166,6 +1286,10 @@ public class Controller {
         if (hard_mode.getText().equals("Hard Mode")) {
             hard_mode.setText("Easy Mode");
             HARD = true;
+            suggestion.setDisable(true);
+            SUGGESTION = false;
+            suggestion.setText("Suggestions: OFF");
+            startNewGame();
         } else {
             hard_mode.setText("Hard Mode");
             HARD = false;
@@ -1194,6 +1318,26 @@ public class Controller {
             time += 1;
             time = time/10;
             timer.setText(Double.toString(time));
+            if(HARD && time>=45) {
+                timeline.stop();
+                win_streak = 0;
+                losses++;
+                saveStats();
+                win_percentage = ((double)wins/(losses+wins)) * 100;
+                if(win_percentage > 100) {
+                    win_percentage = 100;
+                }
+
+                saveGlobalData("No");
+                Alert a = new Alert(Alert.AlertType.CONFIRMATION, "OUT OF TIME");
+                win = a.getDialogPane();
+                StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
+                win.setHeaderText("YOU GOTTA BE QUICKER THAN THAT");
+                win.setContentText("TRY AGAIN");
+                a.setOnCloseRequest(evt -> startNewGame());
+                a.show();
+            }
+
         }
     }
 

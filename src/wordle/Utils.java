@@ -8,7 +8,14 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public abstract class Utils {
@@ -227,5 +234,79 @@ public abstract class Utils {
             grid.add(word, i+2, 2);
         }
         return grid;
+    }
+
+    public static ArrayList<String> readScoreboard(){
+        //Initializes List of scores
+        ArrayList<String> score = new ArrayList<>();
+        try {
+            //Gets file
+            File scores = new File("src/Resources/UserData/Scoreboard");
+            BufferedReader br = new BufferedReader(new FileReader(scores));
+            //Ignores key at top of file
+            br.readLine();
+            // Reads every line and adds
+            String line = br.readLine();
+            while (line != null){
+                score.add(line);
+                line = br.readLine();
+            }
+        }catch (IOException e) {
+            System.out.println("Scoreboard could not be read or was just initialized");
+        }
+        return score;
+    }
+
+    public static void saveScoreboard(ArrayList<String> scores, VBox Scoreboard, int numLetters, int HARD, int SUGGESTION){
+        //Ensures scoreboard is sorted
+        Collections.sort(scores, Utils::sortScoreboard);
+        //Creates key for file
+        String text = "User,time;numGuesses:numLetters/HARD|SUGGESTIONS\n";
+        //Saves scores to file
+        for(String line : scores){
+            text += line + "\n";
+        }
+        try {
+            Files.write(Paths.get("src/Resources/UserData/Scoreboard"),text.getBytes());
+        } catch(IOException e) {
+            System.out.println("aloha");
+        }
+        //Updates the GUI scoreboard
+        updateScoreboard(scores,Scoreboard, numLetters, HARD, SUGGESTION);
+    }
+
+    public static int sortScoreboard(String s1, String s2) {
+        //Compares times from different users
+        double first = Double.parseDouble(s1.substring(s1.lastIndexOf(",") + 1, s1.lastIndexOf(";")));
+        double second = Double.parseDouble(s2.substring(s2.lastIndexOf(",") + 1, s2.lastIndexOf(";")));
+        if(first < second){
+            return -1;
+        } else if (first == second){
+            //If tied, compares number of guesses
+            double guess1 = Double.parseDouble(s1.substring(s1.lastIndexOf(";") + 1,s1.lastIndexOf(":")));
+            double guess2 = Double.parseDouble(s2.substring(s2.lastIndexOf(";") + 1,s2.lastIndexOf(":")));
+            return Double.compare(guess1, guess2);
+        } else {
+            return 1;
+        }
+    }
+
+    public static VBox updateScoreboard(ArrayList<String> scores, VBox Scoreboard, int numLetters, int HARD, int SUGGESTION) {
+        int total = 0;
+        //Reads list of scores
+        for (String score : scores) {
+            int letters = Integer.parseInt(score.substring(score.lastIndexOf(":") + 1, score.lastIndexOf("/")));
+            int dif2 = Integer.parseInt(score.substring(score.lastIndexOf("/") + 1, score.lastIndexOf("|")));
+            int sug = Integer.parseInt(score.substring(score.lastIndexOf("|") + 1));
+            //If there is room on the scoreboard and the score was used in the same mode, it is added to the scoreboard
+            if (total < 10 && letters == numLetters && HARD == dif2 && sug == SUGGESTION) {
+                Label temp = (Label) Scoreboard.getChildren().get(total + 1);
+                double time = Double.parseDouble(score.substring(score.lastIndexOf(",") + 1, score.lastIndexOf(";")));
+                int guesses = Integer.parseInt(score.substring(score.lastIndexOf(";") + 1, score.lastIndexOf(":")));
+                temp.setText(score.substring(0, score.indexOf(",")) + ": " + time + "/" + guesses);
+                total++;
+            }
+        }
+        return Scoreboard;
     }
 }

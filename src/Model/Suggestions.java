@@ -48,8 +48,8 @@ public class Suggestions {
     public Set<String> pruneDictionary(){
         int[] positions = game.getPositionsArray();
         char[] currentGuess = game.getCurrentGuess().toCharArray();
-        System.out.println(game.getCurrentGuess());
-        System.out.println(game.getTarget());
+        //System.out.println(game.getCurrentGuess());
+        //System.out.println(game.getTarget());
         validWords.remove(game.getCurrentGuess().toLowerCase(Locale.ROOT));
         for(int i = 0; i < positions.length; i++){
             int isCorrectValue = positions[i];
