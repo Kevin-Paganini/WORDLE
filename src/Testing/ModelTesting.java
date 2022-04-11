@@ -19,8 +19,7 @@ public class ModelTesting {
      * a word to the dictionary
      * @author Atreyu Schilling
      */
-
-    // Passed on 3/16
+    
     @Test
     public void dictCompare() throws IOException {
         Wordle wordle = new Wordle(5, OFFICIAL, session);
@@ -60,7 +59,7 @@ public class ModelTesting {
     }
 
     /**
-     * Tests if the returnPositions method does what it's supposed to do
+     * Tests if the makeGuess method does what it's supposed to do
      * @author Atreyu Schilling
      */
     // Passed on 3/16
