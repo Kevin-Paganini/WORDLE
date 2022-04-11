@@ -190,7 +190,7 @@ public class Suggestions {
         ArrayList<String> valid = new ArrayList<>(validWords);
         for (String s : valid) {
             //String validLetterCheck = String.valueOf(s.toCharArray()[index]).toUpperCase(Locale.ROOT);
-            if (!String.valueOf(s.toCharArray()[index]).toUpperCase(Locale.ROOT).equals(letter)) {
+            if (!String.valueOf(s.charAt(index)).toUpperCase(Locale.ROOT).equals(letter)) {
                 badWords.add(s);
             }
         }

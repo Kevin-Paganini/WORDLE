@@ -216,7 +216,6 @@ public class Controller {
      */
     public void startNewGame(){
         try {
-
             game = new Wordle(numGuesses, dictionaryFile, session);
             lastWorkingFile = dictionaryFile;
             RUNNING = false;
@@ -224,7 +223,7 @@ public class Controller {
             MAIN_PANE.getChildren().clear();
             gridOfTextFieldInputs.clear();
             numLetters = game.getNumLetters();
-            if(DEBUG) System.out.println(game.getTarget());
+            if(DEBUG) System.out.println("Target: " + game.getTarget());
 
             letters_used_grid_colors = Utils.makeInitialHashMapForKeyBoardColors();
 
@@ -341,9 +340,7 @@ public class Controller {
             StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
             win.setHeaderText("INVALID FILE");
             win.setContentText("Please enter a valid file.");
-
             StylingChanger.changeAlert(a,win,DARK,CONTRAST,0);
-
 
             Optional<ButtonType> result = a.showAndWait();
             if (!result.isPresent()) {
@@ -399,6 +396,7 @@ public class Controller {
      */
     private void showHint(ActionEvent actionEvent) {
         Pair<Integer, Character> hint = game.getHint();
+        updateSuggestions();
         TextField tf = gridOfTextFieldInputs.get(guess).get(hint.getKey());
         tf.setText(String.valueOf(hint.getValue()));
         tf.setDisable(true);
@@ -602,12 +600,10 @@ public class Controller {
             }
             colorAndStyleKeyboard(letter);
         }
-        //Checking if the user guessed correct word
 
         if (DEBUG) {
             for(int i : position) {
                 System.out.println(i);
-                //We can play wordle now!!!!!!!!!!!!!!!!!!!
             }
         }
         Utils.recolorTextFields(position, numLetters, gridOfTextFieldInputs, guess,CONTRAST, HARD);
@@ -625,15 +621,9 @@ public class Controller {
             saveGlobalData("Yes");
 
             win_percentage = Math.min(100, ((double)wins/(losses+wins)) * 100);
-            //Scoreboard stuff
-            int dif = 0;
-            if (HARD) {
-                dif = 1;
-            }
-            int sug = 0;
-            if(SUGGESTION) {
-                sug = 1;
-            }
+
+            int dif = HARD ? 1 : 0;
+            int sug = SUGGESTION ? 1 : 0;
             //Adds a new score to the list of scores
             scores.add(user + "," + timer.getText() + ";" + guess + ":" + numLetters + "/" + dif + "|" + sug);
             scores.sort(Utils::sortScoreboard);
@@ -641,9 +631,8 @@ public class Controller {
             Utils.saveScoreboard(scores,Scoreboard, numLetters, dif,sug);
             saveStats();
             showWinAlert();
-        }
-        //If there is a guess and it is wrong
-        else if (guess != numGuesses){
+        //If the guess is wrong but the user isn't out of guesses
+        } else if (guess != numGuesses){
             if (DEBUG) System.out.println("Try Again!");
             if (DEBUG) System.out.println(game.getTarget());
             //enables text fields that are next
@@ -904,10 +893,15 @@ public class Controller {
         RUNNING = false;
         FileChooser fc = new FileChooser();
         fc.setInitialDirectory(new File ("src/Resources/"));
-        File temp;
-        temp = fc.showOpenDialog(null);
-        if (temp != null) {
-            dictionaryFile = temp;
+        File file = fc.showOpenDialog(null);
+        if (file != null) {
+            importDictionary(file);
+        }
+    }
+
+    public void importDictionary(File file) {
+        if (file != null) {
+            dictionaryFile = file;
             startNewGame();
         }
         timeline.play();
@@ -1022,99 +1016,60 @@ public class Controller {
         }
     }
 
+
+
     /**
-<<<<<<< HEAD
-     * Changes dictionary to wordle default.
-=======
-     * @author Carson Meredith
-     * Will change dictionary to 3 letter words.
-     * @param actionEvent Button click (garbage value)
+     * Loads a dictionary specified by the programmer into the wordle
+     * Does check that file is readable and formatted correctly before attempting to load it
+     *
+     * @param file file to load in
+     * @author David Cane, Carson Meredith, Atreyu Schilling
      */
+    public void loadPrebuiltDictionary(File file) {
+        if (!file.equals(dictionaryFile) && file.exists() && file.isFile()){
+            runTimer();
+            try {
+                new Wordle(numGuesses, file, session);
+                dictionaryFile = file;
+                startNewGame();
+            } catch (IOException e) {
+                Alert a = new Alert(Alert.AlertType.ERROR, "Invalid File");
+                win = a.getDialogPane();
+                StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
+                win.setHeaderText("FILE UNREADABLE");
+                win.setContentText(file.getName() + " is unreadable and may have been changed.");
+                StylingChanger.changeAlert(a,win,DARK,CONTRAST,0);
+                a.showAndWait();
+            }
+        } else {
+            Alert a = new Alert(Alert.AlertType.ERROR, "Invalid File");
+            win = a.getDialogPane();
+            StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
+            win.setHeaderText("INVALID FILE");
+            win.setContentText(file.getName() + " does not exist and may have been deleted");
+            StylingChanger.changeAlert(a,win,DARK,CONTRAST,0);
+            a.showAndWait();
+        }
+    }
+
     public void threeLetterWord(ActionEvent actionEvent){
-        try {
-            File temp = new File ("src/Resources/words_3_letters.txt");
-            if (!temp.equals(dictionaryFile)){
-                runTimer();
-                dictionaryFile = temp;
-                startNewGame();
-            }
-        } catch (NullPointerException e){
-            //TODO: Default wordle file could not be found
-        }
+        loadPrebuiltDictionary(new File("src/Resources/words_3_letters.txt"));
     }
 
-    /**
-     * @author Carson Meredith
-     * Will change dictionary to 4 letter words.
-     * @param actionEvent Button click (garbage value)
-     */
     public void fourLetterWord(ActionEvent actionEvent){
-        try {
-            File temp = new File ("src/Resources/words_4_letters.txt");
-            if (!temp.equals(dictionaryFile)){
-                runTimer();
-                dictionaryFile = temp;
-                startNewGame();
-            }
-        } catch (NullPointerException e){
-            //TODO: Default wordle file could not be found
-        }
+        loadPrebuiltDictionary(new File("src/Resources/words_4_letters.txt"));
     }
 
-    /**
-     * @author David Kane
-     * Will change dictionary to wordle default.
->>>>>>> 39f2a5063dde55a77b7e3aed51f760123ac60f70
-     * @param actionEvent Button click (garbage value)
-     * @author David Kane
-     */
     public void fiveLetterWord(ActionEvent actionEvent){
-        try {
-            File temp = new File ("src/Resources/wordle-official.txt");
-            if (!temp.equals(dictionaryFile)){
-                runTimer();
-                dictionaryFile = temp;
-                startNewGame();
-            }
-        } catch (NullPointerException e){
-            //TODO: Default wordle file could not be found
-        }
+        loadPrebuiltDictionary(new File("src/Resources/wordle-official.txt"));
     }
 
-    /**
-     * Changes dictionary to 6-letter words.
-     * @param actionEvent Button click (garbage value)
-     * @author David Kane
-     */
     public void sixLetterWord(ActionEvent actionEvent){
-        File temp = new File("src/Resources/words_6_letters.txt");
-        if (!temp.exists() || !temp.isFile()) {
-            //TODO: Wordle file not found
-            return;
-        }
-        if (!temp.equals(dictionaryFile)){
-            runTimer();
-            dictionaryFile = temp;
-            startNewGame();
-        }
+        loadPrebuiltDictionary(new File("src/Resources/words_6_letters.txt"));
     }
 
-    /**
-     * Changes dictionary to 7 letter words.
-     * @param actionEvent Button click (garbage value)
-     * @author David Kane
-     */
     public void sevenLetterWord(ActionEvent actionEvent){
-        File temp = new File ("src/Resources/words_7_letters.txt");
-        if (!temp.exists() || !temp.isFile()) {
-            //TODO: Wordle file not found
-            return;
-        }
-        if (!temp.equals(dictionaryFile)){
-            runTimer();
-            dictionaryFile = temp;
-            startNewGame();
-        }
+        loadPrebuiltDictionary(new File("src/Resources/words_7_letters.txt"));
     }
 
     /**

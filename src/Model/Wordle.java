@@ -227,6 +227,8 @@ public class Wordle {
         //If the letter hasn't ever been guessed, return the first thing it can immediately
         for (int i = 0; i < target.length(); i++) {
             if (!usedLetters.contains(target.charAt(i))) {
+                //Same as below, make sure to mess with suggestions accordingly.
+                suggestions.removeWordWithoutCorrectLetter(String.valueOf(target.charAt(i)).toUpperCase(Locale.ROOT), i);
                 return new Pair<>(i, target.charAt(i));
             }
         }
@@ -241,15 +243,17 @@ public class Wordle {
                 }
             }
         }
+        Pair<Integer, Character> resultPair = new Pair<>(target.length() - 1, target.charAt(target.length() - 1));
         for(int i = 0; i < targetArr.length; i++) {
             if (targetArr[i] != 0) {
-                return new Pair<>(i, targetArr[i]);
+                resultPair = new Pair<>(i, targetArr[i]);
+                break;
             }
         }
-
+        suggestions.removeWordWithoutCorrectLetter(String.valueOf(resultPair.getValue()).toUpperCase(Locale.ROOT), resultPair.getKey());
+        return resultPair;
         //If all letters are guessed, and every position has a green, just return the last one
         //The player already has the answer and shouldn't need a hint
-        return new Pair<>(target.length() - 1, target.charAt(target.length() - 1));
     }
 
     /**
