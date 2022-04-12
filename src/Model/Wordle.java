@@ -9,18 +9,20 @@ import java.util.*;
 public class Wordle {
     //Enables DEBUG mode
     public static final boolean DEBUG = false;
-    private String currentGuess = "";
+    private String currentGuess;
     private int[] posArray = null;
     private int numLetters;
     private final int guessesPossible;
     private int guessesLeft;
     private String target;
-    private final TreeSet<String> dictionary = new TreeSet<>();
+    private final TreeSet<String> dictionary;
     private final Suggestions suggestions;
 
     private final ArrayList<Guess> guessList = new ArrayList<>();
 
     public Wordle(int numGuesses, File dictionary, Session session) throws IOException {
+        currentGuess = "";
+        this.dictionary = new TreeSet<>();
         guessesPossible = numGuesses;
         this.guessesLeft = numGuesses;
         loadDictionary(dictionary);

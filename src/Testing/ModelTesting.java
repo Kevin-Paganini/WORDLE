@@ -19,7 +19,7 @@ public class ModelTesting {
      * a word to the dictionary
      * @author Atreyu Schilling
      */
-    
+
     @Test
     public void dictCompare() throws IOException {
         Wordle wordle = new Wordle(5, OFFICIAL, session);
