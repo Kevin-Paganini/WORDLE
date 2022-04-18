@@ -6,14 +6,14 @@ stages:
 build-job:
   stage: build
   script:
-    -mkdir build/
-    -echo "My application binary file" > build/project-executable #Imagine this is a real file
+    - mkdir build/
+    - echo "My application binary file" > build/project-executable #Imagine this is a real file
 
 unit-test-job:
   stage: test
   script:
-    -echo "hello"
-    -cat $CI_PROJECT_DIR/build/project-executable #Get to the file
+    - echo "hello"
+    - cat $CI_PROJECT_DIR/build/project-executable #Get to the file
 
 
 include:
