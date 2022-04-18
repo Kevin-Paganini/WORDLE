@@ -7,7 +7,10 @@ build-job:
   stage: build
   script:
     - mkdir build/
-    - echo "My application binary file" > build/project-executable #Imagine this is a real file
+    - echo "My application binary file" > build/project-executable # Imagine this is a real file
+  artifacts:
+    paths:
+      - build/project-executable
 
 unit-test-job:
   stage: test
