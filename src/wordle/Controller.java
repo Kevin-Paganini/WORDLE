@@ -23,6 +23,7 @@ import javafx.util.Duration;
 import javafx.util.Pair;
 
 import java.io.*;
+import java.net.Inet4Address;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
@@ -337,6 +338,9 @@ public class Controller {
 
             Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Invalid File");
             win = a.getDialogPane();
+            win.getStylesheets().add("Styling/stylesheet.css");
+            win.getStylesheets().add("Styling/dark_stylesheet.css");
+            win.getStylesheets().add("Styling/contrast_stylesheet.css");
             StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
             win.setHeaderText("INVALID FILE");
             win.setContentText("Please enter a valid file.");
