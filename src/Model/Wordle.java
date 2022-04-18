@@ -153,7 +153,7 @@ public class Wordle {
     }
 
     public void updateGuesses(String guess){
-            guessList.add(new Guess(guess, true, false));
+        guessList.add(new Guess(guess, true, false));
     }
 
     public void clearGuesses(){

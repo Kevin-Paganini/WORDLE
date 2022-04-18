@@ -8,7 +8,6 @@ import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.chart.BarChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -55,6 +54,7 @@ public class Controller {
     boolean SUGGESTION = false;
     boolean HARD = false;
     boolean RUNNING = false;
+    boolean ONLINE = true;
     ArrayList<String> guesses = new ArrayList<>();
     ArrayList<String> scores = new ArrayList<>();
     DialogPane win;
@@ -190,6 +190,7 @@ public class Controller {
     String user;
     Timeline timeline;
     boolean ADMIN = false;
+    private Client client;
 
     /**
      * Initialization function for window
@@ -203,6 +204,7 @@ public class Controller {
         timeline.setCycleCount(Timeline.INDEFINITE);
         session = new Session();
         user = getUserName();
+        client = new Client();
         startNewGame();
         openStats();
     }
@@ -213,6 +215,7 @@ public class Controller {
      */
     public void startNewGame(){
         try {
+            if(ONLINE) client.receive();
             game = new Wordle(numGuesses, dictionaryFile, session);
             lastWorkingFile = dictionaryFile;
             RUNNING = false;
@@ -358,7 +361,7 @@ public class Controller {
 
         } finally {
             dictionaryFile = lastWorkingFile;
-            runTimer();
+            toggleTimer();
         }
     }
 
@@ -689,7 +692,8 @@ public class Controller {
      * @author Carson Merediith
      */
     private void showWinAlert() {
-        runTimer();
+        toggleTimer();
+        if(ONLINE) client.send();
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Play Again");
         win = a.getDialogPane();
         StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
@@ -718,7 +722,7 @@ public class Controller {
     /**
      * Validates that the word in the row (one guess) is valid. Called
      * every time a key is pressed.
-     * @author TODO
+     * @author David Kane
      */
     private void getTextFieldValues(){
 
@@ -1003,7 +1007,7 @@ public class Controller {
         try {
             int num = Integer.parseInt(guess);
             if(num > 0) {
-                runTimer();
+                toggleTimer();
                 numGuesses = num;
                 numGuess.setText("");
                 startNewGame();
@@ -1024,7 +1028,7 @@ public class Controller {
      */
     public void loadPrebuiltDictionary(File file) {
         if (!file.equals(dictionaryFile) && file.exists() && file.isFile()){
-            runTimer();
+            toggleTimer();
             try {
                 new Wordle(numGuesses, file, session);
                 dictionaryFile = file;
@@ -1229,7 +1233,7 @@ public class Controller {
      * @param actionEvent button press
      */
     public void changeHardMode(ActionEvent actionEvent) {
-        runTimer();
+        toggleTimer();
         if (hard_mode.getText().equals("Hard Mode")) {
             hard_mode.setText("Easy Mode");
             HARD = true;
@@ -1245,7 +1249,11 @@ public class Controller {
         startNewGame();
     }
 
-    public void runTimer(){
+    /**
+     * Toggles the timer
+     * @author Carson Meredith
+     */
+    public void toggleTimer(){
         if(!RUNNING){
             timeline.play();
             RUNNING = true;
@@ -1257,7 +1265,8 @@ public class Controller {
     }
 
     /**
-     * Some timer weirdness
+     * Method to update the Label for the timer/End game if hard mode
+     * @author Carson Meredith
      */
     public void increaseTimer(){
         if(RUNNING) {
