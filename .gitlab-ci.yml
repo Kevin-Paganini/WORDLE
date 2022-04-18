@@ -1,7 +1,7 @@
-
 stages:
 - build
 - test
+- deploy
 
 build-job:
   stage: build
@@ -18,6 +18,10 @@ unit-test-job:
     - echo "hello"
     - cat $CI_PROJECT_DIR/build/project-executable #Get to the file
 
-
+deploy-job:
+  stage: deploy
+  script:
+    - echo "Deploying"
+    
 include:
 - template: Security/SAST.gitlab-ci.yml
