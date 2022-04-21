@@ -40,3 +40,10 @@ GNU GPL 1.3 (Open source)
 ### Completed:
 User Story:
 1, 2, 3, 4, 5, 13, 28, 25, 9, 7, 10, 27, 8, 6, 12, 19, 
+
+### Defects:
+E-mail paganinik@msoe.edu to alert team of any defects found.
+Please include a description of the defect and how to recreate it.
+Please allow 3-5 business years for a response.
+
+No known Defects at this point.
