@@ -19,7 +19,7 @@ This is an application that intends to replicate the game of Wordle, developed b
 
 
 ## Usage
-Anyone can you this application for their enjoyment. Please don't plagiarize us though. That's not cool.
+Anyone can use this application for their enjoyment. Please don't plagiarize us though. That's not cool.
 
 ## Support
 If you cannot find support for this on google, as a last resort you can e-mail paganinik@msoe.edu
@@ -34,9 +34,9 @@ GNU GPL 1.3 (Open source)
 
 ## Project status
 ### In development:
-6, 7, 8, 9, (AI for fun)
+29 (Server Setup), 16 (Logging key presses), Refactoring, Gitlab CI/CD
 
 
 ### Completed:
 User Story:
-1, 2, 3, 4, 5, 
+1, 2, 3, 4, 5, 13, 28, 25, 9, 7, 10, 27, 8, 6, 12, 19, 
