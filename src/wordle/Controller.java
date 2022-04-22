@@ -22,12 +22,15 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
+import javax.swing.Timer;
 import java.io.*;
 import java.net.Inet4Address;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.*;
+
+import static java.lang.Thread.sleep;
 import static javafx.scene.input.KeyCode.*;
 
 public class Controller {
@@ -55,7 +58,7 @@ public class Controller {
     boolean SUGGESTION = false;
     boolean HARD = false;
     boolean RUNNING = false;
-    boolean ONLINE = true;
+    boolean ONLINE = false;
     ArrayList<String> guesses = new ArrayList<>();
     ArrayList<String> scores = new ArrayList<>();
     DialogPane win;
@@ -578,12 +581,15 @@ public class Controller {
         }
         //Getting input from guess text fields
         String input = "";
-        for(int i = 0; i < numLetters; i++){
+        Object obj = new Object();
+
+        for(int i = 0; i < numLetters; i++) {
             TextField tf = gridOfTextFieldInputs.get(guess).get(i);
             tf.setDisable(true);
             input += tf.getText();
+            new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i*500)).play();
+            new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i+1)*500)).play();
         }
-
         if (DEBUG) System.out.println(input);
 
         guesses.add(input);
@@ -601,6 +607,7 @@ public class Controller {
 
             if (letters_used_grid_colors.get(letter) < isCorrectValue){ // Checks if value stored is smaller than value achieved
                 letters_used_grid_colors.replace(letter, isCorrectValue); // If guess has higher value replaces old value
+
             }
             colorAndStyleKeyboard(letter);
         }
@@ -610,9 +617,8 @@ public class Controller {
                 System.out.println(i);
             }
         }
+
         Utils.recolorTextFields(position, numLetters, gridOfTextFieldInputs, guess,CONTRAST, HARD);
-
-
 
         guess++;
         updateSuggestions();

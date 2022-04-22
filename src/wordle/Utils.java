@@ -1,5 +1,7 @@
 package wordle;
 
+import javax.swing.Timer;
+
 import Model.Suggestions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +20,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static java.lang.Thread.sleep;
+
 public abstract class Utils {
 
 
@@ -34,28 +38,30 @@ public abstract class Utils {
      */
 
     public static void recolorTextFields(int[] position, int numLetters, ArrayList<List<TextField>> gridOfTextFieldInputs, int guess, boolean CONTRAST, boolean HARD) {
-        if(CONTRAST) {
             for(int i = 0; i < numLetters; i++){
                 TextField tf = gridOfTextFieldInputs.get(guess).get(i);
-                tf.getStyleClass().clear();
-                if(HARD) tf.setText("");
-                if (position[i] == 2) tf.getStyleClass().add("correct-position-letter-tf-contrast");
-                if (position[i] == 1) tf.getStyleClass().add("correct-letter-tf-contrast");
-                if (position[i] == 0) tf.getStyleClass().add("wrong-letter-tf-contrast");
-            }
-        } else {
-            for(int i = 0; i < numLetters; i++){
-                TextField tf = gridOfTextFieldInputs.get(guess).get(i);
-                tf.getStyleClass().clear();
-                if(HARD) tf.setText("");
-                if (position[i] == 2) tf.getStyleClass().add("correct-position-letter-tf");
-                if (position[i] == 1) tf.getStyleClass().add("correct-letter-tf");
-                if (position[i] == 0) tf.getStyleClass().add("wrong-letter-tf");
+                int x = i;
+                Timer timer = new Timer(500*(i+1), e -> changeLetter(tf, HARD, position, x, CONTRAST));
+                timer.setRepeats(false);
+                timer.start();
             }
         }
+
+    public static void changeLetter(TextField tf, boolean HARD, int[] position, int i, boolean CONTRAST){
+        tf.getStyleClass().clear();
+        if (HARD) tf.setText("");
+
+        if (CONTRAST){
+            if (position[i] == 2) tf.getStyleClass().add("correct-position-letter-tf-contrast");
+            if (position[i] == 1) tf.getStyleClass().add("correct-letter-tf-contrast");
+            if (position[i] == 0) tf.getStyleClass().add("wrong-letter-tf-contrast");
+        }
+        else {
+            if (position[i] == 2) tf.getStyleClass().add("correct-position-letter-tf");
+            if (position[i] == 1) tf.getStyleClass().add("correct-letter-tf");
+            if (position[i] == 0) tf.getStyleClass().add("wrong-letter-tf");
+        }
     }
-
-
 
     /**
      * Which CSS class should the label have
