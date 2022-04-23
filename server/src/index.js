@@ -12,9 +12,9 @@ const requestHandler = function(req, res) {
     if (req.method === 'GET') {
         fs.readFile('index.html') // read html file
         .then(contents => {
-            res.setHeader('Content-Type', 'text/html');
-            res.writeHead(200); //status code
-            res.end(contents); // add files to response
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.write(JSON.stringify(contents));
+            res.end();
         })
         .catch(err => {
             res.writeHead(500); // error
