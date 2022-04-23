@@ -36,8 +36,4 @@ const requestHandler = function(req, res) {
 
 
 const server = http.createServer(requestHandler);
-server.listen(port, host, () => {
-    console.log('Server is running on http://localhost:8000');
-
-  
-});
+server.listen(process.env.PORT || 5000);
