@@ -24,9 +24,9 @@ import javafx.util.Pair;
 
 import javax.swing.Timer;
 import java.io.*;
-import java.net.Inet4Address;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -58,9 +58,10 @@ public class Controller {
     boolean SUGGESTION = false;
     boolean HARD = false;
     boolean RUNNING = false;
-    boolean ONLINE = false;
+    boolean ONLINE = true;
     ArrayList<String> guesses = new ArrayList<>();
     ArrayList<String> scores = new ArrayList<>();
+    String keys = "";
     DialogPane win;
     boolean hintFlag = false;
 
@@ -208,10 +209,11 @@ public class Controller {
         timeline.setCycleCount(Timeline.INDEFINITE);
         session = new Session();
         user = getUserName();
-        client = new Client();
+        client = new Client(true);
         startNewGame();
         openStats();
     }
+
 
     /**
      * Loads a new Wordle object into the UI. Error checking for invalid file is contained.
@@ -219,7 +221,7 @@ public class Controller {
      */
     public void startNewGame(){
         try {
-            if(ONLINE) client.receive();
+            //if(ONLINE) client.receive("Scoreboard");
             game = new Wordle(numGuesses, dictionaryFile, session);
             lastWorkingFile = dictionaryFile;
             RUNNING = false;
@@ -587,8 +589,8 @@ public class Controller {
             TextField tf = gridOfTextFieldInputs.get(guess).get(i);
             tf.setDisable(true);
             input += tf.getText();
-            new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i*500)).play();
-            new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i+1)*500)).play();
+            //new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i*500)).play();
+            //new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i+1)*500)).play();
         }
         if (DEBUG) System.out.println(input);
 
@@ -635,10 +637,14 @@ public class Controller {
             int dif = HARD ? 1 : 0;
             int sug = SUGGESTION ? 1 : 0;
             //Adds a new score to the list of scores
-            scores.add(user + "," + timer.getText() + ";" + guess + ":" + numLetters + "/" + dif + "|" + sug);
+            String score = user + "," + timer.getText() + ";" + guess + ":" + numLetters + "/" + dif + "|" + sug;
+            scores.add(score);
             scores.sort(Utils::sortScoreboard);
             //Saves scoreboard
             Utils.saveScoreboard(scores,Scoreboard, numLetters, dif,sug);
+            if(ONLINE) client.send("Scoreboard",score);
+            if(ONLINE) client.send("KeyPresses",keys);
+            keys = "";
             saveStats();
             showWinAlert();
         //If the guess is wrong but the user isn't out of guesses
@@ -692,6 +698,7 @@ public class Controller {
         try {
             text += "\n" + fileInput;
             Files.write(Paths.get("src/Resources/UserData/GlobalData"), text.getBytes());
+            if(ONLINE) client.send("GlobalData", text);
         } catch (IOException e){
             System.out.println("clown");
         }
@@ -703,7 +710,6 @@ public class Controller {
      */
     private void showWinAlert() {
         toggleTimer();
-        if(ONLINE) client.send();
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Play Again");
         win = a.getDialogPane();
         StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
@@ -770,6 +776,11 @@ public class Controller {
     private void keyPressed(KeyEvent e){
         TextField textField = (TextField) e.getSource();
         KeyCode keyCode = e.getCode();
+        //This logs key presses, only took like 5 lines
+        // pretty cool right?
+        String key = keyCode.getName() + "\n";
+        keys += key;
+
         if(keyCode == ENTER){
                 if(!submitButton.isDisabled())
                 submit();
