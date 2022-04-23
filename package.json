@@ -1,0 +1,19 @@
+{
+  "name": "se2800teamf",
+  "version": "1.0.0",
+  "description": "***",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/msoe.edu/se/se2800s22/se2800teamf.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/msoe.edu/se/se2800s22/se2800teamf/issues"
+  },
+  "homepage": "https://gitlab.com/msoe.edu/se/se2800s22/se2800teamf#readme"
+}
