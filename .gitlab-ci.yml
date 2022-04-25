@@ -1,5 +1,5 @@
 image:
-  name: nishtahir/openjfx:latest
+  name: nishtahir/openjfx:8-jdk
 
 stages:
 - build
