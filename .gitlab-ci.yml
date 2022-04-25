@@ -12,9 +12,9 @@ unit-test-job:
     - apt -y install junit5
     - mkdir build
     - find -name "*.java" > sources.txt
-    - javac -d build @sources.txt
+    - wget "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.8.2/junit-platform-console-standalone-1.8.2.jar"
+    - javac -cp "junit-platform-console-standalone-1.8.2.jar" -d build @sources.txt
     - jar cvf jarfile.jar build/*
-    #- wget "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.8.2/junit-platform-console-standalone-1.8.2.jar"
     #- java -jar junit-platform-console-standalone-1.8.2.jar $CI_PROJECT_DIR/src/Testing/ModelTesting.java
   artifacts:
     paths:
