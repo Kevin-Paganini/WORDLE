@@ -13,7 +13,8 @@ unit-test-job:
     - find -name "*.java" > sources.txt
     - wget "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.8.2/junit-platform-console-standalone-1.8.2.jar"
     - javac -cp "junit-platform-console-standalone-1.8.2.jar:/usr/lib/jvm/openjfx/javafx-swt.jar:/usr/lib/jvm/openjfx/javafx.web.jar:/usr/lib/jvm/openjfx/javafx.base.jar:/usr/lib/jvm/openjfx/javafx.fxml.jar:/usr/lib/jvm/openjfx/javafx.media.jar:/usr/lib/jvm/openjfx/javafx.swing.jar:/usr/lib/jvm/openjfx/javafx.controls.jar:/usr/lib/jvm/openjfx/javafx.graphics.jar" -d build @sources.txt
-    - jar cvf jarfile.jar build/*
+    - 'printf "Manifest-Version: 1.0\nMain-Class: wordle.JarRunner" > MANIFEST.MF'
+    - jar cmvf MANIFEST.MF jarfile.jar build/*
     #- java -jar junit-platform-console-standalone-1.8.2.jar $CI_PROJECT_DIR/src/Testing/ModelTesting.java
   artifacts:
     paths:
