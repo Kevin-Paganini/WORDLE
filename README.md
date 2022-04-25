@@ -46,4 +46,4 @@ E-mail paganinik@msoe.edu to alert team of any defects found.
 Please include a description of the defect and how to recreate it.
 Please allow 3-5 business years for a response.
 
-No known Defects at this point.
+- When entering number of guesses, there is currently no limit, which can cause the program to freeze
