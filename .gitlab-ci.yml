@@ -1,22 +1,24 @@
+image:
+  name: nishtahir/openjfx:latest
+
 stages:
 - build
 - test
 - deploy
 
-build-job:
-  stage: build
-  script:
-    - mkdir build/
-    - echo "My application binary file" > build/project-executable # Imagine this is a real file
-  artifacts:
-    paths:
-      - build/project-executable
-
 unit-test-job:
   stage: test
   script:
-    - echo "hello"
-    - cat $CI_PROJECT_DIR/build/project-executable #Get to the file
+    - mkdir build
+    - find -name ".java" > sources.txt
+    - javac -d build @sources.txt
+    - jar cvf jarfile.jar build/*
+    #- wget "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.8.2/junit-platform-console-standalone-1.8.2.jar"
+    #- java -jar junit-platform-console-standalone-1.8.2.jar $CI_PROJECT_DIR/src/Testing/ModelTesting.java
+  artifacts:
+    paths:
+      - "jarfile.jar"
+    expire_in: 1 day
 
 deploy-job:
   stage: deploy
