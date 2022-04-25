@@ -9,6 +9,7 @@ stages:
 unit-test-job:
   stage: test
   script:
+    - sudo apt -y install junit5
     - mkdir build
     - find -name "*.java" > sources.txt
     - javac -d build @sources.txt
