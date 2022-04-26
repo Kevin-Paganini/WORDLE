@@ -627,6 +627,9 @@ public class Controller {
         Timer time = new Timer(animationSpeed*(numLetters + 1), e -> updateProgram(finalInput));
         time.setRepeats(false);
         time.start();
+        if (game.isWinner(input.toLowerCase(Locale.ROOT)) || guess == numGuesses) {
+            toggleTimer();
+        }
         /*
         guess++;
         updateSuggestions();
@@ -788,7 +791,7 @@ public class Controller {
      * @author Carson Merediith
      */
     private void showWinAlert() {
-        toggleTimer();
+        //toggleTimer();
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Play Again");
         win = a.getDialogPane();
         StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
