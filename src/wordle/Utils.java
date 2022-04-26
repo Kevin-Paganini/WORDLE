@@ -37,11 +37,11 @@ public abstract class Utils {
      * @author Kevin Paganini
      */
 
-    public static void recolorTextFields(int[] position, int numLetters, ArrayList<List<TextField>> gridOfTextFieldInputs, int guess, boolean CONTRAST, boolean HARD) {
+    public static void recolorTextFields(int[] position, int numLetters, ArrayList<List<TextField>> gridOfTextFieldInputs, int guess, boolean CONTRAST, boolean HARD, int animationSpeed) {
             for(int i = 0; i < numLetters; i++){
                 TextField tf = gridOfTextFieldInputs.get(guess).get(i);
                 int x = i;
-                Timer timer = new Timer(500*(i+1), e -> changeLetter(tf, HARD, position, x, CONTRAST));
+                Timer timer = new Timer(animationSpeed*(i+1), e -> changeLetter(tf, HARD, position, x, CONTRAST));
                 timer.setRepeats(false);
                 timer.start();
             }

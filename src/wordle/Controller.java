@@ -22,7 +22,7 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
-import javax.swing.Timer;
+//import javax.swing.Timer;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -59,6 +59,7 @@ public class Controller {
     boolean HARD = false;
     boolean RUNNING = false;
     boolean ONLINE = true;
+    public static final int animationSpeed = 500;
     ArrayList<String> guesses = new ArrayList<>();
     ArrayList<String> scores = new ArrayList<>();
     String keys = "";
@@ -578,7 +579,7 @@ public class Controller {
         // do verification stuff
 
         // Turning on hint button after first guess
-        if(!hintFlag && !HARD){
+        if (!hintFlag && !HARD) {
             hintButton.setDisable(false);
             hintFlag = true;
         }
@@ -586,12 +587,12 @@ public class Controller {
         String input = "";
         Object obj = new Object();
 
-        for(int i = 0; i < numLetters; i++) {
+        for (int i = 0; i < numLetters; i++) {
             TextField tf = gridOfTextFieldInputs.get(guess).get(i);
             tf.setDisable(true);
             input += tf.getText();
-            new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i*500)).play();
-            new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i+1)*500)).play();
+            //new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * 500)).play();
+            //new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * 500)).play();
         }
         if (DEBUG) System.out.println(input);
 
@@ -604,11 +605,11 @@ public class Controller {
 
 
         String letter;
-        for(int i = 0; i < input.length(); ++i) {
+        for (int i = 0; i < input.length(); ++i) {
             letter = String.valueOf(input.charAt(i));
             int isCorrectValue = position[i];
 
-            if (letters_used_grid_colors.get(letter) < isCorrectValue){ // Checks if value stored is smaller than value achieved
+            if (letters_used_grid_colors.get(letter) < isCorrectValue) { // Checks if value stored is smaller than value achieved
                 letters_used_grid_colors.replace(letter, isCorrectValue); // If guess has higher value replaces old value
 
             }
@@ -616,24 +617,25 @@ public class Controller {
         }
 
         if (DEBUG) {
-            for(int i : position) {
+            for (int i : position) {
                 System.out.println(i);
             }
         }
 
-        Utils.recolorTextFields(position, numLetters, gridOfTextFieldInputs, guess,CONTRAST, HARD);
+        Utils.recolorTextFields(position, numLetters, gridOfTextFieldInputs, guess, CONTRAST, HARD, animationSpeed);
 
         guess++;
         updateSuggestions();
+
         //If there is a guess, and it is right
-        if(game.isWinner(input.toLowerCase(Locale.ROOT))){
+        if (game.isWinner(input.toLowerCase(Locale.ROOT))) {
             if (DEBUG) System.out.println("You Won!");
             win_streak++;
             wins++;
 
             saveGlobalData("Yes");
 
-            win_percentage = Math.min(100, ((double)wins/(losses+wins)) * 100);
+            win_percentage = Math.min(100, ((double) wins / (losses + wins)) * 100);
 
             int dif = HARD ? 1 : 0;
             int sug = SUGGESTION ? 1 : 0;
@@ -642,27 +644,35 @@ public class Controller {
             scores.add(score);
             scores.sort(Utils::sortScoreboard);
             //Saves scoreboard
-            Utils.saveScoreboard(scores,Scoreboard, numLetters, dif,sug);
-            if(ONLINE) client.send(user,"Scoreboard",score);
+            Utils.saveScoreboard(scores, Scoreboard, numLetters, dif, sug);
+            if (ONLINE) client.send(user, "Scoreboard", score);
             saveStats();
             showWinAlert();
-        //If the guess is wrong but the user isn't out of guesses
-        } else if (guess != numGuesses){
+            //If the guess is wrong but the user isn't out of guesses
+        } else if (guess != numGuesses) {
+
+            for (int i = 0; i < numLetters; i++) {
+                TextField tf = gridOfTextFieldInputs.get(guess - 1).get(i);
+                new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * animationSpeed)).play();
+                new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * animationSpeed)).play();
+            }
             if (DEBUG) System.out.println("Try Again!");
             if (DEBUG) System.out.println(game.getTarget());
             //enables text fields that are next
+
             for (int i = 0; i < numLetters; i++) {
                 TextField tf = gridOfTextFieldInputs.get(guess).get(i);
                 tf.setDisable(false);
             }
             gridOfTextFieldInputs.get(guess).get(0).requestFocus();
-        //If there is a guess and user is out of guesses
+
+            //If there is a guess and user is out of guesses
         } else {
             win_streak = 0;
             losses++;
             saveStats();
-            win_percentage = ((double)wins/(losses+wins)) * 100;
-            if(win_percentage > 100) {
+            win_percentage = ((double) wins / (losses + wins)) * 100;
+            if (win_percentage > 100) {
                 win_percentage = 100;
             }
 
@@ -670,11 +680,9 @@ public class Controller {
 
             showWinAlert();
         }
-        if(ONLINE) client.send(user,"KeyPresses",keys);
+        if (ONLINE) client.send(user, "KeyPresses", keys);
         keys = "";
         submitButton.setDisable(true);
-
-
     }
 
     public void saveGlobalData(String winner){
@@ -733,7 +741,6 @@ public class Controller {
             Platform.exit();
         }
     }
-
 
 
     /**
