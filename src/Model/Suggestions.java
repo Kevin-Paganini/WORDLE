@@ -105,6 +105,7 @@ public class Suggestions {
                 if (j == dictArr.length - 1) return false;
             }
         }
+        //Gray checks
         for (int i = 0; i < guessArr.length; i++) {
             if (positions[i] != 0 || guessArr[i] == 0) continue;
             for (char c : dictArr) {
