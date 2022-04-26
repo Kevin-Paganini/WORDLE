@@ -12,7 +12,7 @@ unit-test-job:
     - mkdir build
     - find -name "*.java" > sources.txt
     - wget "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.8.2/junit-platform-console-standalone-1.8.2.jar"
-    #- wget "https://mvnrepository.com/artifact/io.github.typhon0/AnimateFX/1.2.1/"
+    - wget "https://repo1.maven.org/maven2/io/github/typhon0/AnimateFX/1.2.1/AnimateFX-1.2.1-javadoc.jar"
     - javac -cp "junit-platform-console-standalone-1.8.2.jar:/usr/lib/jvm/openjfx/javafx-swt.jar:/usr/lib/jvm/openjfx/javafx.web.jar:/usr/lib/jvm/openjfx/javafx.base.jar:/usr/lib/jvm/openjfx/javafx.fxml.jar:/usr/lib/jvm/openjfx/javafx.media.jar:/usr/lib/jvm/openjfx/javafx.swing.jar:/usr/lib/jvm/openjfx/javafx.controls.jar:/usr/lib/jvm/openjfx/javafx.graphics.jar" -d build @sources.txt
     - 'printf "Manifest-Version: 1.0\nMain-Class: JarRunner" > META-INF/MANIFEST.MF'
     - jar cmvf META-INF/MANIFEST.MF jarfile.jar build/*
