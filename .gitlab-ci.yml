@@ -15,7 +15,7 @@ unit-test-job:
     - wget "https://repo1.maven.org/maven2/io/github/typhon0/AnimateFX/1.2.1/AnimateFX-1.2.1.jar"
     - javac -cp "junit-platform-console-standalone-1.8.2.jar:AnimateFX-1.2.1.jar:/usr/lib/jvm/openjfx/javafx-swt.jar:/usr/lib/jvm/openjfx/javafx.web.jar:/usr/lib/jvm/openjfx/javafx.base.jar:/usr/lib/jvm/openjfx/javafx.fxml.jar:/usr/lib/jvm/openjfx/javafx.media.jar:/usr/lib/jvm/openjfx/javafx.swing.jar:/usr/lib/jvm/openjfx/javafx.controls.jar:/usr/lib/jvm/openjfx/javafx.graphics.jar" -d build @sources.txt
     - mkdir META-INF
-    - 'printf "Main-Class: com.JarRunner\n" > META-INF/MANIFEST.MF'
+    - 'printf "Main-Class: JarRunner\n" > META-INF/MANIFEST.MF'
     - jar cmvf META-INF/MANIFEST.MF jarfile.jar build/*
     #- java -jar junit-platform-console-standalone-1.8.2.jar $CI_PROJECT_DIR/src/Testing/ModelTesting.java
   artifacts:
