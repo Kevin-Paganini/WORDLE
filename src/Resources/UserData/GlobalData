@@ -3578,6 +3578,97 @@ Win: Yes
 CHILD
 FACET
 
+User: kaned
+Game Number: 90
+Target: GRAVE
+Number of Guesses: 5
+Win: Yes
+ARROW
+GECKO
+GRATE
+GRAPE
+GRAVE
+
+User: kaned
+Game Number: 90
+Target: EXACT
+Number of Guesses: 2
+Win: Yes
+TIGER
+EXACT
+
+User: kaned
+Game Number: 90
+Target: BYLAW
+Number of Guesses: 2
+Win: Yes
+ARROW
+BYLAW
+
+User: kaned
+Game Number: 90
+Target: HOIST
+Number of Guesses: 2
+Win: Yes
+ARROW
+HOIST
+
+User: kaned
+Game Number: 91
+Target: GRANT
+Number of Guesses: 2
+Win: Yes
+ARROW
+GRANT
+
+User: kaned
+Game Number: 92
+Target: SPIKE
+Number of Guesses: 2
+Win: Yes
+ARROW
+SPIKE
+
+User: kaned
+Game Number: 93
+Target: PARER
+Number of Guesses: 2
+Win: Yes
+ARROW
+PARER
+
+User: kaned
+Game Number: 94
+Target: BAKER
+Number of Guesses: 2
+Win: Yes
+ARROW
+BAKER
+
+User: kaned
+Game Number: 95
+Target: WHELP
+Number of Guesses: 2
+Win: Yes
+ARROW
+WHELP
+
+User: kaned
+Game Number: 96
+Target: NATAL
+Number of Guesses: 2
+Win: Yes
+ARROW
+NATAL
+
+User: kaned
+Game Number: 97
+Target: WRONG
+Number of Guesses: 2
+Win: Yes
+ARROW
+WRONG
+
 User: meredithc
 Game Number: 4
 Target: DETOX
@@ -3658,3 +3749,58 @@ Number of Guesses: 2
 Win: Yes
 CHILD
 DOWNY
+
+User: kaned
+Game Number: 98
+Target: MACAW
+Number of Guesses: 3
+Win: Yes
+ARROW
+BYLAW
+MACAW
+
+User: kaned
+Game Number: 99
+Target: WRING
+Number of Guesses: 2
+Win: Yes
+ARROW
+WRING
+
+User: kaned
+Game Number: 100
+Target: WHEEL
+Number of Guesses: 3
+Win: Yes
+ARROW
+DWELL
+WHEEL
+
+User: kaned
+Game Number: 101
+Target: GNOME
+Number of Guesses: 6
+Win: No
+ARROW
+ARROW
+ARROW
+ARROW
+ARROW
+ARROW
+
+User: kaned
+Game Number: 102
+Target: ICING
+Number of Guesses: 1
+Win: Yes
+ICING
+
+User: kaned
+Game Number: 103
+Target: VERSE
+Number of Guesses: 4
+Win: Yes
+ARROW
+ARROW
+ARROW
+VERSE
