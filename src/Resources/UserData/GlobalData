@@ -3577,3 +3577,84 @@ Number of Guesses: 2
 Win: Yes
 CHILD
 FACET
+
+User: meredithc
+Game Number: 4
+Target: DETOX
+Number of Guesses: 5
+Win: Yes
+VAGUE
+CHILD
+FORTH
+TOKEN
+DETOX
+
+User: meredithc
+Game Number: 5
+Target: BLUSH
+Number of Guesses: 1
+Win: Yes
+BLUSH
+
+User: meredithc
+Game Number: 6
+Target: ELECT
+Number of Guesses: 2
+Win: Yes
+CHILD
+ELECT
+
+User: meredithc
+Game Number: 7
+Target: BRISK
+Number of Guesses: 2
+Win: Yes
+CHILD
+BRISK
+
+User: meredithc
+Game Number: 8
+Target: LAPEL
+Number of Guesses: 2
+Win: Yes
+CHILD
+LAPEL
+
+User: meredithc
+Game Number: 9
+Target: SPECK
+Number of Guesses: 2
+Win: Yes
+CHILD
+SPECK
+
+User: meredithc
+Game Number: 10
+Target: STYLE
+Number of Guesses: 1
+Win: Yes
+STYLE
+
+User: meredithc
+Game Number: 11
+Target: TROPE
+Number of Guesses: 1
+Win: Yes
+TROPE
+
+User: meredithc
+Game Number: 12
+Target: BASTE
+Number of Guesses: 3
+Win: Yes
+CHILD
+OUTDO
+BASTE
+
+User: meredithc
+Game Number: 13
+Target: DOWNY
+Number of Guesses: 2
+Win: Yes
+CHILD
+DOWNY

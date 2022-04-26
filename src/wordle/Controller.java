@@ -22,15 +22,12 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
-import javax.swing.Timer;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static java.lang.Thread.sleep;
 import static javafx.scene.input.KeyCode.*;
 
 public class Controller {
@@ -58,7 +55,7 @@ public class Controller {
     boolean SUGGESTION = false;
     boolean HARD = false;
     boolean RUNNING = false;
-    boolean ONLINE = true;
+    boolean ONLINE = false;
     ArrayList<String> guesses = new ArrayList<>();
     ArrayList<String> scores = new ArrayList<>();
     String keys = "";
@@ -210,6 +207,7 @@ public class Controller {
         session = new Session();
         user = getUserName();
         client = new Client(true);
+        if (ONLINE) client.receive(user,"Scoreboard");
         startNewGame();
         openStats();
     }
@@ -589,8 +587,8 @@ public class Controller {
             TextField tf = gridOfTextFieldInputs.get(guess).get(i);
             tf.setDisable(true);
             input += tf.getText();
-            //new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i*500)).play();
-            //new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i+1)*500)).play();
+            new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i*500)).play();
+            new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i+1)*500)).play();
         }
         if (DEBUG) System.out.println(input);
 
@@ -642,9 +640,7 @@ public class Controller {
             scores.sort(Utils::sortScoreboard);
             //Saves scoreboard
             Utils.saveScoreboard(scores,Scoreboard, numLetters, dif,sug);
-            if(ONLINE) client.send("Scoreboard",score);
-            if(ONLINE) client.send("KeyPresses",keys);
-            keys = "";
+            if(ONLINE) client.send(user,"Scoreboard",score);
             saveStats();
             showWinAlert();
         //If the guess is wrong but the user isn't out of guesses
@@ -671,6 +667,8 @@ public class Controller {
 
             showWinAlert();
         }
+        if(ONLINE) client.send(user,"KeyPresses",keys);
+        keys = "";
         submitButton.setDisable(true);
 
 
@@ -698,7 +696,7 @@ public class Controller {
         try {
             text += "\n" + fileInput;
             Files.write(Paths.get("src/Resources/UserData/GlobalData"), text.getBytes());
-            if(ONLINE) client.send("GlobalData", text);
+            if(ONLINE) client.send(user,"GlobalData", text);
         } catch (IOException e){
             System.out.println("clown");
         }
