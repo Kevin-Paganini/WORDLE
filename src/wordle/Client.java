@@ -30,11 +30,11 @@ public class Client {
      * @param data Data being sent to the server
      * @author Carson Meredith
      */
-    public void send(String fileName, String data) {
+    public void send(String userName, String fileName, String data) {
         openConnection();
         if(DEBUG) System.out.println("Opening connection to server");
         try {
-            output.writeUTF("Send " + fileName);
+            output.writeUTF(userName + " Send " + fileName);
             if(DEBUG) System.out.println("Sending data from " + fileName);
             output.writeUTF(data);
             output.writeUTF("End of File " + fileName);
@@ -50,11 +50,11 @@ public class Client {
      * @param fileName file being written to
      * @author Carson Meredith
      */
-    public void receive(String fileName) {
+    public void receive(String userName,String fileName) {
         openConnection();
         if(DEBUG) System.out.println("Opening connection to server");
         try {
-            output.writeUTF("Request " + fileName);
+            output.writeUTF(userName + " Request " + fileName);
             if(DEBUG) System.out.println("Requesting " + fileName);
         } catch (IOException e) {
             System.out.println("Problem receiving data from server");
@@ -123,7 +123,9 @@ public class Client {
 
     private void endConnection() {
         try {
-            socket.close();
+            this.output.close();
+            this.serverIn.close();
+            this.socket.close();
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -131,10 +133,10 @@ public class Client {
 
     private void openConnection() {
             try {
-                socket = new Socket("10.205.168.164",5000);
+                this.socket = new Socket("10.205.168.164",5000);
                 //socket = new Socket("192.168.0.135",5000);
-                output = new DataOutputStream(socket.getOutputStream());
-                serverIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+                this.output = new DataOutputStream(this.socket.getOutputStream());
+                this.serverIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
             } catch (IOException e) {
                 System.out.println("There was a problem connecting");
             }
