@@ -22,6 +22,7 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
+import javax.swing.Timer;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -55,9 +56,9 @@ public class Controller {
     boolean SUGGESTION = false;
     boolean HARD = false;
     boolean RUNNING = false;
+    boolean ONLINE = true;
 
-    boolean ONLINE = false;
-    public static final int animationSpeed = 500;
+    public static final int animationSpeed = 250;
 
     ArrayList<String> guesses = new ArrayList<>();
     ArrayList<String> scores = new ArrayList<>();
@@ -209,7 +210,7 @@ public class Controller {
         session = new Session();
         user = getUserName();
         client = new Client(true);
-        if (ONLINE) client.receive(user,"Scoreboard");
+        client.receive(user,"Scoreboard");
         startNewGame();
         openStats();
     }
@@ -589,8 +590,8 @@ public class Controller {
             TextField tf = gridOfTextFieldInputs.get(guess).get(i);
             tf.setDisable(true);
             input += tf.getText();
-            //new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * 500)).play();
-            //new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * 500)).play();
+            new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * animationSpeed)).setSpeed(500.0/animationSpeed).play();
+            new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * animationSpeed)).setSpeed(500.0/animationSpeed).play();
         }
         if (DEBUG) System.out.println(input);
 
@@ -622,9 +623,13 @@ public class Controller {
 
         Utils.recolorTextFields(position, numLetters, gridOfTextFieldInputs, guess, CONTRAST, HARD, animationSpeed);
 
+        String finalInput = input;
+        Timer time = new Timer(animationSpeed*(numLetters + 1), e -> updateProgram(finalInput));
+        time.setRepeats(false);
+        time.start();
+        /*
         guess++;
         updateSuggestions();
-
         //If there is a guess, and it is right
         if (game.isWinner(input.toLowerCase(Locale.ROOT))) {
             if (DEBUG) System.out.println("You Won!");
@@ -651,8 +656,8 @@ public class Controller {
 
             for (int i = 0; i < numLetters; i++) {
                 TextField tf = gridOfTextFieldInputs.get(guess - 1).get(i);
-                new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * animationSpeed)).setSpeed(500.0/animationSpeed).play();
-                new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * animationSpeed)).setSpeed(500.0/animationSpeed).play();
+                //new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * animationSpeed)).setSpeed(500.0/animationSpeed).play();
+                //new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * animationSpeed)).setSpeed(500.0/animationSpeed).play();
             }
             if (DEBUG) System.out.println("Try Again!");
             if (DEBUG) System.out.println(game.getTarget());
@@ -681,7 +686,74 @@ public class Controller {
         if (ONLINE) client.send(user, "KeyPresses", keys);
         keys = "";
         submitButton.setDisable(true);
+         */
     }
+
+    public void updateProgram(String input){
+
+        Platform.runLater(() -> {
+            guess++;
+            updateSuggestions();
+            //If there is a guess, and it is right
+            if (game.isWinner(input.toLowerCase(Locale.ROOT))) {
+                if (DEBUG) System.out.println("You Won!");
+                win_streak++;
+                wins++;
+
+                saveGlobalData("Yes");
+
+                win_percentage = Math.min(100, ((double) wins / (losses + wins)) * 100);
+
+                int dif = HARD ? 1 : 0;
+                int sug = SUGGESTION ? 1 : 0;
+                //Adds a new score to the list of scores
+                String score = user + "," + timer.getText() + ";" + guess + ":" + numLetters + "/" + dif + "|" + sug;
+                scores.add(score);
+                scores.sort(Utils::sortScoreboard);
+                //Saves scoreboard
+                Utils.saveScoreboard(scores, Scoreboard, numLetters, dif, sug);
+                if (ONLINE) client.send(user, "Scoreboard", score);
+                saveStats();
+                showWinAlert();
+                //If the guess is wrong but the user isn't out of guesses
+            } else if (guess != numGuesses) {
+
+                for (int i = 0; i < numLetters; i++) {
+                    TextField tf = gridOfTextFieldInputs.get(guess - 1).get(i);
+                    //new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * animationSpeed)).setSpeed(500.0/animationSpeed).play();
+                    //new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * animationSpeed)).setSpeed(500.0/animationSpeed).play();
+                }
+                if (DEBUG) System.out.println("Try Again!");
+                if (DEBUG) System.out.println(game.getTarget());
+                //enables text fields that are next
+
+                for (int i = 0; i < numLetters; i++) {
+                    TextField tf = gridOfTextFieldInputs.get(guess).get(i);
+                    tf.setDisable(false);
+                }
+                gridOfTextFieldInputs.get(guess).get(0).requestFocus();
+
+                //If there is a guess and user is out of guesses
+            } else {
+                win_streak = 0;
+                losses++;
+                saveStats();
+                win_percentage = ((double) wins / (losses + wins)) * 100;
+                if (win_percentage > 100) {
+                    win_percentage = 100;
+                }
+
+                saveGlobalData("No");
+
+                showWinAlert();
+            }
+            if (ONLINE) client.send(user, "KeyPresses", keys);
+            keys = "";
+            submitButton.setDisable(true);
+        });
+
+    }
+
 
     public void saveGlobalData(String winner){
         String fileInput = "User: " + user + "\nGame Number: " + (wins+losses) + "\nTarget: " + game.getTarget().toUpperCase(Locale.ROOT) + "\nNumber of Guesses: " + guess + "\nWin: " + winner;
