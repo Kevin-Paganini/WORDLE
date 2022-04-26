@@ -22,6 +22,7 @@ unit-test-job:
     paths:
       - "jarfile.jar"
       - build
+      - META-INF
     expire_in: 1 day
 
 deploy-job:
