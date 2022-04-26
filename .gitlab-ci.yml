@@ -1,13 +1,31 @@
-# You can override the included template(s) by including variable overrides
-# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
-# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
-# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
-# Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
-# Note that environment variables can be set in several places
-# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
+image:
+  name: nishtahir/openjfx:8-jdk
+
 stages:
+- build
 - test
-sast:
+- deploy
+
+unit-test-job:
   stage: test
+  script:
+    - mkdir build
+    - find -name "*.java" > sources.txt
+    - wget "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.8.2/junit-platform-console-standalone-1.8.2.jar"
+    #- wget "https://mvnrepository.com/artifact/io.github.typhon0/AnimateFX/1.2.1/"
+    - javac -cp "junit-platform-console-standalone-1.8.2.jar:/usr/lib/jvm/openjfx/javafx-swt.jar:/usr/lib/jvm/openjfx/javafx.web.jar:/usr/lib/jvm/openjfx/javafx.base.jar:/usr/lib/jvm/openjfx/javafx.fxml.jar:/usr/lib/jvm/openjfx/javafx.media.jar:/usr/lib/jvm/openjfx/javafx.swing.jar:/usr/lib/jvm/openjfx/javafx.controls.jar:/usr/lib/jvm/openjfx/javafx.graphics.jar" -d build @sources.txt
+    - 'printf "Manifest-Version: 1.0\nMain-Class: JarRunner" > META-INF/MANIFEST.MF'
+    - jar cmvf META-INF/MANIFEST.MF jarfile.jar build/*
+    #- java -jar junit-platform-console-standalone-1.8.2.jar $CI_PROJECT_DIR/src/Testing/ModelTesting.java
+  artifacts:
+    paths:
+      - "jarfile.jar"
+    expire_in: 1 day
+
+deploy-job:
+  stage: deploy
+  script:
+    - echo "Deploying"
+    
 include:
 - template: Security/SAST.gitlab-ci.yml
