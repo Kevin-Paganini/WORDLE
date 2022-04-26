@@ -74,7 +74,6 @@ public class Controller {
 
     private Session session;
 
-
     /**
      * Main Grid of the application
      */
