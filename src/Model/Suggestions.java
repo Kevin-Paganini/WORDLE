@@ -54,7 +54,7 @@ public class Suggestions {
         Set<String> validWordsSorted = new TreeSet<>();
         //Create letter frequency going through all valid words left
         //Sort by highest frequency
-        // Suggest words with letters with highest frequency
+        // Suggest words with letters with the highest frequency
         HashMap<String, Integer> letterFreq = Utils.intializeLetterFrequency();
         for (String word : validWords) {
             char[] guessLetters = word.toUpperCase(Locale.ROOT).toCharArray();
