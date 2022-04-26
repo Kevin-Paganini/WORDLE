@@ -46,76 +46,17 @@ public class Suggestions {
      * @author: Kevin Paganini
      */
     public Set<String> pruneDictionary(){
-        int[] positions = game.getPositionsArray();
-        char[] currentGuess = game.getCurrentGuess().toCharArray();
-        //System.out.println(game.getCurrentGuess());
-        //System.out.println(game.getTarget());
-        validWords.remove(game.getCurrentGuess().toLowerCase(Locale.ROOT));
-        for(int i = 0; i < positions.length; i++){
-            int isCorrectValue = positions[i];
-            String letter = String.valueOf(currentGuess[i]).toUpperCase(Locale.ROOT);
-            if (validLetterHash.get(letter) < isCorrectValue){ // Checks if value stored is smaller than value achieved
-                validLetterHash.replace(letter, isCorrectValue); // If guess has higher value replaces old value
-            }
-
-
-        }
-        boolean doubleLetter = false;
-        char doubleLetterValue = ' ';
-        for(int j = 0; j < currentGuess.length; j++) {
-            for (int i = 0; i < currentGuess.length; i++) {
-                if (i != j) {
-                    if (currentGuess[i] == currentGuess[j]) {
-                        doubleLetter = true;
-                        doubleLetterValue = currentGuess[j];
-                    }
-                }
-            }
-        }
-
-        for(int j = 0; j < currentGuess.length; j++){
-            String letter = String.valueOf(currentGuess[j]).toUpperCase(Locale.ROOT);
-            int value = validLetterHash.get(letter);
-            if((value == 0 && !seen.contains(letter)) || doubleLetter) { // if the letter is not wrong or there is a double letter
-                if(!doubleLetter || (!String.valueOf(doubleLetterValue).toUpperCase(Locale.ROOT).equals(letter)) || positions[j] == 0){
-                    //if there is no double letter or the double letter isnt the one that is in correct position
-                    if(value == 0){
-                        removeWrongLetterWords(letter);
-                    }
-                    else if (positions[j] == 0){
-                        removeCorrectLetterWrongPos(letter, j);
-                    }
-                } else if(positions[j] == 0){
-                    removeCorrectLetterWrongPos(letter, j);
-                }
-
-            }
-            if(value == 1 && !seen.contains(letter)){
-                removeCorrectLetterWrongPos(letter, j);
-            }
-            if (value == 2 && positions[j] == 2){
-                removeWordWithoutCorrectLetter(letter, j);
-                seen.add(letter);
-            }
-
-
-
-        }
-        ArrayList<String> sortedList = sortValidWords();
-        validWords.clear();
-        validWords.addAll(sortedList);
-
-        return validWords;
+        validWords.removeIf(s -> !shouldKeep(s, game.getCurrentGuess()));
+        return sortValidWords(validWords);
     }
 
-    private ArrayList<String> sortValidWords() {
-        ArrayList<String> validWordsSorted = new ArrayList<>();
+    private Set<String> sortValidWords(Set<String> validWords) {
+        Set<String> validWordsSorted = new TreeSet<>();
         //Create letter frequency going through all valid words left
         //Sort by highest frequency
-        // Suggest words with letters with highest frequency
-        ArrayList<String> valid = new ArrayList<>(validWords);
+        // Suggest words with letters with the highest frequency
         HashMap<String, Integer> letterFreq = Utils.intializeLetterFrequency();
-        for (String word : valid) {
+        for (String word : validWords) {
             char[] guessLetters = word.toUpperCase(Locale.ROOT).toCharArray();
             for (char letter : guessLetters) {
                 String letterStr = String.valueOf(letter);
@@ -129,12 +70,9 @@ public class Suggestions {
         String [] freqLetters = sortedHashLetterFreq.keySet().toArray(new String[0]);
 
         for (String letter : freqLetters) {
-            for (String s : valid) {
+            for (String s : validWords) {
                 if (s.toUpperCase(Locale.ROOT).contains(letter)) {
-                    if (!validWordsSorted.contains(s)){
-                        validWordsSorted.add(s);
-                    }
-
+                    validWordsSorted.add(s);
                 }
             }
 
@@ -142,62 +80,42 @@ public class Suggestions {
         return validWordsSorted;
     }
 
-    /**
-     * Removes words from list that have the wrong letter
-     * @param letter
-     * @author Kevin Paganini
-     */
-    public void removeWrongLetterWords(String letter){
-
-        ArrayList<String> badWords = new ArrayList<>();
-        ArrayList<String> valid = new ArrayList<>(validWords);
-        for (String s : valid) {
-            if (s.contains(letter.toLowerCase(Locale.ROOT))) {
-                badWords.add(s);
+    private boolean shouldKeep(String dictWord, String guess) {
+        char[] guessArr = guess.toUpperCase(Locale.ROOT).toCharArray();
+        char[] dictArr = dictWord.toUpperCase(Locale.ROOT).toCharArray();
+        int[] positions = game.returnPositionsOnly(guess);
+        //Green checks
+        for (int i = 0; i < guessArr.length; i++) {
+            if (positions[i] != 2) continue;
+            if (guessArr[i] != dictArr[i]) return false;
+            guessArr[i] = 0;
+            dictArr[i] = 0;
+        }
+        //Yellow checks
+        for (int i = 0; i < guessArr.length; i++) {
+            if (positions[i] != 1 || guessArr[i] == 0) continue;
+            for (int j = 0; j < dictArr.length; j++) {
+                if(guessArr[i] == dictArr[j]) {
+                    if (i == j) return false;
+                    guessArr[i] = 0;
+                    dictArr[j] = 0;
+                    break;
+                }
+                //Letter not found
+                if (j == dictArr.length - 1) return false;
             }
         }
-        badWords.forEach(validWords::remove);
-
-
-    }
-
-    /**
-     * Removes words that don't contain passed in letter
-     * @param letter
-     * @author Kevin Paganini
-     */
-    public void removeCorrectLetterWrongPos(String letter, int index){
-        ArrayList<String> badWords = new ArrayList<>();
-        ArrayList<String> valid = new ArrayList<>(validWords);
-        for (String s : valid) {
-            if (!s.contains(letter.toLowerCase(Locale.ROOT)) ||
-                    String.valueOf(s.toCharArray()[index]).toUpperCase(Locale.ROOT).equals(letter)) {
-                badWords.add(s);
+        //Gray checks
+        for (int i = 0; i < guessArr.length; i++) {
+            if (positions[i] != 0 || guessArr[i] == 0) continue;
+            for (char c : dictArr) {
+                if (c == guessArr[i]) return false;
             }
         }
-        badWords.forEach(validWords::remove);
-
+        return true;
     }
 
-    /**
-     * Removing words without passed in letter at specific spot
-     * @param letter
-     * @param index
-     * @author Kevin Paganini
-     */
-    public void removeWordWithoutCorrectLetter(String letter, int index){
-        ArrayList<String> badWords = new ArrayList<>();
-        ArrayList<String> valid = new ArrayList<>(validWords);
-        for (String s : valid) {
-            //String validLetterCheck = String.valueOf(s.toCharArray()[index]).toUpperCase(Locale.ROOT);
-            if (!String.valueOf(s.charAt(index)).toUpperCase(Locale.ROOT).equals(letter)) {
-                badWords.add(s);
-            }
-        }
-        badWords.forEach(validWords::remove);
+    public void removeGreen(int index, char letter) {
+        validWords.removeIf(s -> s.charAt(index) != letter);
     }
-
-
-
-
 }

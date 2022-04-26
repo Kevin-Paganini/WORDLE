@@ -219,6 +219,7 @@ public class Wordle {
      * The Character indicates the letter the hint should display
      * @author Atreyu Schilling, Kevin Paganini
      */
+
     public Pair<Integer, Character> getHint() {
         Set<Character> usedLetters = new TreeSet<>();
         for (Guess guess : guessList) {
@@ -230,7 +231,7 @@ public class Wordle {
         for (int i = 0; i < target.length(); i++) {
             if (!usedLetters.contains(target.charAt(i))) {
                 //Same as below, make sure to mess with suggestions accordingly.
-                suggestions.removeWordWithoutCorrectLetter(String.valueOf(target.charAt(i)).toUpperCase(Locale.ROOT), i);
+                suggestions.removeGreen(i, target.charAt(i));
                 return new Pair<>(i, target.charAt(i));
             }
         }
@@ -252,11 +253,10 @@ public class Wordle {
                 break;
             }
         }
-        suggestions.removeWordWithoutCorrectLetter(String.valueOf(resultPair.getValue()).toUpperCase(Locale.ROOT), resultPair.getKey());
+        suggestions.removeGreen(resultPair.getKey(), resultPair.getValue());
         return resultPair;
-        //If all letters are guessed, and every position has a green, just return the last one
-        //The player already has the answer and shouldn't need a hint
     }
+
 
     /**
      * Returns true if a provided guess matches the target and false if not.
