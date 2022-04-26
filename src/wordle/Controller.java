@@ -59,7 +59,9 @@ public class Controller {
     boolean HARD = false;
     boolean RUNNING = false;
     boolean ONLINE = true;
+
     public static final int animationSpeed = 500;
+
     ArrayList<String> guesses = new ArrayList<>();
     ArrayList<String> scores = new ArrayList<>();
     String keys = "";
@@ -653,8 +655,8 @@ public class Controller {
 
             for (int i = 0; i < numLetters; i++) {
                 TextField tf = gridOfTextFieldInputs.get(guess - 1).get(i);
-                new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * animationSpeed)).play();
-                new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * animationSpeed)).play();
+                new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * animationSpeed)).setSpeed(500.0/animationSpeed).play();
+                new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * animationSpeed)).setSpeed(500.0/animationSpeed).play();
             }
             if (DEBUG) System.out.println("Try Again!");
             if (DEBUG) System.out.println(game.getTarget());
