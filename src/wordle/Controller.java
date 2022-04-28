@@ -56,7 +56,7 @@ public class Controller {
     boolean SUGGESTION = false;
     boolean HARD = false;
     boolean RUNNING = false;
-    boolean ONLINE = true;
+    boolean ONLINE = false;
 
     public static final int animationSpeed = 250;
 
@@ -210,7 +210,10 @@ public class Controller {
         session = new Session();
         user = getUserName();
         client = new Client(true);
+
+        if (ONLINE)
         client.receive(user,"Scoreboard");
+
         startNewGame();
         openStats();
     }

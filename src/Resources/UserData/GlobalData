@@ -3917,3 +3917,62 @@ Target: SIXTH
 Number of Guesses: 1
 Win: Yes
 SIXTH
+
+User: kaned
+Game Number: 118
+Target: ALARM
+Number of Guesses: 1
+Win: Yes
+ALARM
+
+User: kaned
+Game Number: 119
+Target: TITAN
+Number of Guesses: 1
+Win: Yes
+TITAN
+
+User: kaned
+Game Number: 120
+Target: WOOLY
+Number of Guesses: 1
+Win: Yes
+WOOLY
+
+User: kaned
+Game Number: 121
+Target: EXIST
+Number of Guesses: 1
+Win: Yes
+EXIST
+
+User: kaned
+Game Number: 122
+Target: SPILT
+Number of Guesses: 6
+Win: No
+ARROW
+LOSER
+BLISS
+SKILL
+SPLIT
+SPLIT
+
+User: kaned
+Game Number: 123
+Target: FROCK
+Number of Guesses: 2
+Win: Yes
+FLOCK
+FROCK
+
+User: kaned
+Game Number: 124
+Target: POUND
+Number of Guesses: 5
+Win: Yes
+ARROW
+BINGO
+CLONE
+FOUND
+POUND

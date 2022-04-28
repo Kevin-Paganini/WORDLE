@@ -1,5 +1,6 @@
 User,time;numGuesses:numLetters/HARD|SUGGESTIONS
 kaned,1.5;1:5/0|0
+kaned,1.5;1:5/1|0
 meredithc,1.6;1:5/0|0
 kaned,1.6;1:5/0|1
 meredithc,1.8;1:5/0|0
@@ -12,7 +13,10 @@ meredithc,3.0;1:5/0|0
 meredithc,3.2;1:5/0|0
 meredithc,3.2;1:5/0|0
 kaned,3.2;1:5/0|0
+kaned,3.2;1:5/1|0
 kaned,3.5;1:5/0|1
+kaned,3.6;1:5/1|0
+kaned,3.8;1:5/1|0
 meredithc,4.2;2:5/0|0
 meredithc,4.2;2:5/0|0
 kaned,4.3;2:5/0|1
@@ -85,7 +89,9 @@ meredithc,14.9;3:5/0|0
 meredithc,16.0;2:5/0|0
 meredithc,16.1;4:5/0|1
 meredithc,16.2;5:4/0|1
+kaned,17.7;5:5/0|1
 meredithc,17.8;6:4/0|1
+meredithc,17.9;3:5/1|0
 meredithc,17.9;5:5/0|1
 meredithc,18.3;3:7/0|1
 meredithc,19.9;2:5/0|0
@@ -109,5 +115,6 @@ meredithc,35.4;4:5/0|0
 meredithc,36.1;5:5/1|0
 meredithc,42.7;4:5/0|1
 kaned,49.5;4:5/0|1
+kaned,66.4;2:5/0|1
 meredithc,70.6;4:5/0|0
 meredithc,84.9;6:5/0|0
