@@ -46,7 +46,7 @@ var path = require('path');
 appRoot = path.resolve(__dirname);
 let port = 8000;
 
-var uploadGlobalData = fs.readFileSync(appRoot + `/ServerFiles/GLobalData`);
+var uploadGlobalData = fs.readFileSync(appRoot + `/ServerFiles/GlobalData`);
 var dashboard = fs.readFileSync(appRoot + `/dashboard.html`);
 var upload_path = appRoot + `/ServerFiles/`;
 
