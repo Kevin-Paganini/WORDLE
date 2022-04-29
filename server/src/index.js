@@ -57,6 +57,11 @@ http.createServer(function (req, res) {
         res.write(dashboard);
         return res.end();
     }
+    if (req.method === "POST") {
+        res.writeHead(200);
+        res.write('Not accepting right now....');
+        return res.end()
+    }
     if (req.url == "/dashboard"){
         res.writeHead(200);
         res.write(dashboard);
