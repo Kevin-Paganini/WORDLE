@@ -94,9 +94,10 @@ public class Suggestions {
         //Yellow checks
         for (int i = 0; i < guessArr.length; i++) {
             if (positions[i] != 1 || guessArr[i] == 0) continue;
+            if (guessArr[i] == dictArr[i]) return false;
+
             for (int j = 0; j < dictArr.length; j++) {
                 if(guessArr[i] == dictArr[j]) {
-                    if (i == j) return false;
                     guessArr[i] = 0;
                     dictArr[j] = 0;
                     break;
