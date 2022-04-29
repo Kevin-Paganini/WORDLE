@@ -8,6 +8,7 @@ const host = 'localhost';
 const port = 8000;
 
 
+
 const requestHandler = function(req, res) {
     if (req.method === 'GET') {
         fs.readFile('index.html') // read html file
