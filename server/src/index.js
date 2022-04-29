@@ -52,6 +52,11 @@ var upload_path = appRoot + `/ServerFiles/`;
 
 console.log("Server Running on port: " + port)
 http.createServer(function (req, res) {
+    if (req.method === "GET") {
+        res.writeHead(200);
+        res.write(dashboard);
+        return res.end();
+    }
     if (req.url == "/dashboard"){
         res.writeHead(200);
         res.write(dashboard);
