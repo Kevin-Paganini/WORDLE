@@ -44,7 +44,7 @@ var formidable = require('formidable');
 const fs = require('fs');
 var path = require('path');
 appRoot = path.resolve(__dirname);
-let port = 8000;
+let port = process.env.PORT || 8000;
 
 var uploadGlobalData = fs.readFileSync(appRoot + `/ServerFiles/GlobalData`);
 var dashboard = fs.readFileSync(appRoot + `/dashboard.html`);
