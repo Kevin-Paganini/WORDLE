@@ -63,21 +63,16 @@ public class Suggestions {
                 //Initializes the value in the frequency map to 1 if it doesn't exist, doesn't initialize it if not
                 letterFreq.merge(letterStr, 1, Integer::sum);
             }
-
-
         }
-        HashMap<String, Integer> sortedHashLetterFreq = Utils.sortHashMapByValue(letterFreq);
-        String [] freqLetters = sortedHashLetterFreq.keySet().toArray(new String[0]);
-
-        for (String letter : freqLetters) {
-            for (String s : validWords) {
-                if (s.toUpperCase(Locale.ROOT).contains(letter)) {
-                    validWordsSorted.add(s);
-                }
+        //HashMap<String, Integer> sortedHashLetterFreq = Utils.sortHashMapByValue(letterFreq);
+        //String [] freqLetters = sortedHashLetterFreq.keySet().toArray(new String[0]);
+        HashMap<String, Integer> mapToSort = new HashMap<>();
+        for (String s : validWords) {
+            for (char c : s.toUpperCase(Locale.ROOT).toCharArray()) {
+                mapToSort.merge(String.valueOf(c), letterFreq.get(String.valueOf(c)), Integer::sum);
             }
-
         }
-        return validWordsSorted;
+        return Utils.sortHashMapByValue(mapToSort).keySet();
     }
 
     private boolean shouldKeep(String dictWord, String guess) {
