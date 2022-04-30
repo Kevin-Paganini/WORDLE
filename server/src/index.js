@@ -1,44 +1,3 @@
-
-/*
-const http = require("http");
-const fs = require("fs").promises;
-
-const host = 'localhost';
-const port = 8000;
-
-
-
-const requestHandler = function(req, res) {
-    if (req.method === 'GET') {
-        fs.readFile('index.html') // read html file
-        .then(contents => {
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.write(JSON.stringify(contents));
-            res.end();
-        })
-        .catch(err => {
-            res.writeHead(500); // error
-            res.end(err); 
-            return;
-
-        });
-    } else if (req.method === 'POST'){
-        var body = "";
-        req.on("data", function(chunk){
-            body += chunk;
-            console.log(body);
-        });
-    }
-    
-};
-
-
-
-
-const server = http.createServer(requestHandler);
-server.listen(process.env.PORT || 5000);
-*/
-
 var http = require('http');
 var formidable = require('formidable');
 const fs = require('fs');
@@ -61,6 +20,12 @@ http.createServer(function (req, res) {
     if (req.method === "POST") {
         res.writeHead(200);
         res.write('Not accepting right now....');
+        const chunks = [];
+        request.on('data', chunk => chunks.push(chunk));
+        request.on('end', () => {
+        const data = Buffer.concat(chunks);
+        console.log('Data: ', data);
+        });
         return res.end()
     }
     if (req.url == "/dashboard"){
