@@ -147,7 +147,7 @@ class Vis:
         def elements(self):
 
                 # Reading in string into wordle objects
-                sample_string = FileIO.file_to_string("server/src/ServerFiles/GlobalData.txt")
+                sample_string = FileIO.file_to_string("GlobalData.txt")
                 games = file_IO.read(sample_string)
 
                 # Doing analysis and making charts
