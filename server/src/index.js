@@ -28,7 +28,7 @@ http.createServer(function (req, res) {
         const string_data = byte_data.toString();
         
         console.log('Data: ', string_data);
-        fs.writeFile(appRoot + '/chart_gen/GlobalData.txt', "hey there", {flag: "a+"},
+        fs.writeFile(appRoot + '/chart_gen/GlobalData.txt', "hey there", {flag: "w"},
         function(err) {
             if(err) {
                 return console.log(err);
