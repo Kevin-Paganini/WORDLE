@@ -3750,6 +3750,39 @@ Win: Yes
 CHILD
 DOWNY
 
+User: meredithc
+Game Number: 14
+Target: CARVE
+Number of Guesses: 2
+Win: Yes
+CHILD
+CARVE
+
+User: meredithc
+Game Number: 15
+Target: SPOON
+Number of Guesses: 2
+Win: Yes
+CHILD
+SPOON
+
+User: meredithc
+Game Number: 16
+Target: SWEET
+Number of Guesses: 3
+Win: Yes
+CHILD
+FORTH
+SWEET
+
+User: meredithc
+Game Number: 17
+Target: DENIM
+Number of Guesses: 2
+Win: Yes
+CHILD
+DENIM
+
 User: kaned
 Game Number: 98
 Target: MACAW
@@ -3805,6 +3838,44 @@ ARROW
 ARROW
 VERSE
 
+User: meredithc
+Game Number: 18
+Target: SHORE
+Number of Guesses: 1
+Win: Yes
+SHORE
+
+User: meredithc
+Game Number: 19
+Target: OPIUM
+Number of Guesses: 1
+Win: Yes
+OPIUM
+
+User: meredithc
+Game Number: 20
+Target: AMBLE
+Number of Guesses: 2
+Win: Yes
+CHILD
+AMBLE
+
+User: meredithc
+Game Number: 21
+Target: GUARD
+Number of Guesses: 2
+Win: Yes
+CHILD
+GUARD
+
+User: meredithc
+Game Number: 22
+Target: ADOBE
+Number of Guesses: 2
+Win: Yes
+CHILD
+ADOBE
+
 User: kaned
 Game Number: 104
 Target: SCENT
@@ -3821,3 +3892,59 @@ Number of Guesses: 2
 Win: Yes
 ARROW
 FROWN
+
+User: meredithc
+Game Number: 23
+Target: MOLAR
+Number of Guesses: 2
+Win: Yes
+CHILD
+MOLAR
+
+User: meredithc
+Game Number: 24
+Target: CRACK
+Number of Guesses: 1
+Win: Yes
+CRACK
+
+User: meredithc
+Game Number: 25
+Target: SCREE
+Number of Guesses: 1
+Win: Yes
+SCREE
+
+User: meredithc
+Game Number: 26
+Target: ARMOR
+Number of Guesses: 1
+Win: Yes
+ARMOR
+
+User: meredithc
+Game Number: 27
+Target: LEDGE
+Number of Guesses: 1
+Win: Yes
+LEDGE
+
+User: meredithc
+Game Number: 28
+Target: REBUT
+Number of Guesses: 5
+Win: Yes
+CHILD
+VAGUE
+FORTH
+TROUT
+REBUT
+
+User: meredithc
+Game Number: 29
+Target: POUND
+Number of Guesses: 3
+Win: Yes
+CHILD
+VAGUE
+POUND

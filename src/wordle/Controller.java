@@ -19,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
@@ -56,7 +57,7 @@ public class Controller {
     boolean SUGGESTION = false;
     boolean HARD = false;
     boolean RUNNING = false;
-    boolean ONLINE = true;
+    boolean ONLINE = false;
 
     public static final int animationSpeed = 250;
 
@@ -187,6 +188,9 @@ public class Controller {
     @FXML
     private Pane ScorePane;
 
+    @FXML
+    private TabPane TAB_PANE;
+
 
     ArrayList<Button> buttons = new ArrayList<>();
     ArrayList<Pane> panes = new ArrayList<>();
@@ -210,7 +214,6 @@ public class Controller {
         session = new Session();
         user = getUserName();
         client = new Client(true);
-        client.receive(user,"Scoreboard");
         startNewGame();
         openStats();
     }
@@ -238,18 +241,19 @@ public class Controller {
             //Creating grid of inputs
             //width scale = 1.92
             //height scale = 1.235
+            //System.out.println(thisStage.isMaximized());
             grid_input = createGridOfInputs(numGuesses, numLetters);
-            grid_input.setLayoutX(350 - (numLetters -5) * 30);
+            grid_input.setLayoutX(805 - (numLetters -5) * 30);
             grid_input.setLayoutY(50);
 
             // Create keyboard of used letters
             letters_used = createKeyBoardInputs();
-            letters_used.setLayoutX(200);
+            letters_used.setLayoutX(655);
             letters_used.setLayoutY((numGuesses * 60) + 100);
             letters_used.getStyleClass().add("keyBoardGrid");
             // Create Statistics button
             hintButton = createHintButton();
-            hintButton.setLayoutX(200);
+            hintButton.setLayoutX(grid_input.getLayoutX() - 140);
             hintButton.setLayoutY(50);
             hintButton.setDisable(true);
             hintFlag = false;
@@ -261,7 +265,10 @@ public class Controller {
             SUGGESTIONS.setLayoutX(130);
             SUGGESTIONS.setLayoutY((numGuesses*60)+300);
             timer = new Label();
+            timer.setPrefWidth(80);
             timer.setText("0.0");
+            timer.setLayoutX(920);
+            timer.setLayoutY(0);
 
             // Adding all to main pane
             MAIN_PANE.getChildren().addAll(grid_input, letters_used, hintButton, submitButton, SUGGESTIONS, timer);
@@ -324,6 +331,7 @@ public class Controller {
                 Label temp = (Label)Scoreboard.getChildren().get(i);
                 temp.setText("");
             }
+            if(ONLINE) client.receive(user,"Scoreboard");
             scores = Utils.readScoreboard();
             if(!scores.isEmpty()){
                 int dif = 0;
@@ -334,10 +342,11 @@ public class Controller {
                 if(SUGGESTION) {
                     sug = 1;
                 }
+                Utils.saveScoreboard(scores,Scoreboard, numLetters, dif, sug);
                 Scoreboard = Utils.updateScoreboard(scores,Scoreboard, numLetters, dif, sug);
             }
-            StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
-            StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
+            StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields,TAB_PANE);
+            StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields,TAB_PANE);
         } catch (IOException e) {
             //TODO: Catch if the wordle-official file does not exist
             System.out.println("Entered an invalid File");
@@ -627,66 +636,6 @@ public class Controller {
         Timer time = new Timer(animationSpeed*(numLetters + 1), e -> updateProgram(finalInput));
         time.setRepeats(false);
         time.start();
-        /*
-        guess++;
-        updateSuggestions();
-        //If there is a guess, and it is right
-        if (game.isWinner(input.toLowerCase(Locale.ROOT))) {
-            if (DEBUG) System.out.println("You Won!");
-            win_streak++;
-            wins++;
-
-            saveGlobalData("Yes");
-
-            win_percentage = Math.min(100, ((double) wins / (losses + wins)) * 100);
-
-            int dif = HARD ? 1 : 0;
-            int sug = SUGGESTION ? 1 : 0;
-            //Adds a new score to the list of scores
-            String score = user + "," + timer.getText() + ";" + guess + ":" + numLetters + "/" + dif + "|" + sug;
-            scores.add(score);
-            scores.sort(Utils::sortScoreboard);
-            //Saves scoreboard
-            Utils.saveScoreboard(scores, Scoreboard, numLetters, dif, sug);
-            if (ONLINE) client.send(user, "Scoreboard", score);
-            saveStats();
-            showWinAlert();
-            //If the guess is wrong but the user isn't out of guesses
-        } else if (guess != numGuesses) {
-
-            for (int i = 0; i < numLetters; i++) {
-                TextField tf = gridOfTextFieldInputs.get(guess - 1).get(i);
-                //new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * animationSpeed)).setSpeed(500.0/animationSpeed).play();
-                //new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * animationSpeed)).setSpeed(500.0/animationSpeed).play();
-            }
-            if (DEBUG) System.out.println("Try Again!");
-            if (DEBUG) System.out.println(game.getTarget());
-            //enables text fields that are next
-
-            for (int i = 0; i < numLetters; i++) {
-                TextField tf = gridOfTextFieldInputs.get(guess).get(i);
-                tf.setDisable(false);
-            }
-            gridOfTextFieldInputs.get(guess).get(0).requestFocus();
-
-            //If there is a guess and user is out of guesses
-        } else {
-            win_streak = 0;
-            losses++;
-            saveStats();
-            win_percentage = ((double) wins / (losses + wins)) * 100;
-            if (win_percentage > 100) {
-                win_percentage = 100;
-            }
-
-            saveGlobalData("No");
-
-            showWinAlert();
-        }
-        if (ONLINE) client.send(user, "KeyPresses", keys);
-        keys = "";
-        submitButton.setDisable(true);
-         */
     }
 
     public void updateProgram(String input){
@@ -788,7 +737,6 @@ public class Controller {
      * @author Carson Merediith
      */
     private void showWinAlert() {
-        toggleTimer();
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Play Again");
         win = a.getDialogPane();
         StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
@@ -1053,7 +1001,7 @@ public class Controller {
     public void setDark(){
         String text = dark_light.getText();
         DARK = text.equals("DARK-MODE");
-        StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields);
+        StylingChanger.update_dark(DARK,CONTRAST,buttons,panes,labels,textFields,TAB_PANE);
         if(DARK){
             dark_light.setText("LIGHT-MODE");
         } else {
@@ -1087,7 +1035,7 @@ public class Controller {
     public void setContrast(){
         String text = contrast.getText();
         CONTRAST = text.equals("HIGH-CONTRAST-MODE");
-        StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields);
+        StylingChanger.update_contrast(DARK,CONTRAST,buttons,panes,labels,textFields,TAB_PANE);
         if(CONTRAST){
             contrast.setText("NORMAL-MODE");
         } else {
@@ -1105,11 +1053,17 @@ public class Controller {
         String guess = numGuess.getText();
         try {
             int num = Integer.parseInt(guess);
-            if(num > 0) {
+            if(num > 0 && num < 11) {
                 toggleTimer();
                 numGuesses = num;
                 numGuess.setText("");
                 startNewGame();
+            } else {
+                Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Invalid number of guesses");
+                win = a.getDialogPane();
+                StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
+                win.setHeaderText("Enter a number between 1 and 10");
+                a.show();
             }
         } catch (NumberFormatException e){
             //TODO
