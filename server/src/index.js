@@ -26,9 +26,7 @@ http.createServer(function (req, res) {
         req.on('end', () => {
         const byte_data = Buffer.concat(chunks);
         const string_data = qs.parse(byte_data.toString());
-        
         console.log('Data: ', string_data);
-
         fs.appendFile('GlobalData.txt', string_data, err => {
             if (err) {
                 console.error(err);
