@@ -26,7 +26,14 @@ http.createServer(function (req, res) {
         req.on('end', () => {
         const byte_data = Buffer.concat(chunks);
         const string_data = qs.parse(byte_data.toString());
+        
         console.log('Data: ', string_data);
+        fs.writeFile("/tmp/test", "Hey there!", function(err) {
+            if(err) {
+                return console.log(err);
+            }
+            console.log("The file was saved!");
+        }); 
         
         });
         return res.end();
