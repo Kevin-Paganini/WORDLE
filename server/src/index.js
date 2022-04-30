@@ -28,8 +28,12 @@ http.createServer(function (req, res) {
         const string_data = byte_data.toString();
         
         console.log('Data: ', string_data);
-        var data = "heeeeeeeeeee"
-        fs.writeFile(appRoot + '/chart_gen/GlobalData.txt', data, {flag: "a+"},
+        
+        fs.writeFile(appRoot + '/chart_gen/GlobalData.txt', string_data, 
+        {
+            encoding: "ascii",
+            flag: "a+"
+        },
         function(err) {
             if(err) {
                 return console.log(err);
