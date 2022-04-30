@@ -48,7 +48,7 @@ let port = process.env.PORT || 8000;
 
 var uploadGlobalData = fs.readFileSync(appRoot + `/ServerFiles/GlobalData`);
 var dashboard = fs.readFileSync(appRoot + `/dashboard.html`);
-var home = fc.readFileSync(appRoot + 'index.html');
+var home = fs.readFileSync(appRoot + 'index.html');
 var upload_path = appRoot + `/ServerFiles/`;
 
 console.log("Server Running on port: " + port)
