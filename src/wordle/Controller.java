@@ -57,7 +57,7 @@ public class Controller {
     boolean SUGGESTION = false;
     boolean HARD = false;
     boolean RUNNING = false;
-    boolean ONLINE = false;
+    boolean ONLINE = true;
 
     public static final int animationSpeed = 250;
 
@@ -225,7 +225,6 @@ public class Controller {
      */
     public void startNewGame(){
         try {
-            //if(ONLINE) client.receive("Scoreboard");
             game = new Wordle(numGuesses, dictionaryFile, session);
             lastWorkingFile = dictionaryFile;
             RUNNING = false;
@@ -331,7 +330,7 @@ public class Controller {
                 Label temp = (Label)Scoreboard.getChildren().get(i);
                 temp.setText("");
             }
-            if(ONLINE) client.receive(user,"Scoreboard");
+            //if(ONLINE) client.receive(user,"Scoreboard");
             scores = Utils.readScoreboard();
             if(!scores.isEmpty()){
                 int dif = 0;
@@ -656,12 +655,15 @@ public class Controller {
                 int dif = HARD ? 1 : 0;
                 int sug = SUGGESTION ? 1 : 0;
                 //Adds a new score to the list of scores
+                //User,time;numGuesses:numLetters/HARD|SUGGESTIONS
                 String score = user + "," + timer.getText() + ";" + guess + ":" + numLetters + "/" + dif + "|" + sug;
                 scores.add(score);
                 scores.sort(Utils::sortScoreboard);
+                String data = "Scoreboard" + "-" + user + "-" + timer.getText() + "-" + guess + "-" + numLetters + "-" + dif + "-" + sug;
                 //Saves scoreboard
                 Utils.saveScoreboard(scores, Scoreboard, numLetters, dif, sug);
-                if (ONLINE) client.send(user, "Scoreboard", score);
+                //if (ONLINE) client.send(user, "Scoreboard", score);
+                if(ONLINE) client.postRequest(data);
                 saveStats();
                 showWinAlert();
                 //If the guess is wrong but the user isn't out of guesses
@@ -696,7 +698,7 @@ public class Controller {
 
                 showWinAlert();
             }
-            if (ONLINE) client.send(user, "KeyPresses", keys);
+            //if (ONLINE) client.send(user, "KeyPresses", keys);
             keys = "";
             submitButton.setDisable(true);
         });
@@ -706,6 +708,13 @@ public class Controller {
 
     public void saveGlobalData(String winner){
         String fileInput = "User: " + user + "\nGame Number: " + (wins+losses) + "\nTarget: " + game.getTarget().toUpperCase(Locale.ROOT) + "\nNumber of Guesses: " + guess + "\nWin: " + winner;
+        String sendGuess = "";
+        for(int i = guess; i > 0; i--){
+            sendGuess += guesses.get(guesses.size()-i) + " ";
+        }
+
+        String data = "Global" + "-" + user + "-" + (wins+losses) + "-" + game.getTarget().toUpperCase(Locale.ROOT) + "-" + guess + "-" + winner + "-" + sendGuess;
+        if(ONLINE) client.postRequest(data);
         int size = guesses.size();
         for(int i = guess; i > 0; i--){
             fileInput += "\n" + guesses.get(size-i);
@@ -726,7 +735,7 @@ public class Controller {
         try {
             text += "\n" + fileInput;
             Files.write(Paths.get("src/Resources/UserData/GlobalData"), text.getBytes());
-            if(ONLINE) client.send(user,"GlobalData", text);
+            //if(ONLINE) client.send(user,"GlobalData", text);
         } catch (IOException e){
             System.out.println("clown");
         }
