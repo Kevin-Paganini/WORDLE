@@ -1,5 +1,8 @@
 var http = require('http');
 var formidable = require('formidable');
+const redis = require("redis");
+
+
 const qs = require('querystring');
 const fs = require('fs');
 var path = require('path');
@@ -11,11 +14,21 @@ var dashboard = fs.readFileSync(appRoot + `/dashboard.html`);
 var home = fs.readFileSync(appRoot + '/index.html');
 var upload_path = appRoot + `/ServerFiles/`;
 
+
+
+
+
+
 console.log("Server Running on port: " + port)
 http.createServer(function (req, res) {
     if (req.method === "GET") {
         res.writeHead(200);
         res.write(home);
+        const client = redis.createClient({url: process.env.REDIS_URL});
+        client.on("connect", function() {
+    
+            console.log("You are now connected");
+          });
         return res.end();
     }
     if (req.method === "POST") {
@@ -26,7 +39,6 @@ http.createServer(function (req, res) {
         req.on('end', () => {
         const byte_data = Buffer.concat(chunks);
         const string_data = byte_data.toString();
-        
         console.log('Data: ', string_data);
         
         fs.writeFile(appRoot + '/chart_gen/GlobalData.txt', string_data, 
