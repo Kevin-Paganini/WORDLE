@@ -7,6 +7,7 @@ from bokeh.transform import cumsum
 from bokeh.palettes import Category20c
 from bokeh.embed import components  
 from bokeh.resources import CDN
+from bokeh.embed import file_html
 
 
 import base64
@@ -31,13 +32,9 @@ from Analysis import Analysis
 # http://matthewrocklin.com/blog/work/2017/06/28/simple-bokeh-server
 #############################################################
 
+root = "server/src/ServerFiles"
 file_IO = FileIO()
 analysis = Analysis()
-
-
-
-
-file_input = FileInput(accept=".txt", width=400)
 
 
 
@@ -50,6 +47,19 @@ class Vis:
         def __init__(self):
                 pass
 
+        
+        def to_file(self, html, name):
+                with open(f'{name}.html', 'w') as f:
+                        f.write(html)
+                        f.close()
+
+
+
+
+        def chart_to_html(self, p, name):
+                html = file_html(p, CDN, name)
+                self.to_file(html, name)
+
 
 
 
@@ -58,14 +68,15 @@ class Vis:
                 p = figure(x_range=list(word_freq_dict.keys()), plot_height=400,plot_width=600, title="Word Frequency", toolbar_location=None, tools="")
                 p.vbar(x=list(word_freq_dict.keys()), top=list(word_freq_dict.values()), width=0.8)
                 p.xaxis.major_label_orientation = "vertical"
-                return p
+                self.chart_to_html(p, "word_freq_chart")
+                
 
         def letterFreqChart(self, letter_freq_dict):
 
                 p = figure(x_range=list(letter_freq_dict.keys()), plot_height=400,plot_width=600, title="Letter Frequency", toolbar_location=None, tools="")
                 p.vbar(x=list(letter_freq_dict.keys()), top=list(letter_freq_dict.values()), width=0.8)
                 p.xaxis.major_label_orientation = "vertical"
-                return p
+                self.chart_to_html(p, "letter_freq_chart")
 
 
         def winChart(self, x):
@@ -86,7 +97,7 @@ class Vis:
                 p.axis.visible = False
                 p.grid.grid_line_color = None
 
-                return p
+                self.chart_to_html(p, "win_chart")
                 
 
         def hardestTargetChart(self, x):
@@ -107,7 +118,7 @@ class Vis:
                 p.axis.visible = False
                 p.grid.grid_line_color = None
 
-                return p
+                self.chart_to_html(p, "hardest_target_chart")
 
         def easiestTargetChart(self, x):
                 chart_colors = ['#00d084', '#b71c1c', '#e244db',
@@ -127,7 +138,7 @@ class Vis:
                 p.axis.visible = False
                 p.grid.grid_line_color = None
 
-                return p
+                self.chart_to_html(p, "easiest_target_chart")
 
 
 
@@ -136,24 +147,24 @@ class Vis:
         def elements(self):
 
                 # Reading in string into wordle objects
-                sample_string = FileIO.file_to_string("GlobalData.txt")
+                sample_string = FileIO.file_to_string("server/src/ServerFiles/GlobalData.txt")
                 games = file_IO.read(sample_string)
 
                 # Doing analysis and making charts
                 analysis.setGames(games)
-                word_chart = components(self.wordFreqChart(analysis.wordFreq()))
-                letter_chart = components(self.letterFreqChart(analysis.letterFreq()))
-                win_chart = components(self.winChart(analysis.win_loss()))
-                hardest_target = components(self.hardestTargetChart(analysis.hardestTarget()))
-                easiest_target = components(self.easiestTargetChart(analysis.easiestTarget()))
+                self.wordFreqChart(analysis.wordFreq())
+                self.letterFreqChart(analysis.letterFreq())
+                self.winChart(analysis.win_loss())
+                self.hardestTargetChart(analysis.hardestTarget())
+                self.easiestTargetChart(analysis.easiestTarget())
 
                 # Adding charts to window
                 
                 
-                cdn_js = CDN.js_files[0]
                 
                 
-                return [word_chart, letter_chart, win_chart, hardest_target, easiest_target, cdn_js]
+                
+                
 
 
 
