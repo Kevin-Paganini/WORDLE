@@ -24,11 +24,7 @@ http.createServer(function (req, res) {
     if (req.method === "GET") {
         res.writeHead(200);
         res.write(home);
-        const client = redis.createClient({url: process.env.REDIS_URL});
-        client.on("connect", function() {
-    
-            console.log("You are now connected");
-          });
+        
         return res.end();
     }
     if (req.method === "POST") {
@@ -40,7 +36,16 @@ http.createServer(function (req, res) {
         const byte_data = Buffer.concat(chunks);
         const string_data = byte_data.toString();
         console.log('Data: ', string_data);
-        
+        const client = redis.createClient({
+            url: process.env.REDIS_URL,
+            socket: {
+                tls: true,
+                rejectUnauthorized: false
+            }
+        });
+        client.on("connect", () => {
+            console.log('connect redis success !')
+           })
         fs.writeFile(appRoot + '/chart_gen/GlobalData.txt', string_data, 
         {
             encoding: "ascii",
