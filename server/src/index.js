@@ -28,8 +28,13 @@ http.createServer(function (req, res) {
         const string_data = qs.parse(byte_data.toString());
         
         console.log('Data: ', string_data);
-        
-        fs.writeFile('/chart_gen/GlobalData.txt', string_data, { flag: 'a+' }, err => {});
+
+        fs.appendFile('GlobalData.txt', string_data, err => {
+            if (err) {
+                console.error(err);
+            }
+            // done!
+        });
         });
         return res.end();
     }
