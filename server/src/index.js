@@ -36,6 +36,9 @@ http.createServer(function (req, res) {
         const byte_data = Buffer.concat(chunks);
         const string_data = byte_data.toString();
         console.log('Data: ', string_data);
+
+
+        // THIS IS A PROBLEM RIGHT NOW AND IS SAD
         const client = redis.createClient({
             url: process.env.REDIS_URL,
             socket: {
@@ -45,7 +48,9 @@ http.createServer(function (req, res) {
         });
         client.on("connect", () => {
             console.log('connect redis success !')
-           })
+           });
+
+        //------------------------------------------------
         fs.writeFile(appRoot + '/chart_gen/GlobalData.txt', string_data, 
         {
             encoding: "ascii",
