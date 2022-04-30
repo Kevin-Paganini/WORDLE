@@ -48,13 +48,14 @@ let port = process.env.PORT || 8000;
 
 var uploadGlobalData = fs.readFileSync(appRoot + `/ServerFiles/GlobalData`);
 var dashboard = fs.readFileSync(appRoot + `/dashboard.html`);
+var home = fc.readFileSync(appRoot + 'index.html');
 var upload_path = appRoot + `/ServerFiles/`;
 
 console.log("Server Running on port: " + port)
 http.createServer(function (req, res) {
     if (req.method === "GET") {
         res.writeHead(200);
-        res.write(dashboard);
+        res.write(home);
         return res.end();
     }
     if (req.method === "POST") {
