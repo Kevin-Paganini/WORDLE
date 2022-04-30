@@ -21,8 +21,8 @@ http.createServer(function (req, res) {
         res.writeHead(200);
         res.write('Not accepting right now....');
         const chunks = [];
-        request.on('data', chunk => chunks.push(chunk));
-        request.on('end', () => {
+        req.on('data', chunk => chunks.push(chunk));
+        req.on('end', () => {
         const data = Buffer.concat(chunks);
         console.log('Data: ', data);
         });
