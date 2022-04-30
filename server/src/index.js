@@ -1,5 +1,6 @@
 var http = require('http');
 var formidable = require('formidable');
+const qs = require('querystring');
 const fs = require('fs');
 var path = require('path');
 appRoot = path.resolve(__dirname);
@@ -23,8 +24,10 @@ http.createServer(function (req, res) {
         const chunks = [];
         req.on('data', chunk => chunks.push(chunk));
         req.on('end', () => {
-        const data = Buffer.concat(chunks);
-        console.log('Data: ', data);
+        const byte_data = Buffer.concat(chunks);
+        const string_data = qs.parse(byte_data.toString());
+        
+        console.log('Data: ', string_data);
         });
         return res.end()
     }
