@@ -51,7 +51,6 @@ public class Suggestions {
     }
 
     private Set<String> sortValidWords(Set<String> validWords) {
-        Set<String> validWordsSorted = new TreeSet<>();
         //Create letter frequency going through all valid words left
         //Sort by highest frequency
         // Suggest words with letters with the highest frequency
@@ -64,8 +63,6 @@ public class Suggestions {
                 letterFreq.merge(letterStr, 1, Integer::sum);
             }
         }
-        //HashMap<String, Integer> sortedHashLetterFreq = Utils.sortHashMapByValue(letterFreq);
-        //String [] freqLetters = sortedHashLetterFreq.keySet().toArray(new String[0]);
         HashMap<String, Integer> mapToSort = new HashMap<>();
         for (String s : validWords) {
             for (char c : s.toUpperCase(Locale.ROOT).toCharArray()) {

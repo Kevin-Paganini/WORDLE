@@ -81,13 +81,84 @@ public class Client {
         endConnection();
     }
 
-    private void postRequest() {
+    public void postRequest(String data) {
         HttpURLConnection http = null;
         try {
-            URL url = new URL("https://www.example.com/login");
+            URL url = new URL("https://wordle-msoe-app.herokuapp.com/");
             URLConnection con = url.openConnection();
             http = (HttpURLConnection)con;
             http.setRequestMethod("POST"); // PUT is another valid option
+            http.setDoOutput(true);
+            http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+            String[] values = data.split("-");
+            Map<String,String> arguments = new HashMap<>();
+            if(values[0].equals("Global")){
+                    arguments = new HashMap<String, String>() {{
+                    put("Type", values[0]);
+                    put("User", values[1]);
+                    put("Game_Number", values[2]);
+                    put("Target",values[3]);
+                    put("Number_of_guesses",values[4]);
+                    put("Win",values[5]);
+                    put("Guesses",values[6]);
+                }};
+            } else if(values[0].equals("Scoreboard")) {
+                arguments = new HashMap<String, String>() {{
+                    put("Type", values[0]);
+                    put("User", values[1]);
+                    put("Time", values[2]);
+                    put("numGuesses",values[3]);
+                    put("numLetters",values[4]);
+                    put("Hard",values[5]);
+                    put("Suggestions",values[6]);
+                }};
+            }
+
+            StringJoiner sj = new StringJoiner("&");
+            try {
+                for(Map.Entry<String,String> entry : arguments.entrySet())
+                    sj.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "="
+                            + URLEncoder.encode(entry.getValue(), "UTF-8"));
+            }catch (UnsupportedEncodingException e) {
+                System.out.println(e);
+            }
+            byte[] out = sj.toString().getBytes(StandardCharsets.UTF_8);
+            http.connect();
+            try(OutputStream os = http.getOutputStream()) {
+                os.write(out);
+                os.flush();
+            }
+            int responseCode = http.getResponseCode();
+            System.out.println("POST Response Code :: " + responseCode);
+            if (responseCode == HttpURLConnection.HTTP_OK) { //success
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(
+                        con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+                //System.out.println(response.toString());
+
+            } else {
+                System.out.println("POST request not worked");
+            }
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+    }
+
+    public void getRequest() {
+        HttpURLConnection http = null;
+        try {
+            URL url = new URL("https://wordle-msoe-app.herokuapp.com/");
+            URLConnection con = url.openConnection();
+            http = (HttpURLConnection)con;
+            http.setRequestMethod("GET"); // PUT is another valid option
             http.setDoOutput(true);
             Map<String,String> arguments = new HashMap<String, String>() {{
                 put("User", "paginik");
@@ -111,11 +182,16 @@ public class Client {
             http.setFixedLengthStreamingMode(length);
             http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
             http.connect();
-            try(OutputStream os = http.getOutputStream()) {
-                os.write(out);
+            try(InputStream inputStream = http.getInputStream()) {
+                for(int i = 0; i < inputStream.available();++i) {
+                    //inputStream.read(1);
+                }
             }
+            System.out.println("---");
+            System.out.println(http.getResponseCode());
+            System.out.println("---");
         } catch (IOException e) {
-            System.out.println(e);
+            //System.out.println(e);
         }
 
     }

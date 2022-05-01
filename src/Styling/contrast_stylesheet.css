@@ -190,3 +190,18 @@
     -fx-background-color: #ff0000;
     -fx-effect:dropshadow( three-pass-box, #ff0000, 20.0, 0.0, 0.0, 0.0);
 }
+
+.tab {
+    -fx-font : 14px "serief";
+    -fx-padding : 10;
+    -fx-background-color : #CCFF99;
+    -fx-text-fill : white;
+}
+
+.tab:hover {
+        -fx-background-color: #ff0000;
+}
+
+.pane {
+    -fx-background-color: #8fbc8f;
+}

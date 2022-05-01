@@ -10,6 +10,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        primaryStage.setMaximized(true);
+        primaryStage.setResizable(false);
         Parent root = FXMLLoader.load(getClass().getResource("UI.fxml"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add("Styling/stylesheet.css");
