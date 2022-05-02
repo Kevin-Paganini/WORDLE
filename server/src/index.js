@@ -45,14 +45,14 @@ http.createServer(function (req, res) {
                 global_data[i] = split_data[i+1]
             }
             file_path = '/chart_gen/GlobalData.txt'
-            string_data = global_data
+            string_data = global_data.join("\n")
         }
         if(split_data[0] === "Type=Scoreboard") {
             for(let i = 0; i < 6; i++){
                 score_data[i] = split_data[i+1]
             }
             file_path = '/chart_gen/Scoreboard.txt'
-            string_data = score_data
+            string_data = score_data.join("\n")
         }
 
 
