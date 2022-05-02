@@ -34,8 +34,26 @@ http.createServer(function (req, res) {
         req.on('data', chunk => chunks.push(chunk));
         req.on('end', () => {
         const byte_data = Buffer.concat(chunks);
-        const string_data = byte_data.toString();
+        var string_data = byte_data.toString();
+        const split_data = string_data.split('&')
         console.log('Data: ', string_data);
+        var global_data = []
+        var score_data = []
+        var file_path = ""
+        if(split_data[0] === "Type=Global") {
+            for(let i = 0; i < 6; i++){
+                global_data[i] = split_data[i+1]
+            }
+            file_path = '/chart_gen/GlobalData.txt'
+            string_data = global_data
+        }
+        if(split_data[0] === "Type=Scoreboard") {
+            for(let i = 0; i < 6; i++){
+                score_data[i] = split_data[i+1]
+            }
+            file_path = '/chart_gen/Scoreboard.txt'
+            string_data = score_data
+        }
 
 
         // THIS IS A PROBLEM RIGHT NOW AND IS SAD
@@ -51,7 +69,7 @@ http.createServer(function (req, res) {
            });
 
         //------------------------------------------------
-        fs.writeFile(appRoot + '/chart_gen/GlobalData.txt', string_data, 
+        fs.writeFile(appRoot + file_path, string_data,
         {
             encoding: "ascii",
             flag: "a+"
