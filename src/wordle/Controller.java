@@ -57,7 +57,6 @@ public class Controller {
     boolean SUGGESTION = false;
     boolean HARD = false;
     boolean RUNNING = false;
-    boolean ONLINE = true;
 
     public static final int animationSpeed = 250;
 
@@ -330,7 +329,6 @@ public class Controller {
                 Label temp = (Label)Scoreboard.getChildren().get(i);
                 temp.setText("");
             }
-            //if(ONLINE) client.receive(user,"Scoreboard");
             scores = Utils.readScoreboard();
             if(!scores.isEmpty()){
                 int dif = 0;
@@ -665,8 +663,7 @@ public class Controller {
                 String data = "Scoreboard" + "-" + user + "-" + timer.getText() + "-" + guess + "-" + numLetters + "-" + dif + "-" + sug;
                 //Saves scoreboard
                 Utils.saveScoreboard(scores, Scoreboard, numLetters, dif, sug);
-                //if (ONLINE) client.send(user, "Scoreboard", score);
-                if(ONLINE) client.postRequest(data);
+                client.postRequest(data);
                 saveStats();
                 showWinAlert();
                 //If the guess is wrong but the user isn't out of guesses
@@ -701,7 +698,6 @@ public class Controller {
 
                 showWinAlert();
             }
-            //if (ONLINE) client.send(user, "KeyPresses", keys);
             keys = "";
             submitButton.setDisable(true);
         });
@@ -717,7 +713,7 @@ public class Controller {
         }
 
         String data = "Global" + "-" + user + "-" + (wins+losses) + "-" + game.getTarget().toUpperCase(Locale.ROOT) + "-" + guess + "-" + winner + "-" + sendGuess;
-        if(ONLINE) client.postRequest(data);
+        client.postRequest(data);
         int size = guesses.size();
         for(int i = guess; i > 0; i--){
             fileInput += "\n" + guesses.get(size-i);
@@ -738,7 +734,6 @@ public class Controller {
         try {
             text += "\n" + fileInput;
             Files.write(Paths.get("src/Resources/UserData/GlobalData"), text.getBytes());
-            //if(ONLINE) client.send(user,"GlobalData", text);
         } catch (IOException e){
             System.out.println("clown");
         }

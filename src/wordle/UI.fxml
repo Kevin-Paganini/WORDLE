@@ -16,16 +16,16 @@
            <content>
                <AnchorPane fx:id="STATS_PANE" prefHeight="1080.0" prefWidth="1920.0">
                <children>
-                  <Label fx:id="avgNumGuesses2" layoutX="700.0" layoutY="30.0" prefHeight="36.0" prefWidth="220.0" text="Avg. no. Guesses: " />
+                  <Label fx:id="avgNumGuesses2" layoutX="1300.0" layoutY="30.0" prefHeight="36.0" prefWidth="220.0" text="Avg. no. Guesses: " />
                    <Label fx:id="winLabel2" layoutX="375.0" layoutY="30.0" prefHeight="36.0" prefWidth="220.0" text="Wins: " />
-                   <Label fx:id="lossLabel2" layoutX="1630.0" layoutY="30.0" prefHeight="36.0" prefWidth="220.0" text="Losses: " />
+                   <Label fx:id="lossLabel2" layoutX="1625.0" layoutY="30.0" prefHeight="36.0" prefWidth="220.0" text="Losses: " />
                    <Label fx:id="longestWinStreak2" layoutX="50.0" layoutY="30.0" prefHeight="36.0" prefWidth="220.0" text="Win Streak: " />
-                  <Label fx:id="winLabel" layoutX="550.0" layoutY="30.0" prefHeight="26.0" prefWidth="60.0" text="0" />
+                  <Label fx:id="winLabel" layoutX="600.0" layoutY="30.0" prefHeight="26.0" prefWidth="60.0" text="0" />
                    <Label fx:id="longestWinStreak" layoutX="275.0" layoutY="30.0" prefHeight="26.0" prefWidth="60.0" text="0" />
-                   <Label fx:id="lossLabel" layoutX="1900.0" layoutY="30.0" prefHeight="26.0" prefWidth="60.0" text="0" />
-                   <Label fx:id="avgNumGuesses" layoutX="925.0" layoutY="30.0" prefHeight="26.0" prefWidth="60.0" text="0" />
-                  <Pane fx:id="frequentWordPane" layoutX="130.0" layoutY="160.0" prefHeight="200.0" prefWidth="369.0" />
-                  <Pane fx:id="frequentLetterPane" layoutX="130.0" layoutY="500.0" prefHeight="200.0" prefWidth="491.0" />
+                   <Label fx:id="lossLabel" layoutX="1850.0" layoutY="30.0" prefHeight="26.0" prefWidth="60.0" text="0" />
+                   <Label fx:id="avgNumGuesses" layoutX="1525.0" layoutY="30.0" prefHeight="26.0" prefWidth="60.0" text="0" />
+                  <Pane fx:id="frequentWordPane" layoutX="1400.0" layoutY="160.0" prefHeight="200.0" prefWidth="369.0" />
+                  <Pane fx:id="frequentLetterPane" layoutX="130.0" layoutY="160.0" prefHeight="200.0" prefWidth="491.0" />
                </children></AnchorPane>
            </content>
        </Tab>

@@ -147,7 +147,7 @@ public class Client {
                 System.out.println("POST request not worked");
             }
         } catch (IOException e) {
-            System.out.println(e);
+            System.out.println("Connection could not be made to server");
         }
 
     }
