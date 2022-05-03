@@ -41,7 +41,7 @@ class FileIO:
                     win = False
 
                 guess_clean = []
-                guesses_dirty = game.split(" ")
+                guesses_dirty = game.split("+")
                 for guess in guesses_dirty:
                     if guess.strip() != "":
                         guess_clean.append(guess.strip())
