@@ -32,6 +32,18 @@ public class Wordle {
         suggestions.addGame(this);
     }
 
+    public Wordle(int numGuesses, File dictionary, Session session, String target) throws IOException {
+        currentGuess = "";
+        this.dictionary = new TreeSet<>();
+        guessesPossible = numGuesses;
+        this.guessesLeft = numGuesses;
+        loadDictionary(dictionary);
+        this.target = target;
+        session.addGame(this);
+        suggestions = new Suggestions();
+        suggestions.addGame(this);
+    }
+
     /**
      * Reads dictionary file and interprets all words in file. If it can be properly parsed,
      * the dictionary will be loaded into dictionary interally. Throws IOException if it can't

@@ -57,10 +57,14 @@ public class Controller {
     boolean SUGGESTION = false;
     boolean HARD = false;
     boolean RUNNING = false;
-
-    public static final int animationSpeed = 250;
+    String tempTarget = null;
+    boolean isData = false;
+    boolean gameStarted = false;
+    int animationSpeed = 250;
 
     ArrayList<String> guesses = new ArrayList<>();
+    ArrayList<String> tempGuesses = new ArrayList<>();
+
     ArrayList<String> scores = new ArrayList<>();
     String keys = "";
     DialogPane win;
@@ -223,8 +227,18 @@ public class Controller {
      * This should be called after any game or when any game is to be reloaded. Initialize should not be called.
      */
     public void startNewGame(){
+        if (gameStarted){
+            deleteUserData();
+        }
         try {
-            game = new Wordle(numGuesses, dictionaryFile, session);
+            if (tempTarget == null) {
+                game = new Wordle(numGuesses, dictionaryFile, session);
+            }
+            else{
+                game = new Wordle(numGuesses, dictionaryFile, session, tempTarget);
+
+            }
+            tempGuesses = new ArrayList<>();
             lastWorkingFile = dictionaryFile;
             RUNNING = false;
             guess = 0;
@@ -593,14 +607,15 @@ public class Controller {
         }
         //Getting input from guess text fields
         String input = "";
-        Object obj = new Object();
 
         for (int i = 0; i < numLetters; i++) {
             TextField tf = gridOfTextFieldInputs.get(guess).get(i);
             tf.setDisable(true);
             input += tf.getText();
-            new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * animationSpeed)).setSpeed(500.0/animationSpeed).play();
-            new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * animationSpeed)).setSpeed(500.0/animationSpeed).play();
+            if (!isData) {
+                new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * animationSpeed)).setSpeed(500.0 / animationSpeed).play();
+                new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * animationSpeed)).setSpeed(500.0 / animationSpeed).play();
+            }
         }
         if (DEBUG) System.out.println(input);
 
@@ -631,16 +646,91 @@ public class Controller {
         }
 
         Utils.recolorTextFields(position, numLetters, gridOfTextFieldInputs, guess, CONTRAST, HARD, animationSpeed);
+        if (!isData){
+            saveUserData();
+        }
 
         String finalInput = input;
-        Timer time = new Timer(animationSpeed*(numLetters + 1), e -> updateProgram(finalInput));
-        time.setRepeats(false);
-        time.start();
+        tempGuesses.add(input);
+
+        if (!isData){
+            saveUserData();
+            Timer time = new Timer(animationSpeed * (numLetters + 1), e -> updateProgram(finalInput));
+            time.setRepeats(false);
+            time.start();
+        }
+        else{
+            updateProgram(finalInput);
+        }
     }
 
     public void updateProgram(String input){
+        if (!isData) {
+            Platform.runLater(() -> {
+                guess++;
+                updateSuggestions();
+                //If there is a guess, and it is right
+                if (game.isWinner(input.toLowerCase(Locale.ROOT))) {
+                    deleteUserData();
+                    if (DEBUG) System.out.println("You Won!");
+                    win_streak++;
+                    wins++;
 
-        Platform.runLater(() -> {
+                    saveGlobalData("Yes");
+
+                    win_percentage = Math.min(100, ((double) wins / (losses + wins)) * 100);
+
+                    int dif = HARD ? 1 : 0;
+                    int sug = SUGGESTION ? 1 : 0;
+                    //Adds a new score to the list of scores
+                    //User,time;numGuesses:numLetters/HARD|SUGGESTIONS
+                    String score = user + "," + timer.getText() + ";" + guess + ":" + numLetters + "/" + dif + "|" + sug;
+                    scores.add(score);
+                    scores.sort(Utils::sortScoreboard);
+                    String data = "Scoreboard" + "-" + user + "-" + timer.getText() + "-" + guess + "-" + numLetters + "-" + dif + "-" + sug;
+                    //Saves scoreboard
+                    Utils.saveScoreboard(scores, Scoreboard, numLetters, dif, sug);
+                    client.postRequest(data);
+                    saveStats();
+                    showWinAlert();
+                    //If the guess is wrong but the user isn't out of guesses
+                } else if (guess != numGuesses) {
+                    saveUserData();
+                    for (int i = 0; i < numLetters; i++) {
+                        TextField tf = gridOfTextFieldInputs.get(guess - 1).get(i);
+                        //new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * animationSpeed)).setSpeed(500.0/animationSpeed).play();
+                        //new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * animationSpeed)).setSpeed(500.0/animationSpeed).play();
+                    }
+                    if (DEBUG) System.out.println("Try Again!");
+                    if (DEBUG) System.out.println(game.getTarget());
+                    //enables text fields that are next
+
+                    for (int i = 0; i < numLetters; i++) {
+                        TextField tf = gridOfTextFieldInputs.get(guess).get(i);
+                        tf.setDisable(false);
+                    }
+                    gridOfTextFieldInputs.get(guess).get(0).requestFocus();
+
+                    //If there is a guess and user is out of guesses
+                } else {
+                    deleteUserData();
+                    win_streak = 0;
+                    losses++;
+                    saveStats();
+                    win_percentage = ((double) wins / (losses + wins)) * 100;
+                    if (win_percentage > 100) {
+                        win_percentage = 100;
+                    }
+
+                    saveGlobalData("No");
+
+                    showWinAlert();
+                }
+                keys = "";
+                submitButton.setDisable(true);
+            });
+        }
+        else{
             guess++;
             updateSuggestions();
             //If there is a guess, and it is right
@@ -700,8 +790,7 @@ public class Controller {
             }
             keys = "";
             submitButton.setDisable(true);
-        });
-
+        }
     }
 
 
@@ -911,6 +1000,9 @@ public class Controller {
      * @param index index of the box the key is being entered in (???)
      */
     private void listener(Observable e, String oldValue, String newValue, int index) {
+        if(guess > 0) {
+            saveUserData();
+        }
         getTextFieldValues();
         TextField tf = gridOfTextFieldInputs.get(guess).get(index);
         if(!tf.getText().equals("")){
@@ -1410,7 +1502,7 @@ public class Controller {
             if (sug != SUGGESTION) setSuggestion();
             if (ad != ADMIN) setAdmin();
             saveStats();
-            startNewGame();
+            openUserData();
             updateStats();
         }
         catch (FileNotFoundException e){
@@ -1457,5 +1549,83 @@ public class Controller {
         if (ADMIN) setAdmin();
         saveStats();
         updateStats();
+    }
+
+
+    public void saveUserData(){
+        String content = "", hard = "OFF";
+        if (HARD){
+            hard = "ON";
+        }
+        content += game.getTarget() + "\n" + dictionaryFile.toPath() + "\n" + hard + "\n" + numGuesses;
+
+        for (int i = 0; i < tempGuesses.size(); i++){
+            content += "\n" + tempGuesses.get(i);
+        }
+
+        content += "\n";
+        for (int i = 0; i < numLetters; i++){
+            String letter =  gridOfTextFieldInputs.get(guess).get(i).getText();
+            if (letter.isEmpty()){
+                content += "~";
+            }
+            else{
+                content += letter;
+            }
+        }
+
+        try {
+            Files.write(Paths.get("src/Resources/UserData/" + user + "GameData"), content.getBytes());
+        }
+        catch (IOException e){
+            //TODO: Handle error
+        }
+    }
+
+    public void openUserData() {
+        try {
+            File stats = new File("src/Resources/UserData/" + user + "GameData");
+            BufferedReader br = new BufferedReader(new FileReader(stats));
+            String line = br.readLine();
+            tempTarget = line;
+            int tempSpeed = animationSpeed;
+            animationSpeed = 0;
+            isData = true;
+
+            dictionaryFile = new File(br.readLine());
+            if (br.readLine().equals("ON")) {
+                numGuesses = Integer.parseInt(br.readLine());
+                changeHardMode(null);
+            } else {
+                numGuesses = Integer.parseInt(br.readLine());
+                startNewGame();
+            }
+            tempTarget = null;
+            line = br.readLine();
+            while (line != null) {
+                String tempLine = line;
+                line = br.readLine();
+                for (int i = 0; i < numLetters; i++) {
+                    String letter = String.valueOf(tempLine.charAt(i));
+                    if (letter != "~") {
+                        gridOfTextFieldInputs.get(guess).get(i).setText(letter);
+                    }
+                }
+                if (line != null) {
+                    submit();
+                }
+            }
+
+            animationSpeed = tempSpeed;
+            isData = false;
+
+        } catch (IOException e) { startNewGame(); }
+        gameStarted = true;
+        }
+
+    public void deleteUserData(){
+        try {
+            Files.deleteIfExists(Paths.get("src/Resources/UserData/" + user + "GameData"));
+        } catch (IOException e) {}
     }
 }
