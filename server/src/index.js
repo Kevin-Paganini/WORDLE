@@ -1,8 +1,9 @@
 var http = require('http');
 var formidable = require('formidable');
-const redis = require("redis");
 
 
+const { spawn } = require('child_process');
+    
 const qs = require('querystring');
 const fs = require('fs');
 var path = require('path');
@@ -55,19 +56,8 @@ http.createServer(function (req, res) {
             string_data = score_data.join("\n")
         }
 
-
-        // THIS IS A PROBLEM RIGHT NOW AND IS SAD
-        const client = redis.createClient({
-            url: process.env.REDIS_URL,
-            socket: {
-                tls: true,
-                rejectUnauthorized: false
-            }
-        });
-        client.on("connect", () => {
-            console.log('connect redis success !')
-           });
-
+        const pyProg = spawn('python', ['./chart_gen/ChartGenerator.py']);
+        
         //------------------------------------------------
         fs.writeFile(appRoot + file_path, string_data,
         {

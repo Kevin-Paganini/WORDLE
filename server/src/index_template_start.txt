@@ -65,12 +65,3 @@
     <div class="Statistics">
         
         
-    </div>
-    
-</body>
-
-</html>
-
-
-
-

@@ -7,7 +7,8 @@ from bokeh.transform import cumsum
 from bokeh.palettes import Category20c
 from bokeh.embed import components  
 from bokeh.resources import CDN
-from bokeh.embed import file_html
+from bokeh.embed import file_html, autoload_static
+
 
 
 import base64
