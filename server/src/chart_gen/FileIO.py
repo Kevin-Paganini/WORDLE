@@ -1,4 +1,5 @@
 from Wordle import Wordle
+from Score import Score
 
 DEBUG = False
 
@@ -22,25 +23,25 @@ class FileIO:
     def read(self, file_contents):
         
         games_list = []
-        games = file_contents.split("\n\n\n")
+        games = file_contents.split("\n\n")
         
         for game in games:
             split_game = game.split("\n")
             if len(split_game) > 5:
 
                 
-                user = split_game[0].split(": ")[1].strip()
-                game_num = split_game[1].split(": ")[1].strip()
-                target = split_game[2].split(": ")[1].strip()
-                num_guesses = split_game[3].split(": ")[1].strip()
-                win = split_game[4].split(": ")[1].strip()
+                user = split_game[0].split("=")[1].strip()
+                game_num = split_game[1].split("=")[1].strip()
+                target = split_game[2].split("=")[1].strip()
+                num_guesses = split_game[3].split("=")[1].strip()
+                win = split_game[4].split("=")[1].strip()
                 if win == "Yes":
                     win = True
                 else:
                     win = False
-                
-                guesses_dirty = game.split("\n", 5)[5].split("\n")
+
                 guess_clean = []
+                guesses_dirty = game.split("+")
                 for guess in guesses_dirty:
                     if guess.strip() != "":
                         guess_clean.append(guess.strip())
@@ -59,6 +60,32 @@ class FileIO:
                 games_list.append(wordle)
 
             
+        return games_list
+
+    def readScoreboard(self, file_contents):
+
+        games_list = []
+        scores = file_contents.split("\n\n")
+
+        for score in scores:
+            split_score = score.split("\n")
+            if len(split_score) > 5:
+
+                user = split_score[0].split("=")[1].strip()
+                time = split_score[1].split("=")[1].strip()
+                num_guesses = split_score[2].split("=")[1].strip()
+                num_letters = split_score[3].split("=")[1].strip()
+                hard = split_score[4].split("=")[1].strip()
+                suggestions = split_score[5].split("=")[1].strip()
+
+                score = Score(user, time, num_guesses, num_letters, hard, suggestions)
+                if (DEBUG):
+                    print(f'{user} {time} {num_guesses} {num_letters} {hard}')
+                    print(f"{suggestions}")
+                    score.prettyPrint()
+
+                games_list.append(score)
+
         return games_list
 
 
