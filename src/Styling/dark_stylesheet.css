@@ -265,3 +265,18 @@
 }
 
 .default-color0.chart-bar { -fx-bar-fill: #cd5c5c; }
+
+.tab{
+    -fx-font : 14px "serief";
+    -fx-padding : 10;
+    -fx-background-color : #3d3c3a;
+    -fx-text-fill : white;
+}
+
+.tab:hover {
+    -fx-background-color: rgb(156, 60, 61);
+}
+
+.pane {
+    -fx-background-color: #000000;
+}

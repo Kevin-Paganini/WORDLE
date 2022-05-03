@@ -103,11 +103,18 @@ public class ModelTesting {
         set.add("queen");
         Assertions.assertEquals(set, wordle.getSuggestions().pruneDictionary());
 
+        wordle = new Wordle(5, OFFICIAL, session);
+        wordle.forceTarget("tunic");
+        wordle.makeGuess("earth");
+        Assertions.assertFalse(wordle.getSuggestions().pruneDictionary().contains("bitty"));
+
+
         //Calling this twice should return the same thing
         Assertions.assertEquals(wordle.getSuggestions().pruneDictionary(), wordle.getSuggestions().pruneDictionary());
 
         wordle = new Wordle(5, OFFICIAL, session);
-
+        set = new TreeSet<>();
+        set.add("queen");
         wordle.forceTarget("queen");
         wordle.makeGuess("queer");
         wordle.getSuggestions().pruneDictionary();

@@ -12,27 +12,51 @@ public abstract class StylingChanger {
      * @param DARK DARK/LIGHT setting desired
      * @param CONTRAST CONTRAST/NORMAL setting desired
      */
-    public static void update_dark(boolean DARK, boolean CONTRAST, List<Button> buttons, List<Pane> panes,List<Label> labels, List<TextField> textFields) {
+    public static void update_dark(boolean DARK, boolean CONTRAST, List<Button> buttons, List<Pane> panes,List<Label> labels, List<TextField> textFields,TabPane tabPane) {
         if(DARK && CONTRAST) {
             for(Button button : buttons) {
                 button.getStyleClass().clear();
                 button.getStyleClass().add("button-dark-contrast");
             }
+            tabPane.getStylesheets().remove("Styling/stylesheet.css");
+            tabPane.getStylesheets().remove("Styling/dark_stylesheet.css");
+            tabPane.getStylesheets().remove("Styling/contrast_stylesheet.css");
+            tabPane.getStylesheets().add("Styling/dark_contrast_stylesheet.css");
+            tabPane.getStyleClass().clear();
+            tabPane.getStyleClass().add("pane");
         } else if(CONTRAST){
             for(Button button : buttons) {
                 button.getStyleClass().clear();
                 button.getStyleClass().add("button-contrast");
             }
+            tabPane.getStylesheets().remove("Styling/stylesheet.css");
+            tabPane.getStylesheets().remove("Styling/dark_stylesheet.css");
+            tabPane.getStylesheets().remove("Styling/dark_contrast_stylesheet.css");
+            tabPane.getStylesheets().add("Styling/contrast_stylesheet.css");
+            tabPane.getStyleClass().clear();
+            tabPane.getStyleClass().add("pane");
         } else if(DARK){
             for(Button button : buttons) {
                 button.getStyleClass().clear();
                 button.getStyleClass().add("button-dark");
             }
+            tabPane.getStylesheets().remove("Styling/stylesheet.css");
+            tabPane.getStylesheets().remove("Styling/dark_contrast_stylesheet.css");
+            tabPane.getStylesheets().remove("Styling/contrast_stylesheet.css");
+            tabPane.getStylesheets().add("Styling/dark_stylesheet.css");
+            tabPane.getStyleClass().clear();
+            tabPane.getStyleClass().add("pane");
         } else {
             for(Button button : buttons) {
                 button.getStyleClass().clear();
                 button.getStyleClass().add("button");
             }
+            tabPane.getStylesheets().remove("Styling/dark_contrast_stylesheet.css");
+            tabPane.getStylesheets().remove("Styling/dark_stylesheet.css");
+            tabPane.getStylesheets().remove("Styling/contrast_stylesheet.css");
+            tabPane.getStylesheets().add("Styling/stylesheet.css");
+            tabPane.getStyleClass().clear();
+            tabPane.getStyleClass().add("pane");
         }
         if(DARK){
             for(Pane pane : panes) {
@@ -80,7 +104,7 @@ public abstract class StylingChanger {
      * @param CONTRAST CONTRAST/NORMAL setting desired
      * @param DARK DARK/LIGHT setting desired
      */
-    public static void update_contrast(boolean DARK, boolean CONTRAST, List<Button> buttons, List<Pane> panes,List<Label> labels, List<TextField> textFields){
+    public static void update_contrast(boolean DARK, boolean CONTRAST, List<Button> buttons, List<Pane> panes,List<Label> labels, List<TextField> textFields,TabPane tabPane){
         String format = "button";
         if(DARK) {
             format+="-dark";
@@ -91,6 +115,35 @@ public abstract class StylingChanger {
         for(Button button : buttons) {
             button.getStyleClass().clear();
             button.getStyleClass().add(format);
+        }
+        if(DARK && CONTRAST) {
+            tabPane.getStylesheets().remove("Styling/stylesheet.css");
+            tabPane.getStylesheets().remove("Styling/dark_stylesheet.css");
+            tabPane.getStylesheets().remove("Styling/contrast_stylesheet.css");
+            tabPane.getStylesheets().add("Styling/dark_contrast_stylesheet.css");
+            tabPane.getStyleClass().clear();
+            tabPane.getStyleClass().add("pane");
+        } else if(CONTRAST){
+            tabPane.getStylesheets().remove("Styling/stylesheet.css");
+            tabPane.getStylesheets().remove("Styling/dark_stylesheet.css");
+            tabPane.getStylesheets().remove("Styling/dark_contrast_stylesheet.css");
+            tabPane.getStylesheets().add("Styling/contrast_stylesheet.css");
+            tabPane.getStyleClass().clear();
+            tabPane.getStyleClass().add("pane");
+        } else if(DARK){
+            tabPane.getStylesheets().remove("Styling/stylesheet.css");
+            tabPane.getStylesheets().remove("Styling/dark_contrast_stylesheet.css");
+            tabPane.getStylesheets().remove("Styling/contrast_stylesheet.css");
+            tabPane.getStylesheets().add("Styling/dark_stylesheet.css");
+            tabPane.getStyleClass().clear();
+            tabPane.getStyleClass().add("pane");
+        } else {
+            tabPane.getStylesheets().remove("Styling/dark_contrast_stylesheet.css");
+            tabPane.getStylesheets().remove("Styling/dark_stylesheet.css");
+            tabPane.getStylesheets().remove("Styling/contrast_stylesheet.css");
+            tabPane.getStylesheets().add("Styling/stylesheet.css");
+            tabPane.getStyleClass().clear();
+            tabPane.getStyleClass().add("pane");
         }
         if(CONTRAST){
             for(Label temp : labels) {

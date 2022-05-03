@@ -267,3 +267,13 @@
 .hide {
     -fx-opacity: 0;
 }
+
+.tab {
+    -fx-font : 14px "serief";
+    -fx-padding : 10;
+    -fx-background-color : #CCFF99;
+}
+
+.tab:hover {
+    -fx-background-color: rgb(156, 60, 61);
+}
