@@ -130,6 +130,7 @@ public class Session {
      * USED FOR DEBUGGING - DO NOT USE OTHERWISE
      */
     public void prettyString() {
+        /*
         System.out.println("Average guess number: " + getAverageGuesses());
         System.out.println("Letter Frequency:");
         HashMap<String, Integer> printLetter = getLetterGuessFrequency();
@@ -139,6 +140,8 @@ public class Session {
         System.out.println("Longest Win Streak: " + getWinStreak());
         System.out.println("Word freqeuncy: ");
         Utils.printHashMap(getWordGuessFrequency());
+
+         */
     }
 
 

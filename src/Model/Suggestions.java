@@ -51,6 +51,7 @@ public class Suggestions {
     }
 
     private Set<String> sortValidWords(Set<String> validWords) {
+        Set<String> validWordsSorted = new TreeSet<>();
         //Create letter frequency going through all valid words left
         //Sort by highest frequency
         // Suggest words with letters with the highest frequency
@@ -62,14 +63,21 @@ public class Suggestions {
                 //Initializes the value in the frequency map to 1 if it doesn't exist, doesn't initialize it if not
                 letterFreq.merge(letterStr, 1, Integer::sum);
             }
+
+
         }
-        HashMap<String, Integer> mapToSort = new HashMap<>();
-        for (String s : validWords) {
-            for (char c : s.toUpperCase(Locale.ROOT).toCharArray()) {
-                mapToSort.merge(String.valueOf(c), letterFreq.get(String.valueOf(c)), Integer::sum);
+        HashMap<String, Integer> sortedHashLetterFreq = Utils.sortHashMapByValue(letterFreq);
+        String [] freqLetters = sortedHashLetterFreq.keySet().toArray(new String[0]);
+
+        for (String letter : freqLetters) {
+            for (String s : validWords) {
+                if (s.toUpperCase(Locale.ROOT).contains(letter)) {
+                    validWordsSorted.add(s);
+                }
             }
+
         }
-        return Utils.sortHashMapByValue(mapToSort).keySet();
+        return validWordsSorted;
     }
 
     private boolean shouldKeep(String dictWord, String guess) {
@@ -86,10 +94,9 @@ public class Suggestions {
         //Yellow checks
         for (int i = 0; i < guessArr.length; i++) {
             if (positions[i] != 1 || guessArr[i] == 0) continue;
-            if (guessArr[i] == dictArr[i]) return false;
-
             for (int j = 0; j < dictArr.length; j++) {
                 if(guessArr[i] == dictArr[j]) {
+                    if (i == j) return false;
                     guessArr[i] = 0;
                     dictArr[j] = 0;
                     break;

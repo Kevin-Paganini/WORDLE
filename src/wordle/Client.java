@@ -84,7 +84,7 @@ public class Client {
     public void postRequest(String data) {
         HttpURLConnection http = null;
         try {
-            URL url = new URL("https://wordle-msoe-app.herokuapp.com/");
+            URL url = new URL("https://d993-2603-6000-b20b-958b-145f-9823-56d5-ae80.ngrok.io");
             URLConnection con = url.openConnection();
             http = (HttpURLConnection)con;
             http.setRequestMethod("POST"); // PUT is another valid option

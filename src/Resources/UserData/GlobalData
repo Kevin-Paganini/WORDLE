@@ -4135,3 +4135,348 @@ Target: GRIMY
 Number of Guesses: 1
 Win: Yes
 GRIMY
+
+User: meredithc
+Game Number: 49
+Target: PRIZE
+Number of Guesses: 4
+Win: No
+VAGUE
+CHILD
+FORTH
+RIGID
+
+User: meredithc
+Game Number: 50
+Target: TAPIR
+Number of Guesses: 5
+Win: Yes
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+
+User: meredithc
+Game Number: 51
+Target: TAPIR
+Number of Guesses: 6
+Win: Yes
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+
+User: meredithc
+Game Number: 52
+Target: TAPIR
+Number of Guesses: 7
+Win: Yes
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+
+User: meredithc
+Game Number: 53
+Target: TAPIR
+Number of Guesses: 8
+Win: Yes
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+
+User: meredithc
+Game Number: 54
+Target: TAPIR
+Number of Guesses: 9
+Win: Yes
+PATIO
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+
+User: meredithc
+Game Number: 55
+Target: TAPIR
+Number of Guesses: 10
+Win: Yes
+BASIN
+PATIO
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+
+User: meredithc
+Game Number: 56
+Target: TAPIR
+Number of Guesses: 11
+Win: Yes
+AFFIX
+BASIN
+PATIO
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+
+User: meredithc
+Game Number: 57
+Target: TAPIR
+Number of Guesses: 12
+Win: Yes
+CHILD
+AFFIX
+BASIN
+PATIO
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+TAPIR
+
+User: meredithc
+Game Number: 58
+Target: TAWNY
+Number of Guesses: 1
+Win: Yes
+TAWNY
+
+User: meredithc
+Game Number: 59
+Target: PLACE
+Number of Guesses: 6
+Win: No
+BLACK
+BLACK
+BLACK
+BLACK
+PLACE
+PLACE
+
+User: meredithc
+Game Number: 60
+Target: PLACE
+Number of Guesses: 13
+Win: Yes
+BLACK
+BLACK
+BLACK
+BLACK
+BLACK
+BLACK
+BLACK
+BLACK
+BLACK
+BLACK
+BLACK
+PLACE
+PLACE
+
+User: meredithc
+Game Number: 61
+Target: PLACE
+Number of Guesses: 14
+Win: Yes
+CHILD
+BLACK
+BLACK
+BLACK
+BLACK
+BLACK
+BLACK
+BLACK
+BLACK
+BLACK
+BLACK
+BLACK
+PLACE
+PLACE
+
+User: meredithc
+Game Number: 62
+Target: MAFIA
+Number of Guesses: 6
+Win: No
+AFFIX
+AFFIX
+MAFIA
+MAFIA
+MAFIA
+MAFIA
+
+User: meredithc
+Game Number: 63
+Target: MAFIA
+Number of Guesses: 13
+Win: Yes
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+MAFIA
+MAFIA
+MAFIA
+MAFIA
+
+User: meredithc
+Game Number: 64
+Target: MAFIA
+Number of Guesses: 14
+Win: Yes
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+MAFIA
+MAFIA
+MAFIA
+MAFIA
+
+User: meredithc
+Game Number: 65
+Target: MAFIA
+Number of Guesses: 15
+Win: Yes
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+MAFIA
+MAFIA
+MAFIA
+MAFIA
+
+User: meredithc
+Game Number: 66
+Target: MAFIA
+Number of Guesses: 16
+Win: Yes
+CHILD
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+AFFIX
+MAFIA
+MAFIA
+MAFIA
+MAFIA
+
+User: meredithc
+Game Number: 67
+Target: EAGLE
+Number of Guesses: 3
+Win: Yes
+CHILD
+VAGUE
+EAGLE
+
+User: meredithc
+Game Number: 68
+Target: SMELT
+Number of Guesses: 6
+Win: No
+BIBLE
+BIBLE
+DWELL
+SHELF
+SMELT
+SMELT
+
+User: meredithc
+Game Number: 69
+Target: SMELT
+Number of Guesses: 11
+Win: Yes
+BIBLE
+BIBLE
+BIBLE
+BIBLE
+BIBLE
+BIBLE
+BIBLE
+DWELL
+SHELF
+SMELT
+SMELT
+
+User: meredithc
+Game Number: 70
+Target: SMELT
+Number of Guesses: 12
+Win: Yes
+LEARN
+BIBLE
+BIBLE
+BIBLE
+BIBLE
+BIBLE
+BIBLE
+BIBLE
+DWELL
+SHELF
+SMELT
+SMELT
+
+User: meredithc
+Game Number: 71
+Target: PENCE
+Number of Guesses: 5
+Win: Yes
+CHILD
+ABACK
+EJECT
+FENCE
+PENCE
