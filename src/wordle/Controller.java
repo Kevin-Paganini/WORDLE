@@ -1557,7 +1557,8 @@ public class Controller {
         if (HARD){
             hard = "ON";
         }
-        content += game.getTarget() + "\n" + dictionaryFile.toPath() + "\n" + hard + "\n" + numGuesses;
+
+        content += game.getTarget() + "\n" + dictionaryFile.toPath() + "\n" + hard + "\n" + numGuesses + "\n" + timer.getText();
 
         for (int i = 0; i < tempGuesses.size(); i++){
             content += "\n" + tempGuesses.get(i);
@@ -1600,6 +1601,8 @@ public class Controller {
                 numGuesses = Integer.parseInt(br.readLine());
                 startNewGame();
             }
+            line = br.readLine();
+            timer.setText(line);
             tempTarget = null;
             line = br.readLine();
             while (line != null) {
