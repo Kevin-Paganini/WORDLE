@@ -495,6 +495,7 @@ public class Controller {
         }
     }
 
+
     /**
      * Allows the user to click the suggestion and automatically guess it
      * @param event button click
