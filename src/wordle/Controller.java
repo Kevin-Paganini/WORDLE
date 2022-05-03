@@ -496,13 +496,15 @@ public class Controller {
      */
     public void enterSuggestion(MouseEvent event) {
         String word = ((Label) event.getSource()).getText().toUpperCase();
-        for(int i = 0; i < numLetters; ++i) {
-            gridOfTextFieldInputs.get(guess).get(i).setText("");
+        if (!gridOfTextFieldInputs.get(guess).get(0).isDisabled()) {
+            for (int i = 0; i < numLetters; ++i) {
+                gridOfTextFieldInputs.get(guess).get(i).setText("");
+            }
+            for (int i = 0; i < word.length(); ++i) {
+                enterLetter(Character.toString(word.charAt(i)));
+            }
+            submit();
         }
-        for(int i = 0; i < word.length(); ++i) {
-            enterLetter(Character.toString(word.charAt(i)));
-        }
-        submit();
     }
 
 

@@ -212,6 +212,43 @@ Win: Yes
 ARROW
 ESSAY
 
+User: kaned
+Game Number: 19
+Target: MULCH
+Number of Guesses: 3
+Win: Yes
+ARROW
+MATCH
+MULCH
+
+User: kaned
+Game Number: 20
+Target: SLURP
+Number of Guesses: 4
+Win: Yes
+ARROW
+LOSER
+SLUMP
+SLURP
+
+User: kaned
+Game Number: 21
+Target: CLOUD
+Number of Guesses: 3
+Win: Yes
+ARROW
+CLOAK
+CLOUD
+
+User: kaned
+Game Number: 22
+Target: CONCH
+Number of Guesses: 3
+Win: Yes
+ARROW
+COACH
+CONCH
+
 User: meredithc
 Game Number: 15
 Target: AIDER
@@ -1369,1662 +1406,114 @@ WRECK
 SCRAM
 ACORN
 
-User: meredithc
-Game Number: 146
-Target: COACH
-Number of Guesses: 3
-Win: Yes
-CHILD
-CONCH
-COACH
-
-User: meredithc
-Game Number: 147
-Target: INKLING
-Number of Guesses: 4
-Win: Yes
-LETTERS
-ALMANAC
-NULLIFY
-INKLING
-
-User: meredithc
-Game Number: 148
-Target: STICK
-Number of Guesses: 3
-Win: Yes
-CHILD
-SCION
-STICK
-
-User: meredithc
-Game Number: 149
-Target: MAFIA
-Number of Guesses: 3
-Win: No
-CHILD
-VAGUE
-FORTH
-
-User: meredithc
-Game Number: 150
-Target: BROAD
-Number of Guesses: 5
-Win: Yes
-CHILD
-TWEED
-FOUND
-BROOD
-BROAD
-
-User: meredithc
-Game Number: 151
-Target: QUARK
-Number of Guesses: 5
-Win: Yes
-CHILD
-REUSE
-TUTOR
-FURRY
-QUARK
-
-User: meredithc
-Game Number: 152
-Target: CORAL
-Number of Guesses: 4
-Win: Yes
-CHILD
-CAMEL
-CRAWL
-CORAL
-
-User: meredithc
-Game Number: 153
-Target: RECAP
-Number of Guesses: 4
-Win: Yes
-BATCH
-LILAC
-SCRAM
-RECAP
-
-User: meredithc
-Game Number: 154
-Target: CRUMP
-Number of Guesses: 1
-Win: Yes
-CRUMP
-
-User: meredithc
-Game Number: 155
-Target: SEABASS
-Number of Guesses: 3
-Win: Yes
-LETTERS
-PENNIES
-SEABASS
-
-User: meredithc
-Game Number: 156
-Target: FIZZY
-Number of Guesses: 2
-Win: Yes
-FUZZY
-FIZZY
-
-User: meredithc
-Game Number: 157
-Target: LORRY
-Number of Guesses: 2
-Win: Yes
-CHILD
-LORRY
-
-User: meredithc
-Game Number: 158
-Target: SYRUP
-Number of Guesses: 2
-Win: Yes
-CHILD
-SYRUP
-
-User: meredithc
-Game Number: 159
-Target: MOTIF
-Number of Guesses: 2
-Win: Yes
-CHILD
-MOTIF
-
-User: meredithc
-Game Number: 160
-Target: CAMEO
-Number of Guesses: 2
-Win: Yes
-FORTH
-CAMEO
-
-User: meredithc
-Game Number: 161
-Target: REPEL
-Number of Guesses: 2
-Win: Yes
-CHILD
-REPEL
-
-User: meredithc
-Game Number: 162
-Target: FUZZY
-Number of Guesses: 2
-Win: Yes
-CHILD
-FUZZY
-
-User: meredithc
-Game Number: 163
-Target: GOOFY
-Number of Guesses: 2
-Win: Yes
-CHILD
-GOOFY
-
-User: meredithc
-Game Number: 164
-Target: BERRY
-Number of Guesses: 1
-Win: Yes
-BERRY
-
-User: meredithc
-Game Number: 165
-Target: SCUBA
-Number of Guesses: 1
-Win: Yes
-SCUBA
-
-User: meredithc
-Game Number: 166
-Target: BRAIN
-Number of Guesses: 1
-Win: Yes
-BRAIN
-
-User: meredithc
-Game Number: 167
-Target: PEND
-Number of Guesses: 6
-Win: Yes
-BATH
-IDOL
-WEND
-FEND
-SEND
-PEND
-
-User: meredithc
-Game Number: 168
-Target: OUGHT
-Number of Guesses: 1
-Win: Yes
-OUGHT
-
-User: meredithc
-Game Number: 170
-Target: HAREM
-Number of Guesses: 4
-Win: Yes
-VAGUE
-BAKER
-RAMEN
-HAREM
-
-User: meredithc
-Game Number: 171
-Target: HOLLY
-Number of Guesses: 2
-Win: Yes
-CHILD
-HOLLY
-
-User: meredithc
-Game Number: 172
-Target: WHINY
-Number of Guesses: 5
-Win: Yes
-CHILD
-THINK
-RHINO
-SHINE
-WHINY
-
-User: meredithc
-Game Number: 173
-Target: CABBY
-Number of Guesses: 5
-Win: Yes
-VAGUE
-TARDY
-WACKY
-FANCY
-CABBY
-
-User: meredithc
-Game Number: 174
-Target: FLING
-Number of Guesses: 5
-Win: Yes
-CHILD
-PLIER
-GLINT
-SLING
-FLING
-
-User: meredithc
-Game Number: 175
-Target: WORRY
-Number of Guesses: 5
-Win: Yes
-VAGUE
-CLICK
-THROB
-SORRY
-WORRY
-
-User: meredithc
-Game Number: 176
-Target: CRUEL
-Number of Guesses: 4
-Win: Yes
-CHILD
-VAGUE
-FORTH
-CRUEL
-
-User: meredithc
-Game Number: 177
-Target: IDLER
-Number of Guesses: 2
-Win: Yes
-CHILD
-IDLER
-
-User: meredithc
-Game Number: 179
-Target: ALOOF
-Number of Guesses: 2
-Win: Yes
-CHILD
-ALOOF
-User: LIGHT
-Game Number: 1
-Target: GENIE
-Number of Guesses: 2
-Win: Yes
-BURNT
-GENIE
-
-User: meredithc
-Game Number: 1
-Target: CABBY
-Number of Guesses: 2
-Win: Yes
-CHILD
-CABBY
-
-User: meredithc
-Game Number: 2
+User: kaned
+Game Number: 23
 Target: BLUER
-Number of Guesses: 2
+Number of Guesses: 3
 Win: Yes
-CHILD
+ARROW
+BUYER
 BLUER
 
-User: meredithc
-Game Number: 3
-Target: ALLOY
-Number of Guesses: 2
-Win: Yes
-CHILD
-ALLOY
-
-User: meredithc
-Game Number: 4
-Target: ENJOY
-Number of Guesses: 2
-Win: Yes
-CHILD
-ENJOY
-
-User: meredithc
-Game Number: 5
-Target: SHOCK
-Number of Guesses: 2
-Win: Yes
-VAGUE
-SHOCK
-
-User: meredithc
-Game Number: 6
-Target: CEDAR
-Number of Guesses: 2
-Win: Yes
-VAGUE
-CEDAR
-
-User: meredithc
-Game Number: 7
-Target: TIGER
-Number of Guesses: 2
-Win: Yes
-CHILD
-TIGER
-
-User: meredithc
-Game Number: 1
-Target: REACH
-Number of Guesses: 2
-Win: Yes
-CHILD
-REACH
-
-User: meredithc
-Game Number: 2
-Target: TODDY
-Number of Guesses: 2
-Win: Yes
-CHILD
-TODDY
-
-User: meredithc
-Game Number: 3
-Target: DUSTY
-Number of Guesses: 2
-Win: Yes
-VAGUE
-DUSTY
-
-User: meredithc
-Game Number: 4
-Target: SKIER
-Number of Guesses: 2
-Win: Yes
-CHILD
-SKIER
-
-User: meredithc
-Game Number: 5
-Target: ALLOW
-Number of Guesses: 2
-Win: Yes
-CHILD
-ALLOW
-
-User: meredithc
-Game Number: 6
-Target: RARER
-Number of Guesses: 2
-Win: Yes
-VAGUE
-RARER
-
-User: meredithc
-Game Number: 7
-Target: DERBY
-Number of Guesses: 2
-Win: Yes
-CHILD
-DERBY
-
-User: meredithc
-Game Number: 8
-Target: SCARE
-Number of Guesses: 2
-Win: Yes
-BREAK
-SCARE
-
-User: meredithc
-Game Number: 9
-Target: NEIGH
-Number of Guesses: 2
-Win: Yes
-DEATH
-NEIGH
-
-User: meredithc
-Game Number: 10
-Target: DELVE
-Number of Guesses: 2
-Win: Yes
-CHILD
-DELVE
-
-User: meredithc
-Game Number: 11
-Target: ABBOT
-Number of Guesses: 2
-Win: Yes
-VAGUE
-ABBOT
-
-User: meredithc
-Game Number: 12
-Target: QUICK
-Number of Guesses: 2
-Win: Yes
-CHILD
-QUICK
-
-User: meredithc
-Game Number: 13
-Target: ALONG
-Number of Guesses: 2
-Win: Yes
-CHILD
-ALONG
-
-User: meredithc
-Game Number: 14
-Target: LARVA
-Number of Guesses: 3
-Win: Yes
-CHILD
-VAGUE
-LARVA
-
 User: kaned
-Game Number: 15
-Target: MOVIE
-Number of Guesses: 2
-Win: Yes
-LOSER
-MOVIE
-
-User: kaned
-Game Number: 16
-Target: LEASH
-Number of Guesses: 6
-Win: No
-LOSER
-LOSER
-LOSER
-LOSER
-LOSER
-LOSER
-
-User: kaned
-Game Number: 17
-Target: ELIDE
-Number of Guesses: 3
-Win: Yes
-ARROW
-HEARD
-ELIDE
-
-User: kaned
-Game Number: 18
-Target: ESSAY
-Number of Guesses: 2
-Win: Yes
-ARROW
-ESSAY
-
-User: meredithc
-Game Number: 15
-Target: AIDER
-Number of Guesses: 2
-Win: Yes
-CHILD
-AIDER
-
-User: meredithc
-Game Number: 16
-Target: TROUT
-Number of Guesses: 2
-Win: Yes
-VAGUE
-TROUT
-
-User: meredithc
-Game Number: 17
-Target: RIFLE
-Number of Guesses: 2
-Win: Yes
-CHILD
-RIFLE
-
-User: meredithc
-Game Number: 18
-Target: SNORE
-Number of Guesses: 2
-Win: Yes
-VAGUE
-SNORE
-
-User: meredithc
-Game Number: 19
-Target: GRATE
-Number of Guesses: 3
-Win: Yes
-CHILD
-VAGUE
-GRATE
-
-User: meredithc
-Game Number: 20
-Target: SNOUT
-Number of Guesses: 2
-Win: Yes
-CHILD
-SNOUT
-
-User: meredithc
-Game Number: 21
-Target: GAMUT
-Number of Guesses: 2
-Win: Yes
-VAGUE
-GAMUT
-
-User: meredithc
-Game Number: 22
-Target: CRICK
-Number of Guesses: 2
-Win: Yes
-VAGUE
-CRICK
-
-User: meredithc
-Game Number: 23
-Target: SOOTY
-Number of Guesses: 2
-Win: Yes
-VAGUE
-SOOTY
-
-User: meredithc
 Game Number: 24
-Target: SLOTH
-Number of Guesses: 2
-Win: Yes
-CHILD
-SLOTH
-
-User: meredithc
-Game Number: 25
-Target: FLAIR
-Number of Guesses: 2
-Win: Yes
-VAGUE
-FLAIR
-
-User: meredithc
-Game Number: 26
-Target: ALOUD
-Number of Guesses: 2
-Win: Yes
-CHILD
-ALOUD
-
-User: meredithc
-Game Number: 27
-Target: NERVE
-Number of Guesses: 2
-Win: Yes
-VAGUE
-NERVE
-
-User: meredithc
-Game Number: 28
-Target: BRIDE
-Number of Guesses: 3
-Win: Yes
-NERVE
-CHILD
-BRIDE
-
-User: meredithc
-Game Number: 29
-Target: CLING
-Number of Guesses: 2
-Win: Yes
-CHILD
-CLING
-
-User: meredithc
-Game Number: 30
-Target: SWORN
-Number of Guesses: 2
-Win: Yes
-CLING
-SWORN
-
-User: meredithc
-Game Number: 31
-Target: FOCAL
-Number of Guesses: 2
-Win: Yes
-SWORN
-FOCAL
-
-User: meredithc
-Game Number: 32
-Target: BILGE
-Number of Guesses: 2
-Win: Yes
-FOCAL
-BILGE
-
-User: meredithc
-Game Number: 33
-Target: BANJO
-Number of Guesses: 2
-Win: Yes
-CHILD
-BANJO
-
-User: meredithc
-Game Number: 34
-Target: QUILT
-Number of Guesses: 2
-Win: Yes
-FIRST
-QUILT
-
-User: meredithc
-Game Number: 35
-Target: ARBOR
-Number of Guesses: 2
-Win: Yes
-CHILD
-ARBOR
-
-User: meredithc
-Game Number: 36
-Target: WISPY
-Number of Guesses: 2
-Win: Yes
-CHILD
-WISPY
-
-User: meredithc
-Game Number: 37
-Target: SWIFT
-Number of Guesses: 2
-Win: Yes
-CHILD
-SWIFT
-
-User: meredithc
-Game Number: 38
-Target: BUSHY
-Number of Guesses: 2
-Win: Yes
-CHILD
-BUSHY
-
-User: meredithc
-Game Number: 39
-Target: ADMIN
-Number of Guesses: 2
-Win: Yes
-POUTY
-ADMIN
-
-User: meredithc
-Game Number: 40
-Target: GREAT
-Number of Guesses: 2
-Win: Yes
-CHILD
-GREAT
-
-User: meredithc
-Game Number: 41
-Target: BRAVO
-Number of Guesses: 2
-Win: Yes
-CHILD
-BRAVO
-
-User: meredithc
-Game Number: 42
-Target: BOOZE
-Number of Guesses: 2
-Win: Yes
-CHILD
-BOOZE
-
-User: meredithc
-Game Number: 43
-Target: COYLY
-Number of Guesses: 2
-Win: Yes
-CHILD
-COYLY
-
-User: meredithc
-Game Number: 44
-Target: CURLY
-Number of Guesses: 2
-Win: Yes
-CHILD
-CURLY
-
-User: meredithc
-Game Number: 45
-Target: BULKY
-Number of Guesses: 2
-Win: Yes
-CHILD
-BULKY
-
-User: meredithc
-Game Number: 46
-Target: PLEAD
-Number of Guesses: 2
-Win: Yes
-BULKY
-PLEAD
-
-User: meredithc
-Game Number: 47
-Target: PURGE
-Number of Guesses: 2
-Win: Yes
-CHILD
-PURGE
-
-User: meredithc
-Game Number: 48
-Target: WIDOW
-Number of Guesses: 4
-Win: Yes
-CHILD
-VAGUE
-PORCH
-WIDOW
-
-User: meredithc
-Game Number: 49
-Target: SMITH
-Number of Guesses: 2
-Win: Yes
-CHILD
-SMITH
-
-User: meredithc
-Game Number: 50
-Target: WHACK
-Number of Guesses: 2
-Win: Yes
-CHILD
-WHACK
-
-User: meredithc
-Game Number: 51
-Target: TOWER
-Number of Guesses: 4
-Win: Yes
-CHILD
-VAGUE
-FORTH
-TOWER
-
-User: meredithc
-Game Number: 52
-Target: FLORA
-Number of Guesses: 3
-Win: Yes
-CHILD
-VAGUE
-FLORA
-
-User: meredithc
-Game Number: 53
-Target: WOMEN
-Number of Guesses: 2
-Win: Yes
-CHILD
-WOMEN
-
-User: meredithc
-Game Number: 54
-Target: GOUGE
-Number of Guesses: 2
-Win: Yes
-VAGUE
-GOUGE
-
-User: meredithc
-Game Number: 55
-Target: STILL
-Number of Guesses: 2
-Win: Yes
-CHILD
-STILL
-
-User: meredithc
-Game Number: 56
-Target: THING
-Number of Guesses: 2
-Win: Yes
-CHILD
-THING
-
-User: meredithc
-Game Number: 57
-Target: RETRO
-Number of Guesses: 2
-Win: Yes
-VAGUE
-RETRO
-
-User: meredithc
-Game Number: 58
-Target: ROAST
-Number of Guesses: 2
-Win: Yes
-CHILD
-ROAST
-
-User: meredithc
-Game Number: 59
-Target: CREAKY
-Number of Guesses: 2
-Win: Yes
-LETTER
-CREAKY
-
-User: meredithc
-Game Number: 60
-Target: STARK
-Number of Guesses: 2
-Win: Yes
-CHILD
-STARK
-
-User: meredithc
-Game Number: 61
-Target: THERES
-Number of Guesses: 2
-Win: Yes
-LETTER
-THERES
-
-User: meredithc
-Game Number: 62
-Target: CEDING
-Number of Guesses: 2
-Win: Yes
-LETTER
-CEDING
-
-User: meredithc
-Game Number: 63
-Target: CULTIC
-Number of Guesses: 2
-Win: Yes
-LETTER
-CULTIC
-
-User: meredithc
-Game Number: 64
-Target: PRESOAK
-Number of Guesses: 2
-Win: Yes
-MONTHLY
-PRESOAK
-
-User: meredithc
-Game Number: 65
-Target: FINER
-Number of Guesses: 2
-Win: Yes
-CHILD
-FINER
-
-User: meredithc
-Game Number: 66
-Target: PROOF
-Number of Guesses: 2
-Win: Yes
-CHILD
-PROOF
-
-User: meredithc
-Game Number: 67
-Target: SHANK
-Number of Guesses: 2
-Win: Yes
-CHILD
-SHANK
-
-User: meredithc
-Game Number: 68
-Target: GNOSES
-Number of Guesses: 2
-Win: Yes
-VIRGIN
-GNOSES
-
-User: meredithc
-Game Number: 69
-Target: BREED
-Number of Guesses: 2
-Win: Yes
-CHILD
-BREED
-
-User: meredithc
-Game Number: 70
-Target: BLISS
-Number of Guesses: 2
-Win: Yes
-VAGUE
-BLISS
-
-User: meredithc
-Game Number: 71
-Target: TREND
-Number of Guesses: 2
-Win: Yes
-CHILD
-TREND
-
-User: meredithc
-Game Number: 72
-Target: SHOWY
-Number of Guesses: 2
-Win: Yes
-VAGUE
-SHOWY
-
-User: meredithc
-Game Number: 73
-Target: LOVELY
-Number of Guesses: 2
-Win: Yes
-VIRGIN
-LOVELY
-
-User: meredithc
-Game Number: 74
-Target: COYOTE
-Number of Guesses: 2
-Win: Yes
-VIRGIN
-COYOTE
-
-User: meredithc
-Game Number: 75
-Target: REALITY
-Number of Guesses: 2
-Win: Yes
-LETTERS
-REALITY
-
-User: meredithc
-Game Number: 76
-Target: DEFICIT
-Number of Guesses: 2
-Win: Yes
-REALITY
-DEFICIT
-
-User: meredithc
-Game Number: 77
-Target: PARER
-Number of Guesses: 2
-Win: Yes
-CHILD
-PARER
-
-User: meredithc
-Game Number: 78
-Target: WORSE
-Number of Guesses: 2
-Win: Yes
-CHILD
-WORSE
-
-User: meredithc
-Game Number: 79
-Target: ROCKY
-Number of Guesses: 3
-Win: Yes
-VAGUE
-DEATH
-ROCKY
-
-User: meredithc
-Game Number: 80
-Target: CARAT
-Number of Guesses: 2
-Win: Yes
-CHILD
-CARAT
-
-User: meredithc
-Game Number: 81
-Target: UNITY
-Number of Guesses: 2
-Win: Yes
-CHILD
-UNITY
-
-User: meredithc
-Game Number: 82
-Target: HICCUP
-Number of Guesses: 2
-Win: Yes
-VIRGIN
-HICCUP
-
-User: meredithc
-Game Number: 83
-Target: COSTER
-Number of Guesses: 2
-Win: Yes
-VIRGIN
-COSTER
-
-User: meredithc
-Game Number: 84
-Target: GRASS
+Target: SHE
 Number of Guesses: 6
 Win: No
-CHILD
-GROWN
-GREEN
-GROAN
-GRAFT
-GRASP
-
-User: meredithc
-Game Number: 85
-Target: MOULT
-Number of Guesses: 4
-Win: Yes
-CHILD
-VAGUE
-MONTH
-MOULT
-
-User: meredithc
-Game Number: 86
-Target: BOOBY
-Number of Guesses: 6
-Win: No
-VAGUE
-DEATH
-FORTH
-SILKY
-JUMPY
-DEATH
-
-User: meredithc
-Game Number: 87
-Target: EMBED
-Number of Guesses: 5
-Win: Yes
-CHILD
-VAGUE
-FORTH
-SLEEP
-EMBED
-
-User: meredithc
-Game Number: 88
-Target: BLURB
-Number of Guesses: 6
-Win: Yes
-DEATH
-FORTH
-BUILT
-BLUNT
-BLUSH
-BLURB
-
-User: meredithc
-Game Number: 89
-Target: WOKEN
-Number of Guesses: 6
-Win: Yes
-CHILD
-VAGUE
-FORTH
-BOUGH
-WOMEN
-WOKEN
-
-User: meredithc
-Game Number: 90
-Target: SHRUB
-Number of Guesses: 5
-Win: Yes
-CHILD
-THETA
-SHOOK
-SHRUG
-SHRUB
-
-User: meredithc
-Game Number: 91
-Target: TUMOR
-Number of Guesses: 4
-Win: Yes
-CHILD
-REUSE
-TUTOR
-TUMOR
-
-User: meredithc
-Game Number: 92
-Target: EXTRA
-Number of Guesses: 5
-Win: Yes
-CHILD
-REUSE
-BAKER
-AVERT
-EXTRA
-
-User: meredithc
-Game Number: 93
-Target: CONFORM
-Number of Guesses: 3
-Win: Yes
-LETTERS
-CONCORD
-CONFORM
-
-User: meredithc
-Game Number: 94
-Target: EXAMPLE
-Number of Guesses: 3
-Win: Yes
-LETTERS
-BICYCLE
-EXAMPLE
-
-User: meredithc
-Game Number: 95
-Target: STEED
-Number of Guesses: 4
-Win: Yes
-VAGUE
-CIDER
-TWEED
-STEED
-
-User: meredithc
-Game Number: 96
-Target: WIDER
-Number of Guesses: 6
-Win: Yes
-CHILD
-PORCH
-VAGUE
-RIDER
-CIDER
-WIDER
-
-User: meredithc
-Game Number: 97
-Target: TODDY
-Number of Guesses: 4
-Win: Yes
-CHILD
-VAGUE
-FORTH
-TODDY
-
-User: meredithc
-Game Number: 98
-Target: ROW
-Number of Guesses: 6
-Win: No
-BAT
-RYE
-RHO
-ROD
-ROC
-ROM
-
-User: meredithc
-Game Number: 99
-Target: GAM
-Number of Guesses: 6
-Win: No
-BAT
-RAD
-AAH
-PAC
-NAE
-LAG
-
-User: meredithc
-Game Number: 100
-Target: GAD
-Number of Guesses: 6
-Win: No
-BAT
-RAD
-PAD
-LAD
-HAD
-WAD
-
-User: meredithc
-Game Number: 101
-Target: POI
-Number of Guesses: 4
-Win: Yes
-BAT
+LOW
+TRY
 EGG
-ION
-POI
+VIE
+KUE
+CEE
 
-User: meredithc
-Game Number: 102
-Target: WHYS
+User: kaned
+Game Number: 25
+Target: JUN
+Number of Guesses: 6
+Win: Yes
+LOW
+EGG
+VIA
+THY
+CRU
+JUN
+
+User: kaned
+Game Number: 26
+Target: TOW
 Number of Guesses: 5
 Win: Yes
-RANT
-IDOL
-FUCK
-GHEE
-WHYS
+TOE
+TOD
+TOG
+TOE
+TOW
 
-User: meredithc
-Game Number: 103
-Target: ABLE
+User: kaned
+Game Number: 27
+Target: RYA
+Number of Guesses: 4
+Win: Yes
+OWE
+RYE
+RAY
+RYA
+
+User: kaned
+Game Number: 28
+Target: SHY
+Number of Guesses: 1
+Win: Yes
+SHY
+
+User: kaned
+Game Number: 29
+Target: JOGS
+Number of Guesses: 6
+Win: Yes
+GIVE
+HANG
+FUGS
+DOGS
+LOGS
+JOGS
+
+User: kaned
+Game Number: 30
+Target: REBAIT
 Number of Guesses: 5
 Win: Yes
-RANT
-AMYL
-AWLS
-AXLE
-ABLE
+ARROWS
+THINKS
+THOUGH
+LATRIA
+REBAIT
 
-User: meredithc
-Game Number: 104
-Target: STICK
+User: kaned
+Game Number: 31
+Target: NOSTRIL
 Number of Guesses: 3
-Win: No
-CHILD
-VAGUE
-FORTH
-
-User: meredithc
-Game Number: 105
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 106
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 107
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 108
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 109
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 110
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 111
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 112
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 113
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 114
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 115
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 116
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 117
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 118
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 119
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 120
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 121
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 122
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 123
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 124
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 125
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 126
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 127
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 128
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 129
-Target: FORTE
-Number of Guesses: 3
-Win: No
-VAGUE
-CHILD
-FORTH
-
-User: meredithc
-Game Number: 130
-Target: SMELL
-Number of Guesses: 3
-Win: No
-CHILD
-VAGUE
-FORTH
-
-User: meredithc
-Game Number: 131
-Target: SORRY
-Number of Guesses: 2
-Win: No
-CHILD
-VAGUE
-
-User: meredithc
-Game Number: 132
-Target: STAID
-Number of Guesses: 2
-Win: No
-CHILD
-VAGUE
-
-User: meredithc
-Game Number: 133
-Target: BANAL
-Number of Guesses: 2
-Win: No
-CHILD
-VAGUE
-
-User: meredithc
-Game Number: 134
-Target: LUMPY
-Number of Guesses: 3
-Win: No
-CHILD
-VAGUE
-FORTH
-
-User: meredithc
-Game Number: 135
-Target: LEAVE
-Number of Guesses: 2
-Win: No
-CHILD
-VAGUE
-
-User: meredithc
-Game Number: 136
-Target: EVICT
-Number of Guesses: 2
-Win: No
-CHILD
-VAGUE
-
-User: meredithc
-Game Number: 137
-Target: MISSY
-Number of Guesses: 3
-Win: No
-CHILD
-VAGUE
-DEATH
-
-User: meredithc
-Game Number: 138
-Target: POSER
-Number of Guesses: 2
-Win: No
-CHILD
-VAGUE
-
-User: meredithc
-Game Number: 139
-Target: STOOD
-Number of Guesses: 4
-Win: No
-CHILD
-FORTH
-VAGUE
-MOUND
-
-User: meredithc
-Game Number: 140
-Target: AWARD
-Number of Guesses: 4
-Win: No
-CHILD
-VAGUE
-FORTH
-LEARN
-
-User: meredithc
-Game Number: 141
-Target: SPICY
-Number of Guesses: 2
-Win: No
-CHILD
-PORCH
-
-User: meredithc
-Game Number: 142
-Target: MATCH
-Number of Guesses: 5
-Win: No
-CHILD
-VAGUE
-PORCH
-BATCH
-LATCH
-
-User: meredithc
-Game Number: 143
-Target: FANNY
-Number of Guesses: 4
 Win: Yes
-CHILD
-VAGUE
-FORTH
-FANNY
+ADDRESS
+INCISOR
+NOSTRIL
 
-User: meredithc
-Game Number: 144
-Target: GLOOM
-Number of Guesses: 4
-Win: No
-CHILD
-VAGUE
-FORTH
-LEGAL
-
-User: meredithc
-Game Number: 145
-Target: ACORN
-Number of Guesses: 4
+User: kaned
+Game Number: 32
+Target: DEGREES
+Number of Guesses: 2
 Win: Yes
-CHILD
-WRECK
-SCRAM
-ACORN
+ADDRESS
+DEGREES
+
+User: kaned
+Game Number: 33
+Target: PAJAMAS
+Number of Guesses: 2
+Win: Yes
+ADDRESS
+PAJAMAS
 
 User: meredithc
 Game Number: 146
@@ -3243,736 +1732,440 @@ Win: Yes
 CHILD
 HOLLY
 
-User: meredithc
-Game Number: 172
-Target: WHINY
+User: kaned
+Game Number: 34
+Target: PLUMB
 Number of Guesses: 5
 Win: Yes
-CHILD
-THINK
-RHINO
-SHINE
-WHINY
+ARROW
+MINCE
+DUMPY
+PLUMP
+PLUMB
 
-User: meredithc
-Game Number: 173
-Target: CABBY
+User: kaned
+Game Number: 35
+Target: COLON
 Number of Guesses: 5
 Win: Yes
-VAGUE
-TARDY
-WACKY
-FANCY
-CABBY
+ARROW
+UNION
+SPOON
+MELON
+COLON
 
-User: meredithc
-Game Number: 174
-Target: FLING
-Number of Guesses: 5
+User: kaned
+Game Number: 36
+Target: KINKY
+Number of Guesses: 1
 Win: Yes
-CHILD
-PLIER
-GLINT
-SLING
-FLING
+KINKY
 
-User: meredithc
-Game Number: 175
-Target: WORRY
-Number of Guesses: 5
+User: kaned
+Game Number: 37
+Target: TALLY
+Number of Guesses: 1
 Win: Yes
-VAGUE
+TALLY
+
+User: kaned
+Game Number: 38
+Target: SNAKY
+Number of Guesses: 1
+Win: Yes
+SNAKY
+
+User: kaned
+Game Number: 39
+Target: CROUP
+Number of Guesses: 1
+Win: Yes
+CROUP
+
+User: kaned
+Game Number: 40
+Target: AORTA
+Number of Guesses: 1
+Win: Yes
+AORTA
+
+User: kaned
+Game Number: 41
+Target: AWAIT
+Number of Guesses: 1
+Win: Yes
+AWAIT
+
+User: kaned
+Game Number: 42
+Target: INLET
+Number of Guesses: 1
+Win: Yes
+INLET
+
+User: kaned
+Game Number: 43
+Target: CLAMP
+Number of Guesses: 1
+Win: Yes
+CLAMP
+
+User: kaned
+Game Number: 44
+Target: TAFFY
+Number of Guesses: 1
+Win: Yes
+TAFFY
+
+User: kaned
+Game Number: 45
+Target: REARM
+Number of Guesses: 1
+Win: Yes
+REARM
+
+User: kaned
+Game Number: 46
+Target: BREAD
+Number of Guesses: 4
+Win: Yes
+ARROW
+CRAZY
+DREAD
+BREAD
+
+User: kaned
+Game Number: 47
+Target: MUDDY
+Number of Guesses: 1
+Win: Yes
+MUDDY
+
+User: kaned
+Game Number: 48
+Target: SHADE
+Number of Guesses: 1
+Win: Yes
+SHADE
+
+User: kaned
+Game Number: 49
+Target: BUSED
+Number of Guesses: 1
+Win: Yes
+BUSED
+
+User: kaned
+Game Number: 50
+Target: EXALT
+Number of Guesses: 1
+Win: Yes
+EXALT
+
+User: kaned
+Game Number: 51
+Target: PURSE
+Number of Guesses: 1
+Win: Yes
+PURSE
+
+User: kaned
+Game Number: 52
+Target: TRITE
+Number of Guesses: 1
+Win: Yes
+TRITE
+
+User: kaned
+Game Number: 53
+Target: GREAT
+Number of Guesses: 1
+Win: Yes
+GREAT
+
+User: kaned
+Game Number: 54
+Target: BURST
+Number of Guesses: 1
+Win: Yes
+BURST
+
+User: kaned
+Game Number: 55
+Target: GOLLY
+Number of Guesses: 1
+Win: Yes
+GOLLY
+
+User: kaned
+Game Number: 56
+Target: TRAIL
+Number of Guesses: 1
+Win: Yes
+TRAIL
+
+User: kaned
+Game Number: 57
+Target: RIVET
+Number of Guesses: 1
+Win: Yes
+RIVET
+
+User: kaned
+Game Number: 58
+Target: CRUMB
+Number of Guesses: 1
+Win: Yes
+CRUMB
+
+User: kaned
+Game Number: 59
+Target: STOLE
+Number of Guesses: 1
+Win: Yes
+STOLE
+
+User: kaned
+Game Number: 60
+Target: DOGMA
+Number of Guesses: 1
+Win: Yes
+DOGMA
+
+User: kaned
+Game Number: 61
+Target: FRAUD
+Number of Guesses: 1
+Win: Yes
+FRAUD
+
+User: kaned
+Game Number: 62
+Target: TOTAL
+Number of Guesses: 1
+Win: Yes
+TOTAL
+
+User: kaned
+Game Number: 63
+Target: FLOAT
+Number of Guesses: 1
+Win: Yes
+FLOAT
+
+User: kaned
+Game Number: 64
+Target: BAYOU
+Number of Guesses: 1
+Win: Yes
+BAYOU
+
+User: kaned
+Game Number: 65
+Target: CLICK
+Number of Guesses: 1
+Win: Yes
 CLICK
-THROB
-SORRY
-WORRY
 
-User: meredithc
-Game Number: 176
-Target: CRUEL
-Number of Guesses: 4
-Win: Yes
-CHILD
-VAGUE
-FORTH
-CRUEL
-
-User: meredithc
-Game Number: 177
-Target: IDLER
-Number of Guesses: 2
-Win: Yes
-CHILD
-IDLER
-
-User: meredithc
-Game Number: 179
-Target: ALOOF
-Number of Guesses: 2
-Win: Yes
-CHILD
-ALOOF
-
-User: meredithc
-Game Number: 181
-Target: MAMBO
-Number of Guesses: 2
-Win: Yes
-CHILD
-MAMBO
-
-
-User: meredithc
-Game Number: 182
-Target: SWEET
-Number of Guesses: 3
-Win: Yes
-CHILD
-VAGUE
-SWEET
-
-User: meredithc
-Game Number: 183
-Target: SPAWN
-Number of Guesses: 2
-Win: Yes
-CHILD
-SPAWN
-
-User: meredithc
-Game Number: 184
-Target: WRITE
-Number of Guesses: 3
-Win: Yes
-CHILD
-VAGUE
-WRITE
-
-User: meredithc
-Game Number: 185
-Target: WORRY
-Number of Guesses: 3
-Win: Yes
-VAGUE
-CHILD
-WORRY
-
-User: meredithc
-Game Number: 186
-Target: WHINE
+User: kaned
+Game Number: 66
+Target: MORAL
 Number of Guesses: 1
 Win: Yes
-WHINE
+MORAL
 
-User: meredithc
-Game Number: 187
-Target: TIBIA
-Number of Guesses: 4
-Win: Yes
-CHILD
-VAGUE
-FORTH
-TIBIA
-
-User: meredithc
-Game Number: 188
-Target: WOULD
-Number of Guesses: 2
-Win: Yes
-CHILD
-WOULD
-
-User: meredithc
-Game Number: 189
-Target: STUNT
-Number of Guesses: 2
-Win: Yes
-CHILD
-STUNT
-
-User: meredithc
-Game Number: 190
-Target: JERKY
+User: kaned
+Game Number: 67
+Target: CEASE
 Number of Guesses: 1
 Win: Yes
-JERKY
+CEASE
 
-User: meredithc
-Game Number: 191
-Target: CURVE
+User: kaned
+Game Number: 68
+Target: MERIT
 Number of Guesses: 1
 Win: Yes
-CURVE
+MERIT
 
-User: meredithc
-Game Number: 191
-Target: PALSY
-Number of Guesses: 2
+User: kaned
+Game Number: 69
+Target: OVERT
+Number of Guesses: 1
 Win: Yes
-CHILD
-PALSY
+OVERT
 
-User: meredithc
-Game Number: 192
+User: kaned
+Game Number: 70
+Target: CLAIM
+Number of Guesses: 1
+Win: Yes
+CLAIM
+
+User: kaned
+Game Number: 71
+Target: STRAW
+Number of Guesses: 1
+Win: Yes
+STRAW
+
+User: kaned
+Game Number: 72
 Target: VENOM
-Number of Guesses: 4
+Number of Guesses: 1
 Win: Yes
-CHILD
-VAGUE
-FORTH
 VENOM
 
-User: meredithc
-Game Number: 193
-Target: WIDEN
-Number of Guesses: 3
-Win: Yes
-CHILD
-VAGUE
-WIDEN
-
-User: meredithc
-Game Number: 194
-Target: BRASH
-Number of Guesses: 3
-Win: Yes
-CHILD
-VAGUE
-BRASH
-
-User: meredithc
-Game Number: 195
-Target: STEEL
-Number of Guesses: 3
-Win: Yes
-VAGUE
-FORTH
-STEEL
-
-User: meredithc
-Game Number: 196
-Target: CARIBOU
-Number of Guesses: 3
-Win: Yes
-LETTERS
-DICTION
-CARIBOU
-
-User: meredithc
-Game Number: 196
-Target: FASHION
-Number of Guesses: 2
-Win: Yes
-DICTION
-FASHION
-
-User: meredithc
-Game Number: 196
-Target: STING
-Number of Guesses: 2
-Win: Yes
-CHILD
-STING
-
-User: meredithc
-Game Number: 196
-Target: PICKY
-Number of Guesses: 3
-Win: Yes
-CHILD
-MINCE
-PICKY
-
-User: meredithc
-Game Number: 196
-Target: EXPEL
-Number of Guesses: 5
-Win: Yes
-CHILD
-NOVEL
-BAGEL
-REPEL
-EXPEL
-
-User: meredithc
-Game Number: 196
-Target: VERSE
-Number of Guesses: 2
-Win: Yes
-CHILD
-VERSE
-
-User: meredithc
-Game Number: 197
-Target: HUMAN
-Number of Guesses: 4
-Win: Yes
-CHILD
-YOUTH
-USHER
-HUMAN
-
-User: meredithc
-Game Number: 198
-Target: NAW
-Number of Guesses: 6
-Win: Yes
-BAR
-AAH
-PAD
-NAE
-NAG
-NAW
-
-User: meredithc
-Game Number: 199
-Target: DANCE
-Number of Guesses: 2
-Win: Yes
-CHILD
-DANCE
-
-User: meredithc
-Game Number: 200
-Target: ESTER
-Number of Guesses: 6
-Win: Yes
-CHILD
-VAGUE
-CHILL
-EMPTY
-ENTER
-ESTER
-
-User: meredithc
-Game Number: 201
-Target: BATTY
-Number of Guesses: 5
-Win: Yes
-CHILD
-REUSE
-BOOZY
-BAGGY
-BATTY
-
-User: meredithc
-Game Number: 1
-Target: QUAKE
-Number of Guesses: 2
-Win: Yes
-CHILD
-QUAKE
-
-User: meredithc
-Game Number: 2
-Target: GIDDY
+User: kaned
+Game Number: 73
+Target: TOUCH
 Number of Guesses: 1
 Win: Yes
-GIDDY
-
-User: meredithc
-Game Number: 3
-Target: FACET
-Number of Guesses: 2
-Win: Yes
-CHILD
-FACET
+TOUCH
 
 User: kaned
-Game Number: 90
-Target: GRAVE
-Number of Guesses: 5
-Win: Yes
-ARROW
-GECKO
-GRATE
-GRAPE
-GRAVE
-
-User: kaned
-Game Number: 90
-Target: EXACT
-Number of Guesses: 2
-Win: Yes
-TIGER
-EXACT
-
-User: kaned
-Game Number: 90
-Target: BYLAW
-Number of Guesses: 2
-Win: Yes
-ARROW
-BYLAW
-
-User: kaned
-Game Number: 90
-Target: HOIST
-Number of Guesses: 2
-Win: Yes
-ARROW
-HOIST
-
-User: kaned
-Game Number: 91
-Target: GRANT
-Number of Guesses: 2
-Win: Yes
-ARROW
-GRANT
-
-User: kaned
-Game Number: 92
-Target: SPIKE
-Number of Guesses: 2
-Win: Yes
-ARROW
-SPIKE
-
-User: kaned
-Game Number: 93
-Target: PARER
-Number of Guesses: 2
-Win: Yes
-ARROW
-PARER
-
-User: kaned
-Game Number: 94
-Target: BAKER
-Number of Guesses: 2
-Win: Yes
-ARROW
-BAKER
-
-User: kaned
-Game Number: 95
-Target: WHELP
-Number of Guesses: 2
-Win: Yes
-ARROW
-WHELP
-
-User: kaned
-Game Number: 96
-Target: NATAL
-Number of Guesses: 2
-Win: Yes
-ARROW
-NATAL
-
-User: kaned
-Game Number: 97
-Target: WRONG
-Number of Guesses: 2
-Win: Yes
-ARROW
-WRONG
-
-User: meredithc
-Game Number: 4
-Target: DETOX
-Number of Guesses: 5
-Win: Yes
-VAGUE
-CHILD
-FORTH
-TOKEN
-DETOX
-
-User: meredithc
-Game Number: 5
-Target: BLUSH
+Game Number: 74
+Target: SCARE
 Number of Guesses: 1
 Win: Yes
-BLUSH
+SCARE
 
-User: meredithc
-Game Number: 6
-Target: ELECT
-Number of Guesses: 2
-Win: Yes
-CHILD
-ELECT
-
-User: meredithc
-Game Number: 7
-Target: BRISK
-Number of Guesses: 2
-Win: Yes
-CHILD
-BRISK
-
-User: meredithc
-Game Number: 8
-Target: LAPEL
-Number of Guesses: 2
-Win: Yes
-CHILD
-LAPEL
-
-User: meredithc
-Game Number: 9
-Target: SPECK
-Number of Guesses: 2
-Win: Yes
-CHILD
-SPECK
-
-User: meredithc
-Game Number: 10
-Target: STYLE
+User: kaned
+Game Number: 75
+Target: BERTH
 Number of Guesses: 1
 Win: Yes
-STYLE
+BERTH
 
-User: meredithc
-Game Number: 11
-Target: TROPE
+User: kaned
+Game Number: 76
+Target: FLAIL
 Number of Guesses: 1
 Win: Yes
-TROPE
-
-User: meredithc
-Game Number: 12
-Target: BASTE
-Number of Guesses: 3
-Win: Yes
-CHILD
-OUTDO
-BASTE
-
-User: meredithc
-Game Number: 13
-Target: DOWNY
-Number of Guesses: 2
-Win: Yes
-CHILD
-DOWNY
+FLAIL
 
 User: kaned
-Game Number: 98
-Target: MACAW
-Number of Guesses: 3
-Win: Yes
-ARROW
-BYLAW
-MACAW
-
-User: kaned
-Game Number: 99
-Target: WRING
-Number of Guesses: 2
-Win: Yes
-ARROW
-WRING
-
-User: kaned
-Game Number: 100
-Target: WHEEL
-Number of Guesses: 3
-Win: Yes
-ARROW
-DWELL
-WHEEL
-
-User: kaned
-Game Number: 101
-Target: GNOME
-Number of Guesses: 6
-Win: No
-ARROW
-ARROW
-ARROW
-ARROW
-ARROW
-ARROW
-
-User: kaned
-Game Number: 102
-Target: ICING
+Game Number: 77
+Target: VENOM
 Number of Guesses: 1
 Win: Yes
-ICING
+VENOM
 
 User: kaned
-Game Number: 103
-Target: VERSE
-Number of Guesses: 4
+Game Number: 78
+Target: MEDIA
+Number of Guesses: 1
 Win: Yes
-ARROW
-ARROW
-ARROW
-VERSE
+MEDIA
 
 User: kaned
-Game Number: 104
-Target: SCENT
-Number of Guesses: 3
+Game Number: 79
+Target: POSSE
+Number of Guesses: 1
 Win: Yes
-ARROW
-BEECH
-SCENT
+POSSE
 
 User: kaned
-Game Number: 105
-Target: FROWN
-Number of Guesses: 2
+Game Number: 80
+Target: APING
+Number of Guesses: 1
 Win: Yes
-ARROW
-FROWN
+APING
 
 User: kaned
-Game Number: 106
+Game Number: 81
 Target: PRICE
 Number of Guesses: 1
 Win: Yes
 PRICE
 
 User: kaned
-Game Number: 107
-Target: TRUER
-Number of Guesses: 2
-Win: Yes
-ARROW
-TRUER
-
-User: kaned
-Game Number: 108
-Target: TOTEM
-Number of Guesses: 2
-Win: Yes
-ARROW
-TOTEM
-
-User: kaned
-Game Number: 109
-Target: RHINO
-Number of Guesses: 3
-Win: Yes
-ARROW
-ARROW
-RHINO
-
-User: kaned
-Game Number: 110
-Target: AGONY
-Number of Guesses: 6
-Win: No
-ARROW
-ARROW
-ARROW
-ARROW
-ARROW
-ARROW
-
-User: kaned
-Game Number: 111
-Target: LEPER
-Number of Guesses: 3
-Win: Yes
-ARROW
-ARROW
-LEPER
-
-User: kaned
-Game Number: 112
-Target: CHEST
-Number of Guesses: 2
-Win: Yes
-ARROW
-CHEST
-
-User: kaned
-Game Number: 113
-Target: RIPER
+Game Number: 82
+Target: DOUBT
 Number of Guesses: 1
 Win: Yes
-RIPER
+DOUBT
 
 User: kaned
-Game Number: 114
-Target: FATTY
+Game Number: 83
+Target: DOZEN
 Number of Guesses: 1
 Win: Yes
-FATTY
+DOZEN
 
 User: kaned
-Game Number: 115
-Target: SMELT
+Game Number: 84
+Target: CHINA
 Number of Guesses: 1
 Win: Yes
-SMELT
+CHINA
 
 User: kaned
-Game Number: 116
-Target: SCRAM
+Game Number: 85
+Target: INDEX
 Number of Guesses: 1
 Win: Yes
-SCRAM
+INDEX
 
 User: kaned
-Game Number: 117
-Target: SIXTH
+Game Number: 86
+Target: WISER
 Number of Guesses: 1
 Win: Yes
-SIXTH
+WISER
 
 User: kaned
-Game Number: 118
-Target: ALARM
+Game Number: 87
+Target: MACRO
 Number of Guesses: 1
 Win: Yes
-ALARM
+MACRO
 
 User: kaned
-Game Number: 119
-Target: TITAN
-Number of Guesses: 1
-Win: Yes
-TITAN
-
-User: kaned
-Game Number: 120
-Target: WOOLY
-Number of Guesses: 1
-Win: Yes
-WOOLY
-
-User: kaned
-Game Number: 121
-Target: EXIST
-Number of Guesses: 1
-Win: Yes
-EXIST
-
-User: kaned
-Game Number: 122
-Target: SPILT
-Number of Guesses: 6
-Win: No
-ARROW
-LOSER
-BLISS
-SKILL
-SPLIT
-SPLIT
-
-User: kaned
-Game Number: 123
-Target: FROCK
-Number of Guesses: 2
-Win: Yes
-FLOCK
-FROCK
-
-User: kaned
-Game Number: 124
-Target: POUND
+Game Number: 88
+Target: FLEET
 Number of Guesses: 5
 Win: Yes
+APING
 ARROW
-BINGO
-CLONE
-FOUND
-POUND
+THESE
+ELECT
+FLEET
+
+User: kaned
+Game Number: 89
+Target: LABOR
+Number of Guesses: 4
+Win: Yes
+DEATH
+AFOUL
+SOLAR
+LABOR
+
+User: kaned
+Game Number: 90
+Target: IDYLL
+Number of Guesses: 2
+Win: Yes
+IDIOT
+IDYLL
+
+User: kaned
+Game Number: 91
+Target: ANGER
+Number of Guesses: 6
+Win: No
+AFTER
+AFTER
+AFTER
+AFTER
+AFTER
+AFTER
+
+User: kaned
+Game Number: 92
+Target: ABACK
+Number of Guesses: 2
+Win: Yes
+ARROW
+ABACK
