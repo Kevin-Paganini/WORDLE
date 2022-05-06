@@ -12,7 +12,7 @@ let port = process.env.PORT || 8000;
 
 var uploadGlobalData = fs.readFileSync(appRoot + `/ServerFiles/GlobalData`);
 var dashboard = fs.readFileSync(appRoot + `/dashboard.html`);
-var home = fs.readFileSync(appRoot + '/chart_gen/index_test.html');
+
 var upload_path = appRoot + `/ServerFiles/`;
 
 
@@ -26,6 +26,7 @@ console.log("Server Running on port: " + port)
 http.createServer(function (req, res) {
     if (req.method === "GET") {
         res.writeHead(200);
+        var home = fs.readFileSync(appRoot + '/chart_gen/index_test.html');
         res.write(home);
         
         return res.end();

@@ -5,7 +5,14 @@ from vis import Vis
 from bs4 import BeautifulSoup
 
 
-
+# Calls vis to generate new html charts
+# parses start of file with body from each chart
+# puts end of file on to html file
+# Practically making a sandwich 
+# index_template_start
+# Body off charts x5
+#index_template_end
+# Generates index_test.html
 def generateCharts():
     chartGen = Vis()
     chartGen.elements()
@@ -36,10 +43,6 @@ def generateCharts():
     wfc_html = open("chart_gen/word_freq_chart.html").read()
     wfc_soup = BeautifulSoup(wfc_html, features='html.parser')
     wfc_soup = wfc_soup.find('body')
-
-    
-   
-
 
     with open("chart_gen/index_test.html", "w") as main_file:
         main_file.write(index_start)

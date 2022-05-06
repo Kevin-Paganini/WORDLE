@@ -50,7 +50,7 @@ class Vis:
 
         
         def to_file(self, html, name):
-                with open(f'{name}.html', 'w') as f:
+                with open(f'chart_gen/{name}.html', 'w') as f:
                         f.write(html)
                         f.close()
 
@@ -148,6 +148,7 @@ class Vis:
         def elements(self):
 
                 # Reading in string into wordle objects
+                # add this when running server chart_gen/
                 sample_string = FileIO.file_to_string("chart_gen/GlobalData.txt")
                 games = file_IO.read(sample_string)
 

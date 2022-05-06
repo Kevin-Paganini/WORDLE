@@ -41,12 +41,16 @@ class FileIO:
                     win = False
 
                 guess_clean = []
-                guesses_dirty = game.split("+")
+                guesses_dirty = split_game[5].split("=")[1].strip()
+                print(guesses_dirty)
+                guesses_dirty = guesses_dirty.split("+")
                 for guess in guesses_dirty:
-                    if guess.strip() != "":
-                        guess_clean.append(guess.strip())
 
+                    guess = guess.strip()
+                    if guess != "":
+                        guess_clean.append(guess)
 
+                print(guess_clean)
                 wordle = Wordle(user=user, game_number=game_num, target=target, number_guesses=num_guesses, win=win, guess_list=guess_clean)
 
                 if (DEBUG):
