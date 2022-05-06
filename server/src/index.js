@@ -60,10 +60,7 @@ http.createServer(function (req, res) {
             string_data = score_data.join("\n")
         }
 
-        PythonShell.run('./chart_gen/ChartGenerator.py', null, function (err) {
-            if (err) throw err;
-            console.log('finished');
-          });
+        
 
         
         //------------------------------------------------
@@ -80,6 +77,12 @@ http.createServer(function (req, res) {
         }); 
         
         });
+
+        PythonShell.run('./chart_gen/ChartGenerator.py', null, function (err) {
+            if (err) throw err;
+            console.log('finished');
+          });
+
         return res.end();
     }
     
