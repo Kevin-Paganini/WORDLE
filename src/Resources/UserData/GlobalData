@@ -4526,3 +4526,51 @@ Number of Guesses: 2
 Win: Yes
 RATE
 HUGE
+
+User: kaned
+Game Number: 94
+Target: GUIDE
+Number of Guesses: 6
+Win: No
+LOSER
+ARROW
+ARROW
+ARROW
+BEECH
+ARROW
+
+User: kaned
+Game Number: 95
+Target: DOUBT
+Number of Guesses: 3
+Win: Yes
+ARROW
+TOUCH
+DOUBT
+
+User: kaned
+Game Number: 96
+Target: GORGE
+Number of Guesses: 2
+Win: Yes
+ARROW
+GORGE
+
+User: kaned
+Game Number: 97
+Target: GAMER
+Number of Guesses: 2
+Win: Yes
+ARROW
+GAMER
+
+User: kaned
+Game Number: 98
+Target: CRUDE
+Number of Guesses: 5
+Win: Yes
+ARROW
+TIMER
+LOSER
+BREED
+CRUDE

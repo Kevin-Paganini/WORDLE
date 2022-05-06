@@ -653,6 +653,7 @@ public class Controller {
         String finalInput = input;
         tempGuesses.add(input);
 
+        toggleTimer();
         if (!isData){
             saveUserData();
             Timer time = new Timer(animationSpeed * (numLetters + 1), e -> updateProgram(finalInput));
@@ -695,6 +696,7 @@ public class Controller {
                     showWinAlert();
                     //If the guess is wrong but the user isn't out of guesses
                 } else if (guess != numGuesses) {
+                    toggleTimer();
                     saveUserData();
                     for (int i = 0; i < numLetters; i++) {
                         TextField tf = gridOfTextFieldInputs.get(guess - 1).get(i);
