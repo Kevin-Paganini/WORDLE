@@ -7,9 +7,11 @@ body = {"Type":"Global", "User":"paganinik", "Game_Number": "4", "Target": "BOOB
 
 
 
+for i in range(50):
+    x = requests.post(url, data=body)
 
-x = requests.post(url, data=body)
+    print(x.text)
+    time.sleep(5)
 
-print(x.text)
 
 

@@ -3,7 +3,7 @@ var formidable = require('formidable');
 
 
 const { spawn } = require('child_process');
-    
+const PythonShell = require('python-shell').PythonShell;
 const qs = require('querystring');
 const fs = require('fs');
 var path = require('path');
@@ -12,8 +12,10 @@ let port = process.env.PORT || 8000;
 
 var uploadGlobalData = fs.readFileSync(appRoot + `/ServerFiles/GlobalData`);
 var dashboard = fs.readFileSync(appRoot + `/dashboard.html`);
-var home = fs.readFileSync(appRoot + '/index.html');
+var home = fs.readFileSync(appRoot + '/chart_gen/index_test.html');
 var upload_path = appRoot + `/ServerFiles/`;
+
+
 
 
 
@@ -47,6 +49,7 @@ http.createServer(function (req, res) {
             }
             file_path = '/chart_gen/GlobalData.txt'
             string_data = global_data.join("\n")
+            string_data += "\n\n"
         }
         if(split_data[0] === "Type=Scoreboard") {
             for(let i = 0; i < 6; i++){
@@ -56,7 +59,11 @@ http.createServer(function (req, res) {
             string_data = score_data.join("\n")
         }
 
-        const pyProg = spawn('python', ['./chart_gen/ChartGenerator.py']);
+        PythonShell.run('./chart_gen/ChartGenerator.py', null, function (err) {
+            if (err) throw err;
+            console.log('finished');
+          });
+
         
         //------------------------------------------------
         fs.writeFile(appRoot + file_path, string_data,
@@ -74,30 +81,5 @@ http.createServer(function (req, res) {
         });
         return res.end();
     }
-    if (req.url == "/dashboard"){
-        res.writeHead(200);
-        res.write(dashboard);
-        return res.end();
-    }
-    else if (req.url == '/uploadGlobalData') {
-        res.writeHead(200);
-        res.write(uploadGlobalData);
-        return res.end();
-    } else if (req.url == '/fileupload') {
-        var form = new formidable.IncomingForm();
-        form.parse(req, function (err, fields, files) {
-            // oldpath : temporary folder to which file is saved to
-
-            var oldpath = files.filetoupload.filepath;
-            var newpath = upload_path + "GlobalData";
-
-            // copy the file to a new location
-            fs.rename(oldpath, newpath, function (err) {
-                if (err) throw err;
-                // you may respond with another html page
-                res.write('File uploaded and moved!');
-                res.end();
-            });
-        });
-    }
+    
 }).listen(port);
