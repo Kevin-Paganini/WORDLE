@@ -6,6 +6,7 @@ class Analysis:
     def __init__(self):
         
         self.games = []
+        self.scores = []
 
 
     def wordFreq(self):
@@ -55,6 +56,17 @@ class Analysis:
     
     def setGames(self, games):
         self.games = games
+
+    def setScores(self, scores):
+        self.scores = scores
+
+    def scores(self):
+        leaderboard = dict()
+        for score in self.scores:
+            if score.num_guesses == 5 and score.suggestions == 0 and score.hard == 0:
+                leaderboard[score.user] = score.time
+        leaderboard=sorted(leaderboard.items(), key=lambda x: x[1], reverse=False)
+        return leaderboard
 
     def letterFreq(self):
         master = self.makeMasterGuessList()
@@ -110,7 +122,3 @@ class Analysis:
         for game in self.games:
             master_guess_list.extend(game.get_guess_list())
         return master_guess_list
-
-            
-
-
