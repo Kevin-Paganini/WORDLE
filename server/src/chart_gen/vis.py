@@ -141,23 +141,22 @@ class Vis:
 
                 self.chart_to_html(p, "easiest_target_chart")
 
-        def scoreboard(self,scores):
+        def scoreboard(self, scores):
                 x = [1, 2, 3, 4, 5]
-                times = list(scores.values())
-                userNames = list(scores.keys())
-                y0 = [times[0], 0, 0, 0, 0]
-                y1 = [0, times[1], 0, 0, 0]
-                y2 = [0, 0, times[2], 0, 0]
-                y3 = [0, 0, 0, times[3], 0]
-                y4 = [0, 0, 0, 0, times[4]]
+                y0 = [scores[0].time, 0, 0, 0, 0]
+                y1 = [0, scores[1].time, 0, 0, 0]
+                y2 = [0, 0, scores[2].time, 0, 0]
+                y3 = [0, 0, 0, scores[3].time, 0]
+                y4 = [0, 0, 0, 0, scores[4].time]
                 p = figure(title="ScoreBoard", x_axis_label="Place", y_axis_label="Time")
 
-                p.vbar(x=x, top=y0, legend_label=userNames[0], width=0.5, bottom=0, color="blue")
-                p.vbar(x=x, top=y1, legend_label=userNames[1], width=0.5, bottom=0, color="red")
-                p.vbar(x=x, top=y2, legend_label=userNames[2], width=0.5, bottom=0, color="green")
-                p.vbar(x=x, top=y3, legend_label=userNames[3], width=0.5, bottom=0, color="yellow")
-                p.vbar(x=x, top=y4, legend_label=userNames[4], width=0.5, bottom=0, color="purple")
+                p.vbar(x=x, top=y0, legend_label=scores[0].user, width=0.5, bottom=0, color="blue")
+                p.vbar(x=x, top=y1, legend_label=scores[1].user, width=0.5, bottom=0, color="red")
+                p.vbar(x=x, top=y2, legend_label=scores[2].user, width=0.5, bottom=0, color="green")
+                p.vbar(x=x, top=y3, legend_label=scores[3].user, width=0.5, bottom=0, color="yellow")
+                p.vbar(x=x, top=y4, legend_label=scores[4].user, width=0.5, bottom=0, color="purple")
                 self.chart_to_html(p, "Scoreboard")
+
 
 
 
@@ -165,11 +164,10 @@ class Vis:
         def elements(self):
 
                 # Reading in string into wordle objects
-                # add this when running server chart_gen/
-                sample_string = FileIO.file_to_string("chart_gen/GlobalData.txt")
+                sample_string = FileIO.file_to_string("GlobalData.txt")
                 games = file_IO.read(sample_string)
 
-                score_string = FileIO.file_to_string("chart_gen/Scoreboard.txt")
+                score_string = FileIO.file_to_string("Scoreboard.txt")
                 scores = file_IO.readScoreboard(score_string)
 
 
@@ -181,12 +179,16 @@ class Vis:
                 self.hardestTargetChart(analysis.hardestTarget())
                 self.easiestTargetChart(analysis.easiestTarget())
 
-
                 # Doing analysis and making charts for scoreboards
+                scores.append(Score("Jim", 1.2, 5, 5, 0, 0))
+                scores.append(Score("Jim", 5, 5, 5, 0, 0))
+                scores.append(Score("Jim", 19, 5, 5, 0, 0))
+                scores.append(Score("Jim", 3.1, 5, 5, 0, 0))
+                scores.append(Score("Jim", 4.2, 5, 5, 0, 0))
                 analysis.setScores(scores)
-                self.scoreboard(analysis.scores())
 
-                # Adding charts to window
+                self.scoreboard(analysis.make_scores())
+
                 
                 
                 
