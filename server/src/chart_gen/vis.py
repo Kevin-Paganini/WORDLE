@@ -141,6 +141,23 @@ class Vis:
 
                 self.chart_to_html(p, "easiest_target_chart")
 
+        def scoreboard(self,scores):
+                x = [1, 2, 3, 4, 5]
+                times = list(scores.values())
+                userNames = list(scores.keys())
+                y0 = [times[0], 0, 0, 0, 0]
+                y1 = [0, times[1], 0, 0, 0]
+                y2 = [0, 0, times[2], 0, 0]
+                y3 = [0, 0, 0, times[3], 0]
+                y4 = [0, 0, 0, 0, times[4]]
+                p = figure(title="ScoreBoard", x_axis_label="Place", y_axis_label="Time")
+
+                p.vbar(x=x, top=y0, legend_label=userNames[0], width=0.5, bottom=0, color="blue")
+                p.vbar(x=x, top=y1, legend_label=userNames[1], width=0.5, bottom=0, color="red")
+                p.vbar(x=x, top=y2, legend_label=userNames[2], width=0.5, bottom=0, color="green")
+                p.vbar(x=x, top=y3, legend_label=userNames[3], width=0.5, bottom=0, color="yellow")
+                p.vbar(x=x, top=y4, legend_label=userNames[4], width=0.5, bottom=0, color="purple")
+                self.chart_to_html(p, "Scoreboard")
 
 
 
@@ -163,6 +180,11 @@ class Vis:
                 self.winChart(analysis.win_loss())
                 self.hardestTargetChart(analysis.hardestTarget())
                 self.easiestTargetChart(analysis.easiestTarget())
+
+
+                # Doing analysis and making charts for scoreboards
+                analysis.setScores(scores)
+                self.scoreboard(analysis.scores())
 
                 # Adding charts to window
                 
