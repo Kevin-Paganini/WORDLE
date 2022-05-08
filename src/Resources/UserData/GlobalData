@@ -4803,3 +4803,51 @@ Target: EAGER
 Number of Guesses: 1
 Win: Yes
 EAGER
+
+User: meredithc
+Game Number: 102
+Target: DALLY
+Number of Guesses: 6
+Win: No
+GIVEN
+VAGUE
+CHILD
+FORTH
+LEARN
+PORCH
+
+User: meredithc
+Game Number: 103
+Target: AGAPE
+Number of Guesses: 6
+Win: No
+DUMPY
+LEARN
+YEARN
+CHILD
+FORTH
+VAGUE
+
+User: meredithc
+Game Number: 104
+Target: ATOLL
+Number of Guesses: 6
+Win: No
+ZEBRA
+CHECK
+QUEUE
+BATCH
+LOGIN
+PORCH
+
+User: meredithc
+Game Number: 105
+Target: MOULT
+Number of Guesses: 6
+Win: No
+CHILD
+PORCH
+ZEBRA
+DEATH
+VAGUE
+LEARN

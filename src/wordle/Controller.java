@@ -1629,6 +1629,7 @@ public class Controller {
 
             animationSpeed = tempSpeed;
             isData = false;
+            toggleTimer();
 
         } catch (IOException e) { startNewGame(); }
         gameStarted = true;
