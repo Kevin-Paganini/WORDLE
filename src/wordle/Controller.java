@@ -732,6 +732,11 @@ public class Controller {
                 keys = "";
                 submitButton.setDisable(true);
             });
+            try{
+                Files.write(Paths.get("src/Resources/UserData/KeyPresses"),keys.getBytes(), StandardOpenOption.APPEND);
+            }catch(IOException e) {
+                System.out.println("There was a problem logging KeyPresses");
+            }
         }
         else{
             guess++;
