@@ -169,8 +169,8 @@ class Vis:
                 sample_string = FileIO.file_to_string("chart_gen/GlobalData.txt")
                 games = file_IO.read(sample_string)
 
-                # score_string = FileIO.file_to_string("Scoreboard.txt")
-                # scores = file_IO.readScoreboard(score_string)
+                score_string = FileIO.file_to_string("Scoreboard.txt")
+                scores = file_IO.readScoreboard(score_string)
 
 
                 # Doing analysis and making charts
