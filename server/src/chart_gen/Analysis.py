@@ -1,4 +1,5 @@
 from Wordle import Wordle
+from Score import Score
 
 
 class Analysis:
@@ -63,7 +64,7 @@ class Analysis:
     def make_scores(self):
         leaderboard = []
         for score in self.scores:
-            if score.num_guesses == 5 and score.suggestions == 0 and score.hard == 0:
+            if score.num_letters == 5 and score.suggestions == 0 and score.hard == 0:
                 leaderboard.append(score)
         leaderboard = sorted(leaderboard, key=lambda x: x.time, reverse=False)
         return leaderboard

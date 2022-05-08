@@ -21,6 +21,7 @@ from math import pi
 
 from FileIO import FileIO
 from Analysis import Analysis
+from Score import Score
 
 
 
@@ -148,7 +149,7 @@ class Vis:
                 y2 = [0, 0, scores[2].time, 0, 0]
                 y3 = [0, 0, 0, scores[3].time, 0]
                 y4 = [0, 0, 0, 0, scores[4].time]
-                p = figure(title="ScoreBoard", x_axis_label="Place", y_axis_label="Time")
+                p = figure(title="Scoreboard", x_axis_label="Place", y_axis_label="Time")
 
                 p.vbar(x=x, top=y0, legend_label=scores[0].user, width=0.5, bottom=0, color="blue")
                 p.vbar(x=x, top=y1, legend_label=scores[1].user, width=0.5, bottom=0, color="red")
@@ -164,10 +165,10 @@ class Vis:
         def elements(self):
 
                 # Reading in string into wordle objects
-                sample_string = FileIO.file_to_string("GlobalData.txt")
+                sample_string = FileIO.file_to_string("chart_gen/GlobalData.txt")
                 games = file_IO.read(sample_string)
 
-                score_string = FileIO.file_to_string("Scoreboard.txt")
+                score_string = FileIO.file_to_string("chart_gen/sb.txt")
                 scores = file_IO.readScoreboard(score_string)
 
 
@@ -180,11 +181,7 @@ class Vis:
                 self.easiestTargetChart(analysis.easiestTarget())
 
                 # Doing analysis and making charts for scoreboards
-                scores.append(Score("Jim", 1.2, 5, 5, 0, 0))
-                scores.append(Score("Jim", 5, 5, 5, 0, 0))
-                scores.append(Score("Jim", 19, 5, 5, 0, 0))
-                scores.append(Score("Jim", 3.1, 5, 5, 0, 0))
-                scores.append(Score("Jim", 4.2, 5, 5, 0, 0))
+                
                 analysis.setScores(scores)
 
                 self.scoreboard(analysis.make_scores())

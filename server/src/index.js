@@ -52,12 +52,17 @@ http.createServer(function (req, res) {
             string_data = global_data.join("\n")
             string_data += "\n\n"
         }
-        if(split_data[0] === "Type=Scoreboard") {
-            for(let i = 0; i < 6; i++){
-                score_data[i] = split_data[i+1]
-            }
-            file_path = '/chart_gen/Scoreboard.txt'
+        if(split_data[1] === "Type=Scoreboard") {
+            score_data[0] = split_data[2]
+            score_data[1] = split_data[6]
+            score_data[2] = split_data[3]
+            score_data[3] = split_data[4]
+            score_data[4] = split_data[5]
+            score_data[5] = split_data[0]
+           
+            file_path = '/chart_gen/sb.txt'
             string_data = score_data.join("\n")
+            string_data += "\n\n"
         }
 
         //------------------------------------------------

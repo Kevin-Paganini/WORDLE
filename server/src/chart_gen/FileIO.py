@@ -30,9 +30,9 @@ class FileIO:
             if len(split_game) > 5:
 
                 
-                user = split_game[0].split("=")[1].strip()
-                game_num = split_game[1].split("=")[1].strip()
-                target = split_game[2].split("=")[1].strip()
+                user = split_game[1].split("=")[1].strip()
+                game_num = split_game[5].split("=")[1].strip()
+                target = split_game[0].split("=")[1].strip()
                 num_guesses = split_game[3].split("=")[1].strip()
                 win = split_game[4].split("=")[1].strip()
                 if win == "Yes":
@@ -41,7 +41,7 @@ class FileIO:
                     win = False
 
                 guess_clean = []
-                guesses_dirty = split_game[5].split("=")[1].strip()
+                guesses_dirty = split_game[2].split("=")[1].strip()
                 print(guesses_dirty)
                 guesses_dirty = guesses_dirty.split("+")
                 for guess in guesses_dirty:
