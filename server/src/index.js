@@ -33,7 +33,7 @@ http.createServer(function (req, res) {
     }
     if (req.method === "POST") {
         res.writeHead(200);
-        res.write('Not accepting right now....');
+        res.write('Accepted');
         const chunks = [];
         req.on('data', chunk => chunks.push(chunk));
         req.on('end', () => {

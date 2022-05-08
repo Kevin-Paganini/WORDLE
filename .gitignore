@@ -5,4 +5,7 @@
 /.idea/vcs.xml
 /se2800teamf.iml
 /venv
+/server/src/venv
+/src/venv
+/se2800teamf/server/src/venv
 /chart_gen/venv
