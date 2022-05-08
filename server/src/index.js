@@ -39,7 +39,7 @@ http.createServer(function (req, res) {
         req.on('end', () => {
         const byte_data = Buffer.concat(chunks);
         var string_data = byte_data.toString();
-        const split_data = string_data.split('&')
+        const split_data = string_data.split('&');
         console.log('Data: ', string_data);
         var global_data = []
         var score_data = []
@@ -60,9 +60,6 @@ http.createServer(function (req, res) {
             string_data = score_data.join("\n")
         }
 
-        
-
-        
         //------------------------------------------------
         fs.writeFile(appRoot + file_path, string_data,
         {
@@ -76,12 +73,28 @@ http.createServer(function (req, res) {
             console.log("The file was saved!");
         }); 
         
-        });
+        if (split_data[0] === "Type=Global"){
+            PythonShell.run('./chart_gen/ChartGenerator.py', null, function (err) {
+                if (err) throw err;
+                console.log('finished');
+              });
+        }
 
-        PythonShell.run('./chart_gen/ChartGenerator.py', null, function (err) {
-            if (err) throw err;
-            console.log('finished');
-          });
+        if(split_data[0] === "Type=Scoreboard"){
+
+            // PythonShell.run('./chart_gen/ChartGenerator.py', null, function (err) {
+            //     if (err) throw err;
+            //     console.log('finished');
+            //   });
+        }
+
+
+
+        });
+        
+        
+
+        
 
         return res.end();
     }

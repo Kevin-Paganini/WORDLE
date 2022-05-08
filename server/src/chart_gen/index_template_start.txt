@@ -22,11 +22,10 @@
             height: 100%;
         }
 
-        .graph {
-        margin-bottom: 40px;
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
+        .Statistics {
+        padding-bottom: 40px;
+        display: table;
+        margin: 0 auto;
         }
 
         body {

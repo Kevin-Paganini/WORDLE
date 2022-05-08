@@ -44,13 +44,24 @@ def generateCharts():
     wfc_soup = BeautifulSoup(wfc_html, features='html.parser')
     wfc_soup = wfc_soup.find('body')
 
+    # lb_html = open("chart_gen/leaderboard_chart.html").read()
+    # lb_soup = BeautifulSoup(lb_html, features='html_parser')
+    # lb_soup = lb_soup.find('body')
+
     with open("chart_gen/index_test.html", "w") as main_file:
         main_file.write(index_start)
         main_file.write(str(ht_soup) + "\n")
+        main_file.write("</div>\n<div class=\"Statistics\">\n")
         main_file.write(str(et_soup) + "\n")
+        main_file.write("</div>\n<div class=\"Statistics\">\n")
         main_file.write(str(lf_soup) + "\n")
+        main_file.write("</div>\n<div class=\"Statistics\">\n")
         main_file.write(str(wc_soup) + "\n")
+        main_file.write("</div>\n<div class=\"Statistics\">\n")
         main_file.write(str(wfc_soup) + "\n")
+        # main_file.write("</div>\n<div class=\"Statistics\">\n")
+        # main_file.write(str(wfc_soup) + "\n")
+
         main_file.write(index_end)
 
 
