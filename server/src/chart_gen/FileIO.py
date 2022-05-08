@@ -68,7 +68,7 @@ class FileIO:
 
     def readScoreboard(self, file_contents):
 
-        games_list = []
+        scores_list = []
         scores = file_contents.split("\n\n")
 
         for score in scores:
@@ -77,20 +77,23 @@ class FileIO:
 
                 user = split_score[0].split("=")[1].strip()
                 time = split_score[1].split("=")[1].strip()
+                num_time = float(time)
                 num_guesses = split_score[2].split("=")[1].strip()
                 num_letters = split_score[3].split("=")[1].strip()
                 hard = split_score[4].split("=")[1].strip()
+                num_hard = int(hard)
                 suggestions = split_score[5].split("=")[1].strip()
+                num_suggestions = int(suggestions)
 
-                score = Score(user, time, num_guesses, num_letters, hard, suggestions)
+                score = Score(user, num_time, num_guesses, num_letters, num_hard, num_suggestions)
                 if (DEBUG):
                     print(f'{user} {time} {num_guesses} {num_letters} {hard}')
                     print(f"{suggestions}")
                     score.prettyPrint()
 
-                games_list.append(score)
+                scores_list.append(score)
 
-        return games_list
+        return scores_list
 
 
 
