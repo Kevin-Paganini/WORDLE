@@ -4519,6 +4519,35 @@ AFOUL
 BALER
 RELAX
 
+User: meredithc
+Game Number: 76
+Target: CUMIN
+Number of Guesses: 3
+Win: No
+VAGUE
+FORTH
+CUMIN
+
+User: meredithc
+Game Number: 77
+Target: CUMIN
+Number of Guesses: 4
+Win: Yes
+CHILD
+VAGUE
+FORTH
+CUMIN
+
+User: meredithc
+Game Number: 78
+Target: CARGO
+Number of Guesses: 4
+Win: Yes
+CHILD
+VAGUE
+FORTH
+CARGO
+
 User: kaned
 Game Number: 93
 Target: HUGE
@@ -4526,6 +4555,28 @@ Number of Guesses: 2
 Win: Yes
 RATE
 HUGE
+
+User: meredithc
+Game Number: 79
+Target: FREER
+Number of Guesses: 6
+Win: Yes
+CHILD
+VAGUE
+FORTH
+PRANK
+FRESH
+FREER
+
+User: meredithc
+Game Number: 80
+Target: BREAK
+Number of Guesses: 4
+Win: Yes
+CHILD
+VAGUE
+FORTH
+BREAK
 
 User: kaned
 Game Number: 94
@@ -4574,3 +4625,181 @@ TIMER
 LOSER
 BREED
 CRUDE
+
+User: meredithc
+Game Number: 81
+Target: HAVOC
+Number of Guesses: 1
+Win: Yes
+HAVOC
+
+User: meredithc
+Game Number: 82
+Target: SCOLD
+Number of Guesses: 4
+Win: Yes
+SHADY
+CHILD
+VAGUE
+SCOLD
+
+User: meredithc
+Game Number: 83
+Target: PERCH
+Number of Guesses: 4
+Win: Yes
+HEART
+VAGUE
+CHILD
+PERCH
+
+User: meredithc
+Game Number: 84
+Target: PECAN
+Number of Guesses: 2
+Win: Yes
+VALOR
+PECAN
+
+User: meredithc
+Game Number: 85
+Target: QUEEN
+Number of Guesses: 2
+Win: Yes
+CONIC
+QUEEN
+
+User: meredithc
+Game Number: 86
+Target: EGRET
+Number of Guesses: 2
+Win: Yes
+SNUCK
+EGRET
+
+User: meredithc
+Game Number: 87
+Target: VIGOR
+Number of Guesses: 4
+Win: Yes
+AWAKE
+CHILD
+VAGUE
+VIGOR
+
+User: meredithc
+Game Number: 88
+Target: DRAIN
+Number of Guesses: 4
+Win: Yes
+OPINE
+CHILD
+VAGUE
+DRAIN
+
+User: meredithc
+Game Number: 89
+Target: TIDAL
+Number of Guesses: 6
+Win: No
+CHILD
+VAGUE
+FORTH
+LEARN
+PORCH
+QUILT
+
+User: meredithc
+Game Number: 90
+Target: TIPSY
+Number of Guesses: 2
+Win: Yes
+SNORT
+TIPSY
+
+User: meredithc
+Game Number: 91
+Target: JETTY
+Number of Guesses: 1
+Win: Yes
+JETTY
+
+User: meredithc
+Game Number: 92
+Target: WIDOW
+Number of Guesses: 2
+Win: Yes
+MATCH
+WIDOW
+
+User: meredithc
+Game Number: 93
+Target: SHRUB
+Number of Guesses: 2
+Win: Yes
+SOGGY
+SHRUB
+
+User: meredithc
+Game Number: 94
+Target: BLACK
+Number of Guesses: 2
+Win: Yes
+BOOBY
+BLACK
+
+User: meredithc
+Game Number: 95
+Target: PROOF
+Number of Guesses: 3
+Win: Yes
+CHILD
+ADOBE
+PROOF
+
+User: meredithc
+Game Number: 96
+Target: BUSHY
+Number of Guesses: 2
+Win: Yes
+AHEAD
+BUSHY
+
+User: meredithc
+Game Number: 97
+Target: PLAZA
+Number of Guesses: 2
+Win: Yes
+POSIT
+PLAZA
+
+User: meredithc
+Game Number: 98
+Target: PRIVY
+Number of Guesses: 2
+Win: Yes
+EXILE
+PRIVY
+
+User: meredithc
+Game Number: 99
+Target: SWEEP
+Number of Guesses: 2
+Win: Yes
+QUAKE
+SWEEP
+
+User: meredithc
+Game Number: 100
+Target: TRASH
+Number of Guesses: 2
+Win: Yes
+GRUFF
+TRASH
+
+User: meredithc
+Game Number: 101
+Target: EAGER
+Number of Guesses: 1
+Win: Yes
+EAGER

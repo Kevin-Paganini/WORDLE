@@ -27,6 +27,7 @@ import javax.swing.Timer;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -790,6 +791,11 @@ public class Controller {
 
                 showWinAlert();
             }
+            try{
+                Files.write(Paths.get("src/Resources/UserData/KeyPresses"),keys.getBytes(), StandardOpenOption.APPEND);
+            }catch(IOException e) {
+                System.out.println("There was a problem logging KeyPresses");
+            }
             keys = "";
             submitButton.setDisable(true);
         }
@@ -798,9 +804,9 @@ public class Controller {
 
     public void saveGlobalData(String winner){
         String fileInput = "User: " + user + "\nGame Number: " + (wins+losses) + "\nTarget: " + game.getTarget().toUpperCase(Locale.ROOT) + "\nNumber of Guesses: " + guess + "\nWin: " + winner;
-        String sendGuess = "";
-        for(int i = guess; i > 0; i--){
-            sendGuess += guesses.get(guesses.size()-i) + " ";
+        String sendGuess = guesses.get(guesses.size()-guess);
+        for(int i = guess-1; i > 0; i--){
+            sendGuess += " " + guesses.get(guesses.size()-i);
         }
 
         String data = "Global" + "-" + user + "-" + (wins+losses) + "-" + game.getTarget().toUpperCase(Locale.ROOT) + "-" + guess + "-" + winner + "-" + sendGuess;
