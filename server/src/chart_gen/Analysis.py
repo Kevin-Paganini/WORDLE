@@ -60,13 +60,13 @@ class Analysis:
     def setScores(self, scores):
         self.scores = scores
 
-    def scores(self):
-        leaderboard = dict()
+    def make_scores(self):
+        leaderboard = []
         for score in self.scores:
             if score.num_guesses == 5 and score.suggestions == 0 and score.hard == 0:
-                leaderboard[score.user] = score.time
-        leaderboard=sorted(leaderboard.items(), key=lambda x: x[1], reverse=False)
-        return dict(leaderboard)
+                leaderboard.append(score)
+        leaderboard = sorted(leaderboard, key=lambda x: x.time, reverse=False)
+        return leaderboard
 
     def letterFreq(self):
         master = self.makeMasterGuessList()
