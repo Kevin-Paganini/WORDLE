@@ -66,7 +66,7 @@ class Analysis:
             if score.num_guesses == 5 and score.suggestions == 0 and score.hard == 0:
                 leaderboard[score.user] = score.time
         leaderboard=sorted(leaderboard.items(), key=lambda x: x[1], reverse=False)
-        return leaderboard
+        return dict(leaderboard)
 
     def letterFreq(self):
         master = self.makeMasterGuessList()
