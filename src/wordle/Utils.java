@@ -246,7 +246,8 @@ public abstract class Utils {
         ArrayList<String> score = new ArrayList<>();
         try {
             //Gets file
-            File scores = new File("src/Resources/UserData/Scoreboard");
+            new File("Scoreboard").createNewFile();
+            File scores = new File("Scoreboard");
             BufferedReader br = new BufferedReader(new FileReader(scores));
             //Ignores key at top of file
             br.readLine();
@@ -272,7 +273,8 @@ public abstract class Utils {
             text += line + "\n";
         }
         try {
-            Files.write(Paths.get("src/Resources/UserData/Scoreboard"),text.getBytes());
+            new File("Scoreboard").createNewFile();
+            Files.write(Paths.get("Scoreboard"),text.getBytes());
         } catch(IOException e) {
             System.out.println("aloha");
         }

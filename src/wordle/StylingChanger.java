@@ -215,9 +215,9 @@ public abstract class StylingChanger {
     }
 
     public static void changeAlert(Alert a, DialogPane win, boolean DARK, boolean CONTRAST, int win_streak) {
-        win.getStylesheets().add("Styling//stylesheet.css");
-        win.getStylesheets().add("Styling//dark_stylesheet.css");
-        win.getStylesheets().add("Styling//contrast_stylesheet.css");
+        win.getStylesheets().add("Styling/stylesheet.css");
+        win.getStylesheets().add("Styling/dark_stylesheet.css");
+        win.getStylesheets().add("Styling/contrast_stylesheet.css");
         String format = "";
         //Did player win or lose
         win.getStyleClass().clear();

@@ -26,6 +26,7 @@ import javafx.util.Pair;
 import javax.swing.Timer;
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.DecimalFormat;
@@ -37,6 +38,8 @@ public class Controller {
     public static final boolean DEBUG = true;
     public static final String ADMIN_PASSWORD = "1234";
     private static File dictionaryFile =  new File("src/Resources/wordle-official.txt");
+    private static String dictFile = "/wordle-official.txt";
+    private boolean isResource = true;
     private static File lastWorkingFile = dictionaryFile;
     public static final double BUTTON_PADDING = 10;
     private int guess = 0;
@@ -232,12 +235,22 @@ public class Controller {
             deleteUserData();
         }
         try {
-            if (tempTarget == null) {
-                game = new Wordle(numGuesses, dictionaryFile, session);
-            }
-            else{
-                game = new Wordle(numGuesses, dictionaryFile, session, tempTarget);
+            if(isResource){
+                if (tempTarget == null) {
+                    game = new Wordle(numGuesses, dictFile, session);
+                }
+                else{
+                    game = new Wordle(numGuesses, dictFile, session, tempTarget);
 
+                }
+            } else {
+                if (tempTarget == null) {
+                    game = new Wordle(numGuesses, dictionaryFile, session);
+                }
+                else{
+                    game = new Wordle(numGuesses, dictionaryFile, session, tempTarget);
+
+                }
             }
             tempGuesses = new ArrayList<>();
             lastWorkingFile = dictionaryFile;
@@ -404,7 +417,7 @@ public class Controller {
      */
     private Button createHintButton() {
 
-        Image image = new Image("file:src/Resources/hint.png", 30, 30, false, false);
+        Image image = new Image("/hint.png", 30, 30, false, false);
         ImageView view = new ImageView(image);
 
         Button button = new Button();
@@ -614,8 +627,8 @@ public class Controller {
             tf.setDisable(true);
             input += tf.getText();
             if (!isData) {
-                new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * animationSpeed)).setSpeed(500.0 / animationSpeed).play();
-                new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * animationSpeed)).setSpeed(500.0 / animationSpeed).play();
+                //new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * animationSpeed)).setSpeed(500.0 / animationSpeed).play();
+                //new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * animationSpeed)).setSpeed(500.0 / animationSpeed).play();
             }
         }
         if (DEBUG) System.out.println(input);
@@ -733,7 +746,7 @@ public class Controller {
                 submitButton.setDisable(true);
             });
             try{
-                Files.write(Paths.get("src/Resources/UserData/KeyPresses"),keys.getBytes(), StandardOpenOption.APPEND);
+                Files.write(Paths.get("KeyPresses"),keys.getBytes(), StandardOpenOption.APPEND);
             }catch(IOException e) {
                 System.out.println("There was a problem logging KeyPresses");
             }
@@ -797,7 +810,8 @@ public class Controller {
                 showWinAlert();
             }
             try{
-                Files.write(Paths.get("src/Resources/UserData/KeyPresses"),keys.getBytes(), StandardOpenOption.APPEND);
+                new File("KeyPresses").createNewFile();
+                Files.write(Paths.get("KeyPresses"),keys.getBytes(), StandardOpenOption.APPEND);
             }catch(IOException e) {
                 System.out.println("There was a problem logging KeyPresses");
             }
@@ -823,7 +837,7 @@ public class Controller {
         fileInput += "\n";
         String text = "";
         try {
-            File stats = new File("src/Resources/UserData/GlobalData");
+            File stats = new File("GlobalData");
             BufferedReader br = new BufferedReader(new FileReader(stats));
             String line = br.readLine();
             while (line != null){
@@ -835,7 +849,8 @@ public class Controller {
         //TODO
         try {
             text += "\n" + fileInput;
-            Files.write(Paths.get("src/Resources/UserData/GlobalData"), text.getBytes());
+            new File("GlobalData").createNewFile();
+            Files.write(Paths.get("GlobalData"), text.getBytes(),StandardOpenOption.APPEND);
         } catch (IOException e){
             System.out.println("clown");
         }
@@ -1052,7 +1067,7 @@ public class Controller {
         timeline.pause();
         RUNNING = false;
         FileChooser fc = new FileChooser();
-        fc.setInitialDirectory(new File ("src/Resources/"));
+        fc.setInitialDirectory(new File ("."));
         File file = fc.showOpenDialog(null);
         if (file != null) {
             importDictionary(file);
@@ -1062,6 +1077,7 @@ public class Controller {
     public void importDictionary(File file) {
         if (file != null) {
             dictionaryFile = file;
+            isResource = false;
             startNewGame();
         }
         timeline.play();
@@ -1191,19 +1207,20 @@ public class Controller {
      * @param file file to load in
      * @author David Cane, Carson Meredith, Atreyu Schilling
      */
-    public void loadPrebuiltDictionary(File file) {
-        if (!file.equals(dictionaryFile) && file.exists() && file.isFile()){
+    public void loadPrebuiltDictionary(String file) {
+        if (file!=null){
             toggleTimer();
             try {
                 new Wordle(numGuesses, file, session);
-                dictionaryFile = file;
+                dictFile = file;
+                isResource = true;
                 startNewGame();
             } catch (IOException e) {
                 Alert a = new Alert(Alert.AlertType.ERROR, "Invalid File");
                 win = a.getDialogPane();
                 StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
                 win.setHeaderText("FILE UNREADABLE");
-                win.setContentText(file.getName() + " is unreadable and may have been changed.");
+                win.setContentText(file + " is unreadable and may have been changed.");
                 StylingChanger.changeAlert(a,win,DARK,CONTRAST,0);
                 a.showAndWait();
             }
@@ -1212,30 +1229,30 @@ public class Controller {
             win = a.getDialogPane();
             StylingChanger.changeAlert(a,win,DARK,CONTRAST,win_streak);
             win.setHeaderText("INVALID FILE");
-            win.setContentText(file.getName() + " does not exist and may have been deleted");
+            win.setContentText(file + " does not exist and may have been deleted");
             StylingChanger.changeAlert(a,win,DARK,CONTRAST,0);
             a.showAndWait();
         }
     }
 
     public void threeLetterWord(ActionEvent actionEvent){
-        loadPrebuiltDictionary(new File("src/Resources/words_3_letters.txt"));
+        loadPrebuiltDictionary(("/words_3_letters.txt"));
     }
 
     public void fourLetterWord(ActionEvent actionEvent){
-        loadPrebuiltDictionary(new File("src/Resources/words_4_letters.txt"));
+        loadPrebuiltDictionary(("/words_4_letters.txt"));
     }
 
     public void fiveLetterWord(ActionEvent actionEvent){
-        loadPrebuiltDictionary(new File("src/Resources/wordle-official.txt"));
+        loadPrebuiltDictionary(("/wordle-official.txt"));
     }
 
     public void sixLetterWord(ActionEvent actionEvent){
-        loadPrebuiltDictionary(new File("src/Resources/words_6_letters.txt"));
+        loadPrebuiltDictionary(("/words_6_letters.txt"));
     }
 
     public void sevenLetterWord(ActionEvent actionEvent){
-        loadPrebuiltDictionary(new File("src/Resources/words_7_letters.txt"));
+        loadPrebuiltDictionary(("/words_7_letters.txt"));
     }
 
     /**
@@ -1323,7 +1340,7 @@ public class Controller {
         pc = pc.replaceAll("[\\\\/:*?\"<>|]", "");
         if (!pc.equals(("ERROR"))){
             try{
-                File pcFile = new File("src/Resources/" + pc);
+                File pcFile = new File(pc);
                 BufferedReader br = new BufferedReader(new FileReader(pcFile));
                 String line = br.readLine();
                 if (line != null){
@@ -1352,7 +1369,8 @@ public class Controller {
             return;
         }
         try {
-            Files.write(Paths.get("src/Resources/" + pc), user.getBytes());
+            new File(pc).createNewFile();
+            Files.write(Paths.get(pc), user.getBytes());
         }
         catch (IOException e){
             //TODO: PC File does weirdness
@@ -1371,10 +1389,12 @@ public class Controller {
         }
         content += "\n" + wins + "\n" + losses + "\n" + win_streak + "\n" + avgGuesses;
         for (String s : guesses) {
+            System.out.println(s);
             content += "\n" + s;
         }
         try {
-            Files.write(Paths.get("src/Resources/UserData/" + user), content.getBytes());
+            new File(user).createNewFile();
+            Files.write(Paths.get(user), content.getBytes());
         }
         catch (IOException e){
             //TODO: Handle error
@@ -1475,7 +1495,7 @@ public class Controller {
     public void updateUser(String user){
         this.user = user;
         try {
-            File stats = new File("src/Resources/UserData/" + user);
+            File stats = new File(user);
             BufferedReader br = new BufferedReader(new FileReader(stats));
             String line = br.readLine();
 
@@ -1589,7 +1609,8 @@ public class Controller {
         }
 
         try {
-            Files.write(Paths.get("src/Resources/UserData/" + user + "GameData"), content.getBytes());
+            new File(user+"GameData").createNewFile();
+            Files.write(Paths.get(user + "GameData"), content.getBytes());
         }
         catch (IOException e){
             //TODO: Handle error
@@ -1598,7 +1619,7 @@ public class Controller {
 
     public void openUserData() {
         try {
-            File stats = new File("src/Resources/UserData/" + user + "GameData");
+            File stats = new File(user + "GameData");
             BufferedReader br = new BufferedReader(new FileReader(stats));
             String line = br.readLine();
             tempTarget = line;
@@ -1642,7 +1663,7 @@ public class Controller {
 
     public void deleteUserData(){
         try {
-            Files.deleteIfExists(Paths.get("src/Resources/UserData/" + user + "GameData"));
+            Files.deleteIfExists(Paths.get(user + "GameData"));
         } catch (IOException e) {}
     }
 }

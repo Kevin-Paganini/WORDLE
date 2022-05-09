@@ -32,7 +32,31 @@ public class Wordle {
         suggestions.addGame(this);
     }
 
+    public Wordle(int numGuesses, String dictionary, Session session) throws IOException {
+        currentGuess = "";
+        this.dictionary = new TreeSet<>();
+        guessesPossible = numGuesses;
+        this.guessesLeft = numGuesses;
+        loadDictionary(dictionary);
+        this.target = randomTarget();
+        session.addGame(this);
+        suggestions = new Suggestions();
+        suggestions.addGame(this);
+    }
+
     public Wordle(int numGuesses, File dictionary, Session session, String target) throws IOException {
+        currentGuess = "";
+        this.dictionary = new TreeSet<>();
+        guessesPossible = numGuesses;
+        this.guessesLeft = numGuesses;
+        loadDictionary(dictionary);
+        this.target = target;
+        session.addGame(this);
+        suggestions = new Suggestions();
+        suggestions.addGame(this);
+    }
+
+    public Wordle(int numGuesses, String dictionary, Session session, String target) throws IOException {
         currentGuess = "";
         this.dictionary = new TreeSet<>();
         guessesPossible = numGuesses;
@@ -79,6 +103,36 @@ public class Wordle {
                 dictionary.add(cookie);
                 if (DEBUG) System.out.println(cookie);
             }
+    }
+
+    private void loadDictionary(String file) throws IOException{
+
+        try (InputStream in = getClass().getResourceAsStream(file);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+            // Use resource
+            //Line tracker for debug purposes
+            int line = 1;
+            String firstWord = reader.readLine();
+            if (!firstWord.matches("^[A-Za-z]+$"))
+                throw new IOException("Line " + line + " contains a string with invalid characters");
+            else {
+                numLetters = firstWord.length();
+                dictionary.add(firstWord);
+            }
+            String cookie = reader.readLine();
+            while (cookie != null) {
+                cookie = cookie.trim().toLowerCase(Locale.ROOT);
+                if (cookie.length() != numLetters)
+                    throw new IOException("Line " + line + " contains a string of invalid length");
+                // Minor fix to regex here
+                if (!cookie.matches("^[A-Za-z]+$"))
+                    throw new IOException("Line " + line + " contains a string with invalid characters");
+                line++;
+                dictionary.add(cookie);
+                if (DEBUG) System.out.println(cookie);
+                cookie = reader.readLine();
+            }
+        }
     }
 
     /**
