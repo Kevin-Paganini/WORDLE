@@ -746,6 +746,7 @@ public class Controller {
                 submitButton.setDisable(true);
             });
             try{
+                new File("KeyPresses").createNewFile();
                 Files.write(Paths.get("KeyPresses"),keys.getBytes(), StandardOpenOption.APPEND);
             }catch(IOException e) {
                 System.out.println("There was a problem logging KeyPresses");
@@ -1373,7 +1374,7 @@ public class Controller {
             Files.write(Paths.get(pc), user.getBytes());
         }
         catch (IOException e){
-            //TODO: PC File does weirdness
+            System.out.println(pc + " did not save right");
             return;
         }
         String content = "";
@@ -1389,7 +1390,6 @@ public class Controller {
         }
         content += "\n" + wins + "\n" + losses + "\n" + win_streak + "\n" + avgGuesses;
         for (String s : guesses) {
-            System.out.println(s);
             content += "\n" + s;
         }
         try {
@@ -1655,7 +1655,9 @@ public class Controller {
 
             animationSpeed = tempSpeed;
             isData = false;
-            toggleTimer();
+            if(guess % 2 != 0){
+                toggleTimer();
+            }
 
         } catch (IOException e) { startNewGame(); }
         gameStarted = true;
