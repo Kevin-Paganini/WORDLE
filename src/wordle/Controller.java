@@ -627,8 +627,8 @@ public class Controller {
             tf.setDisable(true);
             input += tf.getText();
             if (!isData) {
-                //new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * animationSpeed)).setSpeed(500.0 / animationSpeed).play();
-                //new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * animationSpeed)).setSpeed(500.0 / animationSpeed).play();
+                new animatefx.animation.FlipOutX(tf).setDelay(Duration.millis(i * animationSpeed)).setSpeed(500.0 / animationSpeed).play();
+                new animatefx.animation.FlipInX(tf).setDelay(Duration.millis((i + 1) * animationSpeed)).setSpeed(500.0 / animationSpeed).play();
             }
         }
         if (DEBUG) System.out.println(input);
