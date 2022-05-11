@@ -26,6 +26,9 @@ class Wordle:
 
     def get_win(self):
         return self.win
+    
+    def get_num_guesses(self):
+        return self.number_guesses
 
 
     def get_user(self):

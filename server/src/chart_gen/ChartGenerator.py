@@ -1,3 +1,4 @@
+from venv import main
 from Wordle import Wordle
 from Analysis import Analysis
 from FileIO import FileIO
@@ -44,6 +45,10 @@ def generateCharts():
     wfc_soup = BeautifulSoup(wfc_html, features='html.parser')
     wfc_soup = wfc_soup.find('body')
 
+    ng_html = open("chart_gen/num_guesses_chart.html").read()
+    ng_soup = BeautifulSoup(ng_html, features='html.parser')
+    ng_soup = ng_soup.find('body')
+
     lb_html = open("chart_gen/Scoreboard.html").read()
     lb_soup = BeautifulSoup(lb_html, features='html.parser')
     lb_soup = lb_soup.find('body')
@@ -59,6 +64,8 @@ def generateCharts():
         main_file.write(str(wc_soup) + "\n")
         main_file.write("</div>\n<div class=\"Statistics\">\n")
         main_file.write(str(wfc_soup) + "\n")
+        main_file.write("</div>\n<div class=\"Statistics\">\n")
+        main_file.write(str(ng_soup) + "\n")
         main_file.write("</div>\n<div class=\"Statistics\">\n")
         main_file.write(str(lb_soup) + "\n")
 

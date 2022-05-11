@@ -51,7 +51,28 @@ class Analysis:
         
         return win_loss_dict
         
-
+    def num_guesses(self):
+        num_guess_dict = dict()
+        num_guess_dict['1'] = 0
+        num_guess_dict['2'] = 0
+        num_guess_dict['3'] = 0
+        num_guess_dict['4'] = 0
+        num_guess_dict['5'] = 0 
+        num_guess_dict['6'] = 0 
+        for game in self.games:
+            if game.get_num_guesses() == '1':
+                num_guess_dict['1'] += 1
+            elif game.get_num_guesses() == '2':
+                num_guess_dict['2'] += 1
+            elif game.get_num_guesses() == '3':
+                num_guess_dict['3'] += 1
+            elif game.get_num_guesses() == '4':
+                num_guess_dict['4'] += 1
+            elif game.get_num_guesses() == '5':
+                num_guess_dict['5'] += 1
+            elif game.get_num_guesses() == '6':
+                num_guess_dict['6'] += 1
+        return num_guess_dict
 
 
     
@@ -63,10 +84,14 @@ class Analysis:
 
     def make_scores(self):
         leaderboard = []
+        
         for score in self.scores:
+            
             if score.num_letters == 5 and score.suggestions == 0 and score.hard == 0:
                 leaderboard.append(score)
+        
         leaderboard = sorted(leaderboard, key=lambda x: x.time, reverse=False)
+        
         return leaderboard
 
     def letterFreq(self):

@@ -42,7 +42,7 @@ class FileIO:
 
                 guess_clean = []
                 guesses_dirty = split_game[2].split("=")[1].strip()
-                print(guesses_dirty)
+                
                 guesses_dirty = guesses_dirty.split("+")
                 for guess in guesses_dirty:
 
@@ -50,7 +50,7 @@ class FileIO:
                     if guess != "":
                         guess_clean.append(guess)
 
-                print(guess_clean)
+                
                 wordle = Wordle(user=user, game_number=game_num, target=target, number_guesses=num_guesses, win=win, guess_list=guess_clean)
 
                 if (DEBUG):
@@ -78,8 +78,8 @@ class FileIO:
                 user = split_score[0].split("=")[1].strip()
                 time = split_score[1].split("=")[1].strip()
                 num_time = float(time)
-                num_guesses = split_score[2].split("=")[1].strip()
-                num_letters = split_score[3].split("=")[1].strip()
+                num_guesses = int(split_score[2].split("=")[1].strip())
+                num_letters = int(split_score[3].split("=")[1].strip())
                 hard = split_score[4].split("=")[1].strip()
                 num_hard = int(hard)
                 suggestions = split_score[5].split("=")[1].strip()

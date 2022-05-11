@@ -142,6 +142,26 @@ class Vis:
 
                 self.chart_to_html(p, "easiest_target_chart")
 
+        def numGuessChart(self, x):
+                chart_colors = ['#00d084', '#b71c1c', '#e244db',
+                                '#d8e244', '#eeeeee', '#56e244', '#007bff', 'black', 'green', 'blue']
+                data = pd.Series(x).reset_index(name='value').rename(columns={'index': 'country'})
+                data['angle'] = data['value']/data['value'].sum() * 2*pi
+                data['color'] = chart_colors[:len(x)]
+
+                p = figure(height=350, title="Number of guesses", toolbar_location=None,
+                        tools="hover", tooltips="@country: @value", x_range=(-0.5, 1.0))
+
+                p.wedge(x=0, y=1, radius=0.4,
+                        start_angle=cumsum('angle', include_zero=True), end_angle=cumsum('angle'),
+                        line_color="white", fill_color='color', legend_field='country', source=data)
+
+                p.axis.axis_label = None
+                p.axis.visible = False
+                p.grid.grid_line_color = None
+
+                self.chart_to_html(p, "num_guesses_chart")
+
         def scoreboard(self, scores):
                 x = [1, 2, 3, 4, 5]
                 y0 = [scores[0].time, 0, 0, 0, 0]
@@ -179,6 +199,7 @@ class Vis:
                 self.winChart(analysis.win_loss())
                 self.hardestTargetChart(analysis.hardestTarget())
                 self.easiestTargetChart(analysis.easiestTarget())
+                self.numGuessChart(analysis.num_guesses())
 
                 # Doing analysis and making charts for scoreboards
                 
