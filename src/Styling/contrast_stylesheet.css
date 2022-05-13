@@ -1,0 +1,192 @@
+.button-contrast {
+    -fx-font : 14px "serief";
+    -fx-padding : 10;
+    -fx-background-color : #CCFF99;
+}
+
+.button-contrast:disabled{
+    -fx-background-color : #CCFF99;
+    -fx-opacity: 0.5;
+}
+
+.button-contrast:hover {
+    -fx-background-color: #ff0000;
+    -fx-effect:dropshadow( three-pass-box, #ff0000, 20.0, 0.0, 0.0, 0.0);
+    -fx-text-fill: #000000;
+}
+
+.correct-position-letter-tf-contrast {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #2bffff;
+    -fx-effect:dropshadow( three-pass-box, #2bffff, 20.0, 0.0, 0.0, 0.0);
+    -fx-text-fill: black;
+    -fx-border-radius: 2;
+    -fx-text-align : center;
+
+}
+
+.correct-letter-tf-contrast {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #e32bff;
+    -fx-effect:dropshadow( three-pass-box, #e32bff, 20.0, 0.0, 0.0, 0.0);
+    -fx-text-fill: black;
+    -fx-border-radius: 2;
+    -fx-text-align : center;
+
+}
+
+.wrong-letter-tf-contrast {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #ff0000;
+    -fx-effect:dropshadow( three-pass-box, #ff0000, 20.0, 0.0, 0.0, 0.0);
+    -fx-text-fill: black;
+    -fx-border-radius: 2;
+    -fx-text-align : center;
+
+}
+
+.correct-position-letter-label-contrast {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #2bffff;
+    -fx-effect:dropshadow( three-pass-box, #2bffff, 20.0, 0.0, 0.0, 0.0);
+    -fx-text-fill: black;
+    -fx-border-radius: 2;
+    -fx-text-alignment : center;
+    -fx-alignment : center;
+
+}
+
+.correct-letter-label-contrast {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #e32bff;
+    -fx-effect:dropshadow( three-pass-box, #e32bff, 20.0, 0.0, 0.0, 0.0);
+    -fx-text-fill: black;
+    -fx-border-radius: 2;
+    -fx-text-alignment : center;
+    -fx-alignment : center;
+
+}
+
+.wrong-letter-label-contrast {
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-padding : 10;
+    -fx-width : 100px;
+    -fx-height : 100px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #ff0000;
+    -fx-effect:dropshadow( three-pass-box, #ff0000, 20.0, 0.0, 0.0, 0.0);
+    -fx-text-fill: black;
+    -fx-border-radius: 2;
+    -fx-text-alignment : center;
+    -fx-alignment : center;
+
+}
+
+.winner-dialog-contrast {
+    -fx-background-color: #8fbc8f;
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-width : 200px;
+    -fx-height : 400px;
+    -fx-text-align : center;
+
+}
+
+.winner-dialog-contrast:header *.header-panel {
+    -fx-background-color: #8fbc8f;
+    -fx-font : 20px "serief";
+    -fx-padding : 10;
+
+}
+
+.winner-dialog-contrast > .content.label {
+    -fx-background-color: #2bffff;
+    -fx-text-fill : black;
+    -fx-effect:dropshadow( three-pass-box, #2bffff, 20.0, 0.0, 0.0, 0.0);
+}
+
+.winner-dialog-contrast:header .header-panel .label{
+  -fx-background-color: #2bffff;
+  -fx-text-fill : black;
+  -fx-effect:dropshadow( three-pass-box, #2bffff, 20.0, 0.0, 0.0, 0.0);
+  -fx-background-radius:10px;
+}
+
+.winner-dialog-contrast .button{
+        -fx-font : 14px "serief";
+        -fx-padding : 10;
+        -fx-background-color : #CCFF99;
+        -fx-text-fill : black;
+}
+
+.winner-dialog-contrast .button:hover{
+    -fx-background-color: #2bffff;
+    -fx-effect:dropshadow( three-pass-box, #2bffff, 20.0, 0.0, 0.0, 0.0);
+}
+
+.loser-dialog-contrast {
+
+    -fx-background-color: #8fbc8f;
+    -fx-font : 20px "serief";
+    -fx-border : black;
+    -fx-width : 200px;
+    -fx-height : 400px;
+    -fx-text-align : center;
+
+}
+
+.loser-dialog-contrast:header *.header-panel {
+    -fx-background-color: #8fbc8f;
+    -fx-font : 20px "serief";
+    -fx-padding : 10;
+
+}
+
+.loser-dialog-contrast > .content.label {
+    -fx-background-color: #ff0000;
+    -fx-effect:dropshadow( three-pass-box, #ff0000, 20.0, 0.0, 0.0, 0.0);
+}
+
+.loser-dialog-contrast:header .header-panel .label{
+  -fx-background-color: #ff0000;
+  -fx-effect:dropshadow( three-pass-box, #ff0000, 20.0, 0.0, 0.0, 0.0);
+  -fx-background-radius:10px;
+}
+
+.loser-dialog-contrast .button{
+        -fx-font : 14px "serief";
+        -fx-padding : 10;
+        -fx-background-color : #CCFF99;
+        -fx-text-fill : black;
+}
+
+.loser-dialog-contrast .button:hover{
+    -fx-background-color: #ff0000;
+    -fx-effect:dropshadow( three-pass-box, #ff0000, 20.0, 0.0, 0.0, 0.0);
+}

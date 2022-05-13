@@ -1,15 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="wordle.Controller"
-            prefHeight="400.0" prefWidth="600.0"
-            fx:id="MAIN_PANE">
+<TabPane fx:id="TAB_PANE" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wordle.Controller">
+   <tabs>
+      <Tab closable="false" text="Wordle">
+         <content>
+            <Pane fx:id="MAIN_PANE" minWidth = "1000.0" minHeight = "800.0"  prefHeight="800.0" prefWidth="1000.0" maxHeight = "988" maxWidth = "1920">
 
-</AnchorPane>
+</Pane>
+         </content>
+      </Tab>
+       <Tab closable="false" text="Statistics">
+           <content>
+               <AnchorPane fx:id="STATS_PANE" prefHeight="666.0" prefWidth="1121.0">
+               <children>
+                  <Label fx:id="avgNumGuesses2" layoutX="50.0" layoutY="85.0" prefHeight="36.0" prefWidth="220.0" text="Avg. no. Guesses: " />
+                   <Label fx:id="winLabel2" layoutX="375.0" layoutY="30.0" prefHeight="36.0" prefWidth="168.0" text="Wins: " />
+                   <Label fx:id="lossLabel2" layoutX="375.0" layoutY="85.0" prefHeight="36.0" prefWidth="168.0" text="Losses: " />
+                   <Label fx:id="longestWinStreak2" layoutX="50.0" layoutY="30.0" prefHeight="36.0" prefWidth="220.0" text="Win Streak: " />
+                  <Label fx:id="winLabel" layoutX="550.0" layoutY="30.0" prefHeight="26.0" prefWidth="47.0" text="0" />
+                   <Label fx:id="longestWinStreak" layoutX="275.0" layoutY="30.0" prefHeight="26.0" prefWidth="47.0" text="0" />
+                   <Label fx:id="lossLabel" layoutX="550.0" layoutY="85.0" prefHeight="26.0" prefWidth="47.0" text="0" />
+                   <Label fx:id="avgNumGuesses" layoutX="275.0" layoutY="85.0" prefHeight="26.0" prefWidth="47.0" text="0" />
+                  <Pane fx:id="frequentWordPane" layoutX="130.0" layoutY="160.0" prefHeight="200.0" prefWidth="369.0" />
+                  <Pane fx:id="frequentLetterPane" layoutX="130.0" layoutY="500.0" prefHeight="200.0" prefWidth="491.0" />
+               </children></AnchorPane>
+           </content>
+       </Tab>
+       <Tab closable = "false" text = "Scoreboard">
+           <Pane fx:id = "ScorePane">
+               <VBox fx:id = "Scoreboard" layoutX="300.0" layoutY = "10.0">
+                   <Label fx:id = "Key" prefWidth = "400" text = "USERNAME: TIME/NUMGUESSES"/>
+                   <Label fx:id="first" prefWidth="400"/>
+                   <Label fx:id="second" prefWidth="400"/>
+                   <Label fx:id="third" prefWidth="400"/>
+                   <Label fx:id="fourth" prefWidth="400"/>
+                   <Label fx:id="fifth" prefWidth="400"/>
+                   <Label fx:id="sixth" prefWidth="400"/>
+                   <Label fx:id="seventh" prefWidth="400"/>
+                   <Label fx:id="eighth" prefWidth="400"/>
+                   <Label fx:id="ninth" prefWidth="400"/>
+                   <Label fx:id="tenth" prefWidth="400"/>
+               </VBox>
+           </Pane>
+       </Tab>
+       <Tab closable="false" text="Settings">
+           <content>
+               <Pane fx:id="SETTINGS_PANE">
+               <children>
+                   <Button fx:id="threeLetterDictionary" layoutX="29.0" layoutY="24.0" mnemonicParsing="false" onAction="#threeLetterWord" text="3 Letter Words" />
+                   <Button fx:id="fourLetterDictionary" layoutX="149.0" layoutY="24.0" mnemonicParsing="false" onAction="#fourLetterWord" text="4 Letter Words" />
+                   <Button fx:id="fiveLetterDictionary" layoutX="269.0" layoutY="24.0" mnemonicParsing="false" onAction="#fiveLetterWord" text="5 Letter Words" />
+                   <Button fx:id="sixLetterDictionary" layoutX="389.0" layoutY="24.0" mnemonicParsing="false" onAction="#sixLetterWord" text="6 Letter Words" />
+                   <Button fx:id="sevenLetterDictionary" layoutX="509.0" layoutY="24.0" mnemonicParsing="false" onAction="#sevenLetterWord" text="7 Letter Words" />
+                   <Button fx:id="importDictionaryButton" layoutX="629.0" layoutY="24.0" mnemonicParsing="false" onAction="#importDictionary" text="Import Dictionary File" />
+                  <Button fx:id="dark_light" layoutX="29.0" layoutY="72.0" mnemonicParsing="false" onAction="#dark_light_mode_switch" text="DARK-MODE" />
+                   <Button fx:id="contrast" layoutX="29.0" layoutY="120.0" mnemonicParsing="false" onAction="#contrast_switch" text="HIGH-CONTRAST-MODE" />
+                   <Button fx:id="suggestion" layoutX="29.0" layoutY="168.0" mnemonicParsing="false" onAction="#suggestion_switch" text="Suggestions: OFF" />
+                   <TextField fx:id="numGuess" layoutX="29.0" layoutY="216.0" maxHeight="70" maxWidth="150" promptText="Number of Guesses" />
+                   <Button fx:id="numChange" layoutX="190.0" layoutY="216.0" mnemonicParsing="false" onAction="#changeGuessAmount" text="Submit" />
+                   <Button fx:id ="hard_mode" layoutX ="789.0" layoutY = "24.0" onAction="#changeHardMode" text="Hard Mode"/>
+
+                   <TextField fx:id="username" layoutX="29.0" layoutY="300.0" maxHeight="70" maxWidth="150" promptText="Enter Username" />
+                   <Button fx:id="userChange" layoutX="190.0" layoutY="300.0" mnemonicParsing="false" onAction="#changeUser" text="Submit" />
+
+                   <TextField fx:id="admin" layoutX="29.0" layoutY="352.0" maxHeight="70" maxWidth="150" promptText="Admin Password" />
+                   <Button fx:id="adminToggle" layoutX="190.0" layoutY="352.0" mnemonicParsing="false" onAction="#toggle_admin" text="Submit" />
+
+                   <Button fx:id="resetUser" layoutX="29.0" layoutY="450.0" mnemonicParsing="false" onAction="#resetUser" text="RESET USER" />
+
+               </children></Pane>
+           </content>
+       </Tab>
+   </tabs>
+</TabPane>

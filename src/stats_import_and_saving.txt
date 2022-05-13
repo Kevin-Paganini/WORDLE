@@ -1,0 +1,66 @@
+
+
+
+Importing and saving stats after every game
+
+Initialize calls read method to read stats file and initialize stats to what they were stored as
+
+Basic Idea:
+After every game write to file
+Session or some class reads in file and updates stats that way
+
+
+
+
+
+
+after every game
+write to file
+
+Something like this could work
+COuld add computer ID to this
+
+Computer ID: xxxxxxx
+Game num: x
+Target: yyyyy
+Guess num: x
+Win: yes/no
+Guesses
+
+
+SAMPLE:
+Computer ID: MSOE-PF2CNYT0
+Game num: 12
+Target: earth
+Guess num: 3
+Win: yes
+reuse
+afoul
+earth
+
+
+
+
+
+wordle could have a toString method that does this
+
+when reading in parse this and write into an object than we can refactor session class to take in list of those objects
+and then that can return the stats
+
+**BUG
+Word and letter frequency incorrect after
+Lost five time in a row inputting earth:
+EXPECTED:
+e: 30, a: 30, r: 30, t: 30, h: 30
+earth: 30
+GOT:
+e: 90, a: 90, r: 90, t: 90, h: 90
+earth: 90
+
+Output file looks fine, however stats tab is incorrect
+
+
+
+
+
+

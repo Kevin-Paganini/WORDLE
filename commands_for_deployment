@@ -1,0 +1,23 @@
+Deploying to Heroku is a pain but here are the commands
+
+First commit everything to the gitlab branch
+
+This is the command if the server is still on the server_second_try branch
+then use the following command: git push heroku server_second_try:main
+
+Command if you are on the main branch is:
+git push heroku main
+
+
+When it doesnt work use command: git logs --tail
+
+
+Errors were getting right now when trying to deploy:
+
+Mainly it is a timeout error
+
+server has been murdered
+
+hasker
+magana
+yoder
