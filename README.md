@@ -1,4 +1,4 @@
-# WORDL REPLICA APPLICATION
+# WORDLE REPLICA APPLICATION
 
 # se2800teamF
 
@@ -19,7 +19,7 @@ This is an application that intends to replicate the game of Wordle, developed b
 
 
 ## Usage
-Anyone can you this application for their enjoyment. Please don't plagiarize us though. That's not cool.
+Anyone can use this application for their enjoyment. Please don't plagiarize us though. That's not cool.
 
 ## Support
 If you cannot find support for this on google, as a last resort you can e-mail paganinik@msoe.edu
@@ -33,4 +33,18 @@ GNU GPL 1.3 (Open source)
 (You can do whatever you want with it, just don't claim its yours)
 
 ## Project status
-In development
+### In development:
+29 (Server Setup), 16 (Logging key presses), Refactoring, Gitlab CI/CD
+
+
+### Completed:
+User Story:
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 16, 19, 21, 25, 27, 28
+
+### Defects:
+E-mail paganinik@msoe.edu to alert team of any defects found.
+Please include a description of the defect and how to recreate it.
+Please allow 3-5 business years for a response.
+
+- loading a saved game with a non-default word file will break the game, to fix, delete the usernameGameData file
+
