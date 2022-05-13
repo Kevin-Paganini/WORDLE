@@ -39,11 +39,11 @@ GNU GPL 1.3 (Open source)
 
 ### Completed:
 User Story:
-1, 2, 3, 4, 5, 13, 28, 25, 9, 7, 10, 27, 8, 6, 12, 19, 
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 16, 19, 21, 25, 27, 28
 
 ### Defects:
 E-mail paganinik@msoe.edu to alert team of any defects found.
 Please include a description of the defect and how to recreate it.
 Please allow 3-5 business years for a response.
 
-- When entering number of guesses, there is currently no limit, which can cause the program to freeze
+- loading a saved game with a non-default word file will break the game, to fix, delete the usernameGameData file
