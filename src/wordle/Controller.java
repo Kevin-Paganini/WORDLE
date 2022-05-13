@@ -61,6 +61,7 @@ public class Controller {
     boolean SUGGESTION = false;
     boolean HARD = false;
     boolean RUNNING = false;
+    boolean ONLINE = true;
     String tempTarget = null;
     boolean isData = false;
     boolean gameStarted = false;
@@ -705,7 +706,7 @@ public class Controller {
                     String data = "Scoreboard" + "-" + user + "-" + timer.getText() + "-" + guess + "-" + numLetters + "-" + dif + "-" + sug;
                     //Saves scoreboard
                     Utils.saveScoreboard(scores, Scoreboard, numLetters, dif, sug);
-                    client.postRequest(data);
+                    if(ONLINE) client.postRequest(data);
                     saveStats();
                     showWinAlert();
                     //If the guess is wrong but the user isn't out of guesses
@@ -775,7 +776,7 @@ public class Controller {
                 String data = "Scoreboard" + "-" + user + "-" + timer.getText() + "-" + guess + "-" + numLetters + "-" + dif + "-" + sug;
                 //Saves scoreboard
                 Utils.saveScoreboard(scores, Scoreboard, numLetters, dif, sug);
-                client.postRequest(data);
+                if (ONLINE) client.postRequest(data);
                 saveStats();
                 showWinAlert();
                 //If the guess is wrong but the user isn't out of guesses
@@ -830,13 +831,15 @@ public class Controller {
         }
 
         String data = "Global" + "-" + user + "-" + (wins+losses) + "-" + game.getTarget().toUpperCase(Locale.ROOT) + "-" + guess + "-" + winner + "-" + sendGuess;
-        client.postRequest(data);
+        System.out.println(data);
+        if (ONLINE) client.postRequest(data);
         int size = guesses.size();
         for(int i = guess; i > 0; i--){
             fileInput += "\n" + guesses.get(size-i);
         }
         fileInput += "\n";
         String text = "";
+        /*
         try {
             File stats = new File("GlobalData");
             BufferedReader br = new BufferedReader(new FileReader(stats));
@@ -855,6 +858,8 @@ public class Controller {
         } catch (IOException e){
             System.out.println("clown");
         }
+
+         */
     }
     /**
      * Creates alert when user either wins or loses their game of wordle

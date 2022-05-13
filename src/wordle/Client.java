@@ -84,7 +84,7 @@ public class Client {
     public void postRequest(String data) {
         HttpURLConnection http = null;
         try {
-            URL url = new URL("https://swift-pens-marry-184-55-112-29.loca.lt/");
+            URL url = new URL("http://184.55.112.29:6969");
             URLConnection con = url.openConnection();
             http = (HttpURLConnection)con;
             http.setRequestMethod("POST"); // PUT is another valid option
