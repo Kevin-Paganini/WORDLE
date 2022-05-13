@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/htmlincludejs"></script>
+    <title>Wordle++</title>
+    <style>
+      *,
+      html {
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      html {
+        width: 100%;
+        height: 100%;
+      }
+
+      body {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        background-color: rgb(43, 81, 128);
+        text-align: center;
+      }
+
+      .center {
+        width: 100%;
+        height: 50%;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 40px;
+      }
+      h2 {
+        font-size: 20px;
+      }
+
+      p {
+        font-size: 25px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="TopMiddleContent">
+      <h1>Wordle++ Statistics</h1>
+      <p>
+        Creators: Atreyu Schilling, Carson Meredith, David Kane, Kevin Paganini
+      </p>
+    </div>
+    <div class="Statistics">
+      <iframe
+        src="./chart_gen/letter_freq_chart.html"
+        frameborder="0"
+        width="700px"
+        height="500px"
+      ></iframe>
+    </div>
+  </body>
+</html>

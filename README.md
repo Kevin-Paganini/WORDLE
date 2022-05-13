@@ -47,4 +47,3 @@ Please include a description of the defect and how to recreate it.
 Please allow 3-5 business years for a response.
 
 - loading a saved game with a non-default word file will break the game, to fix, delete the usernameGameData file
-
