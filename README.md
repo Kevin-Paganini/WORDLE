@@ -34,12 +34,25 @@ GNU GPL 1.3 (Open source)
 
 ## Project status
 ### In development:
-29 (Server Setup), 16 (Logging key presses), Refactoring, Gitlab CI/CD
+Refactoring, Gitlab CI/CD
 
 
 ### Completed:
 User Story:
-1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 16, 19, 21, 25, 27, 28
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 16, 19, 21, 25, 27, 28, 29
+
+## Requirements
+
+### Java version
+1.8
+
+### Python version
+3.9
+#### Dependencies: Pandas, Bokeh, Numpy, Requests, Beautiful Soup 4
+
+### NodeJS version
+16.14.2
+
 
 ### Defects:
 E-mail paganinik@msoe.edu to alert team of any defects found.
